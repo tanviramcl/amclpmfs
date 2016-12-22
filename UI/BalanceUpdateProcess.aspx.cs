@@ -32,27 +32,54 @@ public partial class UI_PORTFOLIO_PortfolioMPUpdate : System.Web.UI.Page
 
 
 
+
+
     protected void txtFundcode_TextChanged(object sender, EventArgs e)
     {
 
     }
 
-    protected void txtHowlaFrom_TextChanged(object sender, EventArgs e)
+    protected void txtBalanceDate_TextChanged(object sender, EventArgs e)
     {
 
     }
 
-    protected void txtHowlaDate_TextChanged(object sender, EventArgs e)
+    protected void txtlastUpadateDate_TextChanged(object sender, EventArgs e)
     {
 
     }
 
-    protected void txtHowlato_TextChanged(object sender, EventArgs e)
+    protected void TextBox1_TextChanged(object sender, EventArgs e)
     {
 
     }
 
-    protected void txtBoucherNumber_TextChanged(object sender, EventArgs e)
+    protected void txtSaleRecord_TextChanged(object sender, EventArgs e)
+    {
+
+    }
+
+    protected void txtNoOfSaleShare2_TextChanged(object sender, EventArgs e)
+    {
+
+    }
+
+    protected void txtNoOfSaleRecord2_TextChanged(object sender, EventArgs e)
+    {
+
+    }
+
+    protected void txtNoOfSaleShare_TextChanged(object sender, EventArgs e)
+    {
+
+    }
+
+    protected void txtPurchaseShares_TextChanged(object sender, EventArgs e)
+    {
+
+    }
+
+    protected void txtPurchaseRecord_TextChanged(object sender, EventArgs e)
     {
 
     }
