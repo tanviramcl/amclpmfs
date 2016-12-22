@@ -31,9 +31,6 @@ public partial class UI_PORTFOLIO_PortfolioMPUpdate : System.Web.UI.Page
     }
 
 
-
-
-
     protected void txtFundcode_TextChanged(object sender, EventArgs e)
     {
 
@@ -80,6 +77,11 @@ public partial class UI_PORTFOLIO_PortfolioMPUpdate : System.Web.UI.Page
     }
 
     protected void txtPurchaseRecord_TextChanged(object sender, EventArgs e)
+    {
+
+    }
+
+    protected void ImageButton1_Click(object sender, ImageClickEventArgs e)
     {
 
     }

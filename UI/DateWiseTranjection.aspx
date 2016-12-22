@@ -34,7 +34,8 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">  
    
-
+      <ajaxToolkit:ToolkitScriptManager runat="Server" EnableScriptGlobalization="true"
+        EnableScriptLocalization="true" ID="ScriptManager1" />    
     
         <table width="1100" cellpadding="0" cellspacing="0" border="0" >
             </table>
@@ -69,20 +70,34 @@
                   <asp:TextBox ID="txtFundcode" runat="server" style="width:195px;" 
                 CssClass="textInputStyle" TabIndex="7" AutoPostBack="True" 
                 ontextchanged="txtFundcode_TextChanged"></asp:TextBox>
+
               </td>
          </tr>
                      <tr>
                       <td align="right" style="font-weight: 700"><b>Howla Date From:</b></td>
-                      <td align="left" width="200px">
+                      <td align="left" width="300px">
                           <asp:TextBox ID="txtHowlaFrom" runat="server" style="width:195px;" 
                         CssClass="textInputStyle" TabIndex="7" AutoPostBack="True" 
                         ontextchanged="txtHowlaFrom_TextChanged"></asp:TextBox>
+                        <ajaxToolkit:CalendarExtender ID="txtHowlaFrom_CalendarExtender"
+                            runat="server" TargetControlID="txtHowlaFrom"
+                            PopupButtonID="ImageButton" Format="dd-MMM-yyyy" />
+                        <asp:ImageButton ID="ImageButton" runat="server"
+                            AlternateText="Click Here" ImageUrl="~/Image/Calendar_scheduleHS.png"
+                            TabIndex="24" />
+
                       </td>
                          <td align="right" style="font-weight: 700"><b>Last Howla Date</b></td>
-                        <td align="left" width="200px">
+                        <td align="left" width="300px">
                          <asp:TextBox ID="txtHowlato" runat="server" style="width:195px;" 
                         CssClass="textInputStyle" TabIndex="7" AutoPostBack="True" 
                         ontextchanged="txtHowlato_TextChanged"></asp:TextBox>
+                             <ajaxToolkit:CalendarExtender ID="txtHowlato_CalendarExtender1"
+                            runat="server" TargetControlID="txtHowlato"
+                            PopupButtonID="ImageButton1" Format="dd-MMM-yyyy" />
+                        <asp:ImageButton ID="ImageButton1" runat="server"
+                            AlternateText="Click Here" ImageUrl="~/Image/Calendar_scheduleHS.png"
+                            TabIndex="24" />
                         </td>
                  </tr> 
             <tr>
@@ -91,6 +106,12 @@
                     <asp:TextBox ID="txtHowlaDate" runat="server" style="width:195px;" 
                 CssClass="textInputStyle" TabIndex="7" AutoPostBack="True" 
                 ontextchanged="txtHowlaDate_TextChanged"></asp:TextBox>
+                    <ajaxToolkit:CalendarExtender ID="txtHowlaDate_CalendarExtender1"
+                        runat="server" TargetControlID="txtHowlaDate"
+                        PopupButtonID="ImageButton2" Format="dd-MMM-yyyy" />
+                    <asp:ImageButton ID="ImageButton2" runat="server"
+                        AlternateText="Click Here" ImageUrl="~/Image/Calendar_scheduleHS.png"
+                        TabIndex="24" />
                 </td>
             </tr>
              <tr>

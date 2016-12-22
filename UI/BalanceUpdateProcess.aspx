@@ -34,7 +34,8 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">  
    
-
+     <ajaxToolkit:ToolkitScriptManager runat="Server" EnableScriptGlobalization="true"
+        EnableScriptLocalization="true" ID="ScriptManager1" />    
     
         <table width="1100" cellpadding="0" cellspacing="0" border="0" >
             </table>
@@ -62,16 +63,29 @@
          </tr>
                      <tr>
                       <td align="right" style="font-weight: 700"><b>Balance Date:</b></td>
-                      <td align="left" width="200px">
+                      <td align="left" width="300px">
                           <asp:TextBox ID="txtBalanceDate" runat="server" style="width:195px;" 
                         CssClass="textInputStyle" TabIndex="7" AutoPostBack="True" 
                         ontextchanged="txtBalanceDate_TextChanged"></asp:TextBox>
-                      </td>
+                          <ajaxToolkit:CalendarExtender ID="txtBalanceDate_CalendarExtender"
+                              runat="server" TargetControlID="txtBalanceDate"
+                              PopupButtonID="ImageButton" Format="dd-MMM-yyyy" />
+                          <asp:ImageButton ID="ImageButton" runat="server"
+                              AlternateText="Click Here" ImageUrl="~/Image/Calendar_scheduleHS.png"
+                              TabIndex="24" />
+                           
+                       </td>
                          <td align="right" style="font-weight: 700"><b>Last Update Date</b></td>
-                        <td align="left" width="200px">
+                        <td align="left" width="300px">
                          <asp:TextBox ID="txtlastUpadateDate" runat="server" style="width:195px;" 
                         CssClass="textInputStyle" TabIndex="7" AutoPostBack="True" 
                         ontextchanged="txtlastUpadateDate_TextChanged"></asp:TextBox>
+                            <ajaxToolkit:CalendarExtender ID="txtlastUpadateDate_CalendarExtender1"
+                                runat="server" TargetControlID="txtlastUpadateDate"
+                                PopupButtonID="ImageButton1" Format="dd-MMM-yyyy" />
+                            <asp:ImageButton ID="ImageButton1" runat="server"
+                                AlternateText="Click Here" ImageUrl="~/Image/Calendar_scheduleHS.png"
+                                TabIndex="24" />
                         </td>
                  </tr> 
             <tr>
