@@ -32,9 +32,7 @@
 
 </asp:Content>
 
-<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
-    <ajaxToolkit:ToolkitScriptManager runat="Server" 
-        EnableScriptGlobalization="True" ID="ScriptManager1" CombineScripts="True" />  
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">  
    
 
     
@@ -95,6 +93,15 @@
                 ontextchanged="txtHowlaDate_TextChanged"></asp:TextBox>
                 </td>
             </tr>
+             <tr>
+                    <td align="right" style="font-weight: 700"><b>Voucher Number:</b></td>
+                <td align="left" width="200px">
+                    <asp:TextBox ID="txtBoucherNumber" runat="server" style="width:195px;" 
+                CssClass="textInputStyle" TabIndex="7" AutoPostBack="True" 
+                ontextchanged="txtBoucherNumber_TextChanged"></asp:TextBox>
+                </td>
+              </tr>   
+
               <tr>
                   <td align="right"><asp:Button ID="btnSave" runat="server" Text="Save"  CssClass="buttoncommon"/></td>
                   <td align="left">
