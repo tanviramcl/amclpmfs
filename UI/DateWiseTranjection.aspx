@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/UI/AMCLCommon.master" AutoEventWireup="true" CodeFile="DateWiseTranjectionDSE.aspx.cs" Inherits="UI_PORTFOLIO_PortfolioMPUpdate" Title="IAMCL Portfolio Market Price Update  (Design and Developed by Sakhawat)" %>
+﻿<%@ Page Language="C#" MasterPageFile="~/UI/AMCLCommon.master" AutoEventWireup="true" CodeFile="DateWiseTranjection.aspx.cs" Inherits="UI_PORTFOLIO_PortfolioMPUpdate" Title="IAMCL Portfolio Market Price Update  (Design and Developed by Sakhawat)" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
 <script language="javascript" type="text/javascript"> 

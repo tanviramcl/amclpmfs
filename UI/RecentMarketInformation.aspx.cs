@@ -53,7 +53,7 @@ public partial class UI_RecentMarketInformation : System.Web.UI.Page
         DataSet ds = new DataSet();
         DataTable dt = null;
         DataRow dr = null;
-        DataColumn dc = null;
+       // DataColumn dc = null;
         string TableExpression = "<table[^>]*>(.*?)</string></string></table>";
         string HeaderExpression = "<th[^>]*>(.*?)";
         string RowExpression = "<tr[^>]*>(.*?)";
