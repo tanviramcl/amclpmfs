@@ -77,9 +77,9 @@ public partial class UI_AMCLCommon : System.Web.UI.MasterPage
             item.SubItems.Add(Subitem);
 
 
-            //Subitem = new skmMenu.MenuItem("Howla Update");
-            //Subitem.Url = "PortfolioHowlaUpdate.aspx";
-            //item.SubItems.Add(Subitem);
+            Subitem = new skmMenu.MenuItem("DateWiseTranjection");
+            Subitem.Url = "DateWiseTranjection.aspx";
+            item.SubItems.Add(Subitem);
             //Subitem = new skmMenu.MenuItem("Recent Market Information");
             //Subitem.Url = "RecentMarketInformation.aspx";
             //item.SubItems.Add(Subitem);
