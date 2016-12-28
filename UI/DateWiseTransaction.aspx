@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/UI/AMCLCommon.master" AutoEventWireup="true" CodeFile="DateWiseTranjection.aspx.cs" Inherits="UI_PORTFOLIO_PortfolioMPUpdate" Title="IAMCL Portfolio Market Price Update  (Design and Developed by Sakhawat)" %>
+﻿<%@ Page Language="C#" MasterPageFile="~/UI/AMCLCommon.master" AutoEventWireup="true" CodeFile="DateWiseTransaction.aspx.cs" Inherits="DateWiseTransaction" Title="IAMCL Portfolio Market Price Update  (Design and Developed by Sakhawat)" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
 <script language="javascript" type="text/javascript"> 
@@ -45,7 +45,7 @@
               <colgroup width="150"></colgroup>
         <tr>
             <td align="center" colspan="4" class="style8" >
-                Date Wise Tranjection&nbsp; (DSE/CSE)&nbsp;  
+                Date Wise Transaction&nbsp; (DSE/CSE)&nbsp;  
             </td>
         </tr>
        
@@ -55,21 +55,25 @@
        <tr>
               <td align="right"><b>Stock Exchange :</b></td>  
               <td>
-                  <asp:DropDownList ID="stockDropDownList" runat="server" Width="200px">
-                    <asp:ListItem Text="Select Stock" Value="0"></asp:ListItem>
-                    <asp:ListItem Text="DSE" Value="1"></asp:ListItem>
-                    <asp:ListItem Text="CSE" Value="2"></asp:ListItem>
-                  </asp:DropDownList>
+                  <asp:DropDownList ID="stockExchangeDropDownList" runat="server" 
+                TabIndex="3">
+            <asp:ListItem Text="--Select--" Value="0"></asp:ListItem>
+            <asp:ListItem Text="ALL" Value="A"></asp:ListItem>
+            <asp:ListItem Text="DSE" Value="D"></asp:ListItem>
+            <asp:ListItem Text="CSE" Value="C"></asp:ListItem>
+            </asp:DropDownList>
               </td>
 
        </tr>
          &nbsp;
          <tr>
-              <td align="right" style="font-weight: 700"><b>Fund code:</b></td>
+              <td align="right" style="font-weight: 700"><b>Fund Name:</b></td>
               <td align="left" width="200px">
-                  <asp:TextBox ID="txtFundcode" runat="server" style="width:195px;" 
-                CssClass="textInputStyle" TabIndex="7" AutoPostBack="True" 
-                ontextchanged="txtFundcode_TextChanged"></asp:TextBox>
+                   <asp:DropDownList ID="fundNameDropDownList" runat="server" TabIndex="6" 
+                onselectedindexchanged="fundNameDropDownList_SelectedIndexChanged"></asp:DropDownList>
+            <%--<ajaxToolkit:ListSearchExtender ID="ListSearchExtender" runat="server" TargetControlID="fundNameDropDownList"
+                QueryPattern="Contains" QueryTimeout="2000">
+            </ajaxToolkit:ListSearchExtender>--%>
 
               </td>
          </tr>

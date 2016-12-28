@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/UI/AMCLCommon.master" AutoEventWireup="true" CodeFile="BalanceUpdateProcess.aspx.cs" Inherits="UI_PORTFOLIO_PortfolioMPUpdate" Title="IAMCL Portfolio Market Price Update  (Design and Developed by Sakhawat)" %>
+﻿<%@ Page Language="C#" MasterPageFile="~/UI/AMCLCommon.master" AutoEventWireup="true" CodeFile="BalanceUpdateProcess.aspx.cs" Inherits="BalanceUpdateProcess" Title="IAMCL Portfolio Market Price Update  (Design and Developed by Sakhawat)" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
 <script language="javascript" type="text/javascript"> 
@@ -54,11 +54,10 @@
       </tr>
     
          <tr>
-              <td align="right" style="font-weight: 700"><b>Fund code:</b></td>
+              <td align="right" style="font-weight: 700"><b>Fund Name:</b></td>
               <td align="left" width="200px">
-                  <asp:TextBox ID="txtFundcode" runat="server" style="width:195px;" 
-                CssClass="textInputStyle" TabIndex="7" AutoPostBack="True" 
-                ontextchanged="txtFundcode_TextChanged"></asp:TextBox>
+                  <asp:DropDownList ID="fundNameDropDownList" runat="server" TabIndex="6" 
+                onselectedindexchanged="fundNameDropDownList_SelectedIndexChanged"></asp:DropDownList>
               </td>
          </tr>
                      <tr>

@@ -77,8 +77,8 @@ public partial class UI_AMCLCommon : System.Web.UI.MasterPage
             item.SubItems.Add(Subitem);
 
 
-            Subitem = new skmMenu.MenuItem("Date Wise Tranjection");
-            Subitem.Url = "DateWiseTranjection.aspx";
+            Subitem = new skmMenu.MenuItem("Date Wise Transaction");
+            Subitem.Url = "DateWiseTransaction.aspx";
             item.SubItems.Add(Subitem);
 
             Subitem = new skmMenu.MenuItem("Balance Update Process");

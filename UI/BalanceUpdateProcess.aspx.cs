@@ -20,14 +20,27 @@ using System.IO;
 //using AMCL.COMMON;
 
 
-public partial class UI_PORTFOLIO_PortfolioMPUpdate : System.Web.UI.Page
+public partial class BalanceUpdateProcess : System.Web.UI.Page
 {
-   
-    
+    DropDownList dropDownListObj = new DropDownList();
+
     protected void Page_Load(object sender, EventArgs e)
     {
+        if (Session["UserID"] == null)
+        {
+            Session.RemoveAll();
+            Response.Redirect("../Default.aspx");
+        }
 
-    
+        DataTable dtFundNameDropDownList = dropDownListObj.FundNameDropDownList();
+        if (!IsPostBack)
+        {
+            fundNameDropDownList.DataSource = dtFundNameDropDownList;
+            fundNameDropDownList.DataTextField = "F_NAME";
+            fundNameDropDownList.DataValueField = "F_CD";
+            fundNameDropDownList.DataBind();
+        }
+
     }
 
 
@@ -82,6 +95,11 @@ public partial class UI_PORTFOLIO_PortfolioMPUpdate : System.Web.UI.Page
     }
 
     protected void ImageButton1_Click(object sender, ImageClickEventArgs e)
+    {
+
+    }
+
+    protected void fundNameDropDownList_SelectedIndexChanged(object sender, EventArgs e)
     {
 
     }

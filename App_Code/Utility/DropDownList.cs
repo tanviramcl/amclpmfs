@@ -64,7 +64,7 @@ public class DropDownList
     }
     public DataTable FundNameDropDownList()//For All Funds
     {
-        DataTable dtFundName = commonGatewayObj.Select("SELECT F_NAME, F_CD FROM INVEST.FUND WHERE F_CD < 27 AND IS_F_CLOSE IS NULL AND BOID IS NOT NULL ORDER BY F_CD");
+        DataTable dtFundName = commonGatewayObj.Select("SELECT F_NAME, F_CD FROM INVEST.FUND WHERE IS_F_CLOSE IS NULL AND BOID IS NOT NULL ORDER BY F_CD");
         DataTable dtFundNameDropDownList = new DataTable();
         dtFundNameDropDownList.Columns.Add("F_NAME", typeof(string));
         dtFundNameDropDownList.Columns.Add("F_CD", typeof(string));
