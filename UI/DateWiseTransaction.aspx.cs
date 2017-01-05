@@ -39,6 +39,8 @@ public partial class DateWiseTransaction : System.Web.UI.Page
             fundNameDropDownList.DataTextField = "F_NAME";
             fundNameDropDownList.DataValueField = "F_CD";
             fundNameDropDownList.DataBind();
+            
+            
         }
     }
     
@@ -62,6 +64,32 @@ public partial class DateWiseTransaction : System.Web.UI.Page
     protected void fundNameDropDownList_SelectedIndexChanged(object sender, EventArgs e)
     {
 
+        string strQuery;
+        CommonGateway commonGatewayObj = new CommonGateway();
+        DataTable dt = new DataTable();
+        //select max(vch_dt) + 1 into: div_rec.sp_dt_fm
+        //             from invest.fund_trans_hb
+        //      where f_cd =:div_rec.f_cd
+        //         and tran_tp in ('C','S') 
+        //         and stock_ex in ('D','A');
+
+        strQuery = "select TO_CHAR(max(vch_dt) + 1,'DD-MON-YYYY')vch_dt  from invest.fund_trans_hb where f_cd =" + fundNameDropDownList.SelectedValue.ToString()+
+                 " and tran_tp in ('C','S') and stock_ex in ('D','A')";
+        dt = commonGatewayObj.Select(strQuery);
+        if (dt.Rows.Count > 0)
+            {
+            txtHowlaDateFrom.Text = dt.Rows[0]["vch_dt"].ToString();
+
+        }
+        //strQuery = "select a.meeting_type_id,b.meeting_type_name,a.meeting_no,TO_CHAR(a.meeting_dt,'DD-MON-YYYY')meeting_dt,a.meetingtime_hour,a.meetingtime_minute,a.meetingtime_ampm,a.notice_pdf_filename,c.v_id,c.v_name from agrani_metdt_vnu a," +
+        //   " agrani_met_type b,agrani_vun_info c where a.meeting_type_id=(select meeting_type_id from agrani_met_type where meeting_type_name='" +
+        //   grdMeetingDateAndVenue.SelectedRow.Cells[0].Text.ToString() + "')" + " and a.meeting_no=" + grdMeetingDateAndVenue.SelectedRow.Cells[1].Text.ToString() +
+        //   " and a.meeting_dt='" + grdMeetingDateAndVenue.SelectedRow.Cells[2].Text.ToString() + "' and a.meeting_type_id=b.meeting_type_id" +
+        //   " and a.v_id=(select v_id from agrani_vun_info where v_name='" + grdMeetingDateAndVenue.SelectedRow.Cells[3].Text.ToString() + "')" +
+        //   "and a.v_id=c.v_id";
+
+
+
     }
 
     protected void btnSave_Click(object sender, EventArgs e)
@@ -79,6 +107,7 @@ public partial class DateWiseTransaction : System.Web.UI.Page
         {
             httable.Add("F_CD", Convert.ToInt16(fundNameDropDownList.SelectedValue));
         }
+        
         //if (!companyNameDropDownList.SelectedValue.Equals("0"))
         //{
         //    httable.Add("COMP_CD", Convert.ToInt16(companyNameDropDownList.SelectedValue));

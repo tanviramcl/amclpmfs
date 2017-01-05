@@ -1,7 +1,7 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/UI/AMCLCommon.master" AutoEventWireup="true" CodeFile="DateWiseTransaction.aspx.cs" Inherits="DateWiseTransaction" Title="IAMCL Portfolio Market Price Update  (Design and Developed by Sakhawat)" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
-<script language="javascript" type="text/javascript"> 
+    <script language="javascript" type="text/javascript"> 
     
    
     
@@ -87,7 +87,7 @@
          <tr>
               <td align="right" style="font-weight: 700"><b>Fund Name:</b></td>
               <td align="left" width="200px">
-                   <asp:DropDownList ID="fundNameDropDownList" runat="server" TabIndex="6" 
+                   <asp:DropDownList ID="fundNameDropDownList" runat="server" TabIndex="6"  AutoPostBack="true"
                 onselectedindexchanged="fundNameDropDownList_SelectedIndexChanged"></asp:DropDownList>
             <%--<ajaxToolkit:ListSearchExtender ID="ListSearchExtender" runat="server" TargetControlID="fundNameDropDownList"
                 QueryPattern="Contains" QueryTimeout="2000">
@@ -148,7 +148,7 @@
               <tr>
                   <td align="right"><asp:Button ID="btnSave" runat="server" Text="Save"  CssClass="buttoncommon"  OnClientClick=" return fnCheckInput();" OnClick="btnSave_Click"/></td>
                   <td align="left">
-                      <asp:Button ID="btnExit" runat="server" CssClass="buttoncommon" Text="Exit" /></td>
+                      &nbsp;</td>
                  
               </tr>    
         </table>                
