@@ -15,8 +15,9 @@ using System.Text;
 using CrystalDecisions;
 using CrystalDecisions.CrystalReports;
 using CrystalDecisions.CrystalReports.Engine;
-
-
+using CrystalDecisions.Shared;
+//using CrystalDecisions.CrystalReports.Engine;
+//using CrystalDecisions.Shared;
 
 /// <summary>
 /// Summary description for ReportFactory
