@@ -149,15 +149,25 @@ public partial class UI_AMCLCommon : System.Web.UI.MasterPage
             item.SubItems.Add(Subitem);
             mnuMenu.Items.Add(item);
 
-            //Report Menu
-            //item = new skmMenu.MenuItem("Report");
-            //Subitem = new skmMenu.MenuItem("General Report");
-            //Subitem.Url = "GeneralReport.aspx";
-            //item.SubItems.Add(Subitem);
-            //mnuMenu.Items.Add(item);
-            
-            //Report to SEC Menue
-            item = new skmMenu.MenuItem("SEC Report");
+            Subitem = new skmMenu.MenuItem("Balance Check");
+            Subitem.Url = "BalanceCheckReport.aspx";
+            item.SubItems.Add(Subitem);
+            mnuMenu.Items.Add(item);
+
+            Subitem = new skmMenu.MenuItem("Test Report");
+            Subitem.Url = "testFundTransactionHBReport.aspx";
+            item.SubItems.Add(Subitem);
+            mnuMenu.Items.Add(item);
+
+        //Report Menu
+        //item = new skmMenu.MenuItem("Report");
+        //Subitem = new skmMenu.MenuItem("General Report");
+        //Subitem.Url = "GeneralReport.aspx";
+        //item.SubItems.Add(Subitem);
+        //mnuMenu.Items.Add(item);
+
+        //Report to SEC Menue
+        item = new skmMenu.MenuItem("SEC Report");
             Subitem = new skmMenu.MenuItem("Daily");
             Subitem.Url = "DailyReportToSEC.aspx";
             item.SubItems.Add(Subitem);
