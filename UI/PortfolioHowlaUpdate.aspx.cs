@@ -11,7 +11,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Xml.Linq;
 using System.Text;
-using System.Data.OracleClient;
+//using System.Data.OracleClient;
 using System.IO;
 //using AMCL.DL;
 //using AMCL.BL;
