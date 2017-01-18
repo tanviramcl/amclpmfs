@@ -13,6 +13,7 @@ using System.Xml.Linq;
 using System.Text;
 using System.Data.OracleClient;
 using System.IO;
+using System.Collections.Generic;
 //using AMCL.DL;
 //using AMCL.BL;
 //using AMCL.UTILITY;
@@ -31,7 +32,7 @@ public partial class DateWiseTransaction : System.Web.UI.Page
             Session.RemoveAll();
             Response.Redirect("../Default.aspx");
         }
-       
+
         DataTable dtFundNameDropDownList = dropDownListObj.FundNameDropDownList();
         if (!IsPostBack)
         {
@@ -39,11 +40,11 @@ public partial class DateWiseTransaction : System.Web.UI.Page
             fundNameDropDownList.DataTextField = "F_NAME";
             fundNameDropDownList.DataValueField = "F_CD";
             fundNameDropDownList.DataBind();
-            
-            
+
+
         }
     }
-    
+
     protected void txtHowlaDateFrom_TextChanged(object sender, EventArgs e)
     {
 
@@ -59,7 +60,7 @@ public partial class DateWiseTransaction : System.Web.UI.Page
 
     }
 
-   
+
 
     protected void fundNameDropDownList_SelectedIndexChanged(object sender, EventArgs e)
     {
@@ -67,14 +68,14 @@ public partial class DateWiseTransaction : System.Web.UI.Page
         string strQuery;
         CommonGateway commonGatewayObj = new CommonGateway();
         DataTable dt = new DataTable();
-       
+
         txtHowlaDateFrom.Text = "";
         txtLastHowlaDate.Text = "";
 
-       
-            strQuery = "select TO_CHAR(max(vch_dt),'DD-MON-YYYY')last_tr_dt,TO_CHAR(max(vch_dt) + 1,'DD-MON-YYYY')vch_dt  from invest.fund_trans_hb where f_cd =" + fundNameDropDownList.SelectedValue.ToString() +
-                     " and tran_tp in ('C','S') and stock_ex in ('D','A')";
-        
+
+        strQuery = "select TO_CHAR(max(vch_dt),'DD-MON-YYYY')last_tr_dt,TO_CHAR(max(vch_dt) + 1,'DD-MON-YYYY')vch_dt  from invest.fund_trans_hb where f_cd =" + fundNameDropDownList.SelectedValue.ToString() +
+                 " and tran_tp in ('C','S') and stock_ex in ('D','A')";
+
         dt = commonGatewayObj.Select(strQuery);
         if (dt.Rows.Count > 0)
         {
@@ -100,7 +101,7 @@ public partial class DateWiseTransaction : System.Web.UI.Page
             txtHowlaDateTo.Text = "";
             ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('This Trading Date not found  else.');", true);
         }
-       
+
     }
 
     private void ClearFields()
@@ -114,7 +115,7 @@ public partial class DateWiseTransaction : System.Web.UI.Page
     }
     protected void btnSave_Click(object sender, EventArgs e)
     {
-        string strSleFromHowlaQuery, strSelFromFundTransHBQuery, strHowlaDateFrom, strLastHowlaDate, strHowlaDateTo, LoginID = Session["UserID"].ToString();
+        string strSleFromHowlaQuery, strSelFromFundTransHBQuery, strHowlaDateFrom, strLastHowlaDate, strHowlaDateTo, strSelFromFundQuery, LoginID = Session["UserID"].ToString();
         char tp;
         Double amt, amt_cm = 0;
         string LoginName = Session["UserName"].ToString().ToUpper();
@@ -125,8 +126,8 @@ public partial class DateWiseTransaction : System.Web.UI.Page
         dtimeHowlaDateFrom = Convert.ToDateTime(txtHowlaDateFrom.Text.ToString());
         dtimeLastHowlaDate = Convert.ToDateTime(txtLastHowlaDate.Text.ToString());
         dtimeHowlaDateTo = Convert.ToDateTime(txtHowlaDateTo.Text.ToString());
-    
-        strHowlaDateFrom=dtimeHowlaDateFrom.ToString("dd-MMM-yyyy");
+
+        strHowlaDateFrom = dtimeHowlaDateFrom.ToString("dd-MMM-yyyy");
         strLastHowlaDate = dtimeLastHowlaDate.ToString("dd-MMM-yyyy");
         strHowlaDateTo = dtimeHowlaDateTo.ToString("dd-MMM-yyyy");
 
@@ -138,172 +139,205 @@ public partial class DateWiseTransaction : System.Web.UI.Page
             ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('This Trading Date is already allocated.');", true);
         }
 
-        else
-        {
-        //    txtHowlaDateFrom.Text = "";
-        //    txtLastHowlaDate.Text = "";
-        //    txtHowlaDateTo.Text = "";
-        //    ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('This Trading Date not found  else.');", true);
-        //}
 
-        DataTable dtFromHowla = new DataTable();
-        DataTable dtFromFundTrans = new DataTable();
-        strSleFromHowlaQuery = "select TO_CHAR(sp_date,'DD-MON-YYYY')sp_date, f_cd, comp_cd, in_out, sum(sp_qty)qty, substr(bk_cd, 1, 1) brk," +
-                  " sum(sp_qty * sp_rate) amt, ROUND((sum(sp_qty * sp_rate) / sum(sp_qty)),3) rate from invest.howla where sp_date between '" + strHowlaDateFrom + 
-                  "' and '"+ strHowlaDateTo + "' and f_cd ="+ fundNameDropDownList.SelectedValue.ToString() + " group by sp_date, f_cd, comp_cd, in_out, substr(bk_cd,1, 1) order by sp_date,f_cd,comp_cd";
-       // ROUND(125.315, 3)
+        
 
 
-        dtFromHowla = commonGatewayObj.Select(strSleFromHowlaQuery);
-        if (dtFromHowla.Rows.Count > 0)
-        {
-            for (int i = 0; i < dtFromHowla.Rows.Count; i++)
+        DataTable dtFromFund = new DataTable();
+        strSelFromFundQuery = "select f_cd,f_name from invest.fund where sl_buy_com_pct=0.25 order by f_cd";
+        // ROUND(125.315, 3)
+
+
+       
+       
+            //    ClearFields();
+
+            //    ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('This Trading Date not found  else.');", true);
+            //}
+
+            //if (strHowlaDateFrom!="" || strHowlaDateTo!="")
+
+            //{
+            DataTable dtFromHowla = new DataTable();
+            DataTable dtFromFundTrans = new DataTable();
+            strSleFromHowlaQuery = "select TO_CHAR(sp_date,'DD-MON-YYYY')sp_date, f_cd, comp_cd, in_out, sum(sp_qty)qty, substr(bk_cd, 1, 1) brk," +
+                      " sum(sp_qty * sp_rate) amt, ROUND((sum(sp_qty * sp_rate) / sum(sp_qty)),3) rate from invest.howla where sp_date between '" + strHowlaDateFrom +
+                      "' and '" + strHowlaDateTo + "' and f_cd =" + fundNameDropDownList.SelectedValue.ToString() + " group by sp_date, f_cd, comp_cd, in_out, substr(bk_cd,1, 1) order by sp_date,f_cd,comp_cd";
+            // ROUND(125.315, 3)
+
+
+            dtFromHowla = commonGatewayObj.Select(strSleFromHowlaQuery);
+            if (dtFromHowla.Rows.Count > 0)
             {
-                if (stockExchangeDropDownList.SelectedValue == "D")
+                for (int i = 0; i < dtFromHowla.Rows.Count; i++)
                 {
+                    if (stockExchangeDropDownList.SelectedValue == "D")
+                    {
 
+                    // For editing
+
+                    dtFromFund = commonGatewayObj.Select(strSelFromFundQuery);
+                    if (dtFromFund.Rows.Count > 0)
+                    {
+
+                        string[] fundCode = new string[100];
+                        for (int j = 0; j < dtFromFund.Rows.Count; j++)
+                        {
+                            fundCode[j] = dtFromFund.Rows[j]["f_cd"].ToString();
+
+                        }
+                    }
+
+                    // For editing
+
+
+                    //  if (dtFromHowla.Rows[i]["in_out"].ToString() == "I" && (dtFromHowla.Rows[i]["f_cd"].ToString() == "1" || dtFromHowla.Rows[i]["f_cd"].ToString() == "2" || dtFromHowla.Rows[i]["f_cd"].ToString() == "4" || dtFromHowla.Rows[i]["f_cd"].ToString() == "6" || dtFromHowla.Rows[i]["f_cd"].ToString() == "7" || dtFromHowla.Rows[i]["f_cd"].ToString() == "8" || dtFromHowla.Rows[i]["f_cd"].ToString() == "9" || dtFromHowla.Rows[i]["f_cd"].ToString() == "10" || dtFromHowla.Rows[i]["f_cd"].ToString() == "11" || dtFromHowla.Rows[i]["f_cd"].ToString() == "12" || dtFromHowla.Rows[i]["f_cd"].ToString() == "13" || dtFromHowla.Rows[i]["f_cd"].ToString() == "20"))
                     if (dtFromHowla.Rows[i]["in_out"].ToString() == "I" && (dtFromHowla.Rows[i]["f_cd"].ToString() == "1" || dtFromHowla.Rows[i]["f_cd"].ToString() == "2" || dtFromHowla.Rows[i]["f_cd"].ToString() == "4" || dtFromHowla.Rows[i]["f_cd"].ToString() == "6" || dtFromHowla.Rows[i]["f_cd"].ToString() == "7" || dtFromHowla.Rows[i]["f_cd"].ToString() == "8" || dtFromHowla.Rows[i]["f_cd"].ToString() == "9" || dtFromHowla.Rows[i]["f_cd"].ToString() == "10" || dtFromHowla.Rows[i]["f_cd"].ToString() == "11" || dtFromHowla.Rows[i]["f_cd"].ToString() == "12" || dtFromHowla.Rows[i]["f_cd"].ToString() == "13" || dtFromHowla.Rows[i]["f_cd"].ToString() == "20"))
-                    {
-                        tp = 'C';
-                        amt = Convert.ToDouble(dtFromHowla.Rows[i]["amt"].ToString());
-                        amt_cm = amt * (1 + 0.0025);
-
-                        strSelFromFundTransHBQuery = "select f_cd, comp_cd from invest.fund_trans_hb where vch_dt ='" + dtFromHowla.Rows[i]["sp_date"].ToString() + "' and f_cd =" + dtFromHowla.Rows[i]["f_cd"].ToString() +
-                              " and comp_cd =" + dtFromHowla.Rows[i]["comp_cd"].ToString() + " and tran_tp ='" + tp + "' and stock_ex in ('D','A')";
-                        dtFromFundTrans = commonGatewayObj.Select(strSelFromFundTransHBQuery);
-                        if (dtFromFundTrans.Rows.Count > 0)
                         {
-                            string strUPdQuery = "update invest.fund_trans_hb set no_share =" + dtFromHowla.Rows[i]["qty"].ToString() + ",  rate =" + dtFromHowla.Rows[i]["rate"].ToString() + ",amount =" + dtFromHowla.Rows[i]["amt"].ToString() + ", stock_ex ='" + dtFromHowla.Rows[i]["brk"].ToString() +
-                                  "', amt_aft_com =" + amt_cm + " where vch_dt = '" + dtFromHowla.Rows[i]["sp_date"].ToString() + "' and f_cd = " + dtFromHowla.Rows[i]["f_cd"].ToString() +
-                              " and comp_cd =" + dtFromHowla.Rows[i]["comp_cd"].ToString() + " and tran_tp ='" + tp + "' and stock_ex in ('D','A')";
+                            tp = 'C';
+                            amt = Convert.ToDouble(dtFromHowla.Rows[i]["amt"].ToString());
+                            amt_cm = amt * (1 + 0.0025);
 
-                            int NumOfRows = commonGatewayObj.ExecuteNonQuery(strUPdQuery);
+                            strSelFromFundTransHBQuery = "select f_cd, comp_cd from invest.fund_trans_hb where vch_dt ='" + dtFromHowla.Rows[i]["sp_date"].ToString() + "' and f_cd =" + dtFromHowla.Rows[i]["f_cd"].ToString() +
+                                  " and comp_cd =" + dtFromHowla.Rows[i]["comp_cd"].ToString() + " and tran_tp ='" + tp + "' and stock_ex in ('D','A')";
+                            dtFromFundTrans = commonGatewayObj.Select(strSelFromFundTransHBQuery);
+                            if (dtFromFundTrans.Rows.Count > 0)
+                            {
+                                string strUPdQuery = "update invest.fund_trans_hb set no_share =" + dtFromHowla.Rows[i]["qty"].ToString() + ",  rate =" + dtFromHowla.Rows[i]["rate"].ToString() + ",amount =" + dtFromHowla.Rows[i]["amt"].ToString() + ", stock_ex ='" + dtFromHowla.Rows[i]["brk"].ToString() +
+                                      "', amt_aft_com =" + amt_cm + " where vch_dt = '" + dtFromHowla.Rows[i]["sp_date"].ToString() + "' and f_cd = " + dtFromHowla.Rows[i]["f_cd"].ToString() +
+                                  " and comp_cd =" + dtFromHowla.Rows[i]["comp_cd"].ToString() + " and tran_tp ='" + tp + "' and stock_ex in ('D','A')";
+
+                                int NumOfRows = commonGatewayObj.ExecuteNonQuery(strUPdQuery);
                                 ClearFields();
                                 ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Data updated!');", true);
                             }
 
-                        else
-                        {
+                            else
+                            {
 
-                            string strInsQuery = "insert into invest.fund_trans_hb(vch_dt, f_cd, comp_cd," +
-                " tran_tp, no_share, rate, amount, stock_ex, amt_aft_com,op_name) values('" + dtFromHowla.Rows[i]["sp_date"].ToString() + "'," + dtFromHowla.Rows[i]["f_cd"].ToString() + "," + dtFromHowla.Rows[i]["comp_cd"].ToString() + "," +
-                           " decode('" + dtFromHowla.Rows[i]["in_out"].ToString() + "', 'I', 'C', 'O', 'S')," + dtFromHowla.Rows[i]["qty"].ToString() + "," + dtFromHowla.Rows[i]["rate"].ToString() + "," + dtFromHowla.Rows[i]["amt"].ToString() + ",'" + dtFromHowla.Rows[i]["brk"].ToString() + "'," + amt_cm + ",'"+ LoginID +"')";
+                                string strInsQuery = "insert into invest.fund_trans_hb(vch_dt, f_cd, comp_cd," +
+                    " tran_tp, no_share, rate, amount, stock_ex, amt_aft_com,op_name) values('" + dtFromHowla.Rows[i]["sp_date"].ToString() + "'," + dtFromHowla.Rows[i]["f_cd"].ToString() + "," + dtFromHowla.Rows[i]["comp_cd"].ToString() + "," +
+                               " decode('" + dtFromHowla.Rows[i]["in_out"].ToString() + "', 'I', 'C', 'O', 'S')," + dtFromHowla.Rows[i]["qty"].ToString() + "," + dtFromHowla.Rows[i]["rate"].ToString() + "," + dtFromHowla.Rows[i]["amt"].ToString() + ",'" + dtFromHowla.Rows[i]["brk"].ToString() + "'," + amt_cm + ",'" + LoginID + "')";
 
-                            int NumOfRows = commonGatewayObj.ExecuteNonQuery(strInsQuery);
+                                int NumOfRows = commonGatewayObj.ExecuteNonQuery(strInsQuery);
                                 ClearFields();
                                 ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Saved Successfully');", true);
 
                             }
                         }
 
-                    else if (dtFromHowla.Rows[i]["in_out"].ToString() == "O" && (dtFromHowla.Rows[i]["f_cd"].ToString() == "1" || dtFromHowla.Rows[i]["f_cd"].ToString() == "2" || dtFromHowla.Rows[i]["f_cd"].ToString() == "4" || dtFromHowla.Rows[i]["f_cd"].ToString() == "6" || dtFromHowla.Rows[i]["f_cd"].ToString() == "7" || dtFromHowla.Rows[i]["f_cd"].ToString() == "8" || dtFromHowla.Rows[i]["f_cd"].ToString() == "9" || dtFromHowla.Rows[i]["f_cd"].ToString() == "10" || dtFromHowla.Rows[i]["f_cd"].ToString() == "11" || dtFromHowla.Rows[i]["f_cd"].ToString() == "12" || dtFromHowla.Rows[i]["f_cd"].ToString() == "13" || dtFromHowla.Rows[i]["f_cd"].ToString() == "20"))
-                    {
-
-                        tp = 'S';
-                        amt = Convert.ToDouble(dtFromHowla.Rows[i]["amt"].ToString());
-                        amt_cm = amt * (1 - 0.0025);
-
-                        strSelFromFundTransHBQuery = "select f_cd, comp_cd from invest.fund_trans_hb where vch_dt ='" + dtFromHowla.Rows[i]["sp_date"].ToString() + "' and f_cd =" + dtFromHowla.Rows[i]["f_cd"].ToString() +
-                              " and comp_cd =" + dtFromHowla.Rows[i]["comp_cd"].ToString() + " and tran_tp ='" + tp + "' and stock_ex in ('D','A')";
-                        dtFromFundTrans = commonGatewayObj.Select(strSelFromFundTransHBQuery);
-                        if (dtFromFundTrans.Rows.Count > 0)
+                        else if (dtFromHowla.Rows[i]["in_out"].ToString() == "O" && (dtFromHowla.Rows[i]["f_cd"].ToString() == "1" || dtFromHowla.Rows[i]["f_cd"].ToString() == "2" || dtFromHowla.Rows[i]["f_cd"].ToString() == "4" || dtFromHowla.Rows[i]["f_cd"].ToString() == "6" || dtFromHowla.Rows[i]["f_cd"].ToString() == "7" || dtFromHowla.Rows[i]["f_cd"].ToString() == "8" || dtFromHowla.Rows[i]["f_cd"].ToString() == "9" || dtFromHowla.Rows[i]["f_cd"].ToString() == "10" || dtFromHowla.Rows[i]["f_cd"].ToString() == "11" || dtFromHowla.Rows[i]["f_cd"].ToString() == "12" || dtFromHowla.Rows[i]["f_cd"].ToString() == "13" || dtFromHowla.Rows[i]["f_cd"].ToString() == "20"))
                         {
-                            string strUPdQuery = "update invest.fund_trans_hb set no_share =" + dtFromHowla.Rows[i]["qty"].ToString() + ",  rate =" + dtFromHowla.Rows[i]["rate"].ToString() + ",amount =" + dtFromHowla.Rows[i]["amt"].ToString() + ", stock_ex ='" + dtFromHowla.Rows[i]["brk"].ToString() +
-                                  "', amt_aft_com =" + amt_cm + " where vch_dt = '" + dtFromHowla.Rows[i]["sp_date"].ToString() + "' and f_cd = " + dtFromHowla.Rows[i]["f_cd"].ToString() +
-                              " and comp_cd =" + dtFromHowla.Rows[i]["comp_cd"].ToString() + " and tran_tp ='" + tp + "' and stock_ex in ('D','A')";
 
-                            int NumOfRows = commonGatewayObj.ExecuteNonQuery(strUPdQuery);
+                            tp = 'S';
+                            amt = Convert.ToDouble(dtFromHowla.Rows[i]["amt"].ToString());
+                            amt_cm = amt * (1 - 0.0025);
+
+                            strSelFromFundTransHBQuery = "select f_cd, comp_cd from invest.fund_trans_hb where vch_dt ='" + dtFromHowla.Rows[i]["sp_date"].ToString() + "' and f_cd =" + dtFromHowla.Rows[i]["f_cd"].ToString() +
+                                  " and comp_cd =" + dtFromHowla.Rows[i]["comp_cd"].ToString() + " and tran_tp ='" + tp + "' and stock_ex in ('D','A')";
+                            dtFromFundTrans = commonGatewayObj.Select(strSelFromFundTransHBQuery);
+                            if (dtFromFundTrans.Rows.Count > 0)
+                            {
+                                string strUPdQuery = "update invest.fund_trans_hb set no_share =" + dtFromHowla.Rows[i]["qty"].ToString() + ",  rate =" + dtFromHowla.Rows[i]["rate"].ToString() + ",amount =" + dtFromHowla.Rows[i]["amt"].ToString() + ", stock_ex ='" + dtFromHowla.Rows[i]["brk"].ToString() +
+                                      "', amt_aft_com =" + amt_cm + " where vch_dt = '" + dtFromHowla.Rows[i]["sp_date"].ToString() + "' and f_cd = " + dtFromHowla.Rows[i]["f_cd"].ToString() +
+                                  " and comp_cd =" + dtFromHowla.Rows[i]["comp_cd"].ToString() + " and tran_tp ='" + tp + "' and stock_ex in ('D','A')";
+
+                                int NumOfRows = commonGatewayObj.ExecuteNonQuery(strUPdQuery);
                                 ClearFields();
                                 ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Data updated!');", true);
                             }
 
-                        else
-                        {
+                            else
+                            {
 
 
-                            string strInsQuery = "insert into invest.fund_trans_hb(vch_dt, f_cd, comp_cd," +
-                " tran_tp, no_share, rate, amount, stock_ex, amt_aft_com,op_name) values('" + dtFromHowla.Rows[i]["sp_date"].ToString() + "'," + dtFromHowla.Rows[i]["f_cd"].ToString() + "," + dtFromHowla.Rows[i]["comp_cd"].ToString() + "," +
-                           " decode('" + dtFromHowla.Rows[i]["in_out"].ToString() + "', 'I', 'C', 'O', 'S')," + dtFromHowla.Rows[i]["qty"].ToString() + "," + dtFromHowla.Rows[i]["rate"].ToString() + "," + dtFromHowla.Rows[i]["amt"].ToString() + ",'" + dtFromHowla.Rows[i]["brk"].ToString() + "'," + amt_cm + ",'" + LoginID + "')";
+                                string strInsQuery = "insert into invest.fund_trans_hb(vch_dt, f_cd, comp_cd," +
+                    " tran_tp, no_share, rate, amount, stock_ex, amt_aft_com,op_name) values('" + dtFromHowla.Rows[i]["sp_date"].ToString() + "'," + dtFromHowla.Rows[i]["f_cd"].ToString() + "," + dtFromHowla.Rows[i]["comp_cd"].ToString() + "," +
+                               " decode('" + dtFromHowla.Rows[i]["in_out"].ToString() + "', 'I', 'C', 'O', 'S')," + dtFromHowla.Rows[i]["qty"].ToString() + "," + dtFromHowla.Rows[i]["rate"].ToString() + "," + dtFromHowla.Rows[i]["amt"].ToString() + ",'" + dtFromHowla.Rows[i]["brk"].ToString() + "'," + amt_cm + ",'" + LoginID + "')";
 
-                            int NumOfRows = commonGatewayObj.ExecuteNonQuery(strInsQuery);
+                                int NumOfRows = commonGatewayObj.ExecuteNonQuery(strInsQuery);
                                 ClearFields();
                                 ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Saved Successfully');", true);
                             }
                         }
 
-                    else if (dtFromHowla.Rows[i]["in_out"].ToString() == "I" && (dtFromHowla.Rows[i]["f_cd"].ToString() == "14" || dtFromHowla.Rows[i]["f_cd"].ToString() == "15" || dtFromHowla.Rows[i]["f_cd"].ToString() == "16" || dtFromHowla.Rows[i]["f_cd"].ToString() == "17" || dtFromHowla.Rows[i]["f_cd"].ToString() == "18" || dtFromHowla.Rows[i]["f_cd"].ToString() == "19" || dtFromHowla.Rows[i]["f_cd"].ToString() == "20" || dtFromHowla.Rows[i]["f_cd"].ToString() == "21" || dtFromHowla.Rows[i]["f_cd"].ToString() == "22" || dtFromHowla.Rows[i]["f_cd"].ToString() == "23" || dtFromHowla.Rows[i]["f_cd"].ToString() == "24" || dtFromHowla.Rows[i]["f_cd"].ToString() == "25" || dtFromHowla.Rows[i]["f_cd"].ToString() == "26" || dtFromHowla.Rows[i]["f_cd"].ToString() == "27" || dtFromHowla.Rows[i]["f_cd"].ToString() == "28" || dtFromHowla.Rows[i]["f_cd"].ToString() == "29" || dtFromHowla.Rows[i]["f_cd"].ToString() == "30"))
-                    {
-
-                        tp = 'C';
-                        amt = Convert.ToDouble(dtFromHowla.Rows[i]["amt"].ToString());
-                        amt_cm = amt * (1 + 0.0020);
-
-                        strSelFromFundTransHBQuery = "select f_cd, comp_cd from invest.fund_trans_hb where vch_dt ='" + dtFromHowla.Rows[i]["sp_date"].ToString() + "' and f_cd =" + dtFromHowla.Rows[i]["f_cd"].ToString() +
-                              " and comp_cd =" + dtFromHowla.Rows[i]["comp_cd"].ToString() + " and tran_tp ='" + tp + "' and stock_ex in ('D','A')";
-                        dtFromFundTrans = commonGatewayObj.Select(strSelFromFundTransHBQuery);
-                        if (dtFromFundTrans.Rows.Count > 0)
+                        else if (dtFromHowla.Rows[i]["in_out"].ToString() == "I" && (dtFromHowla.Rows[i]["f_cd"].ToString() == "14" || dtFromHowla.Rows[i]["f_cd"].ToString() == "15" || dtFromHowla.Rows[i]["f_cd"].ToString() == "16" || dtFromHowla.Rows[i]["f_cd"].ToString() == "17" || dtFromHowla.Rows[i]["f_cd"].ToString() == "18" || dtFromHowla.Rows[i]["f_cd"].ToString() == "19" || dtFromHowla.Rows[i]["f_cd"].ToString() == "20" || dtFromHowla.Rows[i]["f_cd"].ToString() == "21" || dtFromHowla.Rows[i]["f_cd"].ToString() == "22" || dtFromHowla.Rows[i]["f_cd"].ToString() == "23" || dtFromHowla.Rows[i]["f_cd"].ToString() == "24" || dtFromHowla.Rows[i]["f_cd"].ToString() == "25" || dtFromHowla.Rows[i]["f_cd"].ToString() == "26" || dtFromHowla.Rows[i]["f_cd"].ToString() == "27" || dtFromHowla.Rows[i]["f_cd"].ToString() == "28" || dtFromHowla.Rows[i]["f_cd"].ToString() == "29" || dtFromHowla.Rows[i]["f_cd"].ToString() == "30"))
                         {
-                            string strUPdQuery = "update invest.fund_trans_hb set no_share =" + dtFromHowla.Rows[i]["qty"].ToString() + ",  rate =" + dtFromHowla.Rows[i]["rate"].ToString() + ",amount =" + dtFromHowla.Rows[i]["amt"].ToString() + ", stock_ex ='" + dtFromHowla.Rows[i]["brk"].ToString() +
-                                  "', amt_aft_com =" + amt_cm + " where vch_dt = '" + dtFromHowla.Rows[i]["sp_date"].ToString() + "' and f_cd = " + dtFromHowla.Rows[i]["f_cd"].ToString() +
-                              " and comp_cd =" + dtFromHowla.Rows[i]["comp_cd"].ToString() + " and tran_tp ='" + tp + "' and stock_ex in ('D','A')";
 
-                            int NumOfRows = commonGatewayObj.ExecuteNonQuery(strUPdQuery);
+                            tp = 'C';
+                            amt = Convert.ToDouble(dtFromHowla.Rows[i]["amt"].ToString());
+                            amt_cm = amt * (1 + 0.0020);
+
+                            strSelFromFundTransHBQuery = "select f_cd, comp_cd from invest.fund_trans_hb where vch_dt ='" + dtFromHowla.Rows[i]["sp_date"].ToString() + "' and f_cd =" + dtFromHowla.Rows[i]["f_cd"].ToString() +
+                                  " and comp_cd =" + dtFromHowla.Rows[i]["comp_cd"].ToString() + " and tran_tp ='" + tp + "' and stock_ex in ('D','A')";
+                            dtFromFundTrans = commonGatewayObj.Select(strSelFromFundTransHBQuery);
+                            if (dtFromFundTrans.Rows.Count > 0)
+                            {
+                                string strUPdQuery = "update invest.fund_trans_hb set no_share =" + dtFromHowla.Rows[i]["qty"].ToString() + ",  rate =" + dtFromHowla.Rows[i]["rate"].ToString() + ",amount =" + dtFromHowla.Rows[i]["amt"].ToString() + ", stock_ex ='" + dtFromHowla.Rows[i]["brk"].ToString() +
+                                      "', amt_aft_com =" + amt_cm + " where vch_dt = '" + dtFromHowla.Rows[i]["sp_date"].ToString() + "' and f_cd = " + dtFromHowla.Rows[i]["f_cd"].ToString() +
+                                  " and comp_cd =" + dtFromHowla.Rows[i]["comp_cd"].ToString() + " and tran_tp ='" + tp + "' and stock_ex in ('D','A')";
+
+                                int NumOfRows = commonGatewayObj.ExecuteNonQuery(strUPdQuery);
                                 ClearFields();
                                 ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Data updated!');", true);
                             }
 
-                        else
-                        {
+                            else
+                            {
 
 
-                            string strInsQuery = "insert into invest.fund_trans_hb(vch_dt, f_cd, comp_cd," +
-                " tran_tp, no_share, rate, amount, stock_ex, amt_aft_com,op_name) values('" + dtFromHowla.Rows[i]["sp_date"].ToString() + "'," + dtFromHowla.Rows[i]["f_cd"].ToString() + "," + dtFromHowla.Rows[i]["comp_cd"].ToString() + "," +
-                           " decode('" + dtFromHowla.Rows[i]["in_out"].ToString() + "', 'I', 'C', 'O', 'S')," + dtFromHowla.Rows[i]["qty"].ToString() + "," + dtFromHowla.Rows[i]["rate"].ToString() + "," + dtFromHowla.Rows[i]["amt"].ToString() + ",'" + dtFromHowla.Rows[i]["brk"].ToString() + "'," + amt_cm + ",'" + LoginID + "')";
+                                string strInsQuery = "insert into invest.fund_trans_hb(vch_dt, f_cd, comp_cd," +
+                    " tran_tp, no_share, rate, amount, stock_ex, amt_aft_com,op_name) values('" + dtFromHowla.Rows[i]["sp_date"].ToString() + "'," + dtFromHowla.Rows[i]["f_cd"].ToString() + "," + dtFromHowla.Rows[i]["comp_cd"].ToString() + "," +
+                               " decode('" + dtFromHowla.Rows[i]["in_out"].ToString() + "', 'I', 'C', 'O', 'S')," + dtFromHowla.Rows[i]["qty"].ToString() + "," + dtFromHowla.Rows[i]["rate"].ToString() + "," + dtFromHowla.Rows[i]["amt"].ToString() + ",'" + dtFromHowla.Rows[i]["brk"].ToString() + "'," + amt_cm + ",'" + LoginID + "')";
 
-                            int NumOfRows = commonGatewayObj.ExecuteNonQuery(strInsQuery);
+                                int NumOfRows = commonGatewayObj.ExecuteNonQuery(strInsQuery);
                                 ClearFields();
                                 ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Saved Successfully');", true);
                             }
                         }
 
-                    else if (dtFromHowla.Rows[i]["in_out"].ToString() == "O" && (dtFromHowla.Rows[i]["f_cd"].ToString() == "14" || dtFromHowla.Rows[i]["f_cd"].ToString() == "15" || dtFromHowla.Rows[i]["f_cd"].ToString() == "16" || dtFromHowla.Rows[i]["f_cd"].ToString() == "17" || dtFromHowla.Rows[i]["f_cd"].ToString() == "18" || dtFromHowla.Rows[i]["f_cd"].ToString() == "19" || dtFromHowla.Rows[i]["f_cd"].ToString() == "20" || dtFromHowla.Rows[i]["f_cd"].ToString() == "21" || dtFromHowla.Rows[i]["f_cd"].ToString() == "22" || dtFromHowla.Rows[i]["f_cd"].ToString() == "23" || dtFromHowla.Rows[i]["f_cd"].ToString() == "24" || dtFromHowla.Rows[i]["f_cd"].ToString() == "25" || dtFromHowla.Rows[i]["f_cd"].ToString() == "26" || dtFromHowla.Rows[i]["f_cd"].ToString() == "27" || dtFromHowla.Rows[i]["f_cd"].ToString() == "28" || dtFromHowla.Rows[i]["f_cd"].ToString() == "29" || dtFromHowla.Rows[i]["f_cd"].ToString() == "30"))
-                    {
-
-                        tp = 'S';
-                        amt = Convert.ToDouble(dtFromHowla.Rows[i]["amt"].ToString());
-                        amt_cm = amt * (1 - 0.0020);
-
-                        strSelFromFundTransHBQuery = "select f_cd, comp_cd from invest.fund_trans_hb where vch_dt ='" + dtFromHowla.Rows[i]["sp_date"].ToString() + "' and f_cd =" + dtFromHowla.Rows[i]["f_cd"].ToString() +
-                              " and comp_cd =" + dtFromHowla.Rows[i]["comp_cd"].ToString() + " and tran_tp ='" + tp + "' and stock_ex in ('D','A')";
-                        dtFromFundTrans = commonGatewayObj.Select(strSelFromFundTransHBQuery);
-                        if (dtFromFundTrans.Rows.Count > 0)
+                        else if (dtFromHowla.Rows[i]["in_out"].ToString() == "O" && (dtFromHowla.Rows[i]["f_cd"].ToString() == "14" || dtFromHowla.Rows[i]["f_cd"].ToString() == "15" || dtFromHowla.Rows[i]["f_cd"].ToString() == "16" || dtFromHowla.Rows[i]["f_cd"].ToString() == "17" || dtFromHowla.Rows[i]["f_cd"].ToString() == "18" || dtFromHowla.Rows[i]["f_cd"].ToString() == "19" || dtFromHowla.Rows[i]["f_cd"].ToString() == "20" || dtFromHowla.Rows[i]["f_cd"].ToString() == "21" || dtFromHowla.Rows[i]["f_cd"].ToString() == "22" || dtFromHowla.Rows[i]["f_cd"].ToString() == "23" || dtFromHowla.Rows[i]["f_cd"].ToString() == "24" || dtFromHowla.Rows[i]["f_cd"].ToString() == "25" || dtFromHowla.Rows[i]["f_cd"].ToString() == "26" || dtFromHowla.Rows[i]["f_cd"].ToString() == "27" || dtFromHowla.Rows[i]["f_cd"].ToString() == "28" || dtFromHowla.Rows[i]["f_cd"].ToString() == "29" || dtFromHowla.Rows[i]["f_cd"].ToString() == "30"))
                         {
-                            string strUPdQuery = "update invest.fund_trans_hb set no_share =" + dtFromHowla.Rows[i]["qty"].ToString() + ",  rate =" + dtFromHowla.Rows[i]["rate"].ToString() + ",amount =" + dtFromHowla.Rows[i]["amt"].ToString() + ", stock_ex ='" + dtFromHowla.Rows[i]["brk"].ToString() +
-                                  "', amt_aft_com =" + amt_cm + " where vch_dt = '" + dtFromHowla.Rows[i]["sp_date"].ToString() + "' and f_cd = " + dtFromHowla.Rows[i]["f_cd"].ToString() +
-                              " and comp_cd =" + dtFromHowla.Rows[i]["comp_cd"].ToString() + " and tran_tp ='" + tp + "' and stock_ex in ('D','A')";
 
-                            int NumOfRows = commonGatewayObj.ExecuteNonQuery(strUPdQuery);
+                            tp = 'S';
+                            amt = Convert.ToDouble(dtFromHowla.Rows[i]["amt"].ToString());
+                            amt_cm = amt * (1 - 0.0020);
+
+                            strSelFromFundTransHBQuery = "select f_cd, comp_cd from invest.fund_trans_hb where vch_dt ='" + dtFromHowla.Rows[i]["sp_date"].ToString() + "' and f_cd =" + dtFromHowla.Rows[i]["f_cd"].ToString() +
+                                  " and comp_cd =" + dtFromHowla.Rows[i]["comp_cd"].ToString() + " and tran_tp ='" + tp + "' and stock_ex in ('D','A')";
+                            dtFromFundTrans = commonGatewayObj.Select(strSelFromFundTransHBQuery);
+                            if (dtFromFundTrans.Rows.Count > 0)
+                            {
+                                string strUPdQuery = "update invest.fund_trans_hb set no_share =" + dtFromHowla.Rows[i]["qty"].ToString() + ",  rate =" + dtFromHowla.Rows[i]["rate"].ToString() + ",amount =" + dtFromHowla.Rows[i]["amt"].ToString() + ", stock_ex ='" + dtFromHowla.Rows[i]["brk"].ToString() +
+                                      "', amt_aft_com =" + amt_cm + " where vch_dt = '" + dtFromHowla.Rows[i]["sp_date"].ToString() + "' and f_cd = " + dtFromHowla.Rows[i]["f_cd"].ToString() +
+                                  " and comp_cd =" + dtFromHowla.Rows[i]["comp_cd"].ToString() + " and tran_tp ='" + tp + "' and stock_ex in ('D','A')";
+
+                                int NumOfRows = commonGatewayObj.ExecuteNonQuery(strUPdQuery);
                                 ClearFields();
                                 ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Data updated!');", true);
                             }
 
-                        else
-                        {
+                            else
+                            {
 
-                            string strInsQuery = "insert into invest.fund_trans_hb(vch_dt, f_cd, comp_cd," +
-                " tran_tp, no_share, rate, amount, stock_ex, amt_aft_com,op_name) values('" + dtFromHowla.Rows[i]["sp_date"].ToString() + "'," + dtFromHowla.Rows[i]["f_cd"].ToString() + "," + dtFromHowla.Rows[i]["comp_cd"].ToString() + "," +
-                           " decode('" + dtFromHowla.Rows[i]["in_out"].ToString() + "', 'I', 'C', 'O', 'S')," + dtFromHowla.Rows[i]["qty"].ToString() + "," + dtFromHowla.Rows[i]["rate"].ToString() + "," + dtFromHowla.Rows[i]["amt"].ToString() + ",'" + dtFromHowla.Rows[i]["brk"].ToString() + "'," + amt_cm + ",'" + LoginID + "')";
+                                string strInsQuery = "insert into invest.fund_trans_hb(vch_dt, f_cd, comp_cd," +
+                                " tran_tp, no_share, rate, amount, stock_ex, amt_aft_com,op_name) values('" + dtFromHowla.Rows[i]["sp_date"].ToString() + "'," + dtFromHowla.Rows[i]["f_cd"].ToString() + "," + dtFromHowla.Rows[i]["comp_cd"].ToString() + "," +
+                               " decode('" + dtFromHowla.Rows[i]["in_out"].ToString() + "', 'I', 'C', 'O', 'S')," + dtFromHowla.Rows[i]["qty"].ToString() + "," + dtFromHowla.Rows[i]["rate"].ToString() + "," + dtFromHowla.Rows[i]["amt"].ToString() + ",'" + dtFromHowla.Rows[i]["brk"].ToString() + "'," + amt_cm + ",'" + LoginID + "')";
 
-                            int NumOfRows = commonGatewayObj.ExecuteNonQuery(strInsQuery);
+                                int NumOfRows = commonGatewayObj.ExecuteNonQuery(strInsQuery);
                                 ClearFields();
                                 ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Saved Successfully');", true);
+
                             }
                         }
-                }
-                    
+
+                    }
                 }
             }
-            }
+        
+        }
+}
+
 
 
 
@@ -395,5 +429,5 @@ public partial class DateWiseTransaction : System.Web.UI.Page
     //    ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Saved Successfully');", true);
     //}
     //fundNameDropDownList.Focus();
-}
-}
+
+
