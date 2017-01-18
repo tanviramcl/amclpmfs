@@ -177,22 +177,20 @@ public partial class DateWiseTransaction : System.Web.UI.Page
                     // For editing
 
                     dtFromFund = commonGatewayObj.Select(strSelFromFundQuery);
-                    if (dtFromFund.Rows.Count > 0)
-                    {
 
-                        string[] fundCode = new string[100];
-                        for (int j = 0; j < dtFromFund.Rows.Count; j++)
-                        {
-                            fundCode[j] = dtFromFund.Rows[j]["f_cd"].ToString();
+                    List<int> fundValues =( from row in dtFromFund.AsEnumerable()
+                                         select Convert.ToInt32(row["f_cd"].ToString())).ToList();
+                 
 
-                        }
-                    }
+
+
 
                     // For editing
 
 
                     //  if (dtFromHowla.Rows[i]["in_out"].ToString() == "I" && (dtFromHowla.Rows[i]["f_cd"].ToString() == "1" || dtFromHowla.Rows[i]["f_cd"].ToString() == "2" || dtFromHowla.Rows[i]["f_cd"].ToString() == "4" || dtFromHowla.Rows[i]["f_cd"].ToString() == "6" || dtFromHowla.Rows[i]["f_cd"].ToString() == "7" || dtFromHowla.Rows[i]["f_cd"].ToString() == "8" || dtFromHowla.Rows[i]["f_cd"].ToString() == "9" || dtFromHowla.Rows[i]["f_cd"].ToString() == "10" || dtFromHowla.Rows[i]["f_cd"].ToString() == "11" || dtFromHowla.Rows[i]["f_cd"].ToString() == "12" || dtFromHowla.Rows[i]["f_cd"].ToString() == "13" || dtFromHowla.Rows[i]["f_cd"].ToString() == "20"))
-                    if (dtFromHowla.Rows[i]["in_out"].ToString() == "I" && (dtFromHowla.Rows[i]["f_cd"].ToString() == "1" || dtFromHowla.Rows[i]["f_cd"].ToString() == "2" || dtFromHowla.Rows[i]["f_cd"].ToString() == "4" || dtFromHowla.Rows[i]["f_cd"].ToString() == "6" || dtFromHowla.Rows[i]["f_cd"].ToString() == "7" || dtFromHowla.Rows[i]["f_cd"].ToString() == "8" || dtFromHowla.Rows[i]["f_cd"].ToString() == "9" || dtFromHowla.Rows[i]["f_cd"].ToString() == "10" || dtFromHowla.Rows[i]["f_cd"].ToString() == "11" || dtFromHowla.Rows[i]["f_cd"].ToString() == "12" || dtFromHowla.Rows[i]["f_cd"].ToString() == "13" || dtFromHowla.Rows[i]["f_cd"].ToString() == "20"))
+                    
+                    if (dtFromHowla.Rows[i]["in_out"].ToString()=="I" && fundValues.Contains(Convert.ToInt32(dtFromHowla.Rows[i]["f_cd"].ToString())))
                         {
                             tp = 'C';
                             amt = Convert.ToDouble(dtFromHowla.Rows[i]["amt"].ToString());
@@ -341,93 +339,93 @@ public partial class DateWiseTransaction : System.Web.UI.Page
 
 
 
-    //        if (:stock = 'D')then
+//        if (:stock = 'D')then
 
-    //                  if j.in_out = 'I'and: f_cd in (1,2,4,20,6,7,8,9,10,11,12,13) then
-    //                        tp:= 'C';
-    //        amt_cm:= j.amt * (1 + 0.0025);
-    //        elsif j.in_out = 'O' and: f_cd in (1,2,4,20,6,7,8,9,10,11,12,13) then
-    //                 tp:= 'S';
-    //        amt_cm:= j.amt * (1 - 0.0025);
-
-
-    //        elsif j.in_out = 'I'and: f_cd in (14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30) then
-    //                  tp:= 'C';
-    //        amt_cm:= j.amt * (1 + 0.0020);
-    //        elsif j.in_out = 'O' and: f_cd in (14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30) then
-    //                  tp:= 'S';
-    //        amt_cm:= j.amt * (1 - 0.0020);
+//                  if j.in_out = 'I'and: f_cd in (1,2,4,20,6,7,8,9,10,11,12,13) then
+//                        tp:= 'C';
+//        amt_cm:= j.amt * (1 + 0.0025);
+//        elsif j.in_out = 'O' and: f_cd in (1,2,4,20,6,7,8,9,10,11,12,13) then
+//                 tp:= 'S';
+//        amt_cm:= j.amt * (1 - 0.0025);
 
 
-    //        end if;
+//        elsif j.in_out = 'I'and: f_cd in (14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30) then
+//                  tp:= 'C';
+//        amt_cm:= j.amt * (1 + 0.0020);
+//        elsif j.in_out = 'O' and: f_cd in (14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30) then
+//                  tp:= 'S';
+//        amt_cm:= j.amt * (1 - 0.0020);
 
-    //        --New code should be added here all times
 
-    //-- end if;
+//        end if;
 
-    //        end if;
+//        --New code should be added here all times
 
+//-- end if;
 
+//        end if;
 
 
 
 
 
-    // Hashtable httable = new Hashtable();
-    //// httable.Add("VCH_DT", Convert.ToDateTime(txtHowlaDateFrom.Text.ToString()).ToString("dd-MMM-yyyy"));
-    // if (!stockExchangeDropDownList.SelectedValue.Equals("0"))
-    // {
-    //     httable.Add("STOCK_EX", Convert.ToChar(stockExchangeDropDownList.SelectedValue));
-    // }
-    // if (!fundNameDropDownList.SelectedValue.Equals("0"))
-    // {
-    //     httable.Add("F_CD", Convert.ToInt16(fundNameDropDownList.SelectedValue));
-    // }
-
-    //if (!companyNameDropDownList.SelectedValue.Equals("0"))
-    //{
-    //    httable.Add("COMP_CD", Convert.ToInt16(companyNameDropDownList.SelectedValue));
-    //}
-    //if (!transTypeDropDownList.SelectedValue.Equals("0"))
-    //{
-    //    httable.Add("TRAN_TP", Convert.ToChar(transTypeDropDownList.SelectedValue));
-    //}
-    //if (!noOfShareTextBox.Text.Equals(""))
-    //{
-    //    httable.Add("NO_SHARE", Convert.ToDouble(noOfShareTextBox.Text));
-    //}
-    //if (!amountTextBox.Text.Equals(""))
-    //{
-    //    httable.Add("AMOUNT", Convert.ToDouble(amountTextBox.Text));
-    //}
-    //if (!voucherNoTextBox.Text.Equals(""))
-    //{
-    //    httable.Add("VCH_NO", (voucherNoTextBox.Text).ToString());
-    //}
-    //if (!rateTextBox.Text.Equals(""))
-    //{
-    //    httable.Add("RATE", Convert.ToDouble(rateTextBox.Text));
-    //}
-    //if (!amountAfterComissionTextBox.Text.Equals(""))
-    //{
-    //    httable.Add("AMT_AFT_COM", Convert.ToDouble(amountAfterComissionTextBox.Text));
-    //}
 
 
+// Hashtable httable = new Hashtable();
+//// httable.Add("VCH_DT", Convert.ToDateTime(txtHowlaDateFrom.Text.ToString()).ToString("dd-MMM-yyyy"));
+// if (!stockExchangeDropDownList.SelectedValue.Equals("0"))
+// {
+//     httable.Add("STOCK_EX", Convert.ToChar(stockExchangeDropDownList.SelectedValue));
+// }
+// if (!fundNameDropDownList.SelectedValue.Equals("0"))
+// {
+//     httable.Add("F_CD", Convert.ToInt16(fundNameDropDownList.SelectedValue));
+// }
 
-    //httable.Add("ENTRY_DATE", DateTime.Today.ToString("dd-MMM-yyyy"));
-    //httable.Add("OP_NAME", LoginID);
+//if (!companyNameDropDownList.SelectedValue.Equals("0"))
+//{
+//    httable.Add("COMP_CD", Convert.ToInt16(companyNameDropDownList.SelectedValue));
+//}
+//if (!transTypeDropDownList.SelectedValue.Equals("0"))
+//{
+//    httable.Add("TRAN_TP", Convert.ToChar(transTypeDropDownList.SelectedValue));
+//}
+//if (!noOfShareTextBox.Text.Equals(""))
+//{
+//    httable.Add("NO_SHARE", Convert.ToDouble(noOfShareTextBox.Text));
+//}
+//if (!amountTextBox.Text.Equals(""))
+//{
+//    httable.Add("AMOUNT", Convert.ToDouble(amountTextBox.Text));
+//}
+//if (!voucherNoTextBox.Text.Equals(""))
+//{
+//    httable.Add("VCH_NO", (voucherNoTextBox.Text).ToString());
+//}
+//if (!rateTextBox.Text.Equals(""))
+//{
+//    httable.Add("RATE", Convert.ToDouble(rateTextBox.Text));
+//}
+//if (!amountAfterComissionTextBox.Text.Equals(""))
+//{
+//    httable.Add("AMT_AFT_COM", Convert.ToDouble(amountAfterComissionTextBox.Text));
+//}
 
-    //if (pf1s1DAOObj.IsDuplicateBonusRightEntry(Convert.ToInt32(fundNameDropDownList.SelectedValue.ToString()), Convert.ToInt32(companyNameDropDownList.SelectedValue.ToString()), Convert.ToDateTime(howlaDateTextBox.Text.Trim().ToString()).ToString("dd-MMM-yyyy"), transTypeDropDownList.SelectedValue.ToString(), Convert.ToInt32(noOfShareTextBox.Text.Trim().ToString())))
-    //{
-    //    ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Save Failed:You are not Smart User  Trying to Duplicate entry');", true);
-    //}
-    //else
-    //{
-    //    commonGatewayObj.Insert(httable, "invest.fund_trans_hb");
-    //    ClearFields();
-    //    ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Saved Successfully');", true);
-    //}
-    //fundNameDropDownList.Focus();
+
+
+//httable.Add("ENTRY_DATE", DateTime.Today.ToString("dd-MMM-yyyy"));
+//httable.Add("OP_NAME", LoginID);
+
+//if (pf1s1DAOObj.IsDuplicateBonusRightEntry(Convert.ToInt32(fundNameDropDownList.SelectedValue.ToString()), Convert.ToInt32(companyNameDropDownList.SelectedValue.ToString()), Convert.ToDateTime(howlaDateTextBox.Text.Trim().ToString()).ToString("dd-MMM-yyyy"), transTypeDropDownList.SelectedValue.ToString(), Convert.ToInt32(noOfShareTextBox.Text.Trim().ToString())))
+//{
+//    ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Save Failed:You are not Smart User  Trying to Duplicate entry');", true);
+//}
+//else
+//{
+//    commonGatewayObj.Insert(httable, "invest.fund_trans_hb");
+//    ClearFields();
+//    ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Saved Successfully');", true);
+//}
+//fundNameDropDownList.Focus();
 
 
