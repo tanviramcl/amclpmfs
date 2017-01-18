@@ -192,4 +192,22 @@ public class DropDownList
         }
         return dtHowlaDateDropDownList;
     }
+
+    public DataTable pdateDropDownList()//For Authorized Signatory
+    {
+        DataTable pdate = commonGatewayObj.Select("select max(vch_dt) as vch_dt from fund_trans_hb");
+        DataTable pdateDropDownList = new DataTable();
+        pdateDropDownList.Columns.Add("p1date", typeof(string));
+        pdateDropDownList.Columns.Add("p2date", typeof(string));
+        DataRow dr = pdateDropDownList.NewRow();
+       
+        for (int loop = 0; loop < pdate.Rows.Count; loop++)
+        {
+            dr = pdateDropDownList.NewRow();
+            dr["p1date"] = pdate.Rows[loop]["NAME"].ToString();
+            dr["p2date"] = pdate.Rows[loop]["ID"].ToString();
+            pdateDropDownList.Rows.Add(dr);
+        }
+        return pdateDropDownList;
+    }
 }

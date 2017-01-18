@@ -154,7 +154,12 @@ public partial class UI_AMCLCommon : System.Web.UI.MasterPage
             item.SubItems.Add(Subitem);
             mnuMenu.Items.Add(item);
 
-            Subitem = new skmMenu.MenuItem("Test Report");
+            Subitem = new skmMenu.MenuItem("Non Demate Shares Check");
+            Subitem.Url = "NonDemateSharesCheckReport.aspx";
+            item.SubItems.Add(Subitem);
+            mnuMenu.Items.Add(item);
+
+        Subitem = new skmMenu.MenuItem("Test Report");
             Subitem.Url = "testFundTransactionHBReport.aspx";
             item.SubItems.Add(Subitem);
             mnuMenu.Items.Add(item);
