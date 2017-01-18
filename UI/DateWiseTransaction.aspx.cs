@@ -174,7 +174,7 @@ public partial class DateWiseTransaction : System.Web.UI.Page
                     if (stockExchangeDropDownList.SelectedValue == "D")
                     {
 
-                    // For editing
+                    // For editing purposes
 
                     dtFromFund = commonGatewayObj.Select(strSelFromFundQuery);
 

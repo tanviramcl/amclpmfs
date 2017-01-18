@@ -33,7 +33,7 @@ public partial class UI_ReportViewer_NonDemateSharesCheckReportViwer : System.We
         sbfilter.Append(" ");
         sbMst.Append("select t.VCH_DT, t.F_CD,decode(t.f_cd, 1, 'ICB Asset Management Company Ltd.', 2, 'ICB AMCL Unit Fund', 3, 'ICB AMCL First Mutual Fund', 4, 'ICB AMCL Pension Holders'' Unit Fund', 5, 'ICB AMCL Islamic Mutual Fund', 6, 'ICB AMCL First NRB Mutual Fund', 7, 'ICB AMCL Second NRB Mutual Fund') fund_name,");
         sbMst.Append("t.COMP_CD, c.comp_nm,c.comp_nm || '(' || t.COMP_CD || ')',t.TRAN_TP,decode(t.TRAN_TP, 'C', 'Purchase', 'S', 'Sell', 'B', 'Bonus', 'R', 'Right', 'P', 'IPO') tran_type,t.VCH_NO, t.NO_SHARE, t.RATE, t.COST_RATE, t.CRT_AFT_COM, t.AMOUNT, t.AMT_AFT_COM,t.AMT_AFT_COM / t.NO_SHARE avg_rate,t.STOCK_EX,");
-        sbMst.Append("decode(t.STOCK_EX, 'D', 'DSE', 'C', 'CSE', ' ALL') stock_name,t.OP_NAME from fund_trans_hb t, comp c where vch_dt between '"+p1date+"' and '"+p2date+"'--group by f_cd, comp_cd, tran_tp and c.comp_cd = t.comp_cd and c.cds <> 'Y' and t.f_cd = 1 aorder by f_cd, tran_tp, t.VCH_DT");
+        sbMst.Append("decode(t.STOCK_EX, 'D', 'DSE', 'C', 'CSE', ' ALL') stock_name,t.OP_NAME from fund_trans_hb t, comp c where vch_dt between '"+p1date+"' and '"+p2date+"' and c.comp_cd = t.comp_cd and c.cds <> 'Y' and t.f_cd = 1 order by f_cd, tran_tp, t.VCH_DT");
         sbMst.Append(sbfilter.ToString());
         dtReprtSource = commonGatewayObj.Select(sbMst.ToString());
         dtReprtSource.TableName = "NonDemateSharesCheck";
