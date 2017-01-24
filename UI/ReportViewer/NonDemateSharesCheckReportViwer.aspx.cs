@@ -54,15 +54,7 @@ public partial class UI_ReportViewer_NonDemateSharesCheckReportViwer : System.We
         }
         else
         {
-            string Path = Server.MapPath("Report/CRNonDemateSharesCheck.rpt");
-            rdoc.Load(Path);
-            rdoc.SetDataSource(dtReprtSource);
-            CR_NonDemateSharesCheck.ReportSource = rdoc;
-            CR_NonDemateSharesCheck.DisplayToolbar = true;
-            CR_NonDemateSharesCheck.HasExportButton = true;
-            CR_NonDemateSharesCheck.HasPrintButton = true;
-            //rdoc.SetParameterValue("prmtransTypeDetais", transTypeDetais);
-            rdoc = ReportFactory.GetReport(rdoc.GetType());
+            Response.Write("No Data Found");
         }
     }
 }
