@@ -97,77 +97,84 @@ public partial class UI_AMCLCommon : System.Web.UI.MasterPage
 
             mnuMenu.Items.Add(item);
         }
-        
-            //Report Menu
-            item = new skmMenu.MenuItem("Report");
-            Subitem = new skmMenu.MenuItem("Sale-Purchase Report");
-            Subitem.Url = "SalePurchaseReportForm.aspx";
-            item.SubItems.Add(Subitem);
 
-            Subitem = new skmMenu.MenuItem("Fund Transaction Report");
-            Subitem.Url = "FundTransactionReport.aspx";
-            item.SubItems.Add(Subitem);
+        //Report Menu
+        item = new skmMenu.MenuItem("Report");
 
-            Subitem = new skmMenu.MenuItem("Book Closer Report");
-            Subitem.Url = "BookCloserReport.aspx";
-            item.SubItems.Add(Subitem);
+        Subitem = new skmMenu.MenuItem("Sale-Purchase Report");
+        Subitem.Url = "SalePurchaseReportForm.aspx";
+        item.SubItems.Add(Subitem);
+        //mnuMenu.Items.Add(item);
 
-            Subitem = new skmMenu.MenuItem("Company Wise Securites Transaction Report");
-            Subitem.Url = "CompanyWiseSecuritiesTransaction.aspx";
-            item.SubItems.Add(Subitem);
+        Subitem = new skmMenu.MenuItem("Fund Transaction Report");
+        Subitem.Url = "FundTransactionReport.aspx";
+        item.SubItems.Add(Subitem);
 
-            Subitem = new skmMenu.MenuItem("Company Wise All Portfolios Report(DSE Only)");
-            Subitem.Url = "CompanyWiseAllPortfoliosReportDSEonly.aspx";
-            item.SubItems.Add(Subitem);
+        Subitem = new skmMenu.MenuItem("Book Closer Report");
+        Subitem.Url = "BookCloserReport.aspx";
+        item.SubItems.Add(Subitem);
 
-            Subitem = new skmMenu.MenuItem("Portfolio With NonListed Securities");
-            Subitem.Url = "PortfolioWithNonListedSecurities.aspx";
-            item.SubItems.Add(Subitem);
+        Subitem = new skmMenu.MenuItem("Company Wise Securites Transaction Report");
+        Subitem.Url = "CompanyWiseSecuritiesTransaction.aspx";
+        item.SubItems.Add(Subitem);
 
-            Subitem = new skmMenu.MenuItem("Portfolio With Profit/Loss");
-            Subitem.Url = "PortfolioStatementWithProfitLoss.aspx";
-            item.SubItems.Add(Subitem);
+        Subitem = new skmMenu.MenuItem("Company Wise All Portfolios Report(DSE Only)");
+        Subitem.Url = "CompanyWiseAllPortfoliosReportDSEonly.aspx";
+        item.SubItems.Add(Subitem);
 
-            Subitem = new skmMenu.MenuItem("Portfolio Summary (Sector Wise)");
-            Subitem.Url = "PortfolioSummaryForm.aspx";
-            item.SubItems.Add(Subitem);
+        Subitem = new skmMenu.MenuItem("Portfolio With NonListed Securities");
+        Subitem.Url = "PortfolioWithNonListedSecurities.aspx";
+        item.SubItems.Add(Subitem);
 
-            Subitem = new skmMenu.MenuItem("Total Asset Percetage Check");
-            Subitem.Url = "AssetPercentageCheck.aspx";
-            item.SubItems.Add(Subitem);
+        Subitem = new skmMenu.MenuItem("Portfolio With Profit/Loss");
+        Subitem.Url = "PortfolioStatementWithProfitLoss.aspx";
+        item.SubItems.Add(Subitem);
 
-            Subitem = new skmMenu.MenuItem("Share Reconciliation Report");
-            Subitem.Url = "CompanyWiseShareReconciliationReport.aspx";
-            item.SubItems.Add(Subitem);
+        Subitem = new skmMenu.MenuItem("Portfolio Summary (Sector Wise)");
+        Subitem.Url = "PortfolioSummaryForm.aspx";
+        item.SubItems.Add(Subitem);
 
-            Subitem = new skmMenu.MenuItem("Receivable Cash Dividend Report");
-            Subitem.Url = "ReceivableCashDividend.aspx";
-            item.SubItems.Add(Subitem);
+        Subitem = new skmMenu.MenuItem("Total Asset Percetage Check");
+        Subitem.Url = "AssetPercentageCheck.aspx";
+        item.SubItems.Add(Subitem);
 
-            Subitem = new skmMenu.MenuItem("Max and Min Closing Price of ALL Funds");
-            Subitem.Url = "MaxMinClosingPriceOfFundsReport.aspx";
-            item.SubItems.Add(Subitem);
-            mnuMenu.Items.Add(item);
+        Subitem = new skmMenu.MenuItem("Share Reconciliation Report");
+        Subitem.Url = "CompanyWiseShareReconciliationReport.aspx";
+        item.SubItems.Add(Subitem);
 
-            Subitem = new skmMenu.MenuItem("Balance Check");
-            Subitem.Url = "BalanceCheckReport.aspx";
-            item.SubItems.Add(Subitem);
-            mnuMenu.Items.Add(item);
+        Subitem = new skmMenu.MenuItem("Receivable Cash Dividend Report");
+        Subitem.Url = "ReceivableCashDividend.aspx";
+        item.SubItems.Add(Subitem);
 
-            Subitem = new skmMenu.MenuItem("Non Demate Shares Check");
-            Subitem.Url = "NonDemateSharesCheckReport.aspx";
-            item.SubItems.Add(Subitem);
-            mnuMenu.Items.Add(item);
+        Subitem = new skmMenu.MenuItem("Max and Min Closing Price of ALL Funds");
+        Subitem.Url = "MaxMinClosingPriceOfFundsReport.aspx";
+        item.SubItems.Add(Subitem);
+        //mnuMenu.Items.Add(item);
 
-            Subitem = new skmMenu.MenuItem("Negative Balance Check");
-            Subitem.Url = "NegativeBalanceCheckReport.aspx";
-            item.SubItems.Add(Subitem);
-            mnuMenu.Items.Add(item);
+        Subitem = new skmMenu.MenuItem("Balance Check");
+        Subitem.Url = "BalanceCheckReport.aspx";
+        item.SubItems.Add(Subitem);
+        //mnuMenu.Items.Add(item);
+
+        Subitem = new skmMenu.MenuItem("Non Demate Shares Check");
+        Subitem.Url = "NonDemateSharesCheckReport.aspx";
+        item.SubItems.Add(Subitem);
+        //mnuMenu.Items.Add(item);
+
+        Subitem = new skmMenu.MenuItem("Negative Balance Check");
+        Subitem.Url = "NegativeBalanceCheckReport.aspx";
+        item.SubItems.Add(Subitem);
+        //mnuMenu.Items.Add(item);
 
         Subitem = new skmMenu.MenuItem("Test Report");
-            Subitem.Url = "testFundTransactionHBReport.aspx";
-            item.SubItems.Add(Subitem);
-            mnuMenu.Items.Add(item);
+        Subitem.Url = "testFundTransactionHBReport.aspx";
+        item.SubItems.Add(Subitem);
+
+        mnuMenu.Items.Add(item);
+
+
+
+        ///////////////////
 
         //Report Menu
         //item = new skmMenu.MenuItem("Report");
