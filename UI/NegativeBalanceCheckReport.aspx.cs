@@ -17,7 +17,7 @@ public partial class UI_BalancechekReport : System.Web.UI.Page
             Session.RemoveAll();
             Response.Redirect("../Default.aspx");
         }
-        DataTable dtpdateDropDownList = pdateDropDownList();
+        DataTable dtpdateDropDownList = pdateNegativeBalanceCheckDropDownList();
         if (!IsPostBack)
         {
             p1dateDropDownList.DataSource = dtpdateDropDownList;
@@ -35,42 +35,45 @@ public partial class UI_BalancechekReport : System.Web.UI.Page
 
     protected void showButton_Click(object sender, EventArgs e)
     {
-
         string p1date = p1dateDropDownList.Text.ToString();
         string p2date = p2dateDropDownList.Text.ToString();
 
 
         StringBuilder sb = new StringBuilder();
-        sb.Append("window.open('ReportViewer/NegativeBalanceCheckReportViwer.aspx?p1date=" + p1date + "&p2date= " + p2date + "');");
+        sb.Append("window.open('ReportViewer/NegativeBalanceCheckReportViewer.aspx?p1date=" + p1date + "&p2date= " + p2date + "');");
         ClientScript.RegisterStartupScript(this.GetType(), "ReportViwer", sb.ToString(), true);
-    }
-
-    protected void p1dateDropDownList_SelectedIndexChanged(object sender, EventArgs e)
-    {
 
     }
 
-    public DataTable pdateDropDownList()//For Authorized Signatory
+    public DataTable pdateNegativeBalanceCheckDropDownList()
     {
-       
+
         CommonGateway commonGatewayObj = new CommonGateway();
-        DataTable pdate = commonGatewayObj.Select("select max(vch_dt) as vch_dt from fund_trans_hb");
-        DataTable pdateDropDownList = new DataTable();
-        pdateDropDownList.Columns.Add("p1date", typeof(string));
-        pdateDropDownList.Columns.Add("p2date", typeof(string));
-        DataRow dr = pdateDropDownList.NewRow();
+        DataTable pdate = commonGatewayObj.Select("select distinct bal_dt from fund_folio_hb order by bal_dt desc");
+        DataTable pdateNegativeBalanceCheckDropDownList = new DataTable();
+        pdateNegativeBalanceCheckDropDownList.Columns.Add("p1date", typeof(string));
+        pdateNegativeBalanceCheckDropDownList.Columns.Add("p2date", typeof(string));
+        DataRow dr = pdateNegativeBalanceCheckDropDownList.NewRow();
 
         for (int loop = 0; loop < pdate.Rows.Count; loop++)
         {
-            dr = pdateDropDownList.NewRow();
-            dr["p1date"] = Convert.ToDateTime(pdate.Rows[loop]["vch_dt"]).ToString("dd-MMM-yyyy");
-            dr["p2date"] = Convert.ToDateTime(pdate.Rows[loop]["vch_dt"]).ToString("dd-MMM-yyyy");
-            pdateDropDownList.Rows.Add(dr);
+            dr = pdateNegativeBalanceCheckDropDownList.NewRow();
+            dr["p1date"] = Convert.ToDateTime(pdate.Rows[loop]["bal_dt"]).ToString("dd-MMM-yyyy");
+            dr["p2date"] = Convert.ToDateTime(pdate.Rows[loop]["bal_dt"]).ToString("dd-MMM-yyyy");
+            pdateNegativeBalanceCheckDropDownList.Rows.Add(dr);
         }
-        return pdateDropDownList;
+        return pdateNegativeBalanceCheckDropDownList;
     }
 
-    protected void p2dateDropDownList_SelectedIndexChanged(object sender, EventArgs e)
+
+
+
+    protected void p1dateDropDownListNegativeBalanceCheck_SelectedIndexChanged(object sender, EventArgs e)
+    {
+
+    }
+
+    protected void p2dateDropDownListNegativeBalanceCheck_SelectedIndexChanged(object sender, EventArgs e)
     {
 
     }

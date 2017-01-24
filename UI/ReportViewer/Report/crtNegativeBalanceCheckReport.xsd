@@ -1,0 +1,30 @@
+<?xml version="1.0" standalone="yes"?>
+<xs:schema id="NewDataSet" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+  <xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:MainDataTable="NegativeBalanceCheck" msdata:UseCurrentLocale="true">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="NegativeBalanceCheck">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="F_CD" type="xs:decimal" minOccurs="0" />
+              <xs:element name="FUND_NAME" type="xs:string" minOccurs="0" />
+              <xs:element name="COMP_CD" type="xs:decimal" minOccurs="0" />
+              <xs:element name="COMP_NM" type="xs:string" minOccurs="0" />
+              <xs:element name="I_NO_SHR" type="xs:decimal" minOccurs="0" />
+              <xs:element name="O_NO_SHR" type="xs:decimal" minOccurs="0" />
+              <xs:element name="TOT_NOS" type="xs:decimal" minOccurs="0" />
+              <xs:element name="I_RATE" type="xs:decimal" minOccurs="0" />
+              <xs:element name="O_RATE" type="xs:decimal" minOccurs="0" />
+              <xs:element name="IRT_AFT_COM" type="xs:decimal" minOccurs="0" />
+              <xs:element name="ORT_AFT_COM" type="xs:decimal" minOccurs="0" />
+              <xs:element name="TOT_COST" type="xs:decimal" minOccurs="0" />
+              <xs:element name="TCST_AFT_COM" type="xs:decimal" minOccurs="0" />
+              <xs:element name="BAL_DT" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="OP_NAME" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

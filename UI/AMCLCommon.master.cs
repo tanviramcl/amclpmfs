@@ -159,6 +159,11 @@ public partial class UI_AMCLCommon : System.Web.UI.MasterPage
             item.SubItems.Add(Subitem);
             mnuMenu.Items.Add(item);
 
+            Subitem = new skmMenu.MenuItem("Negative Balance Check");
+            Subitem.Url = "NegativeBalanceCheckReport.aspx";
+            item.SubItems.Add(Subitem);
+            mnuMenu.Items.Add(item);
+
         Subitem = new skmMenu.MenuItem("Test Report");
             Subitem.Url = "testFundTransactionHBReport.aspx";
             item.SubItems.Add(Subitem);
