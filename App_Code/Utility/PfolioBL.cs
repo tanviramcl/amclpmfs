@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Data;
-using System.Data.OracleClient;
-using System.Collections;
 
 
- public class PfolioBL
+public class PfolioBL
     {
         CommonGateway commonGatewayObj = new CommonGateway();
 
