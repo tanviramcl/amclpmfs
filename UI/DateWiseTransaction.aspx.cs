@@ -33,6 +33,7 @@ public partial class DateWiseTransaction : System.Web.UI.Page
             Response.Redirect("../Default.aspx");
         }
 
+      
         DataTable dtFundNameDropDownList = dropDownListObj.FundNameDropDownList();
         if (!IsPostBack)
         {
@@ -71,30 +72,32 @@ public partial class DateWiseTransaction : System.Web.UI.Page
 
         txtHowlaDateFrom.Text = "";
         txtLastHowlaDate.Text = "";
+        stockExchangeDropDownList.DataValueField = stockExchangeDropDownList.SelectedValue;
 
-       
-            if (stockExchangeDropDownList.SelectedValue == "D") // For DSE
+        if (stockExchangeDropDownList.SelectedValue == "D") // For DSE
             {
 
                 strQuery = "select TO_CHAR(max(vch_dt),'DD-MON-YYYY')last_tr_dt,TO_CHAR(max(vch_dt) + 1,'DD-MON-YYYY')vch_dt  from invest.fund_trans_hb where f_cd =" + fundNameDropDownList.SelectedValue.ToString() +
                      " and tran_tp in ('C','S') and stock_ex in ('D','A')";
-            }
+            dt = commonGatewayObj.Select(strQuery);
+        }
 
             else if (stockExchangeDropDownList.SelectedValue == "C")// For CSE
             {
                 strQuery = "select TO_CHAR(max(vch_dt),'DD-MON-YYYY')last_tr_dt,TO_CHAR(max(vch_dt) + 1,'DD-MON-YYYY')vch_dt  from invest.fund_trans_hb where f_cd =" + fundNameDropDownList.SelectedValue.ToString() +
                                 " and tran_tp in ('C','S') and stock_ex in ('C','A')";
-
-            }
+            dt = commonGatewayObj.Select(strQuery);
+        }
 
 
             else // For new stock exchange
             {
-                strQuery = ""; // SQL Query must be added here
+            dt = null;
+              //  strQuery = ""; // SQL Query must be added here
                 ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('This stock exchange is not added yet.');", true);
             }
 
-            dt = commonGatewayObj.Select(strQuery);
+            
 
 
             if (!dt.Rows[0].IsNull("vch_dt"))
@@ -130,6 +133,8 @@ public partial class DateWiseTransaction : System.Web.UI.Page
     {
         stockExchangeDropDownList.SelectedValue = "0";
         fundNameDropDownList.SelectedValue = "0";
+        //  stockExchangeDropDownList.DataValueField = stockExchangeDropDownList.SelectedValue;
+        // fundNameDropDownList.DataValueField = stockExchangeDropDownList.SelectedValue;
         txtHowlaDateFrom.Text = "";
         txtLastHowlaDate.Text = "";
         txtHowlaDateTo.Text = "";

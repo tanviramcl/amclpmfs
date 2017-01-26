@@ -101,7 +101,8 @@
         <script type="text/javascript">
             var mar=document.getElementById("mark");
             var text='<%=text %>';
-            mar.innerHTML=text;
+            mar.innerHTML = text;
+           // alert(mar.innerHTML);
         </script>
 </body>
 </html>

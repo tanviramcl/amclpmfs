@@ -41,8 +41,9 @@ public partial class UI_BalancechekReport : System.Web.UI.Page
 
 
         StringBuilder sb = new StringBuilder();
-        sb.Append("window.open('ReportViewer/NegativeBalanceCheckReportViwer.aspx?p1date=" + p1date + "&p2date= " + p2date + "');");
-        ClientScript.RegisterStartupScript(this.GetType(), "ReportViwer", sb.ToString(), true);
+        //sb.Append("window.open('ReportViewer/NonDemateSharesCheckReportViwer.aspx?p1date=" + p1date + " &p2date= " + p2date + ");");
+        //ClientScript.RegisterStartupScript(this.GetType(), "ReportViwer", sb.ToString(), true);
+        Response.Redirect("ReportViewer/NonDemateSharesCheckReportViwer.aspx?p1date=" + p1date + "&p2date=" + p2date);
     }
 
     protected void p1dateDropDownList_SelectedIndexChanged(object sender, EventArgs e)

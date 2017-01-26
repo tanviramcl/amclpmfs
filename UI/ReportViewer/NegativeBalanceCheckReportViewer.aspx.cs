@@ -1,13 +1,18 @@
-﻿using CrystalDecisions.CrystalReports.Engine;
-using System;
-using System.Collections.Generic;
+﻿using System;
+using System.Collections;
+using System.Configuration;
 using System.Data;
 using System.Linq;
-using System.Text;
 using System.Web;
+using System.Web.Security;
 using System.Web.UI;
+using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
-
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Text;
+using CrystalDecisions.CrystalReports.Engine;
+using CrystalDecisions.Shared;
 public partial class UI_ReportViewer_NegativeBalanceCheckReportViewer : System.Web.UI.Page
 {
     CommonGateway commonGatewayObj = new CommonGateway();
@@ -36,7 +41,8 @@ public partial class UI_ReportViewer_NegativeBalanceCheckReportViewer : System.W
         if (dtReprtSource.Rows.Count > 0)
         {
 
-            string Path = Server.MapPath("Report/crtNegativeBalanceCheckReport.rpt");
+            //string Path = Server.MapPath("~/Report/crtNegativeBalanceCheckReport.rpt");
+            string Path = Server.MapPath("Report/CRNegativeBalanceCheck.rpt");
             rdoc.Load(Path);
             rdoc.SetDataSource(dtReprtSource);
             CR_NegativeBalanceCheck.ReportSource = rdoc;
