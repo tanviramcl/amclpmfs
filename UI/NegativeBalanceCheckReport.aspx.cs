@@ -40,8 +40,9 @@ public partial class UI_BalancechekReport : System.Web.UI.Page
 
 
         StringBuilder sb = new StringBuilder();
-        sb.Append("window.open('ReportViewer/NegativeBalanceCheckReportViewer.aspx?p1date=" + p1date + "&p2date= " + p2date + "');");
-        ClientScript.RegisterStartupScript(this.GetType(), "ReportViwer", sb.ToString(), true);
+        //sb.Append("window.open('ReportViewer/NegativeBalanceCheckReportViewer.aspx?p1date=" + p1date + "&p2date= " + p2date + "');");
+        //ClientScript.RegisterStartupScript(this.GetType(), "ReportViwer", sb.ToString(), true);
+        Response.Redirect("ReportViewer/NegativeBalanceCheckReportViewer.aspx?p1date=" + p1date + "&p2date=" + p2date);
 
     }
 
