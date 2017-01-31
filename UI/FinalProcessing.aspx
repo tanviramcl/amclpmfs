@@ -52,32 +52,8 @@
       <tr>
          <td colspan="4" align="left">&nbsp;&nbsp;</td>   
       </tr>
-    
-        
+            
             <tr>
-                <td align="right" style="font-weight: 700"></td>
-                <td align="left" width="200px">
-                    <asp:TextBox ID="txtbalanceDate1" runat="server" style="width:195px;" 
-                CssClass="textInputStyle" TabIndex="7" AutoPostBack="True" 
-                ontextchanged="txtbalanceDate1_TextChanged"></asp:TextBox>
-                </td>
-                <td>
-                    <asp:Button ID="btnExit" runat="server"  style="width:195px;" CssClass="buttoncommon" Text="Exit" />
-                 </td>
-
-            </tr>
-              <tr>
-                <td align="right" style="font-weight: 700"></td>
-                <td align="left" width="200px">
-                     <asp:Button ID="btnProcessingforBackup" runat="server" style="width:195px;"  CssClass="buttoncommon" Text="Processing for Back Up" />
-                </td>
-                <td>
-                    <asp:Button ID="btnDelete" runat="server"  style="width:195px;" CssClass="buttoncommon" Text="Delete" />
-                 </td>
-
-            </tr>
-             
-        <tr>
 
             <td align="right" style="font-weight: 700"><b>Total Row Count:</b></td>
             <td align="left" width="200px">
@@ -85,16 +61,31 @@
                 CssClass="textInputStyle" TabIndex="7" AutoPostBack="True" 
                 ontextchanged="txttotalRowCount_TextChanged"></asp:TextBox>
             </td>
-             <td>
-               <asp:TextBox ID="txtbalanceDate2" runat="server" style="width:195px;" 
+           </tr> 
+            <tr>
+                <td align="right" style="font-weight: 700">Balance Date</td>
+                <td align="left" width="200px">
+                    <asp:TextBox ID="txtbalanceDate1" runat="server" style="width:195px;" 
                 CssClass="textInputStyle" TabIndex="7" AutoPostBack="True" 
-                ontextchanged="txtbalanceDate2_TextChanged"></asp:TextBox>
-            </td>
+                ontextchanged="txtbalanceDate1_TextChanged"></asp:TextBox>
+                </td>
+                <td>
+                   <asp:TextBox ID="txtbalanceDate2" runat="server" style="width:195px;" 
+                CssClass="textInputStyle" TabIndex="7" AutoPostBack="True" 
+                ontextchanged="txtbalanceDate2_TextChanged"></asp:TextBox>  
+                </td>
 
-        </tr> 
+            </tr>
+              <tr>
+                <td align="right" style="font-weight: 700"></td>
+                <td align="left" width="200px">
+                     <asp:Button ID="btnProcessingforBackup" runat="server" style="width:195px;"  CssClass="buttoncommon" Text="Processing for Back Up" OnClick="btnProcessingforBackup_Click" />
+                </td>
+                <td>
+                    <asp:Button ID="btnDelete" runat="server"  style="width:195px;" CssClass="buttoncommon" Text="Delete" OnClick="btnDelete_Click" />
+                 </td>
 
-
-             
+            </tr>
         </table>                
                   
  </asp:Content>
