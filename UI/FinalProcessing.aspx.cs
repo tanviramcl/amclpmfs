@@ -34,12 +34,19 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
             Response.Redirect("../Default.aspx");
         }
         DataTable dtBalanceDate = getbalanceDate();
+        DataTable dtDate1 = GetDate1();
+
         if (!IsPostBack)
         {
             txtbalanceDate1.Text = dtBalanceDate.Rows[0]["balancedate1"].ToString();
             txtbalanceDate2.Text = dtBalanceDate.Rows[0]["balancedate2"].ToString();
-           
+
+            string Date1 = Convert.ToDateTime(dtDate1.Rows[0]["date1"]).ToString("dd-MMM-yyyy");
+            DataTable dttotalrow = GetTotalrowPortfolio_bk(Date1);
+            txttotalRowCount.Text = dttotalrow.Rows[0]["TOTALROW"].ToString();
         }
+
+
 
     }
 
@@ -123,7 +130,8 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
         }
         DataTable dttotalrow = GetTotalrowPortfolio_bk(txtbalanceDate1.Text);
         txttotalRowCount.Text= dttotalrow.Rows[0]["TOTALROW"].ToString();
-       
+
+        Response.Redirect("FinalProcessing.aspx");
     }
 
     protected void btnDelete_Click(object sender, EventArgs e)
@@ -153,7 +161,8 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
         {
             ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Delete unsuccessfully');", true);
         }
-       // ClearFields();
+        Response.Redirect("FinalProcessing.aspx");
+        // ClearFields();
     }
     public class PortFolioBk
     {
