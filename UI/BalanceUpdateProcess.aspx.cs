@@ -258,8 +258,8 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
 
     protected void btnSave_Click(object sender, EventArgs e)
     {
-        string strQuery, strBalanceDate, strLastBalDate, strLastUpadateDate, strLastUpadatePlusOneDate, strSelFromFundFolioHBQuery;
-        Double cmp=0, mt_shr=0, mt_cost=0, mt_cst_aft_com=0;
+        string strQuery, strBalanceDate, strLastBalDate, strLastUpadateDate, strLastUpadatePlusOneDate, strSelFromFundFolioHBQuery,strUpdateFundfolioHB;
+        Double cmp=0, mt_shr=0, mt_cost=0, mt_cst_aft_com=0, mcost_rt=0, mcost_rt_acm=0, m_amt, m_amt_acm, m_no=0, m_cost=0, m_cost_acm=0;
         DateTime? dtimeBalanceDate, dtimeLastBalDate, dtimeLastUpadateDate, dtimeLastUpadatePlusOneDate;
         DataTable dtFromFundTransHB = new DataTable();
         DataTable dtFromFundFolioHB = new DataTable();
@@ -306,19 +306,32 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
             lblProcessingRelatedMessage.Visible = true;
             lblProcessingRelatedMessage.Text = "Advanced process is running!!!!";
 
-            strQuery = "select vch_dt, f_cd, comp_cd, no_share, rate, amount,amt_aft_com, tran_tp, stock_ex from invest.fund_trans_hb" +
+            
+
+             strQuery = "select TO_CHAR(vch_dt,'DD-MON-YYYY')vch_dt, f_cd, comp_cd, no_share, rate, amount,amt_aft_com, tran_tp, stock_ex from invest.fund_trans_hb" +
              " where vch_dt between '" + strLastUpadatePlusOneDate + "' and '" + strBalanceDate + "' and f_cd=" + fundNameDropDownList.SelectedValue.ToString() +
              " order by f_cd, vch_dt, comp_cd";
-
-
-
+            
             dtFromFundTransHB = commonGatewayObj.Select(strQuery);
+
             if (dtFromFundTransHB.Rows.Count > 0)
             {
 
                 for (int i = 0; i < dtFromFundTransHB.Rows.Count; i++)
                 {
 
+                    if (!string.IsNullOrEmpty(dtFromFundTransHB.Rows[i]["amount"].ToString()))
+                    {
+                        m_amt = Convert.ToDouble(dtFromFundTransHB.Rows[i]["amount"].ToString());
+                       
+                    }
+
+                    if (!string.IsNullOrEmpty(dtFromFundTransHB.Rows[i]["amt_aft_com"].ToString()))
+                    {
+                        m_amt_acm = Convert.ToDouble(dtFromFundTransHB.Rows[i]["amt_aft_com"].ToString());
+
+                    }
+                   
                     strSelFromFundFolioHBQuery = "select comp_cd, tot_nos, tot_cost, tcst_aft_com from invest.fund_folio_hb"+
                     " where f_cd = " + dtFromFundTransHB.Rows[i]["f_cd"].ToString() + " and comp_cd = " + dtFromFundTransHB.Rows[i]["comp_cd"].ToString();
 
@@ -326,17 +339,62 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
 
                     if (dtFromFundFolioHB.Rows.Count > 0)
                     {
-                        
-                        cmp = Convert.ToDouble(dtFromFundFolioHB.Rows[i]["comp_cd"].ToString());
-                        mt_shr = Convert.ToDouble(dtFromFundFolioHB.Rows[i]["tot_nos"].ToString());
-                        mt_cost = Convert.ToDouble(dtFromFundFolioHB.Rows[i]["tot_cost"].ToString());
-                        mt_cst_aft_com = Convert.ToDouble(dtFromFundFolioHB.Rows[i]["tcst_aft_com"].ToString());
-                        
+                        for (int j = 0; j < dtFromFundFolioHB.Rows.Count; j++)
+                        {
+                            cmp = Convert.ToDouble(dtFromFundFolioHB.Rows[j]["comp_cd"].ToString());
+                            mt_shr = Convert.ToDouble(dtFromFundFolioHB.Rows[j]["tot_nos"].ToString());
+                            mt_cost = Convert.ToDouble(dtFromFundFolioHB.Rows[j]["tot_cost"].ToString());
+                            mt_cst_aft_com = Convert.ToDouble(dtFromFundFolioHB.Rows[j]["tcst_aft_com"].ToString());
 
 
-                        // strSelFromFundFolioHBQuery = "select comp_cd, tot_nos, tot_cost, tcst_aft_com
-                        // into cmp, mt_shr, mt_cost, mt_cst_aft_com from invest.fund_folio_hb
-                        //where f_cd = j.f_cd and comp_cd = j.comp_cd;
+                            if (mt_shr == 0)
+                            {
+                                mcost_rt = 0;
+                                mcost_rt_acm = 0;
+
+                            }
+
+                            else
+
+                            {
+                                mcost_rt = Math.Round(mt_cost / mt_shr, 2);
+                                mcost_rt_acm = Math.Round(mt_cst_aft_com / mt_shr, 2);
+                            }
+
+                            if (dtFromFundTransHB.Rows[i]["tran_tp"].ToString() == "S")
+                            {
+                                m_amt= Convert.ToDouble(dtFromFundTransHB.Rows[i]["no_share"].ToString())* mcost_rt;
+                                m_amt_acm= Convert.ToDouble(dtFromFundTransHB.Rows[i]["no_share"].ToString()) * mcost_rt_acm;
+                                m_no = mt_shr - Convert.ToDouble(dtFromFundTransHB.Rows[i]["no_share"].ToString());
+                                m_cost= mt_cost - m_amt;
+                                m_cost_acm= mt_cst_aft_com - m_amt_acm;
+
+                                //m_amt:= j.no_share * mcost_rt;
+                                //m_amt_acm:= j.no_share * mcost_rt_acm;
+                                //m_no:= mt_shr - j.no_share;
+                                //m_cost:= mt_cost - m_amt;
+                                //m_cost_acm:= mt_cst_aft_com - m_amt_acm;
+
+                                strUpdateFundfolioHB = "update invest.fund_folio_hb set o_no_shr = nvl(o_no_shr, 0) +"+ Convert.ToDouble(dtFromFundTransHB.Rows[i]["no_share"].ToString())+","+
+                                                       "o_rate = (nvl(o_rate, 0) * nvl(o_no_shr, 0) +"+ Convert.ToDouble(dtFromFundTransHB.Rows[i]["amount"].ToString())+ " / (nvl(o_no_shr, 0) +" + Convert.ToDouble(dtFromFundTransHB.Rows[i]["no_share"].ToString()) + "," +
+                                                       "ort_aft_com = (nvl(ort_aft_com, 0) * nvl(o_no_shr, 0) +"+ Convert.ToDouble(dtFromFundTransHB.Rows[i]["amt_aft_com"].ToString()) + "/(nvl(o_no_shr, 0) +"+ Convert.ToDouble(dtFromFundTransHB.Rows[i]["no_share"].ToString()) + "," +
+                                                       "tot_nos ="+ m_no+",tot_cost ="+ m_cost+",tcst_aft_com ="+ m_cost_acm+", bal_dt = '"+ dtFromFundTransHB.Rows[i]["vch_dt"].ToString() +"'"+
+                                                       " where f_cd = " + dtFromFundTransHB.Rows[i]["f_cd"].ToString() + " and comp_cd = " + dtFromFundTransHB.Rows[i]["comp_cd"].ToString();
+
+
+
+                            }
+
+
+
+                        }
+                   //     if mt_shr = 0 then
+                   //         mcost_rt := 0;
+                   //     mcost_rt_acm:= 0;
+                   //else
+                   //	   mcost_rt:= round(mt_cost / mt_shr, 2);
+                   //     mcost_rt_acm:= round(mt_cst_aft_com / mt_shr, 2);
+                   //     end if;
                     }
                 }
 
