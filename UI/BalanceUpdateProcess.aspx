@@ -3,8 +3,18 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
 <script language="javascript" type="text/javascript"> 
     
-  
-  </script>
+     function fnCheckInput()
+    {   
+        if(document.getElementById("<%=fundNameDropDownList.ClientID%>").value =="0")
+        {
+            document.getElementById("<%=fundNameDropDownList.ClientID%>").focus();
+            alert("Please Select Fund Name.");
+            return false; 
+        }
+       
+       
+    }
+</script>
    <style type="text/css">
         .style6
         {
@@ -57,7 +67,7 @@
               <td align="right" style="font-weight: 700"><b>Fund Name:</b></td>
               <td align="left" width="200px">
                   <asp:DropDownList ID="fundNameDropDownList" runat="server" TabIndex="6" 
-                onselectedindexchanged="fundNameDropDownList_SelectedIndexChanged"></asp:DropDownList>
+                onselectedindexchanged="fundNameDropDownList_SelectedIndexChanged" AutoPostBack="True"></asp:DropDownList>
               </td>
          </tr>
                      <tr>
@@ -65,7 +75,7 @@
                       <td align="left" width="300px">
                           <asp:TextBox ID="txtBalanceDate" runat="server" style="width:195px;" 
                         CssClass="textInputStyle" TabIndex="7" AutoPostBack="True" 
-                        ontextchanged="txtBalanceDate_TextChanged"></asp:TextBox>
+                        ></asp:TextBox>
                           <ajaxToolkit:CalendarExtender ID="txtBalanceDate_CalendarExtender"
                               runat="server" TargetControlID="txtBalanceDate"
                               PopupButtonID="ImageButton" Format="dd-MMM-yyyy" />
@@ -76,9 +86,9 @@
                        </td>
                          <td align="right" style="font-weight: 700"><b>Last Update Date</b></td>
                         <td align="left" width="300px">
-                         <asp:TextBox ID="txtlastUpadateDate" runat="server" style="width:195px;" 
+                         <asp:TextBox ID="txtLastUpadateDate" runat="server" style="width:195px;" 
                         CssClass="textInputStyle" TabIndex="7" AutoPostBack="True" 
-                        ontextchanged="txtlastUpadateDate_TextChanged"></asp:TextBox>
+                       ></asp:TextBox>
                             <ajaxToolkit:CalendarExtender ID="txtlastUpadateDate_CalendarExtender1"
                                 runat="server" TargetControlID="txtlastUpadateDate"
                                 PopupButtonID="ImageButton1" Format="dd-MMM-yyyy" />
@@ -90,34 +100,34 @@
             <tr>
                 <td align="right" style="font-weight: 700"><b>No of Purchase Record:</b></td>
                 <td align="left" width="200px">
-                    <asp:TextBox ID="txtPurchaseRecord" runat="server" style="width:195px;" 
-                CssClass="textInputStyle" TabIndex="7" AutoPostBack="True" 
-                ontextchanged="txtPurchaseRecord_TextChanged"></asp:TextBox>
+                    <asp:TextBox ID="txtNoPurchaseRecord" runat="server" style="width:195px;" 
+                CssClass="textInputStyle" TabIndex="7" AutoPostBack="True" BackColor="#DDDDDD" ReadOnly="True" 
+                ></asp:TextBox>
                 </td>
             </tr>
              <tr>
                     <td align="right" style="font-weight: 700"><b>No of Purchase Shares:</b></td>
                 <td align="left" width="200px">
-                    <asp:TextBox ID="txtPurchaseShares" runat="server" style="width:195px;" 
-                CssClass="textInputStyle" TabIndex="7" AutoPostBack="True" 
-                ontextchanged="txtPurchaseShares_TextChanged"></asp:TextBox>
+                    <asp:TextBox ID="txtNoPurchaseShares" runat="server" style="width:195px;" 
+                CssClass="textInputStyle" TabIndex="7" AutoPostBack="True" BackColor="#DDDDDD" ReadOnly="True" 
+               ></asp:TextBox>
                 </td>
               </tr>   
                <tr>
                     
                    <td align="right" style="font-weight: 700"><b>No sale Record:</b></td>
                     <td align="left" width="200px">
-                        <asp:TextBox ID="txtSaleRecord" runat="server" style="width:195px;" 
-                    CssClass="textInputStyle" TabIndex="7" AutoPostBack="True" 
-                    ontextchanged="txtSaleRecord_TextChanged"></asp:TextBox>
+                        <asp:TextBox ID="txtNoSaleRecord" runat="server" style="width:195px;" 
+                    CssClass="textInputStyle" TabIndex="7" AutoPostBack="True" BackColor="#DDDDDD" ReadOnly="True" 
+                    ></asp:TextBox>
                     </td>
                    <td>
                        
                     </td>
                    <td>
-                       <asp:TextBox ID="txtNoOfSaleRecord2" runat="server"  style="width:195px;" 
-                    CssClass="textInputStyle" TabIndex="7" AutoPostBack="True" 
-                    ontextchanged="txtNoOfSaleRecord2_TextChanged"></asp:TextBox>
+                       <asp:TextBox ID="txtLastBalDate" runat="server"  style="width:195px;" 
+                    CssClass="textInputStyle" TabIndex="7" AutoPostBack="True" BackColor="#DDDDDD" 
+                   ></asp:TextBox>
                     </td>
                     
                     
@@ -127,25 +137,35 @@
             <td align="right" style="font-weight: 700"><b>No sale Shares:</b></td>
             <td align="left" width="200px">
                 <asp:TextBox ID="txtNoOfSaleShare" runat="server" Style="width: 195px;"
-                    CssClass="textInputStyle" TabIndex="7" AutoPostBack="True"
-                    OnTextChanged="txtNoOfSaleShare_TextChanged"></asp:TextBox>
+                    CssClass="textInputStyle" TabIndex="7" AutoPostBack="True" BackColor="#DDDDDD" ReadOnly="True"
+                   ></asp:TextBox>
             </td>
              <td>
                        
             </td>
              <td>
-                <asp:TextBox ID="txtNoOfSaleShare2" runat="server"  style="width:195px;" 
-            CssClass="textInputStyle" TabIndex="7" AutoPostBack="True" 
-            ontextchanged="txtNoOfSaleShare2_TextChanged"></asp:TextBox>
+                <asp:TextBox ID="txtMarketPriceDate" runat="server"  style="width:195px;" 
+            CssClass="textInputStyle" TabIndex="7" AutoPostBack="True" BackColor="#DDDDDD" ReadOnly="True" 
+           ></asp:TextBox>
             </td>
 
         </tr> 
 
 
               <tr>
-                  <td align="right"><asp:Button ID="btnSave" runat="server" Text="Save"  CssClass="buttoncommon"/></td>
+                  <td align="right">&nbsp;</td>
                   <td align="left">
-                      <asp:Button ID="btnExit" runat="server" CssClass="buttoncommon" Text="Exit" /></td>
+                      <asp:Button ID="btnSave" runat="server" Text="Save" 
+                       CssClass="buttoncommon" OnClick="btnSave_Click" OnClientClick=" return fnCheckInput();"/></td>
+                 
+              </tr>    
+
+
+              <tr>
+                  <td align="right">&nbsp;</td>
+                  <td align="left">
+                      <asp:Label ID="lblProcessingRelatedMessage" runat="server" Font-Size="Large" ForeColor="#FF5050"></asp:Label>
+                  </td>
                  
               </tr>    
         </table>                
