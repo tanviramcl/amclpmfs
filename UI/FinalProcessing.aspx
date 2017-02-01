@@ -58,7 +58,7 @@
             <td align="right" style="font-weight: 700"><b>Total Row Count:</b></td>
             <td align="left" width="200px">
                  <asp:TextBox ID="txttotalRowCount" runat="server" style="width:195px;" 
-                CssClass="textInputStyle" TabIndex="7" AutoPostBack="True" 
+                CssClass="textInputStyle" ReadOnly="true" TabIndex="7" AutoPostBack="True" 
                 ontextchanged="txttotalRowCount_TextChanged"></asp:TextBox>
             </td>
            </tr> 
@@ -66,23 +66,30 @@
                 <td align="right" style="font-weight: 700">Balance Date</td>
                 <td align="left" width="200px">
                     <asp:TextBox ID="txtbalanceDate1" runat="server" style="width:195px;" 
-                CssClass="textInputStyle" TabIndex="7" AutoPostBack="True" 
+                CssClass="textInputStyle" ReadOnly="true" TabIndex="7" AutoPostBack="True" 
                 ontextchanged="txtbalanceDate1_TextChanged"></asp:TextBox>
                 </td>
-                <td>
-                   <asp:TextBox ID="txtbalanceDate2" runat="server" style="width:195px;" 
-                CssClass="textInputStyle" TabIndex="7" AutoPostBack="True" 
-                ontextchanged="txtbalanceDate2_TextChanged"></asp:TextBox>  
+                <td align="left" width="300px">
+                    <asp:TextBox ID="txtbalanceDate2" runat="server" Style="width: 195px;"
+                        CssClass="textInputStyle" TabIndex="7" AutoPostBack="True"
+                        OnTextChanged="txtbalanceDate2_TextChanged"></asp:TextBox>
+                 
+                    <ajaxToolkit:CalendarExtender ID="txtbalanceDate2_CalendarExtender1"
+                        runat="server" TargetControlID="txtbalanceDate2"
+                        PopupButtonID="ImageButton1" Format="dd-MMM-yyyy" />
+                    <asp:ImageButton ID="ImageButton1" runat="server"
+                        AlternateText="Click Here" ImageUrl="~/Image/Calendar_scheduleHS.png"
+                        TabIndex="24" />
                 </td>
 
             </tr>
               <tr>
                 <td align="right" style="font-weight: 700"></td>
                 <td align="left" width="200px">
-                     <asp:Button ID="btnProcessingforBackup" runat="server" style="width:195px;"  CssClass="buttoncommon" Text="Processing for Back Up" OnClick="btnProcessingforBackup_Click" />
+                     <asp:Button ID="btnProcessingforBackup" runat="server" style="width:195px;height: 20px;"  CssClass="buttoncommon" Text="Processing for Back Up" OnClick="btnProcessingforBackup_Click" />
                 </td>
                 <td>
-                    <asp:Button ID="btnDelete" runat="server"  style="width:195px;" CssClass="buttoncommon" Text="Delete" OnClick="btnDelete_Click" />
+                    <asp:Button ID="btnDelete" runat="server"  style="width:195px;height: 20px;" CssClass="buttoncommon" Text="Delete" OnClick="btnDelete_Click" />
                  </td>
 
             </tr>
