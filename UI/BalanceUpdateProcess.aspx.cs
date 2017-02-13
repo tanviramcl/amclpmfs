@@ -562,39 +562,39 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
             strUpdateFundTransHB = "update invest.fund_trans_hb set cost_rate = null,crt_aft_com = null where f_cd =" + fundNameDropDownList.SelectedValue.ToString();
             adv_proc1(strLastUpadatePlusOneDate, strBalanceDate, fundNameDropDownList.SelectedValue.ToString());
 
-            
-            // Code goes here
-           
+
+            // Code goes here Code goes here
+
         }
 
 
 
-//        PROCEDURE upd_m_price IS
-//BEGIN
-//   DECLARE
-//   cursor cmp is
-//     select a.comp_cd, max(a.tran_date) tran_date
-//     from invest.market_price a, invest.fund_folio_hb b
-//     where a.comp_cd = b.comp_cd and b.f_cd =:div_rec.f_cd
-//        and a.tran_date <=:div_rec.upto_dt
-//        group by a.comp_cd order by a.comp_cd;
-//        rmp cmp% rowtype;
-//        BEGIN
-//           delete from invest.mprice_temp where f_cd =:div_rec.f_cd;
-//        for rmp in cmp loop
-   
-//              insert into invest.mprice_temp(f_cd, comp_cd, avg_rt)
-   
-//                select :div_rec.f_cd, comp_cd, avg_rt
-   
-//                 from invest.market_price
-   
-//                 where comp_cd = rmp.comp_cd and tran_date = rmp.tran_date;
-//            --Message(' f_cd  ' || to_char(:div_rec.f_cd) || '  comp_cd  ' || to_char(rmp.comp_cd));
-//        end loop;
-//        ---update
-//  END;
-//        END;
+        //        PROCEDURE upd_m_price IS
+        //BEGIN
+        //   DECLARE
+        //   cursor cmp is
+        //     select a.comp_cd, max(a.tran_date) tran_date
+        //     from invest.market_price a, invest.fund_folio_hb b
+        //     where a.comp_cd = b.comp_cd and b.f_cd =:div_rec.f_cd
+        //        and a.tran_date <=:div_rec.upto_dt
+        //        group by a.comp_cd order by a.comp_cd;
+        //        rmp cmp% rowtype;
+        //        BEGIN
+        //           delete from invest.mprice_temp where f_cd =:div_rec.f_cd;
+        //        for rmp in cmp loop
+
+        //              insert into invest.mprice_temp(f_cd, comp_cd, avg_rt)
+
+        //                select :div_rec.f_cd, comp_cd, avg_rt
+
+        //                 from invest.market_price
+
+        //                 where comp_cd = rmp.comp_cd and tran_date = rmp.tran_date;
+        //            --Message(' f_cd  ' || to_char(:div_rec.f_cd) || '  comp_cd  ' || to_char(rmp.comp_cd));
+        //        end loop;
+        //        ---update
+        //  END;
+        //        END;
 
 
 
