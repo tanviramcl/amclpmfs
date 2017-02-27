@@ -89,6 +89,10 @@ public partial class UI_AMCLCommon : System.Web.UI.MasterPage
             Subitem.Url = "FinalProcessing.aspx";
             item.SubItems.Add(Subitem);
 
+            Subitem = new skmMenu.MenuItem("Company Information Entry");
+            Subitem.Url = "CompanyInformation.aspx";
+            item.SubItems.Add(Subitem);
+
             //Subitem = new skmMenu.MenuItem("Recent Market Information");
             //Subitem.Url = "RecentMarketInformation.aspx";
             //item.SubItems.Add(Subitem);

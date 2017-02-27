@@ -7,7 +7,7 @@
 
 </script>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 <head id="Head1" runat="server">
     <title>Untitled Page</title>
     <asp:ContentPlaceHolder id="head" runat="server">
@@ -37,7 +37,12 @@
         .Submenu { margin-top:25px;margin-left:10px; }
         </style>
      
-
+    <script  type="text/javascript" src="../Scripts/jquery.js"></script>
+    <script type="text/javascript" src="../Scripts/jQuery-2.1.3.min.js"></script>
+    <script type="text/javascript" src="../Scripts/jquery.validate.js"></script>
+      <script  type="text/javascript" src="../Scripts/jquery.validation.net.webforms.js"></script>
+    <script  type="text/javascript" src="../Scripts/jquery.validation.net.webforms.min.js"></script>
+  
 
 </head>
 <body>
@@ -94,15 +99,15 @@
             </td>
         </tr>
     </table>
-       <div>
+      <%-- <div>
         <MARQUEE  id="mark">hi hi</MARQUEE>
-        </div>
+        </div>--%>
     </form>
-        <script type="text/javascript">
+       <%-- <script type="text/javascript">
             var mar=document.getElementById("mark");
             var text='<%=text %>';
             mar.innerHTML = text;
            // alert(mar.innerHTML);
-        </script>
+        </script>--%>
 </body>
 </html>
