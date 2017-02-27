@@ -126,13 +126,17 @@ public partial class UI_AMCLCommon : System.Web.UI.MasterPage
         Subitem = new skmMenu.MenuItem("Company Wise All Portfolios Report(DSE Only)");
         Subitem.Url = "CompanyWiseAllPortfoliosReportDSEonly.aspx";
         item.SubItems.Add(Subitem);
-
+        
         Subitem = new skmMenu.MenuItem("Portfolio With NonListed Securities");
         Subitem.Url = "PortfolioWithNonListedSecurities.aspx";
         item.SubItems.Add(Subitem);
 
         Subitem = new skmMenu.MenuItem("Portfolio With Profit/Loss");
         Subitem.Url = "PortfolioStatementWithProfitLoss.aspx";
+        item.SubItems.Add(Subitem);
+
+        Subitem = new skmMenu.MenuItem("Market Valiation With Profit/Loss");
+        Subitem.Url = "MarketValiationWithProfitLoss.aspx";
         item.SubItems.Add(Subitem);
 
         Subitem = new skmMenu.MenuItem("Portfolio Summary (Sector Wise)");

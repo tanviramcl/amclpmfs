@@ -183,7 +183,7 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
 
     public DataTable getbalanceDate()//For Authorized Signatory
     {
-        DataTable pdate = commonGatewayObj.Select("select max(bal_dt_ctrl)+1as BalanceDate  from pfolio_bk");
+        DataTable pdate = commonGatewayObj.Select("select max(bal_dt_ctrl)+1 as BalanceDate  from pfolio_bk");
         DataTable pdateDropDownList = new DataTable();
         pdateDropDownList.Columns.Add("balancedate1", typeof(string));
         pdateDropDownList.Columns.Add("balancedate2", typeof(string));
