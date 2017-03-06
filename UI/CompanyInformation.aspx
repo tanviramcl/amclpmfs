@@ -325,7 +325,7 @@
                         
                         required: true,
                         number:true,
-                        minlength: 2,
+                        minlength: 3,
                         maxlength: 3
                     }, <%=companyNameTextBox.UniqueID %>: {
                         
