@@ -23,8 +23,8 @@ public partial class UI_ReportViewer_MarketValuationWithProfitLossReportViewer :
         StringBuilder sbFilter = new StringBuilder();
         string strPortfolioAsOnDate = "";
         string fundCodes = "";
-        string companyCodes = "";
-        string percentageCheck = "";
+        //string companyCodes = "";
+        //string percentageCheck = "";
        
         if (Session["UserID"] == null)
         {

@@ -186,6 +186,10 @@ public partial class UI_AMCLCommon : System.Web.UI.MasterPage
         Subitem.Url = "StockDeclarationAfterPostedReport.aspx";
         item.SubItems.Add(Subitem);
 
+        Subitem = new skmMenu.MenuItem("Capital Gain All Funds ");
+        Subitem.Url = "CapitalGainAllFundsReport.aspx";
+        item.SubItems.Add(Subitem);
+
 
         Subitem = new skmMenu.MenuItem("Test Report");
         Subitem.Url = "testFundTransactionHBReport.aspx";
