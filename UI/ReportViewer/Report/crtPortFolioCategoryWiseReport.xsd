@@ -6,7 +6,7 @@
         <xs:element name="PortFolioCategoryWise">
           <xs:complexType>
             <xs:sequence>
-              <xs:element name="TRIM_x0028_C.COMP_NM_x0029_" type="xs:string" minOccurs="0" />
+              <xs:element name="COMPANYNAME" type="xs:string" minOccurs="0" />
               <xs:element name="NOS_T" type="xs:decimal" minOccurs="0" />
               <xs:element name="BAL_DT" type="xs:dateTime" minOccurs="0" />
               <xs:element name="RT_ACM" type="xs:decimal" minOccurs="0" />
@@ -20,6 +20,7 @@
               <xs:element name="DIFF" type="xs:decimal" minOccurs="0" />
               <xs:element name="GROUP1" type="xs:string" minOccurs="0" />
               <xs:element name="CATEGORY" type="xs:string" minOccurs="0" />
+              <xs:element name="F_NAME" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
