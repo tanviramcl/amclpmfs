@@ -109,7 +109,7 @@ public partial class UI_MarketValuationWithProfitLoss : System.Web.UI.Page
         {
 
             Session["FromDate"] = FromDateTextBox.Text.ToString();
-            Session["ToDate"] = FromDateTextBox.Text.ToString();
+            Session["ToDate"] = ToDateTextBox.Text.ToString();
            
           
 

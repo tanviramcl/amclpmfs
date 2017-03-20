@@ -49,7 +49,7 @@ public partial class UI_ReportViewer_FundTransactionReportViewer : System.Web.UI
         //sbMst1.Append(sbMst1.ToString());
         dtReprtSource1 = commonGatewayObj.Select(sbMst1.ToString());
         dtReprtSource1.TableName = "FUND_TRANS_HB2";
-       dtReprtSource.WriteXmlSchema(@"D:\officialProject\2-13-2017\amclpmfs\UI\ReportViewer\Report\crttestFUND_TRANS_HB.xsd");
+      // dtReprtSource.WriteXmlSchema(@"D:\officialProject\2-13-2017\amclpmfs\UI\ReportViewer\Report\crttestFUND_TRANS_HB.xsd");
         // "D:\officialProject\1-8-17\amclpmfs\UI\ReportViewer\Report\crttestFUND_TRANS_HB.xsd"
 
 
