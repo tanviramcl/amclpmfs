@@ -190,6 +190,17 @@ public partial class UI_AMCLCommon : System.Web.UI.MasterPage
         Subitem.Url = "CapitalGainAllFundsReport.aspx";
         item.SubItems.Add(Subitem);
 
+        Subitem = new skmMenu.MenuItem("PortFolio CategoryWise");
+        Subitem.Url = "PortFolioCategoryWise.aspx";
+        item.SubItems.Add(Subitem);
+
+        Subitem = new skmMenu.MenuItem("Portfilio Demat Share");
+        Subitem.Url = "PortfilioDematShare.aspx";
+        item.SubItems.Add(Subitem);
+
+        Subitem = new skmMenu.MenuItem("Portfilio NonDemat Share");
+        Subitem.Url = "PortfilioNonDematShare.aspx";
+        item.SubItems.Add(Subitem);
 
         Subitem = new skmMenu.MenuItem("Test Report");
         Subitem.Url = "testFundTransactionHBReport.aspx";

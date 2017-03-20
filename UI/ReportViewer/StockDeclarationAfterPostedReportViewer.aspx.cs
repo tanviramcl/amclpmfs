@@ -25,7 +25,7 @@ public partial class UI_ReportViewer_StockDeclarationBeforePostedReportViewer : 
         StringBuilder sbMst = new StringBuilder();
         StringBuilder sbfilter = new StringBuilder();
         sbfilter.Append(" ");
-        sbMst.Append("SELECT C.COMP_NM,B.COMP_CD, floor(P.TOT_NOS) tot_nos, p.f_cd,  f.f_name f_name,floor(P.TOT_NOS * B.BONUS / 100) share_alloted,B.FY, B.RECORD_DT, B.BOOK_TO, B.BONUS, B.RIGHT_APPR_DT, B.RIGHT, B.CASH, B.AGM, B.REMARKS, B.POSTED, b.pdate  FROM BOOK_CL B, COMP C, PFOLIO_BK P, fund f WHERE B.COMP_CD = P.COMP_CD AND B.COMP_CD = C.COMP_CD AND P.BAL_DT_CTRL = B.RECORD_DT and B.BONUS is not null and posted is not null and p.f_cd = f.f_cd order by C.COMP_NM, p.f_cd");
+        sbMst.Append("SELECT C.COMP_NM,B.COMP_CD, floor(P.TOT_NOS) tot_nos, p.f_cd,  f.f_name f_name,floor(P.TOT_NOS * B.BONUS / 100) share_alloted,B.FY, B.RECORD_DT, B.BOOK_TO, B.BONUS, B.RIGHT_APPR_DT, B.RIGHT, B.CASH, B.AGM, B.REMARKS, B.POSTED, b.pdate  FROM BOOK_CL B, COMP C, PFOLIO_BK P, fund f WHERE B.COMP_CD = P.COMP_CD AND B.COMP_CD = C.COMP_CD AND P.BAL_DT_CTRL = B.RECORD_DT and B.BONUS is not null and posted is not null and p.f_cd = f.f_cd order by p.f_cd");
         sbMst.Append(sbfilter.ToString());
         dtReprtSource = commonGatewayObj.Select(sbMst.ToString());
         dtReprtSource.TableName = "StockDeclarationAFterPostedReport";
