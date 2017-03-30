@@ -104,7 +104,7 @@ public partial class UI_BalancechekReport : System.Web.UI.Page
 
         string transtype = transTypeDropDownList.SelectedValue.ToString();
 
-        if (fundwiseRadioButton.Checked)
+        if (fundwiseRadioButton.Checked && Fromdate != "" && Todate != "" && fundcode!="")
         {
             Response.Redirect("ReportViewer/SellBuyCheckReportViwer.aspx?fundcode=" + fundcode + "&Fromdate=" + Fromdate + "&Todate=" + Todate + "");
         }
@@ -119,6 +119,12 @@ public partial class UI_BalancechekReport : System.Web.UI.Page
         else if (CompanywiseallRadioButton.Checked)
         {
             Response.Redirect("ReportViewer/SellBuyCheckReportViwer.aspx?companycode=" + companycode + "&Fromdate=" + Fromdate + "&Todate=" + Todate + "&transtype=" + transtype + "");
+        }
+        else
+        {
+            // ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Not valid')", true);
+            Labelerror.Visible = true;
+            Labelerror.Text = "Not Valid";
         }
 
 

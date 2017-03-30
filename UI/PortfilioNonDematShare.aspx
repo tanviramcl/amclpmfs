@@ -22,7 +22,7 @@
             <table id="Table1" width = "600" align = "center" cellpadding ="0" cellspacing ="0" runat="server">
             <tr>
                 <td align="center" class="style3">
-                    <b><u>PortFolio Non Demat Share</u></b>
+                    <b><u>Portfolio Non Demat Shares</u></b>
                 </td>
             </tr>
             </table>
