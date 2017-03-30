@@ -13,6 +13,8 @@
     <asp:ContentPlaceHolder id="head" runat="server">
     </asp:ContentPlaceHolder>
     <link rel="Stylesheet" type="text/css" href="../CSS/amcl.css" />
+    <link type="text/css" href="../Scripts/jquery-ui.css" rel="stylesheet" />
+    <link type="text/css" href="../Scripts/jquery-ui.min.css" rel="stylesheet" />
     <style type="text/css">
         .style1
         {
@@ -42,7 +44,8 @@
     <script type="text/javascript" src="../Scripts/jquery.validate.js"></script>
     <script  type="text/javascript" src="../Scripts/jquery.validation.net.webforms.js"></script>
     <script  type="text/javascript" src="../Scripts/jquery.validation.net.webforms.min.js"></script>
-   
+    <script type="text/javascript" src="../Scripts/jquery-ui.js"></script>
+    <script type="text/javascript" src="../Scripts/jquery-ui.min.js"></script>
   
 
 </head>

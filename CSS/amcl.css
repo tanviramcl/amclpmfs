@@ -86,6 +86,10 @@ height:43;
 	WIDTH: 26px;
 	HEIGHT:20px;
 }
+
+.hidden {
+    display:none;
+}
 .buttonmid
 {
 	BORDER-TOP: #CCCCCC 1px solid; 
