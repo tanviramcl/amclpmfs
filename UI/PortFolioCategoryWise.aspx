@@ -22,7 +22,7 @@
             <table id="Table1" width = "600" align = "center" cellpadding ="0" cellspacing ="0" runat="server">
             <tr>
                 <td align="center" class="style3">
-                    <b><u>PortFolio Categorywise</u></b>
+                    <b><u>Portfolio Categorywise</u></b>
                 </td>
             </tr>
             </table>
