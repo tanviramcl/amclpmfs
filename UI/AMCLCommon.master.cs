@@ -202,7 +202,7 @@ public partial class UI_AMCLCommon : System.Web.UI.MasterPage
         Subitem.Url = "PortfilioNonDematShare.aspx";
         item.SubItems.Add(Subitem);
 
-        Subitem = new skmMenu.MenuItem("Capital Gain Summery DateWise");
+        Subitem = new skmMenu.MenuItem("Capital Gain Summary DateWise");
         Subitem.Url = "CapitalGainSummeryDateWise.aspx";
         item.SubItems.Add(Subitem);
 
@@ -216,7 +216,7 @@ public partial class UI_AMCLCommon : System.Web.UI.MasterPage
         Subitem.Url = "CapitalGainCompanyWise.aspx";
         item.SubItems.Add(Subitem);
 
-        Subitem = new skmMenu.MenuItem("Company Wise Capital Gain Summery Descending");
+        Subitem = new skmMenu.MenuItem("Company Wise Capital Gain Summary Descending");
         Subitem.Url = "CapitalGainSummeryCompanyWiseDsc.aspx";
         item.SubItems.Add(Subitem);
 
