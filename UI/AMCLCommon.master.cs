@@ -143,6 +143,11 @@ public partial class UI_AMCLCommon : System.Web.UI.MasterPage
         Subitem.Url = "MarketValuationWithProfitLoss.aspx";
         item.SubItems.Add(Subitem);
 
+        Subitem = new skmMenu.MenuItem("Market Valiation With Non Listed Securites Company/All Funds");
+        Subitem.Url = "MarketValuationWithNonListedSecuritesCompanyAndAllFunds.aspx";
+        item.SubItems.Add(Subitem);
+
+
         Subitem = new skmMenu.MenuItem("Portfolio Summary (Sector Wise)");
         Subitem.Url = "PortfolioSummaryForm.aspx";
         item.SubItems.Add(Subitem);

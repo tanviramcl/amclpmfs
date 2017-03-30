@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/UI/AMCLCommon.master" AutoEventWireup="true" CodeFile="MarketValuationWithProfitLoss.aspx.cs" Inherits="UI_MarketValuationWithProfitLoss" Title="Market Valuation With Profit Loss" %>
+﻿<%@ Page Language="C#" MasterPageFile="~/UI/AMCLCommon.master" AutoEventWireup="true" CodeFile="MarketValuationWithNonListedSecuritesCompanyAndAllFunds.aspx.cs" Inherits="UI_MarketValuationWithNonListedSecuritesCompanyAndAllFunds" Title="Market Valuation With Non Listed Securites Company And All Funds" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
     
