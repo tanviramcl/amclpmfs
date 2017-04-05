@@ -12,7 +12,7 @@ using System.Web.UI.WebControls.WebParts;
 using System.Xml.Linq;
 using System.Text;
 
-public partial class UI_MarketValuationWithProfitLoss : System.Web.UI.Page
+public partial class UI_MarketValuationWithNonListedSecuritesCompanyAndAllFunds : System.Web.UI.Page
 {
     DBConnector dbConectorObj = new DBConnector();
     CommonGateway commonGatewayObj = new CommonGateway();
@@ -114,7 +114,7 @@ public partial class UI_MarketValuationWithProfitLoss : System.Web.UI.Page
             //Session["percentageCheck"] = percentageTextBox.Text.ToString();
             //Session["companyCodes"] = companyCodeTextBox.Text.ToString();
             dvGridFund.Visible = true;
-            ClientScript.RegisterStartupScript(this.GetType(), "MarketValuationWithProfitLoss", "window.open('ReportViewer/MarketValuationWithProfitLossReportViewer.aspx')", true);
+            ClientScript.RegisterStartupScript(this.GetType(), "MarketValuationWithNonListedSecuritesCompanyAndAllFunds", "window.open('ReportViewer/MarketValuationWithNonListedSecuritesCompanyAndAllFundsReportViewer.aspx')", true);
         }
     }
     //private string SelectFundCode()
