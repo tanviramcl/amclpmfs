@@ -21,7 +21,7 @@
     <asp:ScriptManager ID="ScriptManager1" EnableScriptGlobalization="true" EnableScriptLocalization="true" runat="server"></asp:ScriptManager>
     <table style="text-align: center">
         <tr>
-            <td class="FormTitle" align="center">Company Wise Capital Gain Summery Descending</td>
+            <td class="FormTitle" align="center">Company Wise Capital Gain Summary Descending</td>
             <td>
                 <br />
             </td>
