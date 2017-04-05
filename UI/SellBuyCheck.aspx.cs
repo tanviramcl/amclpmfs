@@ -45,8 +45,9 @@ public partial class UI_BalancechekReport : System.Web.UI.Page
     {
         if (fundwiseRadioButton.Checked)
         {
-            RIssuefromTextBox.Text = string.Empty;
-            RIssueToTextBox.Text = string.Empty;
+            //RIssuefromTextBox.Text = string.Empty;
+            //RIssueToTextBox.Text = string.Empty;
+            fundNameDropDownList.SelectedValue = "0";
             fundNameDropDownListlabel.Visible = true;
             fundNameDropDownList.Visible = true;
             companyNameDropDownListlabel.Visible = false;
@@ -56,8 +57,8 @@ public partial class UI_BalancechekReport : System.Web.UI.Page
         }
         else if (CompanyWiseRadioButton.Checked)
         {
-            RIssuefromTextBox.Text = string.Empty;
-            RIssueToTextBox.Text = string.Empty;
+            //RIssuefromTextBox.Text = string.Empty;
+            //RIssueToTextBox.Text = string.Empty;
             companyNameDropDownListlabel.Visible = true;
             companyNameDropDownList.Visible = true;
             fundNameDropDownListlabel.Visible = false;
@@ -67,8 +68,8 @@ public partial class UI_BalancechekReport : System.Web.UI.Page
         }
         else if (allRadioButton.Checked)
         {
-            RIssuefromTextBox.Text = string.Empty;
-            RIssueToTextBox.Text = string.Empty;
+            //RIssuefromTextBox.Text = string.Empty;
+            //RIssueToTextBox.Text = string.Empty;
             fundNameDropDownListlabel.Visible = false;
             fundNameDropDownList.Visible = false;
             companyNameDropDownListlabel.Visible = false;
@@ -78,8 +79,9 @@ public partial class UI_BalancechekReport : System.Web.UI.Page
         }
         else if (CompanywiseallRadioButton.Checked)
         {
-            RIssuefromTextBox.Text = string.Empty;
-            RIssueToTextBox.Text = string.Empty;
+            //RIssuefromTextBox.Text = string.Empty;
+            //RIssueToTextBox.Text = string.Empty;
+            fundNameDropDownList.SelectedValue = "0";
             fundNameDropDownListlabel.Visible = true;
             fundNameDropDownList.Visible = true;
             companyNameDropDownListlabel.Visible = false;
