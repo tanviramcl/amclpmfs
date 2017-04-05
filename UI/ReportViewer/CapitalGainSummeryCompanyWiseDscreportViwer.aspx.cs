@@ -35,7 +35,7 @@ public partial class UI_ReportViewer_StockDeclarationBeforePostedReportViewer : 
         sbMst.Append(sbfilter.ToString());
         dtReprtSource = commonGatewayObj.Select(sbMst.ToString());
         dtReprtSource.TableName = "CapitalGainSummeryCompanyWiseDscreport";
-        dtReprtSource.WriteXmlSchema(@"D:\officialProject\2-13-2017\amclpmfs\UI\ReportViewer\Report\CapitalGainSummeryCompanyWiseDscreport.xsd");
+     //   dtReprtSource.WriteXmlSchema(@"D:\officialProject\2-13-2017\amclpmfs\UI\ReportViewer\Report\CapitalGainSummeryCompanyWiseDscreport.xsd");
         if (dtReprtSource.Rows.Count > 0)
         {
             //string Path = Server.MapPath("~/Report/crtNegativeBalanceCheckReport.rpt");
