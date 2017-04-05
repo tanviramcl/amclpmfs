@@ -5,6 +5,13 @@
         label.error {             
             color: red;   
             display:inline-flex ;                 
+        }
+        .ui-datepicker {
+        position: relative !important;
+        top: -320px !important;
+        left: 100px !important;
+        margin-left: 390px;
+        margin-top: -15px;
         }  
     </style> 
   
@@ -112,34 +119,25 @@
    <script type="text/javascript">
 
     $(function () {
-      
 
-        $('#<%=RIssuefromTextBox.ClientID%>').datepicker({
-                changeMonth: true,
-                changeYear: true,
-               // yearRange: "2030:-2002",
-               // defaultDate: new Date(1980, 01, 01),
-                dateFormat: 'dd-M-yy',
-                onSelect: function (selected) {
-                    var dt = new Date(selected);
-                    dt.setDate(dt.getDate() - 1);
-                    $('#<%=RIssueToTextBox.ClientID%>').datepicker("option", "minDate", dt);
-                }
-        });
+          $('#<%=RIssuefromTextBox.ClientID%>').datepicker({
+                 changeMonth: true,
+                 changeYear: true,
+                 dateFormat: "dd/mm/yy",
+                 onSelect: function(selected) {
+                     $('#<%=RIssueToTextBox.ClientID%>').datepicker("option","minDate", selected)
+                 }
+             });
+             $('#<%=RIssueToTextBox.ClientID%>').datepicker({ 
+                 changeMonth: true,
+                 changeYear: true,
+                 dateFormat: "dd/mm/yy",
+                 onSelect: function(selected) {
+                     $('#<%=RIssuefromTextBox.ClientID%>').datepicker("option","maxDate", selected)
+                 }
+             });  
 
-          $('#<%=RIssueToTextBox.ClientID%>').datepicker({
-                changeMonth: true,
-                changeYear: true,
-               // yearRange: "-100:-17",
-               // defaultDate: new Date(1980, 01, 01),
-                dateFormat: 'dd-M-yy',
-                onSelect: function (selected) {
-                    var dt = new Date(selected);
-                    dt.setDate(dt.getDate() - 1);
-                    $('#<%=RIssuefromTextBox.ClientID%>').datepicker("option", "maxDate", dt);
-                }
-            });
-       
+
 
     });
 
@@ -175,13 +173,11 @@
                     <%=RIssuefromTextBox.UniqueID %>: {
                         
                         required: true,
-                        date: true,
-                        assetDate:true
+                        
                     },<%=RIssueToTextBox.UniqueID %>: {
                         
                         required: true,
-                        date: true,
-                        assetDate:true
+                       
                     },<%=fundNameDropDownList.UniqueID %>: {
                         
                         //required:true 
@@ -202,10 +198,10 @@
                 }, messages: {
                    <%=RIssuefromTextBox.UniqueID %>:{  
                        required: "*From Date  is required*",
-                       date: "* Please enter a date *"
+                       
                    },<%=RIssueToTextBox.UniqueID %>:{  
                        required: "*To Date  is required*",
-                       date: "* Please enter a date *"
+                      
                    }
                     
                     

@@ -6,15 +6,25 @@
             color: red;   
             display:inline-flex ;                 
         }  
+
+
+     .ui-datepicker {
+    position: relative !important;
+    top: -290px !important;
+    left: 100px !important;
+    margin-left: 390px;
+    margin-top: -15px;
+    }
     </style> 
   
+
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
     <%--<ajaxToolkit:ToolkitScriptManager runat="Server" EnableScriptGlobalization="true" EnableScriptLocalization="true" ID="ScriptManager1" />--%>
     <asp:ScriptManager ID="ScriptManager1" EnableScriptGlobalization="true" EnableScriptLocalization="true" runat="server"></asp:ScriptManager>
     <table style="text-align: center">
         <tr>
-            <td class="FormTitle" align="center">Capital Gain Summery Date Wise</td>
+            <td class="FormTitle" align="center">Capital Gain Summary Date Wise</td>
             <td>
                 <br />
             </td>
@@ -82,24 +92,24 @@
 
    <script type="text/javascript">
     $(function () {
-        $("#txtFrom").datepicker({
-            //numberOfMonths: 2,
-            dateFormat: 'dd-M-yy',
-            onSelect: function (selected) {
-                var dt = new Date(selected);
-                dt.setDate(dt.getDate() + 1);
-                $("#txtTo").datepicker("option", "minDate", dt);
-            }
-        });
-        $("#txtTo").datepicker({
-            // numberOfMonths: 2,
-            dateFormat: 'dd-M-yy',
-            onSelect: function (selected) {
-                var dt = new Date(selected);
-                dt.setDate(dt.getDate() - 1);
-                $("#txtFrom").datepicker("option", "maxDate", dt);
-            }
-        });
+        //$("#txtFrom").datepicker({
+        //    //numberOfMonths: 2,
+        //    dateFormat: 'dd-M-yy',
+        //    onSelect: function (selected) {
+        //        var dt = new Date(selected);
+        //        dt.setDate(dt.getDate() + 1);
+        //        $("#txtTo").datepicker("option", "minDate", dt);
+        //    }
+        //});
+        //$("#txtTo").datepicker({
+        //    // numberOfMonths: 2,
+        //    dateFormat: 'dd-M-yy',
+        //    onSelect: function (selected) {
+        //        var dt = new Date(selected);
+        //        dt.setDate(dt.getDate() - 1);
+        //        $("#txtFrom").datepicker("option", "maxDate", dt);
+        //    }
+        //});
        // $('#" + textBox.ClientID + "').datepicker(
        <%-- $('#"<%=RIssuefromTextBox.ClientID %>"').datepicker({
             // numberOfMonths: 2,
@@ -111,7 +121,7 @@
             }
         });--%>
 
-        $('#<%=RIssuefromTextBox.ClientID%>').datepicker({
+        <%--  $('#<%=RIssuefromTextBox.ClientID%>').datepicker({
                 changeMonth: true,
                 changeYear: true,
                // yearRange: "2030:-2002",
@@ -136,7 +146,25 @@
                     $('#<%=RIssuefromTextBox.ClientID%>').datepicker("option", "maxDate", dt);
                 }
             });
-       
+       --%>
+
+          $('#<%=RIssuefromTextBox.ClientID%>').datepicker({
+                 changeMonth: true,
+                 changeYear: true,
+                 dateFormat: "dd/mm/yy",
+                 onSelect: function(selected) {
+                     $('#<%=RIssueToTextBox.ClientID%>').datepicker("option","minDate", selected)
+                 }
+             });
+             $('#<%=RIssueToTextBox.ClientID%>').datepicker({ 
+                 changeMonth: true,
+                 changeYear: true,
+                 dateFormat: "dd/mm/yy",
+                 onSelect: function(selected) {
+                     $('#<%=RIssuefromTextBox.ClientID%>').datepicker("option","maxDate", selected)
+                 }
+             });  
+
 
     });
 
@@ -154,9 +182,9 @@
             return true;  
     },"* Please select trajection type");
 
-    $.validator.addMethod("assetDate", function(value, element) { 
-        return Date.parseExact(value, "dd-M-yy");
-    }),"* Please enter a date in the format!";
+    //$.validator.addMethod("assetDate", function(value, element) { 
+    //    return Date.parseExact(value, "dd-M-yy");
+    //}),"* Please enter a date in the format!";
 
     
     $("#aspnetForm").validate({
@@ -169,14 +197,12 @@
                         
                     },<%=RIssuefromTextBox.UniqueID %>: {
                         
-                        required: true,
-                        date: true,
-                        assetDate:true
+                        required: true
+                       
                     },<%=RIssueToTextBox.UniqueID %>: {
                         
-                        required: true,
-                        date: true,
-                        assetDate:true
+                        required: true
+
                     },<%=transTypeDropDownList.UniqueID %>: {
                         
                         //required:true 
@@ -186,11 +212,10 @@
               
                 }, messages: {
                    <%=RIssuefromTextBox.UniqueID %>:{  
-                       required: "*From Date  is required*",
-                       date: "* Please enter a date *"
+                       required: "*From Date  is required*"
+                    
                    },<%=RIssueToTextBox.UniqueID %>:{  
-                       required: "*To Date  is required*",
-                       date: "* Please enter a date *"
+                       required: "*To Date  is required*"
                    }
                     
                     

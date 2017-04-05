@@ -22,10 +22,10 @@ public partial class UI_BalancechekReport : System.Web.UI.Page
 
     protected void showButton_Click(object sender, EventArgs e)
     {
-      
-        string Fromdate = RIssuefromTextBox.Text.ToString();
-        string Todate = RIssueToTextBox.Text.ToString();
-       
+        
+        string Fromdate = Convert.ToDateTime(RIssuefromTextBox.Text).ToString("dd-MMM-yyyy");
+        string Todate = Convert.ToDateTime(RIssueToTextBox.Text).ToString("dd-MMM-yyyy");
+
         Response.Redirect("ReportViewer/CapitalGainSummeryCompanyWiseDscreportViwer.aspx?Fromdate=" + Fromdate + "&Todate="+Todate+ "");
 
     }

@@ -35,8 +35,8 @@ public partial class UI_BalancechekReport : System.Web.UI.Page
     protected void showButton_Click(object sender, EventArgs e)
     {
         string fundcode = fundNameDropDownList.SelectedValue.ToString();
-        string Fromdate = RIssuefromTextBox.Text.ToString();
-        string Todate = RIssueToTextBox.Text.ToString();
+        string Fromdate = Convert.ToDateTime(RIssuefromTextBox.Text).ToString("dd-MMM-yyyy");
+        string Todate = Convert.ToDateTime(RIssueToTextBox.Text).ToString("dd-MMM-yyyy");
         string transtype = transTypeDropDownList.SelectedValue.ToString();
         Response.Redirect("ReportViewer/CapitalGainCompanyWiseNewReportViwer.aspx?fundcode=" + fundcode + "&Fromdate=" + Fromdate + "&Todate="+Todate+ "&transtype="+ transtype + "");
 
