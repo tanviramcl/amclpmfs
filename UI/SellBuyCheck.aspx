@@ -124,6 +124,7 @@
                  changeMonth: true,
                  changeYear: true,
                  dateFormat: "dd/mm/yy",
+                 maxDate:"today",
                  onSelect: function(selected) {
                      $('#<%=RIssueToTextBox.ClientID%>').datepicker("option","minDate", selected)
                  }
@@ -135,9 +136,7 @@
                  maxDate:"today",
                  onSelect: function(selected) {
 
-                     <%--alert(selected);
-                     $('#<%=RIssuefromTextBox.ClientID%>').datepicker("option","maxDate", selected)--%>
-
+                    
 
                  }
              });  

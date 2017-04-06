@@ -95,20 +95,7 @@ public partial class UI_BalancechekReport : System.Web.UI.Page
 
     protected void showButton_Click(object sender, EventArgs e)
     {
-
-
-
-        //string Fromdate = Convert.ToDateTime(RIssuefromTextBox.Text).ToString("dd-MMM-yyyy");
-        //string Todate = Convert.ToDateTime(RIssueToTextBox.Text).ToString("dd-MMM-yyyy");
-
-
-        //string fundcode = fundNameDropDownList.SelectedValue.ToString();
-
-
-        //string companycode = companyNameDropDownList.SelectedValue.ToString();
-        //string transtype = transTypeDropDownList.SelectedValue.ToString();
-
-
+        
         DateTime date1 = DateTime.ParseExact(RIssuefromTextBox.Text, "dd/MM/yyyy", null);
         DateTime date2 = DateTime.ParseExact(RIssuefromTextBox.Text, "dd/MM/yyyy", null);
 
@@ -121,30 +108,7 @@ public partial class UI_BalancechekReport : System.Web.UI.Page
         Session["companycode"] = companyNameDropDownList.SelectedValue.ToString();
         Session["transtype"] = transTypeDropDownList.SelectedValue.ToString();
 
-
-
-        //if (fundwiseRadioButton.Checked && Fromdate != "" && Todate != "" && fundcode!="")
-        //{
-        //    Response.Redirect("ReportViewer/SellBuyCheckReportViwer.aspx?fundcode=" + fundcode + "&Fromdate=" + Fromdate + "&Todate=" + Todate + "");
-        //}
-        //else if (CompanyWiseRadioButton.Checked )
-        //{
-        //    Response.Redirect("ReportViewer/SellBuyCheckReportViwer.aspx?companycode=" + companycode + "&Fromdate=" + Fromdate + "&Todate=" + Todate + "&transtype=" + transtype + "");
-        //}
-        //else if (allRadioButton.Checked)
-        //{
-        //    Response.Redirect("ReportViewer/SellBuyCheckReportViwer.aspx?Fromdate=" + Fromdate + "&Todate=" + Todate + "");
-        //}
-        //else if (CompanywiseallRadioButton.Checked)
-        //{
-        //    Response.Redirect("ReportViewer/SellBuyCheckReportViwer.aspx?companycode=" + companycode + "&Fromdate=" + Fromdate + "&Todate=" + Todate + "&transtype=" + transtype + "");
-        //}
-        //else
-        //{
-        //    // ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Not valid')", true);
-        //    Labelerror.Visible = true;
-        //    Labelerror.Text = "Not Valid";
-        //}
+        
 
         ClientScript.RegisterStartupScript(this.GetType(), "SellBuyCheckReportViwer", "window.open('ReportViewer/SellBuyCheckReportViwer.aspx')", true);
 
