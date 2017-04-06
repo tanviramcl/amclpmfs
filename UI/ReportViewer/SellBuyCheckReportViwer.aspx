@@ -9,9 +9,11 @@
 <body>
     <form id="form1" runat="server">
    <div>
-        <CR:CrystalReportViewer ID="CR_SellBuyCheckReport"  Height="50px" runat="server" AutoDataBind="true" />
+        <CR:CrystalReportViewer  ID="CR_SellBuyCheckReport"  Height="50px" runat="server" AutoDataBind="true" />
     </div>
-
+     <div>
+        <CR:CrystalReportViewer  ID="CrystalReportViewerfundwise"  Height="50px" runat="server" AutoDataBind="true" />
+    </div>
     </form>
 </body>
 </html>
