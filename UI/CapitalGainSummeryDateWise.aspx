@@ -16,7 +16,6 @@
     </style> 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
-    <%--<ajaxToolkit:ToolkitScriptManager runat="Server" EnableScriptGlobalization="true" EnableScriptLocalization="true" ID="ScriptManager1" />--%>
     <asp:ScriptManager ID="ScriptManager1" EnableScriptGlobalization="true" EnableScriptLocalization="true" runat="server"></asp:ScriptManager>
     <table style="text-align: center">
         <tr>
@@ -43,7 +42,6 @@
                 <b>To Date:</b>
             </td>
             <td align="left">
-             <%--  <input type="text" id="txtTo" /><img alt="d" id="txtFrom2" src="../Image/Calendar_scheduleHS.png" />--%>
                 <asp:TextBox ID="RIssueToTextBox" runat="server" Width="100px"></asp:TextBox>
             </td>
         </tr>
@@ -63,40 +61,11 @@
      <script type="text/javascript">
          $(function () {
 
-        
-
-    <%--$('#<%=RIssuefromTextBox.ClientID%>').datepicker({
-                changeMonth: true,
-                changeYear: true,
-                dateFormat: "dd/mm/yy",
-                onSelect: function (selected) {
-                    var dt = new Date(selected);
-                  //  alert(dt);
-                  //  dt.setDate(dt.getDate()+1);
-                    //alert(dt);
-                    $('#<%=RIssueToTextBox.ClientID%>').datepicker("option", "minDate", dt.format("dd/mm/yy"));
-                }
-        });
-
-          $('#<%=RIssueToTextBox.ClientID%>').datepicker({
-                changeMonth: true,
-                changeYear: true,
-               // yearRange: "-100:-17",
-               // defaultDate: new Date(1980, 01, 01),
-                dateFormat: "dd/mm/yy",
-                onSelect: function (selected) {
-                    var dt = new Date(selected);
-                    //dt.setDate(dt.getDate()-1);
-                   // dt.format('dd-M-yy');
-                   // alert(dt);
-                    $('#<%=RIssuefromTextBox.ClientID%>').datepicker("option", "maxDate", dt.format("dd/mm/yy"));
-                }
-          });--%>
-
               $('#<%=RIssuefromTextBox.ClientID%>').datepicker({
                  changeMonth: true,
                  changeYear: true,
                  dateFormat: "dd/mm/yy",
+                 maxDate:"today",
                  onSelect: function(selected) {
                      $('#<%=RIssueToTextBox.ClientID%>').datepicker("option","minDate", selected)
                  }
@@ -107,10 +76,6 @@
                  dateFormat: "dd/mm/yy",
                  maxDate:"today",
                  onSelect: function(selected) {
-
-                     <%--alert(selected);
-                     $('#<%=RIssuefromTextBox.ClientID%>').datepicker("option","maxDate", selected)--%>
-
 
                  }
              });    
@@ -124,8 +89,7 @@
              <%=RIssuefromTextBox.UniqueID %>: {
                         
                         required: true
-                       // date: true,
-                        //assetDate:true
+                      
                     },<%=RIssueToTextBox.UniqueID %>: {
                         
                         required: true,
@@ -135,7 +99,7 @@
                 }, messages: {
                    <%=RIssuefromTextBox.UniqueID %>:{  
                        required: "*From Date  is required*"
-                      // date: "* Please enter a date *"
+                     
                    },<%=RIssueToTextBox.UniqueID %>:{  
                        required: "*To Date  is required*",
                       

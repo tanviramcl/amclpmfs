@@ -92,61 +92,7 @@
 
    <script type="text/javascript">
     $(function () {
-        //$("#txtFrom").datepicker({
-        //    //numberOfMonths: 2,
-        //    dateFormat: 'dd-M-yy',
-        //    onSelect: function (selected) {
-        //        var dt = new Date(selected);
-        //        dt.setDate(dt.getDate() + 1);
-        //        $("#txtTo").datepicker("option", "minDate", dt);
-        //    }
-        //});
-        //$("#txtTo").datepicker({
-        //    // numberOfMonths: 2,
-        //    dateFormat: 'dd-M-yy',
-        //    onSelect: function (selected) {
-        //        var dt = new Date(selected);
-        //        dt.setDate(dt.getDate() - 1);
-        //        $("#txtFrom").datepicker("option", "maxDate", dt);
-        //    }
-        //});
-       // $('#" + textBox.ClientID + "').datepicker(
-       <%-- $('#"<%=RIssuefromTextBox.ClientID %>"').datepicker({
-            // numberOfMonths: 2,
-            dateFormat: 'dd-M-yy',
-            onSelect: function (selected) {
-                var dt = new Date(selected);
-                dt.setDate(dt.getDate() - 1);
-                //$("#txtFrom").datepicker("option", "maxDate", dt);
-            }
-        });--%>
 
-        <%--  $('#<%=RIssuefromTextBox.ClientID%>').datepicker({
-                changeMonth: true,
-                changeYear: true,
-               // yearRange: "2030:-2002",
-               // defaultDate: new Date(1980, 01, 01),
-                dateFormat: 'dd-M-yy',
-                onSelect: function (selected) {
-                    var dt = new Date(selected);
-                    dt.setDate(dt.getDate() - 1);
-                    $('#<%=RIssueToTextBox.ClientID%>').datepicker("option", "minDate", dt);
-                }
-        });
-
-          $('#<%=RIssueToTextBox.ClientID%>').datepicker({
-                changeMonth: true,
-                changeYear: true,
-               // yearRange: "-100:-17",
-               // defaultDate: new Date(1980, 01, 01),
-                dateFormat: 'dd-M-yy',
-                onSelect: function (selected) {
-                    var dt = new Date(selected);
-                    dt.setDate(dt.getDate() - 1);
-                    $('#<%=RIssuefromTextBox.ClientID%>').datepicker("option", "maxDate", dt);
-                }
-            });
-       --%>
 
             $('#<%=RIssuefromTextBox.ClientID%>').datepicker({
                  changeMonth: true,
@@ -163,9 +109,7 @@
                  maxDate:"today",
                  onSelect: function(selected) {
 
-                     <%--alert(selected);
-                     $('#<%=RIssuefromTextBox.ClientID%>').datepicker("option","maxDate", selected)--%>
-
+               
 
                  }
              });   
@@ -187,10 +131,7 @@
             return true;  
     },"* Please select trajection type");
 
-    //$.validator.addMethod("assetDate", function(value, element) { 
-    //    return Date.parseExact(value, "dd-M-yy");
-    //}),"* Please enter a date in the format!";
-
+  
     
     $("#aspnetForm").validate({
         rules: {

@@ -70,37 +70,12 @@
 
    <script type="text/javascript">
     $(function () {
-      
-        <%--    $('#<%=RIssuefromTextBox.ClientID%>').datepicker({
-                changeMonth: true,
-                changeYear: true,
-               // yearRange: "2030:-2002",
-               // defaultDate: new Date(1980, 01, 01),
-                dateFormat: 'dd-M-yy',
-                onSelect: function (selected) {
-                    var dt = new Date(selected);
-                    dt.setDate(dt.getDate() - 1);
-                    $('#<%=RIssueToTextBox.ClientID%>').datepicker("option", "minDate", dt);
-                }
-        });
-
-          $('#<%=RIssueToTextBox.ClientID%>').datepicker({
-                changeMonth: true,
-                changeYear: true,
-               // yearRange: "-100:-17",
-               // defaultDate: new Date(1980, 01, 01),
-                dateFormat: 'dd-M-yy',
-                onSelect: function (selected) {
-                    var dt = new Date(selected);
-                    dt.setDate(dt.getDate() - 1);
-                    $('#<%=RIssuefromTextBox.ClientID%>').datepicker("option", "maxDate", dt);
-                }
-            });
-       --%>
+     
     $('#<%=RIssuefromTextBox.ClientID%>').datepicker({
                  changeMonth: true,
                  changeYear: true,
                  dateFormat: "dd/mm/yy",
+                 maxDate:"today",
                  onSelect: function(selected) {
                      $('#<%=RIssueToTextBox.ClientID%>').datepicker("option","minDate", selected)
                  }
@@ -112,9 +87,7 @@
                  maxDate:"today",
                  onSelect: function(selected) {
 
-                     <%--alert(selected);
-                     $('#<%=RIssuefromTextBox.ClientID%>').datepicker("option","maxDate", selected)--%>
-
+                  
 
                  }
              });  
