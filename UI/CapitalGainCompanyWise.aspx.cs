@@ -57,11 +57,12 @@ public partial class UI_BalancechekReport : System.Web.UI.Page
         // string fundcode = fundNameDropDownList.SelectedValue.ToString();
       //  string p1date1 = RIssuefromTextBox.Text.ToString();
         //string p2date = RIssueToTextBox.Text.ToString();
-        DateTime date = DateTime.ParseExact(RIssuefromTextBox.Text, "dd/MM/yyyy", null);
+        DateTime date1 = DateTime.ParseExact(RIssuefromTextBox.Text, "dd/MM/yyyy", null);
+        DateTime date2 = DateTime.ParseExact(RIssuefromTextBox.Text, "dd/MM/yyyy", null);
 
 
-        string p1date = Convert.ToDateTime(date).ToString("dd-MMM-yyyy");
-        string p2date = Convert.ToDateTime(RIssueToTextBox.Text).ToString("dd-MMM-yyyy");
+        string p1date = Convert.ToDateTime(date1).ToString("dd-MMM-yyyy");
+        string p2date = Convert.ToDateTime(date2).ToString("dd-MMM-yyyy");
         string companycode = companyNameDropDownList.SelectedValue.ToString();
         Response.Redirect("ReportViewer/CapitalGainCompanyWiseReportViwer.aspx?companycode="+companycode+"&p1date=" + p1date + "&p2date=" + p2date + "");
 

@@ -107,8 +107,16 @@ public partial class UI_BalancechekReport : System.Web.UI.Page
 
         //string companycode = companyNameDropDownList.SelectedValue.ToString();
         //string transtype = transTypeDropDownList.SelectedValue.ToString();
-        Session["Fromdate"] = Convert.ToDateTime(RIssuefromTextBox.Text).ToString("dd-MMM-yyyy");
-        Session["Todate"] = Convert.ToDateTime(RIssueToTextBox.Text).ToString("dd-MMM-yyyy");
+
+
+        DateTime date1 = DateTime.ParseExact(RIssuefromTextBox.Text, "dd/MM/yyyy", null);
+        DateTime date2 = DateTime.ParseExact(RIssuefromTextBox.Text, "dd/MM/yyyy", null);
+
+
+        string p1date = Convert.ToDateTime(date1).ToString("dd-MMM-yyyy");
+        string p2date = Convert.ToDateTime(date2).ToString("dd-MMM-yyyy");
+        Session["Fromdate"] = p1date;
+        Session["Todate"] = p2date;
         Session["fundCodes"] = fundNameDropDownList.SelectedValue.ToString();
         Session["companycode"] = companyNameDropDownList.SelectedValue.ToString();
         Session["transtype"] = transTypeDropDownList.SelectedValue.ToString();

@@ -132,10 +132,16 @@
                  changeMonth: true,
                  changeYear: true,
                  dateFormat: "dd/mm/yy",
+                 maxDate:"today",
                  onSelect: function(selected) {
-                     $('#<%=RIssuefromTextBox.ClientID%>').datepicker("option","maxDate", selected)
+
+                     <%--alert(selected);
+                     $('#<%=RIssuefromTextBox.ClientID%>').datepicker("option","maxDate", selected)--%>
+
+
                  }
              });  
+
 
 
 
