@@ -16,6 +16,7 @@ public partial class _Default : System.Web.UI.Page
 {
     CommonGateway commonGatewayObj = new CommonGateway();
     protected void Page_Load(object sender, EventArgs e)
+
     {
         //Excel.ApplicationClass app = new Excel.ApplicationClass();
         loginErrorLabel.Visible = false;
