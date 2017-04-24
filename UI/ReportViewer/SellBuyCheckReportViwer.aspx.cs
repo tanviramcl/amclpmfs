@@ -24,6 +24,7 @@ public partial class UI_ReportViewer_StockDeclarationBeforePostedReportViewer : 
         DataTable dtReprtSource = new DataTable();
         StringBuilder sbMst = new StringBuilder();
         StringBuilder sbfilter = new StringBuilder();
+        sbfilter.Append(" ");
 
 
         string Fromdate = "";
@@ -31,7 +32,7 @@ public partial class UI_ReportViewer_StockDeclarationBeforePostedReportViewer : 
         string fundCode = "";
         string companycode = "";
         string transtype = "";
-        string a = "";
+      
 
         if (Session["UserID"] == null)
         {
@@ -50,26 +51,124 @@ public partial class UI_ReportViewer_StockDeclarationBeforePostedReportViewer : 
 
         if (fundCode == "0" && companycode == "0" && transtype == "0")
         {
-           
-            a = "All";
+            sbMst.Append("select t.VCH_DT, t.F_CD  ,f.f_name,t.COMP_CD , c.comp_nm,c.comp_nm  || '('|| t.COMP_CD|| ')',t.TRAN_TP , decode ( t.TRAN_TP, 'C', 'Cost','S','Sell','B','Bonus','R','Right','P','IPO') tran_type,");
+            sbMst.Append(" t.VCH_NO, t.NO_SHARE, t.RATE ,t.COST_RATE, t.CRT_AFT_COM , t.AMOUNT , t.AMT_AFT_COM,ROUND(t.AMT_AFT_COM/t.NO_SHARE ,2)avg_rate,t.STOCK_EX ,decode(t.STOCK_EX,'D','DSE','C','CSE',' ALL') stock_name,t.OP_NAME   from fund_trans_hb t,comp c , fund f");
+            sbMst.Append(" where vch_dt between '" + Fromdate + "' and '" + Todate + "' and c.comp_cd=t.comp_cd and f.f_cd=t.f_cd order by t.f_cd, tran_tp,t.VCH_DT");
+            sbMst.Append(sbfilter.ToString());
+            dtReprtSource = commonGatewayObj.Select(sbMst.ToString());
+            dtReprtSource.TableName = "SellBuyCheckReport";
+            //dtReprtSource.WriteXmlSchema(@"D:\officialProject\4-5-2017\amclpmfs\UI\ReportViewer\Report\CR_SellBuyCheckReport.xsd");
+            if (dtReprtSource.Rows.Count > 0)
+            {
+
+                string Path = Server.MapPath("Report/CR_SellBuyCheckReport.rpt");
+                rdoc.Load(Path);
+                rdoc.SetDataSource(dtReprtSource);
+                CR_SellBuyCheckReport.ReportSource = rdoc;
+                CR_SellBuyCheckReport.DisplayToolbar = true;
+                CR_SellBuyCheckReport.HasExportButton = true;
+                CR_SellBuyCheckReport.HasPrintButton = true;
+                rdoc.SetParameterValue("Fromdate", Fromdate);
+                rdoc.SetParameterValue("Todate", Todate);
+                rdoc = ReportFactory.GetReport(rdoc.GetType());
+
+            }
+            else
+            {
+                Response.Write("No Data Found");
+            }
+
         }
         else if (fundCode != "0" && companycode == "0" && transtype == "0")
         {
-            a = "" + fundCode;
+            sbMst.Append("select t.VCH_DT, t.F_CD  , f.f_name fund_name,t.COMP_CD , c.comp_nm,c.comp_nm  || '('|| t.COMP_CD|| ')',t.TRAN_TP , decode ( t.TRAN_TP, 'C', 'Cost','S','Sell','B','Bonus',' ') tran_type,");
+            sbMst.Append(" t.VCH_NO, t.NO_SHARE, t.RATE ,t.COST_RATE, t.CRT_AFT_COM , t.AMOUNT , t.AMT_AFT_COM,ROUND(t.AMT_AFT_COM/t.NO_SHARE,2) as avg_rate,t.STOCK_EX ,");
+            sbMst.Append(" decode(t.STOCK_EX,'D','DSE','C','CSE',' ') stock_name, t.OP_NAME   from fund_trans_hb t,comp c , fund f where vch_dt between '" + Fromdate + "' and '" + Todate + "' and c.comp_cd=t.comp_cd and t.f_cd='" + fundCode + "' and t.f_cd=f.f_cd order by t.f_cd, tran_tp,t.VCH_DT");
+            sbMst.Append(sbfilter.ToString());
+            dtReprtSource = commonGatewayObj.Select(sbMst.ToString());
+            dtReprtSource.TableName = "SellBuyCheckReportfundwise";
+            // dtReprtSource.WriteXmlSchema(@"D:\officialProject\4-5-2017\amclpmfs\UI\ReportViewer\Report\CR_SellBuyCheckReportfundwise.xsd");
+            if (dtReprtSource.Rows.Count > 0)
+            {
+                string Path = Server.MapPath("Report/CR_SellBuyCheckReportfundwise.rpt");
+                rdoc.Load(Path);
+                rdoc.SetDataSource(dtReprtSource);
+                CR_SellBuyCheckReport.ReportSource = rdoc;
+                CR_SellBuyCheckReport.DisplayToolbar = true;
+                CR_SellBuyCheckReport.HasExportButton = true;
+                CR_SellBuyCheckReport.HasPrintButton = true;
+                rdoc.SetParameterValue("Fromdate", Fromdate);
+                rdoc.SetParameterValue("Todate", Todate);
+                rdoc = ReportFactory.GetReport(rdoc.GetType());
+
+            }
+            else
+            {
+                Response.Write("No Data Found");
+            }
+
         }
         else if (fundCode == "0" && companycode != "0" && transtype == "0")
         {
-            a = "" + companycode;
+            sbMst.Append("select t.VCH_DT, t.F_CD  ,  f.f_name fund_name, t.COMP_CD , c.comp_nm, c.comp_nm  || '('|| t.COMP_CD|| ')',t.TRAN_TP , decode ( t.TRAN_TP, 'C', 'Cost','S','Sale','B','Bonus','I','IPO','R','Right','D','Split',' ') tran_type,");
+            sbMst.Append(" t.VCH_NO, t.NO_SHARE, t.RATE ,t.COST_RATE, t.CRT_AFT_COM , t.AMOUNT , t.AMT_AFT_COM,ROUND(t.AMT_AFT_COM/t.NO_SHARE,2) as avg_rate,t.STOCK_EX ,decode(t.STOCK_EX,'D','DSE','C','CSE',' ') stock_name,t.OP_NAME ");
+            sbMst.Append(" from fund_trans_hb t,comp c, fund f where vch_dt between '" + Fromdate + "' and '" + Todate + "' and c.comp_cd=t.comp_cd and c.comp_cd='" + companycode + "' and t.NO_SHARE>=1 and f.f_cd=t.f_cd order by t.f_cd, tran_tp,t.VCH_DT");
+            sbMst.Append(sbfilter.ToString());
+            dtReprtSource = commonGatewayObj.Select(sbMst.ToString());
+            dtReprtSource.TableName = "CR_SellBuyCheckReportcompanywise";
+            dtReprtSource.WriteXmlSchema(@"D:\officialProject\4-5-2017\amclpmfs\UI\ReportViewer\Report\CR_SellBuyCheckReportCompanywise2.xsd");
+            if (dtReprtSource.Rows.Count > 0)
+            {
+                string Path = Server.MapPath("Report/CR_SellBuyCheckReportcompanywise.rpt");
+                rdoc.Load(Path);
+                rdoc.SetDataSource(dtReprtSource);
+                CR_SellBuyCheckReport.ReportSource = rdoc;
+                CR_SellBuyCheckReport.DisplayToolbar = true;
+                CR_SellBuyCheckReport.HasExportButton = true;
+                CR_SellBuyCheckReport.HasPrintButton = true;
+                rdoc.SetParameterValue("Fromdate", Fromdate);
+                rdoc.SetParameterValue("Todate", Todate);
+                rdoc = ReportFactory.GetReport(rdoc.GetType());
+
+            }
+            else
+            {
+                Response.Write("No Data Found");
+            }
         }
         else if (fundCode != "0" && companycode == "0" && transtype != "0")
         {
-            a = "" + fundCode + "" + transtype;
+            sbMst.Append("SELECT  f.F_CD, f.comp_cd, c.comp_nm, decode(f.f_cd, 1,'ICB Asset Management Company Ltd.',2, 'ICB AMCL Unit Fund',3, 'ICB AMCL First Mutual Fund', 4,'ICB AMCL Pension Holders'' Unit Fund',5,'ICB AMCL Islamic Mutual Fund',6, 'ICB AMCL First NRB Mutual Fund') fund_name,");
+            sbMst.Append(" SUM(AMT_AFT_COM) as purchase, sum(no_share) as No_Of_Share   FROM FUND_TRANS_HB f, comp c WHERE F.TRAN_TP= '" + transtype + "' AND VCH_DT BETWEEN '" + Fromdate + "' AND '" + Todate + "' ");
+            sbMst.Append(" and f_cd='" + fundCode + "' and c.comp_cd=f.comp_cd GROUP BY f.F_CD,f.comp_cd ,c.comp_nm");
+            sbMst.Append(sbfilter.ToString());
+            dtReprtSource = commonGatewayObj.Select(sbMst.ToString());
+            dtReprtSource.TableName = "SellBuyCheckReportcompanywiseALL";
+            dtReprtSource.WriteXmlSchema(@"D:\officialProject\4-5-2017\amclpmfs\UI\ReportViewer\Report\CR_SellBuyCheckReportcompanywiseALL.xsd");
+            if (dtReprtSource.Rows.Count > 0)
+            {
+                string Path = Server.MapPath("Report/CR_SellBuyCheckReportcompanywiseALL.rpt");
+                rdoc.Load(Path);
+                rdoc.SetDataSource(dtReprtSource);
+                CR_SellBuyCheckReport.ReportSource = rdoc;
+                CR_SellBuyCheckReport.DisplayToolbar = true;
+                CR_SellBuyCheckReport.HasExportButton = true;
+                CR_SellBuyCheckReport.HasPrintButton = true;
+                rdoc.SetParameterValue("Fromdate", Fromdate);
+                rdoc.SetParameterValue("Todate", Todate);
+                rdoc = ReportFactory.GetReport(rdoc.GetType());
+
+            }
+            else
+            {
+                Response.Write("No Data Found");
+            }
+
         }
-
-
-
-
-        sbMst.Append(sbfilter.ToString());
+        else
+        {
+            Response.Write("No Data Found");
+        }
 
 
     }

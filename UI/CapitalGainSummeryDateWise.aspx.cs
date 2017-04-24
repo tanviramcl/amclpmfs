@@ -28,7 +28,7 @@ public partial class UI_BalancechekReport : System.Web.UI.Page
         //string p1date = Convert.ToDateTime(RIssuefromTextBox.Text).ToString("dd-MMM-yyyy");
         //string p2date = Convert.ToDateTime(RIssueToTextBox.Text).ToString("dd-MMM-yyyy");
         DateTime date1 = DateTime.ParseExact(RIssuefromTextBox.Text, "dd/MM/yyyy", null);
-        DateTime date2 = DateTime.ParseExact(RIssuefromTextBox.Text, "dd/MM/yyyy", null);
+        DateTime date2 = DateTime.ParseExact(RIssueToTextBox.Text, "dd/MM/yyyy", null);
 
 
         string p1date = Convert.ToDateTime(date1).ToString("dd-MMM-yyyy");
