@@ -42,7 +42,7 @@
                          <asp:DropDownList ID="PortfolioAsOnDropDownList" runat="server" TabIndex="8"></asp:DropDownList>
                          <span class="style6">*</span>
                      </td>
-           </tr>
+                 </tr>
                  <tr>
 
                      <td align="center" colspan="2">

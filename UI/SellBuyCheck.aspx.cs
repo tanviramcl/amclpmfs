@@ -70,6 +70,7 @@ public partial class UI_BalancechekReport : System.Web.UI.Page
         {
             //RIssuefromTextBox.Text = string.Empty;
             //RIssueToTextBox.Text = string.Empty;
+            fundNameDropDownList.SelectedValue = "0";
             fundNameDropDownListlabel.Visible = false;
             fundNameDropDownList.Visible = false;
             companyNameDropDownListlabel.Visible = false;

@@ -257,8 +257,13 @@ public partial class UI_AMCLCommon : System.Web.UI.MasterPage
             Subitem = new skmMenu.MenuItem("Quarterly");
             Subitem.Url = "QuarterlyReportToSEC.aspx";
             item.SubItems.Add(Subitem);
+
             Subitem = new skmMenu.MenuItem("Investment by the MF as per SEC Rules");
             Subitem.Url = "InvestmentByMFasPerSECrulesReportForm.aspx";
+            item.SubItems.Add(Subitem);
+
+            Subitem = new skmMenu.MenuItem("Sec Invesment Sector Wise Details");
+            Subitem.Url = "SecInvesmentSectorwiseDetails.aspx";
             item.SubItems.Add(Subitem);
             mnuMenu.Items.Add(item);
             
@@ -284,9 +289,21 @@ public partial class UI_AMCLCommon : System.Web.UI.MasterPage
             Subitem.Url = "ReportViewer/SelectionScaleCalculation.aspx";
             item.SubItems.Add(Subitem);
             mnuMenu.Items.Add(item);
+            //psdr menu
+            item = new skmMenu.MenuItem("MOMS");
+            Subitem = new skmMenu.MenuItem("PSDR For Portfolio");
+            Subitem.Url = "PSDRForPortfolio.aspx";
+            item.SubItems.Add(Subitem);
 
-            //Logout
-            item = new skmMenu.MenuItem("Logout");
+            Subitem = new skmMenu.MenuItem("Demat Comp");
+            Subitem.Url = "DematComp.aspx";
+            item.SubItems.Add(Subitem);
+
+        mnuMenu.Items.Add(item);
+
+
+        //Logout
+           item = new skmMenu.MenuItem("Logout");
             item.Url = "../Default.aspx";
             mnuMenu.Items.Add(item);
     }

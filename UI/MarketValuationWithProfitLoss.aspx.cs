@@ -100,11 +100,11 @@ public partial class UI_MarketValuationWithProfitLoss : System.Web.UI.Page
     }
     protected void showReportButton_Click(object sender, EventArgs e)
     {
-    Session["fundCodes"] = SelectFundCode();
+           Session["fundCodes"] = SelectFundCode();
 
         if (string.IsNullOrEmpty(Session["fundCodes"] as string))
         {
-            ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Please check mark at least one fund!');", true);
+            //ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Please check mark at least one fund!');", true);
             dvGridFund.Visible = true;
         }
         else
