@@ -264,7 +264,11 @@ public partial class UI_AMCLCommon : System.Web.UI.MasterPage
             Subitem = new skmMenu.MenuItem("Investment by the MF as per SEC Rules");
             Subitem.Url = "InvestmentByMFasPerSECrulesReportForm.aspx";
             item.SubItems.Add(Subitem);
-
+        
+            Subitem = new skmMenu.MenuItem("Sec Info Summary");
+            Subitem.Url = "SecInfosummary.aspx";
+            item.SubItems.Add(Subitem);
+           
             Subitem = new skmMenu.MenuItem("Sec Invesment Sector Wise Details");
             Subitem.Url = "SecInvesmentSectorwiseDetails.aspx";
             item.SubItems.Add(Subitem);

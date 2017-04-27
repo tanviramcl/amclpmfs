@@ -119,7 +119,7 @@ public partial class UI_AssetPercentageNAVSummaryAndPortfolioReportViewer : Syst
         if (dtReprtSource.Rows.Count > 0)
         {
             dtReprtSource.TableName = "AsstPerNAVSummaryAndPortfolio";
-            dtReprtSource.WriteXmlSchema(@"E:\iamclpfmsnew\amclpmfs\UI\ReportViewer\Report\xsdAsstPerNAVSummaryAndPortfolio.xsd");
+           // dtReprtSource.WriteXmlSchema(@"E:\iamclpfmsnew\amclpmfs\UI\ReportViewer\Report\xsdAsstPerNAVSummaryAndPortfolio.xsd");
                        
             string Path = "";
             if (string.Compare(statementType, "Summary (Total Asset Value)", true) == 0)
