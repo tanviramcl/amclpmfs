@@ -249,6 +249,15 @@ public partial class UI_AMCLCommon : System.Web.UI.MasterPage
         //item.SubItems.Add(Subitem);
         //mnuMenu.Items.Add(item);
 
+
+        //reports Accounce
+        // C
+        item = new skmMenu.MenuItem("Reports(Accounts)");
+        Subitem = new skmMenu.MenuItem("Receivable/Payable(DSE and CSE Separate)");
+        Subitem.Url = "ReceivablePayableDSEandCSESeparate.aspx";
+        item.SubItems.Add(Subitem);
+        mnuMenu.Items.Add(item);
+
         //Report to SEC Menue
         item = new skmMenu.MenuItem("SEC Report");
             Subitem = new skmMenu.MenuItem("Daily");
