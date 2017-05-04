@@ -1,21 +1,16 @@
 ﻿using System;
-using System.Collections;
-using System.Configuration;
-using System.Data;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using System.Web.Security;
 using System.Web.UI;
-using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
-using System.Web.UI.WebControls.WebParts;
-using System.Xml.Linq;
 using System.Text;
+using System.Data;
 
-public partial class UI_InvestmentByMFasPerSECrulesReportForm : System.Web.UI.Page
+public partial class UI_BalancechekReport : System.Web.UI.Page
 {
-    CommonGateway commonGatewayObj = new CommonGateway();
     DropDownList dropDownListObj = new DropDownList();
+    CommonGateway commonGatewayObj = new CommonGateway();
     protected void Page_Load(object sender, EventArgs e)
     {
         if (Session["UserID"] == null)
@@ -23,8 +18,9 @@ public partial class UI_InvestmentByMFasPerSECrulesReportForm : System.Web.UI.Pa
             Session.RemoveAll();
             Response.Redirect("../Default.aspx");
         }
-        DataTable dtHowlaDateDropDownList = dropDownListObj.HowlaDateDropDownList();
         DataTable dtFundNameDropDownList = dropDownListObj.FundNameDropDownList();
+
+        DataTable dtPortfolioAsOnDropDownList = BalanceDateDropDownList();
         if (!IsPostBack)
         {
             fundNameDropDownList.DataSource = dtFundNameDropDownList;
@@ -32,35 +28,47 @@ public partial class UI_InvestmentByMFasPerSECrulesReportForm : System.Web.UI.Pa
             fundNameDropDownList.DataValueField = "F_CD";
             fundNameDropDownList.DataBind();
 
-            portfolioAsOnDropDownList.DataSource = dtHowlaDateDropDownList;
-            portfolioAsOnDropDownList.DataTextField = "Howla_Date";
-            portfolioAsOnDropDownList.DataValueField = "VCH_DT";
-            portfolioAsOnDropDownList.DataBind();
+            PortfolioAsOnDropDownList.DataSource = dtPortfolioAsOnDropDownList;
+            PortfolioAsOnDropDownList.DataTextField = "Balance_Date";
+            PortfolioAsOnDropDownList.DataValueField = "bal_dt_ctrl";
+            PortfolioAsOnDropDownList.DataBind();
+
         }
-        showButton.Visible = false;
+       
+      
     }
+
     protected void showButton_Click(object sender, EventArgs e)
     {
-        Session["fundCode"] = fundNameDropDownList.SelectedValue.ToString();
-        Session["balDate"] = portfolioAsOnDropDownList.SelectedValue.ToString();
-        Session["assetValue"] = assetValueTextBox.Text;
-        //ClientScript.RegisterStartupScript(this.GetType(), "InvestmentByMFasPerSECrulesReportViewer", "window.open('ReportViewer/InvestmentByMFasPerSECrulesReportViewer.aspx')", true);
-        ScriptManager.RegisterStartupScript(this.Page,this.Page.GetType(), "SecInvesmentSectorwiseDetailsReportViewer", "window.open('ReportViewer/InvestmentByMFasPerSECrulesReportViewer.aspx')", true);
-        showButton.Visible = false;
+
+        string fundcode = fundNameDropDownList.SelectedValue.ToString();
+        string blncdate = PortfolioAsOnDropDownList.Text.ToString();
+
+        Session["fundCode"] = fundcode;
+        Session["balDate"] = blncdate;
+        Session["fundName"] = fundNameDropDownList.SelectedItem.Text.ToString();
+        ClientScript.RegisterStartupScript(this.GetType(), "SecInvesmentSectorwiseReportViewer", "window.open('ReportViewer/SecInvesmentSectorwiseReportViewer.aspx')", true);
     }
-    protected void showTotalAssetButton_Click(object sender, EventArgs e)
+
+    public DataTable BalanceDateDropDownList()//Get Howla Date from invest.fund_trans_hb Table
     {
-        showButton.Visible = true;
-        DataTable dtAssetValue = new DataTable();
-        StringBuilder sbMst = new StringBuilder();
-        sbMst.Append(" SELECT      SUM(COSTPRICE) AS ASSET_VALUE ");
-        sbMst.Append(" FROM         NAV.NAV_DETAILS ");
-        sbMst.Append(" WHERE     (NAVROWTYPE = 'A') AND (navfundid = " + fundNameDropDownList.SelectedValue + ") and (NAVNO = ");
-        sbMst.Append(" (SELECT     MAX(NAVNO) AS EXPR1 ");
-        sbMst.Append(" FROM          NAV.NAV_MASTER NAV_MASTER_1 ");
-        sbMst.Append(" WHERE      (NAVFUNDID = " + fundNameDropDownList.SelectedValue + ") AND (NAVDATE <= '" + portfolioAsOnDropDownList.SelectedValue + "'))) ");
-        dtAssetValue = commonGatewayObj.Select(sbMst.ToString());
-        assetValueTextBox.Text = dtAssetValue.Rows[0][0].ToString();
-        fundCodeTextBox.Text = fundNameDropDownList.SelectedValue.ToString();
+        DataTable dtHowlaDate = commonGatewayObj.Select("select distinct bal_dt_ctrl from pfolio_bk order by bal_dt_ctrl desc");
+        DataTable dtHowlaDateDropDownList = new DataTable();
+        dtHowlaDateDropDownList.Columns.Add("Balance_Date", typeof(string));
+        dtHowlaDateDropDownList.Columns.Add("bal_dt_ctrl", typeof(string));
+        DataRow dr = dtHowlaDateDropDownList.NewRow();
+        dr["Balance_Date"] = "--Select--";
+        dr["bal_dt_ctrl"] = "0";
+        dtHowlaDateDropDownList.Rows.Add(dr);
+        for (int loop = 0; loop < dtHowlaDate.Rows.Count; loop++)
+        {
+            dr = dtHowlaDateDropDownList.NewRow();
+            dr["Balance_Date"] = Convert.ToDateTime(dtHowlaDate.Rows[loop]["bal_dt_ctrl"]).ToString("dd-MMM-yyyy");
+            dr["bal_dt_ctrl"] = Convert.ToDateTime(dtHowlaDate.Rows[loop]["bal_dt_ctrl"]).ToString("dd-MMM-yyyy");
+            dtHowlaDateDropDownList.Rows.Add(dr);
+        }
+        return dtHowlaDateDropDownList;
     }
+
+
 }

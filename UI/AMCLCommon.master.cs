@@ -232,9 +232,9 @@ public partial class UI_AMCLCommon : System.Web.UI.MasterPage
         Subitem.Url = "SellBuyCheck.aspx";
         item.SubItems.Add(Subitem);
 
-        Subitem = new skmMenu.MenuItem("Test Report");
-        Subitem.Url = "testFundTransactionHBReport.aspx";
-        item.SubItems.Add(Subitem);
+        //Subitem = new skmMenu.MenuItem("Test Report");
+        //Subitem.Url = "testFundTransactionHBReport.aspx";
+        //item.SubItems.Add(Subitem);
 
         mnuMenu.Items.Add(item);
 
@@ -248,6 +248,34 @@ public partial class UI_AMCLCommon : System.Web.UI.MasterPage
         //Subitem.Url = "GeneralReport.aspx";
         //item.SubItems.Add(Subitem);
         //mnuMenu.Items.Add(item);
+
+
+        //reports Accounce
+        // C
+        item = new skmMenu.MenuItem("Reports(Accounts)");
+
+        Subitem = new skmMenu.MenuItem("Receivable/Payable(DSE and CSE Separate)");
+        Subitem.Url = "ReceivablePayableDSEandCSESeparate.aspx";
+        item.SubItems.Add(Subitem);
+
+        Subitem = new skmMenu.MenuItem("Sell Buy Fundwise Reconcilation");
+        Subitem.Url = "ReceivablePayableFundWise.aspx";
+        item.SubItems.Add(Subitem);
+
+        Subitem = new skmMenu.MenuItem("Reconcilation DR/CR");
+        Subitem.Url = "ReconcilationDrandCR.aspx";
+        item.SubItems.Add(Subitem);
+
+
+        Subitem = new skmMenu.MenuItem("Capital Gain Summary Stock Wise");
+        Subitem.Url = "CapitalGainSummaryStockWise.aspx";
+        item.SubItems.Add(Subitem);
+
+        Subitem = new skmMenu.MenuItem("Statement Of Profit On Sale Of Investment");
+        Subitem.Url = "StatementOfProfitOnSaleOfInvestment.aspx";
+        item.SubItems.Add(Subitem);
+
+        mnuMenu.Items.Add(item);
 
         //Report to SEC Menue
         item = new skmMenu.MenuItem("SEC Report");
@@ -264,7 +292,11 @@ public partial class UI_AMCLCommon : System.Web.UI.MasterPage
             Subitem = new skmMenu.MenuItem("Investment by the MF as per SEC Rules");
             Subitem.Url = "InvestmentByMFasPerSECrulesReportForm.aspx";
             item.SubItems.Add(Subitem);
-
+        
+            Subitem = new skmMenu.MenuItem("Sec Info Summary");
+            Subitem.Url = "SecInfosummary.aspx";
+            item.SubItems.Add(Subitem);
+           
             Subitem = new skmMenu.MenuItem("Sec Invesment Sector Wise Details");
             Subitem.Url = "SecInvesmentSectorwiseDetails.aspx";
             item.SubItems.Add(Subitem);

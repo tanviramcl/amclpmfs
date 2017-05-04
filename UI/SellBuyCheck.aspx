@@ -53,6 +53,7 @@
         </tr>
         <tr>
             <td align="right">Statement Type:&nbsp; </td>
+
             <td align="left">
                 <asp:RadioButton ID="allRadioButton"  runat="server" Text="All" Checked="true"
                     GroupName="statementType" Font-Bold="true" AutoPostBack="true"  TabIndex="2" OnCheckedChanged="radio_CheckedChanged" />
