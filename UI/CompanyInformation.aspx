@@ -124,8 +124,8 @@
                     <asp:DropDownList ID="groupDropDownList" Width="100px" runat="server"
                         TabIndex="3">
                         <asp:ListItem Text="--Select--" Value="0"></asp:ListItem>
-                        <asp:ListItem Text="A Group" Value="A"></asp:ListItem>
-                        <asp:ListItem Text="B Group" Value="B"></asp:ListItem>
+                        <asp:ListItem Text="A Group" Value="N"></asp:ListItem>
+                        <asp:ListItem Text="B Group" Value="R"></asp:ListItem>
                         <asp:ListItem Text="Z Group" Value="Z"></asp:ListItem>
 
 
