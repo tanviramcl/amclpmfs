@@ -72,7 +72,7 @@ public partial class UI_ReportViewer_NonDemateSharesCheckReportViwer : System.We
             sbMst.Append(sbfilter.ToString());
             dtReprtSource = commonGatewayObj.Select(sbMst.ToString());
             dtReprtSource.TableName = "SecInfoSummaryIPO";
-            dtReprtSource.WriteXmlSchema(@"D:\officialProject\4-5-2017\amclpmfs\UI\ReportViewer\Report\CR_SecInfoSummaryIPOReport.xsd");
+          //  dtReprtSource.WriteXmlSchema(@"D:\officialProject\4-5-2017\amclpmfs\UI\ReportViewer\Report\CR_SecInfoSummaryIPOReport.xsd");
             if (dtReprtSource.Rows.Count > 0)
             {
 
@@ -131,7 +131,7 @@ public partial class UI_ReportViewer_NonDemateSharesCheckReportViwer : System.We
             sbMst.Append(sbfilter.ToString());
             dtReprtSource = commonGatewayObj.Select(sbMst.ToString());
             dtReprtSource.TableName = "SecInfoSummarySell";
-            dtReprtSource.WriteXmlSchema(@"D:\officialProject\4-5-2017\amclpmfs\UI\ReportViewer\Report\CR_SecInfoSummarySellReport.xsd");
+           // dtReprtSource.WriteXmlSchema(@"D:\officialProject\4-5-2017\amclpmfs\UI\ReportViewer\Report\CR_SecInfoSummarySellReport.xsd");
             if (dtReprtSource.Rows.Count > 0)
             {
 

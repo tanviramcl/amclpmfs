@@ -43,7 +43,7 @@ public partial class UI_ReportViewer_NonDemateSharesCheckReportViwer : System.We
             sbMst.Append(sbfilter.ToString());
             dtReprtSource = commonGatewayObj.Select(sbMst.ToString());
             dtReprtSource.TableName = "CapitalGainSummaryStockWise";
-            dtReprtSource.WriteXmlSchema(@"D:\officialProject\4-5-2017\amclpmfs\UI\ReportViewer\Report\CR_CapitalGainSummaryStockWiseReport.xsd");
+           // dtReprtSource.WriteXmlSchema(@"D:\officialProject\4-5-2017\amclpmfs\UI\ReportViewer\Report\CR_CapitalGainSummaryStockWiseReport.xsd");
             if (dtReprtSource.Rows.Count > 0)
             {
 

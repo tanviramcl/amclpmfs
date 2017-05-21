@@ -46,20 +46,7 @@ public partial class DateWiseTransaction : System.Web.UI.Page
         }
     }
 
-    protected void txtHowlaDateFrom_TextChanged(object sender, EventArgs e)
-    {
-
-    }
-
-    protected void txtLastHowlaDate_TextChanged(object sender, EventArgs e)
-    {
-
-    }
-
-    protected void txtHowlaDateTo_TextChanged(object sender, EventArgs e)
-    {
-
-    }
+  
 
 
 
@@ -556,6 +543,21 @@ public partial class DateWiseTransaction : System.Web.UI.Page
 
     }
 }
+
+    protected void txtLastHowlaDate_TextChanged(object sender, EventArgs e)
+    {
+
+    }
+
+    protected void txtHowlaDateFrom_TextChanged(object sender, EventArgs e)
+    {
+
+    }
+
+    protected void txtHowlaDateTo_TextChanged(object sender, EventArgs e)
+    {
+
+    }
 }
 
 
