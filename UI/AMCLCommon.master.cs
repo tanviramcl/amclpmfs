@@ -329,9 +329,24 @@ public partial class UI_AMCLCommon : System.Web.UI.MasterPage
             Subitem = new skmMenu.MenuItem("PSDR For Portfolio");
             Subitem.Url = "PSDRForPortfolio.aspx";
             item.SubItems.Add(Subitem);
-
+            Subitem = new skmMenu.MenuItem("Company Information For CDS");
+            Subitem.Url = "CompanyInformationForCDS.aspx";
+            item.SubItems.Add(Subitem);
+        
             Subitem = new skmMenu.MenuItem("Demat Comp");
             Subitem.Url = "DematComp.aspx";
+            item.SubItems.Add(Subitem);
+
+            Subitem = new skmMenu.MenuItem("Demat List");
+            Subitem.Url = "DematList.aspx";
+            item.SubItems.Add(Subitem);
+
+            Subitem = new skmMenu.MenuItem("Single Demat(Fund)");
+            Subitem.Url = "SingleDemat.aspx";
+            item.SubItems.Add(Subitem);
+
+            Subitem = new skmMenu.MenuItem("Group Demat(Fund)");
+            Subitem.Url = "GroupDemat.aspx";
             item.SubItems.Add(Subitem);
 
         mnuMenu.Items.Add(item);

@@ -43,7 +43,7 @@ public partial class UI_ReportViewer_NonDemateSharesCheckReportViwer : System.We
             sbMst.Append(sbfilter.ToString());
             dtReprtSource = commonGatewayObj.Select(sbMst.ToString());
             dtReprtSource.TableName = "ReceivablePayableDSEandCSESeparate";
-            dtReprtSource.WriteXmlSchema(@"D:\officialProject\4-5-2017\amclpmfs\UI\ReportViewer\Report\CR_ReceivablePayableDSEandCSESeparateReportVeiwerReport.xsd");
+           // dtReprtSource.WriteXmlSchema(@"D:\officialProject\4-5-2017\amclpmfs\UI\ReportViewer\Report\CR_ReceivablePayableDSEandCSESeparateReportVeiwerReport.xsd");
             if (dtReprtSource.Rows.Count > 0)
             {
 

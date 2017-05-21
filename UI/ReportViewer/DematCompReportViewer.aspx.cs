@@ -58,7 +58,7 @@ public partial class UI_ReportViewer_StockDeclarationBeforePostedReportViewer : 
       
         dtReprtSource = commonGatewayObj.Select(strSQL);
         dtReprtSource.TableName = "DematCompReport";
-        dtReprtSource.WriteXmlSchema(@"D:\officialProject\4-5-2017\amclpmfs\UI\ReportViewer\Report\CR_DematComp.xsd");
+      //  dtReprtSource.WriteXmlSchema(@"D:\officialProject\4-5-2017\amclpmfs\UI\ReportViewer\Report\CR_DematComp.xsd");
         if (dtReprtSource.Rows.Count > 0)
         {
             string Path = Server.MapPath("Report/crpdematCompReport.rpt");

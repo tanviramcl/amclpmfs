@@ -16,7 +16,7 @@
     </table>
       <table style="text-align: center">
         <tr>
-            <td align="right" style="font-weight: 700"><b>P Date 1:</b></td>
+            <td align="right" style="font-weight: 700"><b>From Date:</b></td>
             <td align="left">
                 <asp:DropDownList ID="p1dateDropDownList" runat="server" TabIndex="6"
                     OnSelectedIndexChanged="p1dateDropDownList_SelectedIndexChanged">
@@ -24,7 +24,7 @@
             </td>
         </tr>
           <tr>
-            <td align="right" style="font-weight: 700"><b>P Date 2:</b></td>
+            <td align="right" style="font-weight: 700"><b>To date:</b></td>
             <td align="left">
                 <asp:DropDownList ID="p2dateDropDownList" runat="server" TabIndex="6"
                     OnSelectedIndexChanged="p2dateDropDownList_SelectedIndexChanged">
