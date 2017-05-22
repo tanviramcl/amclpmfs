@@ -44,18 +44,18 @@
 
 
                     <td align="left">
-                        <b>Allotment No. </b>
-                    </td>
-                    <td align="left">
-                        <asp:TextBox ID="AllotmentNoTextBox" runat="server" Width="100px" AutoPostBack="true"></asp:TextBox>
-                    </td>
-                    <td align="left">
                         <b>Certificate No</b>
                     </td>
                     <td align="left">
                         <asp:TextBox ID="certificateNoTextBox" runat="server" Width="100px" AutoPostBack="true" OnTextChanged="certificateNoTextBox_TextChanged"></asp:TextBox>
                     </td>
-
+                    
+                    <td align="left">
+                        <b>Allotment No. </b>
+                    </td>
+                    <td align="left">
+                        <asp:TextBox ID="AllotmentNoTextBox" runat="server"  Width="100px" AutoPostBack="true" OnTextChanged="AllotmentNoTextBox_TextChanged"></asp:TextBox>
+                    </td>
                 </tr>
                 <tr>
                     <td align="left">
@@ -140,10 +140,17 @@
 
                 <tr>
 
-                    <td align="center" colspan="6">
+                    <td align="center" >
                         <asp:Button ID="saveButton" runat="server" Text="Save"
                             CssClass="buttoncommon" TabIndex="48"
                             OnClick="saveButton_Click" />
+
+
+                    </td>
+                     <td align="center" >
+                        <asp:Button ID="deleteButton" runat="server" Visible ="false" Text="Delete"
+                            CssClass="buttoncommon" TabIndex="48"
+                            OnClick="deleteButton_Click" />
 
 
                     </td>
@@ -206,11 +213,11 @@
                         
                         required: true
                         
-                    }, <%=AllotmentNoTextBox.UniqueID %>: {
+                    }<%--, <%=AllotmentNoTextBox.UniqueID %>: {
                         
                         required: true,
                         maxlength: 12
-                    }, <%=certificateNoTextBox.UniqueID %>: {
+                    }--%>, <%=certificateNoTextBox.UniqueID %>: {
                         
                         required: true,
                         maxlength: 12
@@ -247,10 +254,10 @@
                      <%=companyCodeTextBox.UniqueID %>:{  
                          required: "*Company Code is required*",
                          maxlength: "* Please enter maximum 3 characters *"
-                      },<%=AllotmentNoTextBox.UniqueID %>:{  
+                      }<%--,<%=AllotmentNoTextBox.UniqueID %>:{  
                          required: "*Allotment No is required*",
                          maxlength: "* Please enter maximum 12 characters *"
-                      },<%=certificateNoTextBox.UniqueID %>:{  
+                      }--%>,<%=certificateNoTextBox.UniqueID %>:{  
                           required: "*Certificate No is required*",
                          maxlength: "* Please enter maximum 12 characters *"
                       }<%--,<%=folioNoTextBox.UniqueID %>:{  
