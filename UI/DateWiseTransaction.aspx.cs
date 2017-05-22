@@ -62,29 +62,37 @@ public partial class DateWiseTransaction : System.Web.UI.Page
         stockExchangeDropDownList.DataValueField = stockExchangeDropDownList.SelectedValue;
 
         if (stockExchangeDropDownList.SelectedValue == "D") // For DSE
-            {
+        {
 
-                strQuery = "select TO_CHAR(max(vch_dt),'DD-MON-YYYY')last_tr_dt,TO_CHAR(max(vch_dt) + 1,'DD-MON-YYYY')vch_dt  from invest.fund_trans_hb where f_cd =" + fundNameDropDownList.SelectedValue.ToString() +
-                     " and tran_tp in ('C','S') and stock_ex in ('D','A')";
+            strQuery = "select TO_CHAR(max(vch_dt),'DD-MON-YYYY')last_tr_dt,TO_CHAR(max(vch_dt) + 1,'DD-MON-YYYY')vch_dt  from invest.fund_trans_hb where f_cd =" + fundNameDropDownList.SelectedValue.ToString() +
+                 " and tran_tp in ('C','S') and stock_ex in ('D','A')";
             dt = commonGatewayObj.Select(strQuery);
         }
 
-            else if (stockExchangeDropDownList.SelectedValue == "C")// For CSE
-            {
-                strQuery = "select TO_CHAR(max(vch_dt),'DD-MON-YYYY')last_tr_dt,TO_CHAR(max(vch_dt) + 1,'DD-MON-YYYY')vch_dt  from invest.fund_trans_hb where f_cd =" + fundNameDropDownList.SelectedValue.ToString() +
-                                " and tran_tp in ('C','S') and stock_ex in ('C','A')";
+        else if (stockExchangeDropDownList.SelectedValue == "C")// For CSE
+        {
+            strQuery = "select TO_CHAR(max(vch_dt),'DD-MON-YYYY')last_tr_dt,TO_CHAR(max(vch_dt) + 1,'DD-MON-YYYY')vch_dt  from invest.fund_trans_hb where f_cd =" + fundNameDropDownList.SelectedValue.ToString() +
+                            " and tran_tp in ('C','S') and stock_ex in ('C','A')";
             dt = commonGatewayObj.Select(strQuery);
         }
-
-
-            else // For new stock exchange
-            {
-            dt = null;
-              //  strQuery = ""; // SQL Query must be added here
-                ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('This stock exchange is not added yet.');", true);
-            }
-
+        else if (stockExchangeDropDownList.SelectedValue == "0")// For CSE
+        {
+            ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Please select a stock exchange.');", true);
+            fundNameDropDownList.SelectedValue = "0";
             
+            dt = null;
+        }
+
+        else // For new stock exchange
+        {
+            dt = null;
+            //  strQuery = ""; // SQL Query must be added here
+            ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('This stock exchange is not added yet.');", true);
+        }
+
+
+        if (dt != null && dt.Rows.Count > 0)
+        {
 
 
             if (!dt.Rows[0].IsNull("vch_dt"))
@@ -112,7 +120,7 @@ public partial class DateWiseTransaction : System.Web.UI.Page
                 txtHowlaDateTo.Text = "";
                 ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('This Trading Date not found  else.');", true);
             }
-
+        }
         }
     
 

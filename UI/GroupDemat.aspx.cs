@@ -26,7 +26,6 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
         SaveNoOfSharecertificateNo();
 
         SaveNoOfShareAllotmentNo();
-
         clearField();
 
 
@@ -141,7 +140,7 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
                         for (int j = 0; j <= allot_nolength; j++)
                         {
 
-                            NOZero = "0000000";
+                            NOZero = "0";
 
 
                         }
@@ -235,7 +234,7 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
                 {
                     for (int j = 0; j <= certificate_nolength; j++)
                     {
-                        NOZero = "0000000";
+                        NOZero = "0";
                     }
 
                     certificateNO = Convert.ToInt32(NOZero);
@@ -327,7 +326,7 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
                     {
                         for (int j = 0; j <= certificate_nolength; j++)
                         {
-                            NOZero = "0000000";
+                            NOZero = "0";
                         }
 
                         certificateNO = NOZero;
