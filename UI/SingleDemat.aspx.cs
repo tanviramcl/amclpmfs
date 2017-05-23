@@ -130,7 +130,7 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
         DataTable dtsource3 = new DataTable();
         List<Shr_dmat_fi> shr_dmat_filist = new List<Shr_dmat_fi>();
         
-        string Query1 = "", Query2 = "", Query3 = "";
+        string  Query2 = "", Query3 = "";
         ////............................................................with query...............        ///
         //Query1 = "select comp_cd,cert_no from invest.psdr_fi where comp_cd = " + companyCodeTextBox.Text + " and cert_no = '" + certificateNoTextBox.Text + "'";
         //dtsource = commonGatewayObj.Select(Query1.ToString());
