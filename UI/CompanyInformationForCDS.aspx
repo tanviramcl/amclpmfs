@@ -195,7 +195,17 @@
                 return false;  
             else  
                 return true;  
-        },"Please select a Group.");   
+        },"Please select a Group.");  
+        
+        $.validator.addMethod("CheckCds", function (value, element, param) { 
+           // alert(value);
+            if (value == 'Y')  
+                return true;  
+            else if(value == 'N') 
+                return true;  
+            else
+                return false;  
+        },"Invalid CDS.");
 
       $("#aspnetForm").validate({
           rules: {
@@ -242,8 +252,14 @@
                         
                     }, <%=isinCode.UniqueID %>: {
                         
-                        required: true,
+                        required: true
+                       
+                    }, <%=IscdsTextBox.UniqueID %>: {
                         
+                        required: true,
+                        maxlength:1,
+                        CheckCds:true
+                       
                     }
               
                 }, messages: {
@@ -274,6 +290,10 @@
                        
                    },<%=isinCode.UniqueID %>:{  
                        required: "* ISIN Code  is required*",
+                       
+                   },<%=IscdsTextBox.UniqueID %>:{  
+                       required: "* CDS required*",
+                       maxlength: "CDS no Invalid"
                        
                    }
                 }
