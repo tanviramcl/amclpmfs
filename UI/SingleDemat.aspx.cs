@@ -86,9 +86,7 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
                     }
 
                     int NumOfRows = commonGatewayObj.ExecuteNonQuery(strInsQuery);
-                    // clearField();
-
-
+                    frmclear();
 
                     if (certificateNo != "")
                     {
@@ -120,7 +118,15 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
 
 
     }
+    protected void deleteButton_Click(object sender, EventArgs e)
+    {
 
+      string  strDelQuery = "delete from invest.shr_dmat_fi where comp_cd="+companyCodeTextBox.Text.ToString()+" and cert_no= '"+certificateNoTextBox.Text.ToString()+"'   and sh_type = '"+shareTypeTextBox.Text.ToString()+"'  and   no_shares='"+SecuritiesTextBox.Text.ToString()+"' and f_cd="+fundcodeTextBox.Text.ToString()+" and posted is null ";
+      int NumOfRows = commonGatewayObj.ExecuteNonQuery(strDelQuery);
+        frmclear();
+      ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Delete Data Successfully');", true);
+
+    }
 
     protected void certificateNoTextBox_TextChanged(object sender, EventArgs e)
     {
@@ -129,10 +135,173 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
         DataTable dtsource2 = new DataTable();
         DataTable dtsource3 = new DataTable();
         List<Shr_dmat_fi> shr_dmat_filist = new List<Shr_dmat_fi>();
-        
+
         string Query1 = "", Query2 = "", Query3 = "";
-        ////............................................................with query...............        ///
-        //Query1 = "select comp_cd,cert_no from invest.psdr_fi where comp_cd = " + companyCodeTextBox.Text + " and cert_no = '" + certificateNoTextBox.Text + "'";
+
+        Query2 = "select f_cd,no_shares,dis_no_fm,dis_no_to,sh_type from invest.shr_dmat_fi where comp_cd = " + companyCodeTextBox.Text.ToString() + "  and cert_no = '" + certificateNoTextBox.Text.ToString() + "'";
+        dtsource2 = commonGatewayObj.Select(Query2.ToString());
+
+        if (dtsource2.Rows.Count > 0)
+        {
+            shr_dmat_filist = (from DataRow dr in dtsource2.Rows
+                               select new Shr_dmat_fi()
+                               {
+
+                                   f_cd = dr["f_cd"].ToString(),
+                                   no_shares = dr["no_shares"].ToString(), 
+                                   dis_no_fm = dr["dis_no_fm"].ToString(),
+                                   dis_no_to = dr["dis_no_to"].ToString(),
+                                   sh_type = dr["sh_type"].ToString(),
+                                   
+                               }).ToList();
+            foreach (Shr_dmat_fi shr_dmat_fia in shr_dmat_filist)
+            {
+               
+                fundcodeTextBox.Text = shr_dmat_fia.f_cd;
+                SecuritiesTextBox.Text = shr_dmat_fia.no_shares;           
+                DictincttivefromTextBox.Text = shr_dmat_fia.dis_no_fm;
+                DictincttivetoTextBox.Text = shr_dmat_fia.dis_no_to;
+                shareTypeTextBox.Text = shr_dmat_fia.sh_type;
+            
+
+            }
+        }
+        Query3 = "select f_cd,no_shares,dis_no_fm,dis_no_to,sh_type,sp_date, sp_rate , folio_no from invest.psdr_fi where comp_cd = '" + companyCodeTextBox.Text + "' and cert_no = '" + certificateNoTextBox.Text + "' and posted = 'A'";
+        dtsource3 = commonGatewayObj.Select(Query3.ToString());
+
+        if (dtsource3.Rows.Count > 0)
+        {
+            psdrfilist = (from DataRow dr in dtsource3.Rows
+                          select new PSDR_FI()
+                          {
+                              f_cd = dr["f_cd"].ToString(),
+                              no_shares = dr["no_shares"].ToString(),
+                              folio_no = dr["folio_no"].ToString(),
+                              dis_no_fm = dr["dis_no_fm"].ToString(),
+                              dis_no_to = dr["dis_no_to"].ToString(),
+                              sh_type = dr["sh_type"].ToString(),
+                              sp_date = dr["sp_date"].ToString(),
+                              sp_rate = dr["sp_rate"].ToString(),
+                          }).ToList();
+            foreach (PSDR_FI psdrfi in psdrfilist)
+            {
+                fundcodeTextBox.Text = psdrfi.f_cd;
+                SecuritiesTextBox.Text = psdrfi.no_shares;
+                folioNoTextBox.Text = psdrfi.folio_no;
+                DictincttivefromTextBox.Text = psdrfi.dis_no_fm;
+                DictincttivetoTextBox.Text = psdrfi.dis_no_to;
+                shareTypeTextBox.Text = psdrfi.sh_type;
+                PurchaseRateTextBox.Text = psdrfi.sp_rate;
+                HowladateTextBox.Text = Convert.ToDateTime(psdrfi.sp_date).ToString("dd/MM/yyyy");
+
+
+
+            }
+            if (shareTypeTextBox.Text.ToString() == "S")
+            {
+                if (PurchaseRateTextBox.Text.ToString() == "")
+                {
+                    PurchaseRateTextBox.Text = "100";
+                }
+            }
+            else if (shareTypeTextBox.Text.ToString() == "B")
+            {
+                PurchaseRateTextBox.Text = "0";
+            }
+            else if (shareTypeTextBox.Text.ToString() == "T")
+            {
+                ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Third Party Certificate No. is not Demat.');", true);
+            }
+
+
+        }
+
+
+
+    }
+
+    protected void AllotmentNoTextBox_TextChanged(object sender, EventArgs e)
+    {
+
+        DataTable dtsource = new DataTable();
+        DataTable dtsource2 = new DataTable();
+        DataTable dtsource3 = new DataTable();
+        DataTable dtsource4 = new DataTable();
+        List<Shr_dmat_fi> shr_dmat_filist = new List<Shr_dmat_fi>();
+
+        string Query1 = "", Query2 = "", Query3 = "",Query4 ="" ;
+
+
+
+        if (certificateNoTextBox.Text.ToString() != "" && AllotmentNoTextBox.Text.ToString() != "")
+        {
+
+            Query4 = "select count(cert_no) from invest.psdr_fi where comp_cd = " + companyCodeTextBox.Text.ToString() + "  and cert_no = '" + certificateNoTextBox.Text.ToString() + "'";
+            dtsource4 = commonGatewayObj.Select(Query4.ToString());
+            if (dtsource4.Rows.Count > 0)
+            {
+                ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Duplicate Certificate No.')", true);
+                deleteButton.Visible = true;
+            }
+            else
+            {
+                ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('No Certificate No. Found')", true);
+            }
+        }
+
+        Query2 = "select comp_cd,dmat_no,dmat_dt,f_cd, no_shares,cert_no,allot_no,folio_no,op_name,dis_no_fm,dis_no_to,sh_type,sp_date,sp_rate from invest.shr_dmat_fi where comp_cd =" + companyCodeTextBox.Text + " and cert_no ='" + certificateNoTextBox.Text + "'  and sh_type != 'T' and posted is null";
+        dtsource2 = commonGatewayObj.Select(Query2.ToString());
+
+        if (dtsource2.Rows.Count > 0)
+        {
+            shr_dmat_filist = (from DataRow dr in dtsource2.Rows
+                               select new Shr_dmat_fi()
+                               {
+                                   comp_cd = dr["comp_cd"].ToString(),
+                                   dmat_no = dr["dmat_no"].ToString(),
+                                   dmat_dt = dr["dmat_dt"].ToString(),
+                                   f_cd = dr["f_cd"].ToString(),
+                                   no_shares = dr["no_shares"].ToString(),
+                                   cert_no = dr["cert_no"].ToString(),
+                                   allot_no = dr["allot_no"].ToString(),
+                                   folio_no = dr["folio_no"].ToString(),
+                                   op_name = dr["op_name"].ToString(),
+                                   dis_no_fm = dr["dis_no_fm"].ToString(),
+                                   dis_no_to = dr["dis_no_to"].ToString(),
+                                   sh_type = dr["sh_type"].ToString(),
+                                   sp_date = dr["sp_date"].ToString(),
+                                   sp_rate = dr["sp_rate"].ToString(),
+                               }).ToList();
+            foreach (Shr_dmat_fi shr_dmat_fi in shr_dmat_filist)
+            {
+                AllotmentNoTextBox.Text = shr_dmat_fi.allot_no;
+                DematsendingNo.Text = shr_dmat_fi.dmat_no;
+                fundcodeTextBox.Text = shr_dmat_fi.f_cd;
+                SecuritiesTextBox.Text = shr_dmat_fi.no_shares;
+                folioNoTextBox.Text = shr_dmat_fi.folio_no;
+                DictincttivefromTextBox.Text = shr_dmat_fi.dis_no_fm;
+                DictincttivetoTextBox.Text = shr_dmat_fi.dis_no_to;
+                shareTypeTextBox.Text = shr_dmat_fi.sh_type;
+                PurchaseRateTextBox.Text = shr_dmat_fi.sp_rate;
+                DematsendingDateTextBox.Text = Convert.ToDateTime(shr_dmat_fi.dmat_dt).ToString("dd/MM/yyyy");
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //    Query1 = "select comp_cd,cert_no from invest.psdr_fi where comp_cd = " + companyCodeTextBox.Text + " and cert_no = '" + certificateNoTextBox.Text + "'";
         //dtsource = commonGatewayObj.Select(Query1.ToString());
 
         //if (dtsource.Rows.Count > 0)
@@ -243,102 +412,29 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
 
         //    }
 
-        //}
-        ////............................................................without  query...............        ///
-        Query2 = "select f_cd,no_shares,dis_no_fm,dis_no_to,sh_type from invest.shr_dmat_fi where comp_cd = " + companyCodeTextBox.Text.ToString() + "  and cert_no = '" + certificateNoTextBox.Text.ToString() + "'";
-        dtsource2 = commonGatewayObj.Select(Query2.ToString());
-
-        if (dtsource2.Rows.Count > 0)
-        {
-            shr_dmat_filist = (from DataRow dr in dtsource2.Rows
-                               select new Shr_dmat_fi()
-                               {
-                                   //comp_cd = dr["comp_cd"].ToString(),
-                                   //dmat_no = dr["dmat_no"].ToString(),
-                                   //dmat_dt = dr["dmat_dt"].ToString(),
-                                   f_cd = dr["f_cd"].ToString(),
-                                   no_shares = dr["no_shares"].ToString(),
-                                   //cert_no = dr["cert_no"].ToString(),
-                                   //allot_no = dr["allot_no"].ToString(),
-                                   //folio_no = dr["folio_no"].ToString(),
-                                   //op_name = dr["op_name"].ToString(),
-                                   dis_no_fm = dr["dis_no_fm"].ToString(),
-                                   dis_no_to = dr["dis_no_to"].ToString(),
-                                   sh_type = dr["sh_type"].ToString(),
-                                   //sp_date = dr["sp_date"].ToString(),
-                                   //sp_rate = dr["sp_rate"].ToString(),
-                               }).ToList();
-            foreach (Shr_dmat_fi shr_dmat_fia in shr_dmat_filist)
-            {
-                // AllotmentNoTextBox.Text = shr_dmat_fi.allot_no;
-                // DematsendingNo.Text = shr_dmat_fi.dmat_no;
-                fundcodeTextBox.Text = shr_dmat_fia.f_cd;
-                SecuritiesTextBox.Text = shr_dmat_fia.no_shares;
-                //  folioNoTextBox.Text = shr_dmat_fi.folio_no;
-                DictincttivefromTextBox.Text = shr_dmat_fia.dis_no_fm;
-                DictincttivetoTextBox.Text = shr_dmat_fia.dis_no_to;
-                shareTypeTextBox.Text = shr_dmat_fia.sh_type;
-                // PurchaseRateTextBox.Text = shr_dmat_fi.sp_rate;
-                //DematsendingNo.Text = shr_dmat_fi.dmat_no;
-                //DematsendingDateTextBox.Text = shr_dmat_fi.dmat_dt;
-
-
-
-            }
         }
-        Query3 = "select f_cd,no_shares,dis_no_fm,dis_no_to,sh_type,sp_date, sp_rate , folio_no from invest.psdr_fi where comp_cd = '" + companyCodeTextBox.Text + "' and cert_no = '" + certificateNoTextBox.Text + "' and posted = 'A'";
-        dtsource3 = commonGatewayObj.Select(Query3.ToString());
-
-        if (dtsource3.Rows.Count > 0)
-        {
-            psdrfilist = (from DataRow dr in dtsource3.Rows
-                          select new PSDR_FI()
-                          {
-                              f_cd = dr["f_cd"].ToString(),
-                              no_shares = dr["no_shares"].ToString(),
-                              folio_no = dr["folio_no"].ToString(),
-                              dis_no_fm = dr["dis_no_fm"].ToString(),
-                              dis_no_to = dr["dis_no_to"].ToString(),
-                              sh_type = dr["sh_type"].ToString(),
-                              sp_date = dr["sp_date"].ToString(),
-                              sp_rate = dr["sp_rate"].ToString(),
-                          }).ToList();
-            foreach (PSDR_FI psdrfi in psdrfilist)
-            {
-                fundcodeTextBox.Text = psdrfi.f_cd;
-                SecuritiesTextBox.Text = psdrfi.no_shares;
-                folioNoTextBox.Text = psdrfi.folio_no;
-                DictincttivefromTextBox.Text = psdrfi.dis_no_fm;
-                DictincttivetoTextBox.Text = psdrfi.dis_no_to;
-                shareTypeTextBox.Text = psdrfi.sh_type;
-                PurchaseRateTextBox.Text = psdrfi.sp_rate;
-                HowladateTextBox.Text = Convert.ToDateTime(psdrfi.sp_date).ToString("dd/MM/yyyy");
-
-
-
-            }
-            if (shareTypeTextBox.Text.ToString() == "S")
-            {
-                if (PurchaseRateTextBox.Text.ToString() == "")
-                {
-                    PurchaseRateTextBox.Text = "100";
-                }
-            }
-            else if (shareTypeTextBox.Text.ToString() == "B")
-            {
-                PurchaseRateTextBox.Text = "0";
-            }
-            else if (shareTypeTextBox.Text.ToString() == "T")
-            {
-                ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Third Party Certificate No. is not Demat.');", true);
-            }
-
-
-        }
-
+      
+        
 
 
     }
+    public void frmclear()
+    {
+        companyCodeTextBox.Text = "";
+        fundcodeTextBox.Text = "";
+        certificateNoTextBox.Text = "";
+        AllotmentNoTextBox.Text = "";
+        HowladateTextBox.Text = "";
+        SecuritiesTextBox.Text = "";
+        DictincttivefromTextBox.Text = "";
+        DictincttivetoTextBox.Text = "";
+        folioNoTextBox.Text = "";
+        shareTypeTextBox.Text = "";
+        PurchaseRateTextBox.Text = "";
+        DematsendingDateTextBox.Text = "";
+        DematsendingNo.Text = "";
+    }
+
     public class Shr_dmat_fi
     {
         public string comp_cd { get; set; }
