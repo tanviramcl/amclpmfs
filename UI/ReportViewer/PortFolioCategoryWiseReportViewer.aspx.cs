@@ -32,20 +32,12 @@ public partial class UI_ReportViewer_NegativeBalanceCheckReportViewer : System.W
         StringBuilder sbMst = new StringBuilder();
         StringBuilder sbfilter = new StringBuilder();
         sbfilter.Append(" ");
-        //sbMst.Append(" select CompanyName,nos_t,bal_dt,rt_acm,tcst_aft_com,c_rt,tot_cost,DSE_rate,CSE_rate,m_rt,m_p,group1,f.f_name from");
-        //sbMst.Append(" (select trim(c.comp_nm) as CompanyName ,f_cd,trunc(tot_nos) nos_t, bal_dt, trunc(tcst_aft_com / tot_nos, 2) rt_acm,");
-        //sbMst.Append(" ROUND(tcst_aft_com,2)tcst_aft_com, ROUND( tot_cost / tot_nos,2) c_rt, tot_cost,nvl(a.dse_rt, 0) DSE_rate, ");
-        //sbMst.Append(" nvl(a.cse_rt, 0)  CSE_rate,a.adc_rt m_rt, a.adc_rt * tot_nos m_p,ROUND(a.adc_rt - tcst_aft_com / tot_nos,2)diff, ");
-        //sbMst.Append(" c.trade_meth group1,decode(c.trade_meth, 'N', 'A Group', 'R', 'B Group', 'Z', 'Z Group', 'T', 'N Group', 'G', 'G Group') Category from");
-        //sbMst.Append(" invest.pfolio_bk a, comp c where c.comp_cd = a.comp_cd and f_cd ="+fundcode+" and a.bal_dt_ctrl ='"+Convert.ToDateTime(balancedate).ToString("dd-MMM-yyyy")+"' order by c.comp_nm) tab1 inner join  ");
-        //sbMst.Append(" invest.Fund  f ON tab1. f_cd=f. f_cd;");
-        //  sbMst.Append("select trim(c.comp_nm),trunc(tot_nos) nos_t, bal_dt, trunc(tcst_aft_com / tot_nos, 2) rt_acm, ROUND(tcst_aft_com,2)tcst_aft_com, ROUND( tot_cost / tot_nos,2) c_rt, tot_cost,nvl(a.dse_rt, 0) DSE_rate, nvl(a.cse_rt, 0)  CSE_rate,a.adc_rt m_rt, a.adc_rt * tot_nos m_p,ROUND(a.adc_rt - tcst_aft_com / tot_nos,2)diff, c.trade_meth group1,decode(c.trade_meth, 'N', 'A Group', 'R', 'B Group', 'Z', 'Z Group', 'T', 'N Group', 'G', 'G Group') Category from invest.pfolio_bk a, comp c where c.comp_cd = a.comp_cd and f_cd =" + fundcode+" and a.bal_dt_ctrl ='"+ Convert.ToDateTime(balancedate).ToString("dd-MMM-yyyy") + "' order by c.comp_nm");
-
+     
         sbMst.Append("select CompanyName,nos_t,bal_dt,rt_acm,tcst_aft_com,c_rt,tot_cost,DSE_rate,CSE_rate,m_rt,m_p,diff,group1,Category,f.f_name from (select trim(c.comp_nm) as CompanyName, f_cd, trunc(tot_nos) nos_t, bal_dt, trunc(tcst_aft_com / tot_nos, 2) rt_acm, ROUND(tcst_aft_com, 2)tcst_aft_com, ROUND(tot_cost / tot_nos, 2) c_rt, tot_cost, nvl(a.dse_rt, 0) DSE_rate,nvl(a.cse_rt, 0)  CSE_rate, a.adc_rt m_rt, a.adc_rt * tot_nos m_p, ROUND(a.adc_rt - tcst_aft_com / tot_nos, 2)diff,c.trade_meth group1, decode(c.trade_meth, 'N', 'A Group', 'R', 'B Group', 'Z', 'Z Group', 'T', 'N Group', 'G', 'G Group') Category from invest.pfolio_bk a, comp c where c.comp_cd = a.comp_cd and  f_cd =" + fundcode + " and a.bal_dt_ctrl ='" + Convert.ToDateTime(balancedate).ToString("dd-MMM-yyyy") + "' order by c.comp_nm) tab1 inner join invest.Fund  f ON tab1.f_cd = f.f_cd order by  tab1.Category,tab1.CompanyName");
         sbMst.Append(sbfilter.ToString());
         dtReprtSource = commonGatewayObj.Select(sbMst.ToString());
         dtReprtSource.TableName = "PortFolioCategoryWise";
-        //dtReprtSource.WriteXmlSchema(@"D:\officialProject\2-13-2017\amclpmfs\UI\ReportViewer\Report\crtPortFolioCategoryWiseReport.xsd");
+     
         if (dtReprtSource.Rows.Count > 0)
         {
             string Path = Server.MapPath("Report/CR_PortFolioCategoryWise.rpt");

@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#"  MasterPageFile="~/UI/AMCLCommon.master" AutoEventWireup="true" CodeFile="ReceivablePayableFundWise.aspx.cs" Inherits="UI_BalancechekReport" Title="" %>
+﻿<%@ Page Language="C#"  MasterPageFile="~/UI/AMCLCommon.master" AutoEventWireup="true" CodeFile="ReceivablePayableFundWise.aspx.cs" Inherits="UI_BalancechekReport" Title="Sell Buy Fundwise Reconcilation" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
        <style type ="text/css" >  
