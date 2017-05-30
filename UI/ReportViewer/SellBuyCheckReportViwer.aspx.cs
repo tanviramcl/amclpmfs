@@ -144,7 +144,7 @@ public partial class UI_ReportViewer_StockDeclarationBeforePostedReportViewer : 
             sbMst.Append(sbfilter.ToString());
             dtReprtSource = commonGatewayObj.Select(sbMst.ToString());
             dtReprtSource.TableName = "SellBuyCheckReportcompanywiseALL";
-            dtReprtSource.WriteXmlSchema(@"D:\officialProject\4-5-2017\amclpmfs\UI\ReportViewer\Report\CR_SellBuyCheckReportcompanywiseALL.xsd");
+         //   dtReprtSource.WriteXmlSchema(@"D:\officialProject\4-5-2017\amclpmfs\UI\ReportViewer\Report\CR_SellBuyCheckReportcompanywiseALL.xsd");
             if (dtReprtSource.Rows.Count > 0)
             {
                 string Path = Server.MapPath("Report/CR_SellBuyCheckReportcompanywiseALL.rpt");
