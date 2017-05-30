@@ -269,7 +269,7 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
         lblProcessingRelatedMessage.Visible = true;
         lblProcessingRelatedMessage.Text = "Advanced process is running!!!!";
 
-        strQuery = "select TO_CHAR(vch_dt,'DD-MON-YYYY')vch_dt, f_cd, comp_cd, no_share, rate, amount,amt_aft_com, tran_tp, stock_ex from invest.fund_trans_hb" +
+        strQuery = "select TO_CHAR(vch_dt,'DD-MON-YYYY')vch_dt, f_cd, comp_cd, no_share, rate, nvl(amount,0)amount,amt_aft_com, tran_tp, stock_ex from invest.fund_trans_hb" +
         " where vch_dt between '" + vchDtFrom + "' and '" + vchDtTo + "' and f_cd=" + f_cd +
         " order by f_cd, vch_dt, comp_cd";
 
@@ -425,7 +425,7 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
                         dtFromFundTransHB.Rows[i]["f_cd"].ToString() + "," +
                         dtFromFundTransHB.Rows[i]["comp_cd"].ToString() + "," +
                         dtFromFundTransHB.Rows[i]["no_share"].ToString() + "," +
-                        dtFromFundTransHB.Rows[i]["amount"].ToString() + "/nvl(" + dtFromFundTransHB.Rows[i]["no_share"].ToString() + ",1)," +
+                        "nvl(" + dtFromFundTransHB.Rows[i]["amount"].ToString() + ", 0)/nvl(" + dtFromFundTransHB.Rows[i]["no_share"].ToString() + ",1)," +
                         dtFromFundTransHB.Rows[i]["amt_aft_com"].ToString() + "/nvl(" + dtFromFundTransHB.Rows[i]["no_share"].ToString() + ",1),'" +
                         dtFromFundTransHB.Rows[i]["vch_dt"].ToString() + "'," +
                         m_no + "," +
@@ -484,7 +484,8 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
         }
         else
         {
-            ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Data Error !');", true);
+          //  ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Data Error !');", true);
+            ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('No data found !');", true);
 
         }
 
@@ -549,8 +550,9 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
         }
         if (dtimeBalanceDate > dtimeLastBalDate)
         {
+            lblProcessingRelatedMessage.Visible = true;
             adv_proc1(strLastUpadatePlusOneDate, strBalanceDate, fundNameDropDownList.SelectedValue.ToString());
-            lblProcessingRelatedMessage.Visible = false;
+           
 
         }
 
@@ -558,10 +560,13 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
         {
 
             strDelFromFundFolioHB = "delete from invest.fund_folio_hb where f_cd =" + fundNameDropDownList.SelectedValue.ToString();
+            int noDelRowsFromFundFolioHB = commonGatewayObj.ExecuteNonQuery(strDelFromFundFolioHB);
 
             strUpdateFundTransHB = "update invest.fund_trans_hb set cost_rate = null,crt_aft_com = null where f_cd =" + fundNameDropDownList.SelectedValue.ToString();
+            int noUpdRowsFundTransHB = commonGatewayObj.ExecuteNonQuery(strUpdateFundTransHB);
+            lblProcessingRelatedMessage.Visible = true;
             adv_proc1(strLastUpadatePlusOneDate, strBalanceDate, fundNameDropDownList.SelectedValue.ToString());
-
+            
 
             // Code goes here Code goes here
 
@@ -642,7 +647,7 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
         string strupdateQueryfund_control = "update invest.fund_control set bal_dt='" + strBalanceDate + "',mprice_dt='" + strMarketPriceDate + "' where f_cd =" + fundNameDropDownList.SelectedValue.ToString() + "";
         int updatefund_controlNumOfRows = commonGatewayObj.ExecuteNonQuery(strupdateQueryfund_control);
         //ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Data Insert Successfully');", true);
-
+        ClearFields();
 
 
 
