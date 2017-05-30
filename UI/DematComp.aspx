@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#"  MasterPageFile="~/UI/AMCLCommon.master" AutoEventWireup="true" CodeFile="DematComp.aspx.cs" Inherits="UI_BalancechekReport" Title="Capital Gain (Company Wise)" %>
+﻿<%@ Page Language="C#"  MasterPageFile="~/UI/AMCLCommon.master" AutoEventWireup="true" CodeFile="DematComp.aspx.cs" Inherits="UI_BalancechekReport" Title="List of Security (Fund) For demat" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
     <style type ="text/css" >  

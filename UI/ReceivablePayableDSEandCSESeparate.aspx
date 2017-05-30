@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#"  MasterPageFile="~/UI/AMCLCommon.master" AutoEventWireup="true" CodeFile="ReceivablePayableDSEandCSESeparate.aspx.cs" Inherits="UI_BalancechekReport" Title="Capital Gain Summery Date Wise" %>
+﻿<%@ Page Language="C#"  MasterPageFile="~/UI/AMCLCommon.master" AutoEventWireup="true" CodeFile="ReceivablePayableDSEandCSESeparate.aspx.cs" Inherits="UI_BalancechekReport" Title="Receivable Payable DSE and CSE Separate" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
        <style type ="text/css" >  

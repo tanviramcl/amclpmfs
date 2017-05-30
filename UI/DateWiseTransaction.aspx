@@ -111,15 +111,14 @@
                       </td>
                          <td align="right" style="font-weight: 700"><b>Last Howla Date</b></td>
                         <td align="left" width="300px">
-                         <asp:TextBox ID="txtLastHowlaDate" runat="server" style="width:195px;" 
-                        CssClass="textInputStyle" TabIndex="7" AutoPostBack="True" 
-                        ontextchanged="txtLastHowlaDate_TextChanged"></asp:TextBox>
-                             <ajaxToolkit:CalendarExtender ID="txtLastHowlaDate_CalendarExtender1"
-                            runat="server" TargetControlID="txtLastHowlaDate"
+                         <asp:TextBox ID="txtLastHowlaDate" ReadOnly="true" runat="server" style="width:195px;" 
+                        CssClass="textInputStyle" TabIndex="7" AutoPostBack="True"></asp:TextBox>
+                            <%-- <ajaxToolkit:CalendarExtender ID="txtLastHowlaDate_CalendarExtender1"
+                            runat="server" TargetControlID="txtLastHowlaDate" 
                             PopupButtonID="ImageButton1" Format="dd-MMM-yyyy" />
                         <asp:ImageButton ID="ImageButton1" runat="server"
                             AlternateText="Click Here" ImageUrl="~/Image/Calendar_scheduleHS.png"
-                            TabIndex="24" />
+                            TabIndex="24" />--%>
                         </td>
                  </tr> 
             <tr>

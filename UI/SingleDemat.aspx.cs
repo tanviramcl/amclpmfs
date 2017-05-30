@@ -136,7 +136,7 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
         DataTable dtsource3 = new DataTable();
         List<Shr_dmat_fi> shr_dmat_filist = new List<Shr_dmat_fi>();
 
-        string Query1 = "", Query2 = "", Query3 = "";
+        string  Query2 = "", Query3 = "";
 
         Query2 = "select f_cd,no_shares,dis_no_fm,dis_no_to,sh_type from invest.shr_dmat_fi where comp_cd = " + companyCodeTextBox.Text.ToString() + "  and cert_no = '" + certificateNoTextBox.Text.ToString() + "'";
         dtsource2 = commonGatewayObj.Select(Query2.ToString());
@@ -229,7 +229,7 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
         DataTable dtsource4 = new DataTable();
         List<Shr_dmat_fi> shr_dmat_filist = new List<Shr_dmat_fi>();
 
-        string Query1 = "", Query2 = "", Query3 = "",Query4 ="" ;
+        string  Query2 = "",Query4 ="" ;
 
 
 

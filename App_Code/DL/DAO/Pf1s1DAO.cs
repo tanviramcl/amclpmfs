@@ -141,13 +141,19 @@ public class Pf1s1DAO
          else
              return false;
      }
-     public bool IsDuplicateNonListedSecurities(int fund_code, decimal investmentAmount, string investmentDate)
-     {
-         DataTable dtDuplicateEntry = CommonGetwayObj.Select("SELECT * FROM invest.NON_LISTED_SECURITIES WHERE F_CD = " + fund_code + " AND INV_DATE = '" + investmentDate + "' AND INV_AMOUNT = " + investmentAmount);
-         if (dtDuplicateEntry.Rows.Count > 0)
-             return true;
-         else
-             return false;
+    public bool IsDuplicateNonListedSecurities(int fund_code, decimal investmentAmount, string investmentDate)
+    {
+       
+        DataTable dtDuplicateEntry = CommonGetwayObj.Select("SELECT * FROM invest.NON_LISTED_SECURITIES WHERE F_CD = " + fund_code + " AND INV_DATE = '" + investmentDate+"' ");
+        if (dtDuplicateEntry.Rows.Count > 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+           
      }
    
     public DataTable GetEmployeeInfo(string EmpID)

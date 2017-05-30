@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/UI/AMCLCommon.master" AutoEventWireup="true" CodeFile="PortfilioDematShare.aspx.cs" Inherits="UI_BalancechekReport" Title="PortFolio CategoryWise" %>
+﻿<%@ Page Language="C#" MasterPageFile="~/UI/AMCLCommon.master" AutoEventWireup="true" CodeFile="PortfilioDematShare.aspx.cs" Inherits="UI_BalancechekReport" Title="Portfolio Demat Share" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">

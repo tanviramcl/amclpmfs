@@ -50,6 +50,8 @@ public partial class UI_NonListedSecuritiesInvestmentEntryForm : System.Web.UI.P
         httable.Add("INV_DATE", Convert.ToDateTime(investmentDateTextBox.Text).ToString("dd-MMM-yyyy"));
         httable.Add("ENTRY_BY", LoginID);
         httable.Add("ENTRY_DATE", DateTime.Now);
+
+
         if (pf1s1DAOObj.IsDuplicateNonListedSecurities(Convert.ToInt32(fundNameDropDownList.SelectedValue.ToString()), Convert.ToDecimal(amountTextBox.Text.Trim().ToString()), Convert.ToDateTime(investmentDateTextBox.Text.Trim().ToString()).ToString("dd-MMM-yyyy")))
         {
             ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Save Failed: You Are Trying to Duplicate entry.');", true);

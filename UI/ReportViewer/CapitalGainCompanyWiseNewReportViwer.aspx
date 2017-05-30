@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="CapitalGainCompanyWiseNewReportViwer.aspx.cs" Inherits="UI_ReportViewer_StockDeclarationBeforePostedReportViewer" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="CapitalGainCompanyWiseNewReportViwer.aspx.cs" Inherits="UI_ReportViewer_StockDeclarationBeforePostedReportViewer" Title="Capital Gain Summary Date Wise" %>
  <%@ Register Assembly="CrystalDecisions.Web, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" Namespace="CrystalDecisions.Web" TagPrefix="CR" %>
 <!DOCTYPE html>
 
