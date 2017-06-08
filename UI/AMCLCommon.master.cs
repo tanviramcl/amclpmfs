@@ -241,7 +241,7 @@ public partial class UI_AMCLCommon : System.Web.UI.MasterPage
         Subitem.Url = "SellBuyCheck.aspx";
         item.SubItems.Add(Subitem);
 
-        Subitem = new skmMenu.MenuItem("Port Folio Quater Wise Report");
+        Subitem = new skmMenu.MenuItem("Portfolio Quarterwise Report");
         Subitem.Url = "PortFolioQuaterWise.aspx";
         item.SubItems.Add(Subitem);
 
