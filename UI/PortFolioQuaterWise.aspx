@@ -22,7 +22,7 @@
             <table id="Table1" width = "600" align = "center" cellpadding ="0" cellspacing ="0" runat="server">
             <tr>
                 <td align="center" class="style3">
-                    <b><u> Quaterly Portfolio Statement Report With Previous Quater</u></b>
+                    <b><u> Quarterly Portfolio Report With Previous Quarter</u></b>
                 </td>
             </tr>
             </table>
@@ -62,7 +62,7 @@
 
                      <td align="center" colspan="2">
                          <asp:Button ID="showButton" runat="server" Text="Show Report"
-                             CssClass="buttoncommon" TabIndex="5" OnClick="showButton_Click" OnClientClick="return Confirm();" />
+                             CssClass="buttoncommon" TabIndex="5" OnClick="showButton_Click" />
                         <%--  <input type="button" value="Delete" id="btnDelete" />--%>
                      </td>
 
@@ -70,33 +70,7 @@
         </table>
          
         </div>
-    <script type = "text/javascript">
-
-        function Confirm()
-         {
-
-          
-
-            var confirm_value = document.createElement("INPUT");
-            confirm_value.type = "hidden";
-            confirm_value.name = "confirm_value";
-            if (confirm("Do you want to  proceed?")) 
-            {
-                confirm_value.value = "Yes";
-
-            }
-            else
-
-             {
-                confirm_value.value = "No";
-            }
-
-            document.forms[0].appendChild(confirm_value);
-        }
-    </script>
-
-   
-         
+       
     <script type="text/javascript">
         
         $.validator.addMethod("fundNameDropDownList", function (value, element, param) {  

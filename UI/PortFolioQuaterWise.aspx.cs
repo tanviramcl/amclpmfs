@@ -74,10 +74,7 @@ public partial class UI_BalancechekReport : System.Web.UI.Page
            
                 // ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('This Date is not a quarter end date ');", true);
 
-                string confirmValue = Request.Form["confirm_value"];
-
-                if (confirmValue == "Yes")
-                {
+               
 
                 //if (blncdate != qenddate)
                 //{
@@ -144,10 +141,6 @@ public partial class UI_BalancechekReport : System.Web.UI.Page
                 {
                     ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Quarter End Date and Previous Quarter End Date  must be between 3 months');", true);
                 }
-
-
-            }
-
 
         }
         else
