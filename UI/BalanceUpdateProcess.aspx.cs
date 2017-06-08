@@ -158,12 +158,12 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
 
         }
        
-            if (dtimeBalanceDate <= dtimeLastUpadateDate)
-            {
+        if (dtimeBalanceDate <= dtimeLastUpadateDate)
+        {
 
-                txtLastUpadateDate.Text = "01-JUL-2002";
-                ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Process start from July 2002.');", true);
-            }
+            txtLastUpadateDate.Text = "01-JUL-2002";
+            ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Process start from July 2002.');", true);
+        }
         
 
         strQuery = "select  count(*)NoSaleRecord,sum(no_share)NoSaleShares from invest.fund_trans_hb where f_cd =" + fundNameDropDownList.SelectedValue.ToString() +
@@ -182,8 +182,7 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
             txtNoOfSaleShare.Text = "0";
 
         }
-
-
+        
         /* For converting balance update process:
       * Field(Developer): upto_dt -> txtBalanceDate
       * last_bal_dt  -> txtLastUpadateDate
@@ -204,7 +203,6 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
         {
             txtNoPurchaseRecord.Text = "0";
             txtNoPurchaseShares.Text = "0";
-            
         }
         /*
         Begin
@@ -462,7 +460,6 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
                 }
 
                 if (dtFromFundTransHB.Rows[i]["tran_tp"].ToString() == "S")
-
                 {
                     strUpdateFundTransHB = "update invest.fund_trans_hb set " +
                         " cost_rate =" + mcost_rt +","+
@@ -639,7 +636,7 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
             foreach (CompanyAvarageRate comAvgrate in lstCompnayAvgrate)
             {
 
-                string Query = "invest.mprice_temp(f_cd, comp_cd, avg_rt) values ('" + comAvgrate.FUNDID + "','" + comAvgrate.COMP_CD + "','" + comAvgrate.AVG_RT + "')";
+                string Query = "insert into invest.mprice_temp(f_cd, comp_cd, avg_rt) values ('" + comAvgrate.FUNDID + "','" + comAvgrate.COMP_CD + "','" + comAvgrate.AVG_RT + "')";
                 int NumOfRows = commonGatewayObj.ExecuteNonQuery(strInsQuery);
             }
 
