@@ -1,7 +1,7 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/UI/AMCLCommon.master" AutoEventWireup="true" CodeFile="BalanceUpdateProcess.aspx.cs" Inherits="BalanceUpdateProcess" Title="IAMCL Portfolio Market Price Update  (Design and Developed by Sakhawat)" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
-<script language="javascript" type="text/javascript"> 
+    <script language="javascript" type="text/javascript"> 
     
      function fnCheckInput()
     {   
@@ -155,8 +155,8 @@
               <tr>
                   <td align="right">&nbsp;</td>
                   <td align="left">
-                      <asp:Button ID="btnSave" runat="server" Text="Save" 
-                       CssClass="buttoncommon" OnClick="btnSave_Click" OnClientClick=" return fnCheckInput();"/></td>
+                      <%--<asp:Button ID="btnSave" runat="server" Text="Save" 
+                       CssClass="buttoncommon" OnClick="btnSave_Click" OnClientClick=" return fnCheckInput();"/>--%></td>
                  
               </tr>    
 
@@ -164,8 +164,27 @@
               <tr>
                   <td align="right">&nbsp;</td>
                   <td align="left">
-                      <asp:Label ID="lblProcessingRelatedMessage" runat="server" Font-Size="Large" ForeColor="#FF5050"></asp:Label>
-                  </td>
+                      <div>
+       
+        <asp:UpdateProgress ID="updProgress"
+        AssociatedUpdatePanelID="UpdatePanel1"
+        runat="server">
+            <ProgressTemplate>   
+                <img src="../Image/Processing.gif" alt="processing" style="width: 186px; height: 128px; margin-left: 36px" />      
+               
+            </ProgressTemplate>
+        </asp:UpdateProgress>
+       
+        <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+            <ContentTemplate>
+                <asp:Label ID="lblProcessing" runat="server" Text="" style="font-size:24px; color:green;"></asp:Label>
+                <br />
+               
+                <asp:Button ID="btnSave" runat="server" Text="Save" 
+                       CssClass="buttoncommon" OnClick="btnSave_Click" OnClientClick=" return fnCheckInput();"/>
+            </ContentTemplate>
+        </asp:UpdatePanel>        
+    </div></td>
                  
               </tr>    
         </table>                
