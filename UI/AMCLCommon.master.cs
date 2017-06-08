@@ -108,7 +108,7 @@ public partial class UI_AMCLCommon : System.Web.UI.MasterPage
         }
 
         //Report Menu
-        item = new skmMenu.MenuItem("Report");
+        item = new skmMenu.MenuItem("Reports");
 
         Subitem = new skmMenu.MenuItem("Sale-Purchase Report");
         Subitem.Url = "SalePurchaseReportForm.aspx";
@@ -177,6 +177,15 @@ public partial class UI_AMCLCommon : System.Web.UI.MasterPage
         item.SubItems.Add(Subitem);
         //mnuMenu.Items.Add(item);
 
+      
+        //Subitem = new skmMenu.MenuItem("Test Report");
+        //Subitem.Url = "testFundTransactionHBReport.aspx";
+        //item.SubItems.Add(Subitem);
+
+        mnuMenu.Items.Add(item);
+
+        item = new skmMenu.MenuItem("More Reports");
+
         Subitem = new skmMenu.MenuItem("Non Demate Shares Check");
         Subitem.Url = "NonDemateSharesCheckReport.aspx";
         item.SubItems.Add(Subitem);
@@ -218,7 +227,7 @@ public partial class UI_AMCLCommon : System.Web.UI.MasterPage
         Subitem.Url = "CapitalGainCompanyWiseNew.aspx";
         item.SubItems.Add(Subitem);
 
- 
+
 
         Subitem = new skmMenu.MenuItem("Capital Gain (Company Wise)");
         Subitem.Url = "CapitalGainCompanyWise.aspx";
@@ -232,18 +241,7 @@ public partial class UI_AMCLCommon : System.Web.UI.MasterPage
         Subitem.Url = "SellBuyCheck.aspx";
         item.SubItems.Add(Subitem);
 
-        Subitem = new skmMenu.MenuItem("Port Folio Quater Wise Report");
-        Subitem.Url = "PortFolioQuaterWise.aspx";
-        item.SubItems.Add(Subitem);
-
-        //Subitem = new skmMenu.MenuItem("Test Report");
-        //Subitem.Url = "testFundTransactionHBReport.aspx";
-        //item.SubItems.Add(Subitem);
-
         mnuMenu.Items.Add(item);
-
-
-
         ///////////////////
 
         //Report Menu
