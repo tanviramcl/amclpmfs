@@ -44,13 +44,13 @@
               <colgroup width="220"></colgroup>
               <colgroup width="150"></colgroup>
         <tr>
-            <td align="center" colspan="4" class="style8" >
+            <td align="center" colspan="3" class="style8" >
               Final Processing
             </td>
         </tr>
        
       <tr>
-         <td colspan="4" align="left">&nbsp;&nbsp;</td>   
+         <td colspan="3" align="left">&nbsp;&nbsp;</td>   
       </tr>
             
             <tr>
@@ -84,12 +84,43 @@
 
             </tr>
               <tr>
+                <td align="right" style="font-weight: 700">&nbsp;</td>
+                <td align="left" width="200px">
+                      <asp:UpdateProgress ID="updProgress"
+                         AssociatedUpdatePanelID="UpdatePanel1"  runat="server">
+                        <ProgressTemplate>   
+                        <img src="../Image/Processing.gif" alt="processing" style="width: 186px; height: 128px; margin-left: 36px" />      
+               
+                        </ProgressTemplate>
+        </asp:UpdateProgress></td>
+                <td>
+                    &nbsp;</td>
+
+            </tr>
+              <tr>
+                <td align="right" style="font-weight: 700">&nbsp;</td>
+                <td align="left" width="200px">
+                     <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+            <ContentTemplate>
+                <asp:Label ID="lblProcessing" runat="server" Text="" style="font-size:24px; color:green;"></asp:Label>
+                <br />
+               
+                <asp:Button ID="btnProcessingforBackup" runat="server" style="width:195px;height: 30px; font-size:16px;margin-bottom:20px;"  Text="Processing for Backup" OnClick="btnProcessingforBackup_Click" />
+                  <br />
+                 <asp:Button ID="btnDelete" runat="server"  style="width:195px;height: 30px;font-size:16px;"  Text="Delete" OnClick="btnDelete_Click" /></td>
+            </ContentTemplate>
+        </asp:UpdatePanel></td>
+                <td>
+                  
+
+            </tr>
+              <tr>
                 <td align="right" style="font-weight: 700"></td>
                 <td align="left" width="200px">
-                     <asp:Button ID="btnProcessingforBackup" runat="server" style="width:195px;height: 20px;"  CssClass="buttoncommon" Text="Processing for Back Up" OnClick="btnProcessingforBackup_Click" />
+                     
                 </td>
                 <td>
-                    <asp:Button ID="btnDelete" runat="server"  style="width:195px;height: 20px;" CssClass="buttoncommon" Text="Delete" OnClick="btnDelete_Click" />
+                    
                  </td>
 
             </tr>

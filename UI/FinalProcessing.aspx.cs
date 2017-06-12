@@ -80,14 +80,16 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
         DataTable dtDate2 = GetDate2();
 
         string Date1 = Convert.ToDateTime(dtDate1.Rows[0]["date1"]).ToString("dd-MMM-yyyy"); 
-        string Date2 = Convert.ToDateTime(dtDate2.Rows[0]["date2"]).ToString("dd-MMM-yyyy"); 
-
+        string Date2 = Convert.ToDateTime(dtDate2.Rows[0]["date2"]).ToString("dd-MMM-yyyy");
+        lblProcessing.Text = "Processing completed!!!!";
 
         if (Date1 == Date2)
         {
             ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Data Already Updated! or Market Price is not current');", true);
         }
         else {
+
+            
             DataTable dtsource = new DataTable();
             StringBuilder sbMst = new StringBuilder();
             StringBuilder sbfilter = new StringBuilder();
