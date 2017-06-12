@@ -40,8 +40,8 @@ public partial class UI_ReportViewer_PortfolioWithNonListedReportViewer : System
         StringBuilder sbMst = new StringBuilder();
         StringBuilder sbfilter = new StringBuilder();
         sbfilter.Append(" ");
-        sbMst.Append(" select quarterend.f_name, quarterend.COMP_NM as ,quarterend.SECT_MAJ_NM,quarterend.SECT_MAJ_CD,quarterend.TOT_NOS,quarterend.TOT_MARKET_PRICE,quarterend.TCST_AFT_COM, ");
-        sbMst.Append(" quarterend.APPRICIATION_ERROTION,prevquarterend.f_name as prevfname,prevquarterend.COMP_nm as prevcomp,prevquarterend.SECT_MAJ_NM as prevSECT_MAJ_NM ,prevquarterend.SECT_MAJ_CD as prevSECT_MAJ_CD, ");
+        sbMst.Append(" select nvl(quarterend.f_name,prevquarterend.f_name) as f_name, nvl(quarterend.COMP_NM,prevquarterend.COMP_nm) as COMP_NM ,quarterend.SECT_MAJ_NM,quarterend.SECT_MAJ_CD,nvl(quarterend.TOT_NOS,0) as TOT_NOS,nvl(quarterend.TOT_MARKET_PRICE,0)as TOT_MARKET_PRICE,nvl(quarterend.TCST_AFT_COM,0) as TCST_AFT_COM,");
+        sbMst.Append(" nvl(quarterend.APPRICIATION_ERROTION,0) as APPRICIATION_ERROTION,prevquarterend.f_name as prevfname,prevquarterend.COMP_nm as prevcomp,prevquarterend.SECT_MAJ_NM as prevSECT_MAJ_NM ,prevquarterend.SECT_MAJ_CD as prevSECT_MAJ_CD, ");
         sbMst.Append(" prevquarterend.TOT_NOS as prevTOT_NOS,prevquarterend.TOT_MARKET_PRICE as prevTOT_MARKET_PRICE ,prevquarterend.TCST_AFT_COM as prevTCST_AFT_COM, prevquarterend.PERCENT_OF_APRE_EROSION prevAPPRICIATION_ERROTION ");
         sbMst.Append(" from (SELECT     INVEST.FUND.f_cd,INVEST.FUND.F_NAME, INVEST.COMP.COMP_NM, INVEST.COMP.COMP_cd, INVEST.PFOLIO_BK.SECT_MAJ_NM,INVEST.PFOLIO_BK.SECT_MAJ_CD, ");
         sbMst.Append(" TRUNC(INVEST.PFOLIO_BK.TOT_NOS,0) AS TOT_NOS, ROUND(INVEST.PFOLIO_BK.TCST_AFT_COM / INVEST.PFOLIO_BK.TOT_NOS, 2) AS COST_RT_PER_SHARE, ");

@@ -151,8 +151,6 @@
                         <asp:Button ID="deleteButton" runat="server" Visible ="false" Text="Delete"
                             CssClass="buttoncommon" TabIndex="48"
                             OnClick="deleteButton_Click" />
-
-
                     </td>
 
                 </tr>

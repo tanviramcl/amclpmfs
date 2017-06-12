@@ -32,7 +32,7 @@
                      <td align="right" style="font-weight: 700"><b>Fund Name:</b></td>
                      <td align="left" width="200px">
                          <asp:DropDownList ID="fundNameDropDownList" runat="server" TabIndex="6"
-                             AutoPostBack="True" OnSelectedIndexChanged="fundNameDropDownList_SelectedIndexChanged">
+                             AutoPostBack="True" >
                          </asp:DropDownList>
                      </td>
                  </tr>
@@ -41,7 +41,7 @@
                      <td align="left">
                          <%--<asp:DropDownList ID="PortfolioAsOnDropDownList" OnChange="PortfolioAsOn__TextChanged" AutoPostBack="true" runat="server" TabIndex="8"></asp:DropDownList>--%>
                           <asp:DropDownList ID="PortfolioAsOnDropDownList"   runat="server" TabIndex="6"
-                             AutoPostBack="True" OnSelectedIndexChanged="PortfolioAsOnDropDownList_SelectedIndexChanged">
+                             AutoPostBack="True" >
                          </asp:DropDownList>
                          <span class="style6">*</span>
                      </td>
@@ -52,7 +52,7 @@
                      <td align="left">
                          <%--<asp:DropDownList ID="PortfolioAsOnDropDownList" OnChange="PortfolioAsOn__TextChanged" AutoPostBack="true" runat="server" TabIndex="8"></asp:DropDownList>--%>
                           <asp:DropDownList ID="PreviousquaterEndDropDownList"   runat="server" TabIndex="6"
-                             AutoPostBack="True" OnSelectedIndexChanged="PreviousquaterEndDropDownList_SelectedIndexChanged">
+                             AutoPostBack="True" >
                          </asp:DropDownList>
                          <span class="style6">*</span>
                      </td>

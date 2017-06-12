@@ -174,19 +174,5 @@ public partial class UI_BalancechekReport : System.Web.UI.Page
     }
 
 
-
-    protected void PortfolioAsOnDropDownList_SelectedIndexChanged(object sender, EventArgs e)
-    {
-
-    }
-
-    protected void PreviousquaterEndDropDownList_SelectedIndexChanged(object sender, EventArgs e)
-    {
-
-    }
-
-    protected void fundNameDropDownList_SelectedIndexChanged(object sender, EventArgs e)
-    {
-
-    }
+    
 }
