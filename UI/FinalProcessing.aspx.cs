@@ -133,7 +133,7 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
         DataTable dttotalrow = GetTotalrowPortfolio_bk(txtbalanceDate1.Text);
         txttotalRowCount.Text= dttotalrow.Rows[0]["TOTALROW"].ToString();
 
-        Response.Redirect("FinalProcessing.aspx");
+     //   Response.Redirect("FinalProcessing.aspx");
     }
 
     protected void btnDelete_Click(object sender, EventArgs e)

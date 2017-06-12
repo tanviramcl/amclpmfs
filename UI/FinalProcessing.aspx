@@ -102,15 +102,15 @@
                 <td align="left" width="200px">
                      <asp:UpdatePanel ID="UpdatePanel1" runat="server">
             <ContentTemplate>
-                <asp:Label ID="lblProcessing" runat="server" Text="" style="font-size:24px; color:green;"></asp:Label>
+                <asp:Label ID="lblProcessing" runat="server" Text="" style="font-size:24px; color:green; width:150px;"></asp:Label>
                 <br />
                
-                <asp:Button ID="btnProcessingforBackup" runat="server" style="width:195px;height: 30px; font-size:16px;margin-bottom:20px;"  Text="Processing for Backup" OnClick="btnProcessingforBackup_Click" />
+                <asp:Button ID="btnProcessingforBackup" runat="server" CssClass="buttoncommon" style="width:195px;height: 30px; font-size:16px;margin-bottom:20px;"  Text="Processing for Backup" OnClick="btnProcessingforBackup_Click" />
                   <br />
-                 <asp:Button ID="btnDelete" runat="server"  style="width:195px;height: 30px;font-size:16px;"  Text="Delete" OnClick="btnDelete_Click" /></td>
+                 <asp:Button ID="btnDelete" runat="server"  CssClass="buttoncommon" style="width:195px;height: 30px;font-size:16px;"  Text="Delete" OnClick="btnDelete_Click" /></td>
             </ContentTemplate>
         </asp:UpdatePanel></td>
-                <td>
+              
                   
 
             </tr>
