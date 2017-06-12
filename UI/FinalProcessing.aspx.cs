@@ -190,14 +190,11 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
         pdateDropDownList.Columns.Add("balancedate1", typeof(string));
         pdateDropDownList.Columns.Add("balancedate2", typeof(string));
         DataRow dr = pdateDropDownList.NewRow();
-
-        for (int loop = 0; loop < pdate.Rows.Count; loop++)
-        {
-            dr = pdateDropDownList.NewRow();
-            dr["balancedate1"] = Convert.ToDateTime(pdate.Rows[loop]["BalanceDate"]).ToString("dd-MMM-yyyy");
-            dr["balancedate2"] = Convert.ToDateTime(pdate.Rows[loop]["BalanceDate"]).ToString("dd-MMM-yyyy");
-            pdateDropDownList.Rows.Add(dr);
-        }
+        dr = pdateDropDownList.NewRow();
+        dr["balancedate1"] = Convert.ToDateTime(pdate.Rows[0]["BalanceDate"]).ToString("dd-MMM-yyyy");
+        dr["balancedate2"] = Convert.ToDateTime(pdate.Rows[0]["BalanceDate"]).ToString("dd-MMM-yyyy");
+        pdateDropDownList.Rows.Add(dr);
+       
         return pdateDropDownList;
     }
 
