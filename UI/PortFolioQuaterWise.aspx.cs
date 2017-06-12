@@ -38,9 +38,6 @@ public partial class UI_BalancechekReport : System.Web.UI.Page
             PreviousquaterEndDropDownList.DataValueField = "bal_dt_ctrl";
             PreviousquaterEndDropDownList.DataBind();
 
-
-
-
         }
        
       
@@ -48,8 +45,6 @@ public partial class UI_BalancechekReport : System.Web.UI.Page
 
     protected void showButton_Click(object sender, EventArgs e)
     {
-
-
 
         string fundcode = fundNameDropDownList.SelectedValue.ToString();
         string blncdate = PortfolioAsOnDropDownList.Text.ToString();
