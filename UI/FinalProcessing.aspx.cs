@@ -36,6 +36,7 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
         DataTable dtBalanceDate = getbalanceDate();
         DataTable dtDate1 = GetDate1();
 
+      //  lblProcessing.Text = "";
         if (!IsPostBack)
         {
             txtbalanceDate1.Text = dtBalanceDate.Rows[0]["balancedate1"].ToString();
@@ -44,6 +45,8 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
             string Date1 = Convert.ToDateTime(dtDate1.Rows[0]["date1"]).ToString("dd-MMM-yyyy");
             DataTable dttotalrow = GetTotalrowPortfolio_bk(Date1);
             txttotalRowCount.Text = dttotalrow.Rows[0]["TOTALROW"].ToString();
+
+            lblProcessing.Text = "";
         }
 
 
@@ -51,26 +54,9 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
     }
 
 
-    protected void txtPurchaseRecord_TextChanged(object sender, EventArgs e)
-    {
+   
 
-    }
-
-    protected void txttotalRowCount_TextChanged(object sender, EventArgs e)
-    {
-
-    }
-
-    protected void txtbalanceDate2_TextChanged(object sender, EventArgs e)
-    {
-
-    }
-
-    protected void txtbalanceDate1_TextChanged(object sender, EventArgs e)
-    {
-
-    }
-
+    
   
     protected void btnProcessingforBackup_Click(object sender, EventArgs e)
     {
@@ -85,7 +71,8 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
 
         if (Date1 == Date2)
         {
-            ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Data Already Updated! or Market Price is not current');", true);
+          //  ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Data Already Updated! or Market Price is not current');", true);
+          lblProcessing.Text= "Data Already Updated! or Market Price is not current !!!";
         }
         else {
 
@@ -94,7 +81,7 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
             StringBuilder sbMst = new StringBuilder();
             StringBuilder sbfilter = new StringBuilder();
             sbfilter.Append(" ");
-            sbMst.Append("select a.F_CD, a.COMP_CD, a.TOT_NOS, a.TOT_COST, a.TCST_AFT_COM, a.BAL_DT, comp.avg_RT, comp.CSE_RT,");
+            sbMst.Append("select a.F_CD, a.COMP_CD, a.TOT_NOS,nvl( a.TOT_COST,0) as TOT_COST, a.TCST_AFT_COM, a.BAL_DT, comp.avg_RT, nvl(comp.CSE_RT,0) as CSE_RT ,");
             sbMst.Append("comp.ADC_RT, sect_maj.SECT_MAJ_NM, sect_maj.SECT_MAJ_CD, '" + Bal_Date1 + "' as BalanceDate from comp, mprice_temp, fund_folio_hb a, sect_maj");
             sbMst.Append(" where mprice_temp.f_cd = a.f_cd and comp.comp_cd = a.comp_cd and ");
             sbMst.Append("comp.sect_maj_cd = sect_maj.sect_maj_cd and comp.comp_cd = mprice_temp.comp_cd and a.tot_nos > 0");
@@ -123,7 +110,8 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
 
             foreach (PortFolioBk pk in portFoliobkdatalist)
             {
-                string strInsQuery = "insert into  invest.pfolio_bk(F_CD,COMP_CD,TOT_NOS,TOT_COST,TCST_AFT_COM,BAL_DT,DSE_RT,CSE_RT,ADC_RT,SECT_MAJ_NM,SECT_MAJ_CD,BAL_DT_CTRL)values('" + pk.F_CD + "','" + pk.COMP_CD + "','" + pk.TOT_NOS + "','" + pk.TOT_COST + "','" + pk.TCST_AFT_COM + "',TO_Date('" + pk.BAL_DT + "'),'" + pk.avg_RT + "','" + pk.CSE_RT + "','" + pk.ADC_RT + "','" + pk.SECT_MAJ_NM + "','" + pk.SECT_MAJ_CD + "',TO_DATE('" + pk.BalanceDate + "'))";
+                
+                string strInsQuery = "insert into  invest.pfolio_bk(F_CD,COMP_CD,TOT_NOS,TOT_COST,TCST_AFT_COM,BAL_DT,DSE_RT,CSE_RT,ADC_RT,SECT_MAJ_NM,SECT_MAJ_CD,BAL_DT_CTRL)values(" + Convert.ToInt32(pk.F_CD) + "," + Convert.ToInt32(pk.COMP_CD) + "," + Convert.ToDouble(pk.TOT_NOS) + "," + Convert.ToDouble(pk.TOT_COST) + "," + Convert.ToDouble(pk.TCST_AFT_COM) + ",TO_Date('" + pk.BAL_DT + "')," + Convert.ToDouble(pk.avg_RT) + "," + Convert.ToDouble(pk.CSE_RT) + ",'" + Convert.ToDouble(pk.ADC_RT) + "','" + pk.SECT_MAJ_NM.ToString() + "','" + pk.SECT_MAJ_CD + "',TO_DATE('" + pk.BalanceDate + "'))";
                 int NumOfRows = commonGatewayObj.ExecuteNonQuery(strInsQuery);
 
             }
@@ -146,25 +134,26 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
       
         string dt1 = txtbalanceDate2.Text;
 
-       // int row;
-
+        // int row;
+        lblProcessing.Text = "Processing completed!!!!";
         if (Date1 == dt1)
         {
             DataTable dttotalrow = GetTotalrowPortfolio_bk(dt1);
             int row= Convert.ToInt32(dttotalrow.Rows[0]["TOTALROW"].ToString());
-            string strInsQuery = "delete from pfolio_bk where bal_dt_ctrl='"+dt1+"'";
-            int NumOfRows = commonGatewayObj.ExecuteNonQuery(strInsQuery);
-            ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Delete Successfully');", true);
-            txttotalRowCount.Text = Convert.ToString(row);
+            string strDelQuery = "delete from pfolio_bk where bal_dt_ctrl='"+dt1+"'";
+            int NumOfRows = commonGatewayObj.ExecuteNonQuery(strDelQuery);
+            //  ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Delete Successfully');", true);
+            lblProcessing.Text = "Delete  Successfully";
+            // txttotalRowCount.Text = Convert.ToString(row);
 
-
+            ClearFields();
         }
         else
         {
-            ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Delete unsuccessfully');", true);
+            lblProcessing.Text = "Delete unsuccessfully"; 
         }
-        Response.Redirect("FinalProcessing.aspx");
-        // ClearFields();
+       // Response.Redirect("FinalProcessing.aspx");
+        
     }
     public class PortFolioBk
     {

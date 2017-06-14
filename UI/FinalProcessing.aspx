@@ -45,27 +45,12 @@
             <td align="right" style="font-weight: 700">Balance Date</td>
             <td align="left" width="300px">
                 <asp:TextBox ID="txtbalanceDate1" runat="server" Style="width: 195px;"
-                    CssClass="textInputStyle"  TabIndex="7" AutoPostBack="True"
-                    OnTextChanged="txtbalanceDate1_TextChanged"></asp:TextBox>
-                 <ajaxToolkit:CalendarExtender ID="txtbalanceDate1_CalendarExtender1"
-                    runat="server" TargetControlID="txtbalanceDate1"
-                    PopupButtonID="ImageButton2" Format="dd-MMM-yyyy" />
-                <asp:ImageButton ID="ImageButton2" runat="server"
-                    AlternateText="Click Here" ImageUrl="~/Image/Calendar_scheduleHS.png"
-                    TabIndex="24" />
-            </td>
+                    CssClass="textInputStyle"  ReadOnly="true" TabIndex="7" AutoPostBack="True"></asp:TextBox>
+           </td>
             <td align="left" width="300px">
                 <asp:TextBox ID="txtbalanceDate2" runat="server" Style="width: 195px;"
-                    CssClass="textInputStyle" TabIndex="7" AutoPostBack="True"
-                    OnTextChanged="txtbalanceDate2_TextChanged"></asp:TextBox>
-
-                <ajaxToolkit:CalendarExtender ID="txtbalanceDate2_CalendarExtender1"
-                    runat="server" TargetControlID="txtbalanceDate2"
-                    PopupButtonID="ImageButton1" Format="dd-MMM-yyyy" />
-                <asp:ImageButton ID="ImageButton1" runat="server"
-                    AlternateText="Click Here" ImageUrl="~/Image/Calendar_scheduleHS.png"
-                    TabIndex="24" />
-            </td>
+                    CssClass="textInputStyle" TabIndex="7" AutoPostBack="True"></asp:TextBox>
+           </td>
         </tr>
         <tr>
 
@@ -73,7 +58,7 @@
             <td align="left" width="200px">
                 <asp:TextBox ID="txttotalRowCount" runat="server" Style="width: 195px;"
                     CssClass="textInputStyle" ReadOnly="true" TabIndex="7" AutoPostBack="True"
-                    OnTextChanged="txttotalRowCount_TextChanged"></asp:TextBox>
+                   ></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -91,15 +76,15 @@
         </tr>
         <tr>
             <td align="right" style="font-weight: 700">&nbsp;</td>
-            <td align="left" width="200px">
+            <td align="left" width="600px">
                 <asp:UpdatePanel ID="UpdatePanel1" runat="server">
                     <ContentTemplate>
-                        <asp:Label ID="lblProcessing" runat="server" Text="" Style="font-size: 24px; color: green;"></asp:Label>
+                        <asp:Label ID="lblProcessing" runat="server" Text="" Style="font-size: 20px; color: green; width:300px"></asp:Label>
                         <br />
 
-                        <asp:Button ID="btnProcessingforBackup" runat="server" Style="width: 195px; height: 30px; font-size: 16px; margin-bottom: 20px;" Text="Processing for Backup" OnClick="btnProcessingforBackup_Click" />
+                        <asp:Button ID="btnProcessingforBackup" runat="server"  CssClass="buttoncommon" Style="width: 195px; height: 30px; font-size: 16px; margin-bottom: 20px;" Text="Processing for Backup" OnClick="btnProcessingforBackup_Click" />
                         <br />
-                        <asp:Button ID="btnDelete" runat="server" Style="width: 195px; height: 30px; font-size: 16px;" Text="Delete" OnClick="btnDelete_Click" /></td>
+                        <asp:Button ID="btnDelete" runat="server" CssClass="buttoncommon" Style="width: 195px; height: 30px; font-size: 16px;" Text="Delete" OnClick="btnDelete_Click" /></td>
                     </ContentTemplate>
                 </asp:UpdatePanel>
             </td>
@@ -110,5 +95,47 @@
             <td></td>
         </tr>
     </table>
+      <script type="text/javascript">
+
+    $(function () {
+
+        
+             $('#<%=txtbalanceDate2.ClientID%>').datepicker({ 
+                 changeMonth: true,
+                 changeYear: true,
+                 dateFormat: "dd/mm/yy",
+                 maxDate:"today"
+             
+             });  
+    });
+      
+    $("#aspnetForm").validate({
+        rules: {
+                   
+                    <%=txtbalanceDate1.UniqueID %>: {
+                        
+                        required: true,
+                        
+                    },<%=txtbalanceDate2.UniqueID %>: {
+                        
+                        required: true,  
+                    }
+              
+                }, messages: {
+                   <%=txtbalanceDate1.UniqueID %>:{  
+                       required: "*Balance Date  is required*",
+                       
+                   },<%=txtbalanceDate2.UniqueID %>:{  
+                       required: "*Balance Date  is required*",
+                      
+                   }
+                    
+                    
+            
+                
+                }
+      });
+
+    </script>
 </asp:Content>
 
