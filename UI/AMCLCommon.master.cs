@@ -155,6 +155,11 @@ public partial class UI_AMCLCommon : System.Web.UI.MasterPage
         Subitem.Url = "PortfolioSummaryForm.aspx";
         item.SubItems.Add(Subitem);
 
+        Subitem = new skmMenu.MenuItem("Portfolio Summary In Pie Chart (Sector Wise)");
+        Subitem.Url = "PortFolioSummaryInPieChart.aspx";
+        item.SubItems.Add(Subitem);
+
+
         Subitem = new skmMenu.MenuItem("Total Asset Percetage Check");
         Subitem.Url = "AssetPercentageCheck.aspx";
         item.SubItems.Add(Subitem);
