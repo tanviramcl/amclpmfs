@@ -74,7 +74,7 @@
                       <td align="right" style="font-weight: 700"><b>Balance Date:</b></td>
                       <td align="left" width="300px">
                           <asp:TextBox ID="txtBalanceDate" runat="server" style="width:195px;" 
-                        CssClass="textInputStyle" TabIndex="7" AutoPostBack="True" 
+                        CssClass="textInputStyle" TabIndex="7" AutoPostBack="True"
                         ></asp:TextBox>
                           <ajaxToolkit:CalendarExtender ID="txtBalanceDate_CalendarExtender"
                               runat="server" TargetControlID="txtBalanceDate"

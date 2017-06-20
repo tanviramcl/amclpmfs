@@ -567,7 +567,7 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
                                          COMP_CD = dr["COMP_CD"].ToString(),
                                          AVG_RT = dr["AVG_RT"].ToString()
                                      }).ToList();
-
+                
 
                 foreach (CompanyAvarageRate comAvgrate in lstCompnayAvgrate)
                 {
