@@ -40,7 +40,7 @@ public partial class UI_ReportViewer_PortfolioWithNonListedReportViewer : System
         StringBuilder sbMst = new StringBuilder();
         StringBuilder sbfilter = new StringBuilder();
         sbfilter.Append(" ");
-        sbMst.Append(" select nvl(quarterend.f_name,prevquarterend.f_name) as f_name, nvl(quarterend.COMP_NM,prevquarterend.COMP_nm) as COMP_NM ,quarterend.SECT_MAJ_NM,quarterend.SECT_MAJ_CD,nvl(quarterend.TOT_NOS,0) as TOT_NOS,nvl(quarterend.TOT_MARKET_PRICE,0)as TOT_MARKET_PRICE,nvl(quarterend.TCST_AFT_COM,0) as TCST_AFT_COM,");
+        sbMst.Append(" select nvl(quarterend.f_name,prevquarterend.f_name) as f_name, nvl(quarterend.COMP_NM,prevquarterend.COMP_nm) as COMP_NM ,nvl(quarterend.SECT_MAJ_NM,prevquarterend.SECT_MAJ_NM) as SECT_MAJ_NM,nvl(quarterend.SECT_MAJ_CD,prevquarterend.SECT_MAJ_CD) as SECT_MAJ_CD,nvl(quarterend.TOT_NOS,0) as TOT_NOS,nvl(quarterend.TOT_MARKET_PRICE,0)as TOT_MARKET_PRICE,nvl(quarterend.TCST_AFT_COM,0) as TCST_AFT_COM,");
         sbMst.Append(" nvl(quarterend.APPRICIATION_ERROTION,0) as APPRICIATION_ERROTION,prevquarterend.f_name as prevfname,prevquarterend.COMP_nm as prevcomp,prevquarterend.SECT_MAJ_NM as prevSECT_MAJ_NM ,prevquarterend.SECT_MAJ_CD as prevSECT_MAJ_CD, ");
         sbMst.Append(" prevquarterend.TOT_NOS as prevTOT_NOS,prevquarterend.TOT_MARKET_PRICE as prevTOT_MARKET_PRICE ,prevquarterend.TCST_AFT_COM as prevTCST_AFT_COM, prevquarterend.PERCENT_OF_APRE_EROSION prevAPPRICIATION_ERROTION ");
         sbMst.Append(" from (SELECT     INVEST.FUND.f_cd,INVEST.FUND.F_NAME, INVEST.COMP.COMP_NM, INVEST.COMP.COMP_cd, INVEST.PFOLIO_BK.SECT_MAJ_NM,INVEST.PFOLIO_BK.SECT_MAJ_CD, ");
@@ -67,30 +67,10 @@ public partial class UI_ReportViewer_PortfolioWithNonListedReportViewer : System
         sbMst.Append(" and quarterend.comp_Cd=prevquarterend.comp_Cd ");
         dtReprtSource = commonGatewayObj.Select(sbMst.ToString());
 
-        //DataTable dtNonlistedSecrities = new DataTable();
-        //sbMst = new StringBuilder();
-        //sbMst.Append("SELECT      INV_AMOUNT AS COST_PRICE, INV_AMOUNT AS MARKET_PRICE ");
-        //sbMst.Append("FROM         INVEST.NON_LISTED_SECURITIES ");
-        //sbMst.Append("WHERE     (F_CD = " + fundCode + ") AND (INV_DATE = ");
-        //sbMst.Append(" (SELECT     MAX(INV_DATE) AS EXPR1 ");
-        //sbMst.Append("FROM          INVEST.NON_LISTED_SECURITIES NON_LISTED_SECURITIES_1 ");
-        //sbMst.Append("WHERE     (F_CD = " + fundCode + ") AND (INV_DATE <= '" + quaterEndDate + "'))) ");
-        //dtNonlistedSecrities = commonGatewayObj.Select(sbMst.ToString());
-
-        //Decimal nonlistedCostPrice = 0;
-        //Decimal nonlistedMarketPrice = 0;
-        //if (dtNonlistedSecrities.Rows.Count > 0)
-        //{
-        //    nonlistedCostPrice = Convert.ToDecimal(dtNonlistedSecrities.Rows[0][0]);
-        //    nonlistedMarketPrice = Convert.ToDecimal(dtNonlistedSecrities.Rows[0][0]);
-        //}
+     
         if (dtReprtSource.Rows.Count > 0)
         {
-            //Decimal totalInvest = 0;
-            //for (int loop = 0; loop < dtReprtSource.Rows.Count; loop++)
-            //{
-            //    totalInvest = totalInvest + Convert.ToDecimal(dtReprtSource.Rows[loop]["TCST_AFT_COM"]);
-            //}
+          
             dtReprtSource.TableName = "PortfolioQuarterlyReport";
            // dtReprtSource.WriteXmlSchema(@"D:\officialProject\4-5-2017\amclpmfs\UI\ReportViewer\Report\CR_PortfolioQuarterlyReport.xsd");
             ReportDocument rdoc = new ReportDocument();

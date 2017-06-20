@@ -24,7 +24,7 @@ public partial class _Default : System.Web.UI.Page
     }
     protected void loginButton_Click(object sender, EventArgs e)
     {
-        Captcha1.ValidateCaptcha(txtCaptcha.Text.Trim());
+       // Captcha1.ValidateCaptcha(txtCaptcha.Text.Trim());
 
         //if (Captcha1.UserValidated)
         //{
