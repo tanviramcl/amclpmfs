@@ -66,63 +66,6 @@ public partial class UI_BalancechekReport : System.Web.UI.Page
 
         if (date > date2)
         {
-           
-                // ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('This Date is not a quarter end date ');", true);
-
-               
-
-                //if (blncdate != qenddate)
-                //{
-                //    ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('This Date is not a quarter end date,Do you want to proceed');", true);
-                //}
-                //if (prevBalancedate != qprevenddate)
-                //{
-                //    ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('This Date is not a quarter end date,Do you want to proceed');", true);
-
-                //}
-                // if (blncdate == qenddate && prevBalancedate != qprevenddate)
-                //{
-                //    TimeSpan t = date - date2;
-                //    double N0OfDays = t.TotalDays;
-                //    if (N0OfDays >= 90 && N0OfDays <= 92)
-                //    {
-                //        Session["Fromdate"] = blncdate;
-                //        Session["Todate"] = prevBalancedate;
-                //        Session["fundCodes"] = fundNameDropDownList.SelectedValue.ToString();
-
-                //    }
-
-                //}
-                //else if (blncdate != qenddate && prevBalancedate == qprevenddate)
-                //{
-                //    TimeSpan t = date - date2;
-                //    double N0OfDays = t.TotalDays;
-                //    if (N0OfDays >= 90 && N0OfDays <= 92)
-                //    {
-                //        Session["Fromdate"] = blncdate;
-                //        Session["Todate"] = prevBalancedate;
-                //        Session["fundCodes"] = fundNameDropDownList.SelectedValue.ToString();
-
-                //    }
-
-                //}
-                //else if (blncdate == qenddate && prevBalancedate == qprevenddate)
-                //{
-                //    TimeSpan t = date - date2;
-                //    double N0OfDays = t.TotalDays;
-                //    if (N0OfDays >= 90 && N0OfDays <= 92)
-                //    {
-                //        Session["Fromdate"] = blncdate;
-                //        Session["Todate"] = prevBalancedate;
-                //        Session["fundCodes"] = fundNameDropDownList.SelectedValue.ToString();
-
-                //    }
-                //}
-                //else
-                //{
-                //    ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Quarter End Date must be greater than Previous Quarter End Date ');", true);
-                //}
-
                 TimeSpan t = date - date2;
                 double N0OfDays = t.TotalDays;
                 if (N0OfDays >= 90 && N0OfDays <= 92)
@@ -145,8 +88,6 @@ public partial class UI_BalancechekReport : System.Web.UI.Page
 
       
     }
-
-  
 
     public DataTable BalanceDateDropDownList()//Get Howla Date from invest.fund_trans_hb Table
     {

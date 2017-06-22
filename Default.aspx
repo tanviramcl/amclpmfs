@@ -25,12 +25,12 @@
             return false;   
         }
         
-      //  if(document.getElementById("<%=txtCaptcha.ClientID%>").value =="")
+   <%--   //  if(document.getElementById("<%=txtCaptcha.ClientID%>").value =="")
       //  {
       //    document.getElementById("<%=txtCaptcha.ClientID%>").focus();
       //     alert("Type Captcha Code");
       //      return false;
-      //  }  
+      //  }  --%>
     }
   </script>
 <link rel="Stylesheet" type="text/css" href="CSS/amcl.css"/>
@@ -78,7 +78,7 @@
     <table width="400" align="center" cellpadding="0" cellspacing="0">
     <tr>
             <td class="style6">
-             Portfolio Management System
+              IAMCL INVESTMENT ANALYSIS AND PFMS
             </td>
         </tr>
     </table>
@@ -103,16 +103,16 @@
             </td>
         </tr>
         </table>
-     <div align ="center">
+    <%-- <div align ="center">
             <cc1:CaptchaControl ID="Captcha1" runat="server" CaptchaLength="5"
 
              CaptchaHeight="60" CaptchaWidth="200" CaptchaMinTimeout="5"
 
              CaptchaMaxTimeout="240" FontColor = "#529E00" Width="197px" 
                 Font-Italic="True" CaptchaChars="ACDEFGHJKLNPQRTUVXYZ2346789" />
-    </div>
+    </div>--%>
         <table width="400" align="center" cellpadding="0" cellspacing="0">    
-        <tr>
+        <%--<tr>
            <td class="style7">
                Type the<br />
                code shown:</td>
@@ -121,7 +121,9 @@
                      Width="101px" ></asp:TextBox>
             </td>
          
-        </tr>
+        </tr>--%>
+
+        <br />
         
          <tr>
             <td align="center" colspan="2">
