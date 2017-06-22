@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/UI/AMCLCommon.master" AutoEventWireup="true" CodeFile="testFundTransactionHBReport.aspx.cs" Inherits="UI_FundTransactionReport" Title="Untitled Page" %>
+﻿<%@ Page Language="C#" MasterPageFile="~/UI/AMCLCommon - Copy.master" AutoEventWireup="true" CodeFile="testFundTransactionHBReport.aspx.cs" Inherits="UI_FundTransactionReport" Title="Untitled Page" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
 </asp:Content>

@@ -61,7 +61,7 @@ public partial class UI_AMCLCommon : System.Web.UI.MasterPage
             item.SubItems.Add(Subitem);
 
             Subitem = new skmMenu.MenuItem("CSE Howla Entry");
-            Subitem.Url = "HowlaCSEentryForm.aspx";
+            Subitem.Url = "HowlaDSEentryForm.aspx";
             item.SubItems.Add(Subitem);
 
             Subitem = new skmMenu.MenuItem("Upload File");
@@ -338,8 +338,8 @@ public partial class UI_AMCLCommon : System.Web.UI.MasterPage
             mnuMenu.Items.Add(item);
             //psdr menu
             item = new skmMenu.MenuItem("MOMS");
-            Subitem = new skmMenu.MenuItem("PSDR For Portfolio");
-            Subitem.Url = "PSDRForPortfolio.aspx";
+            Subitem = new skmMenu.MenuItem("Monthly Bank Advice(Salary)");
+            Subitem.Url = "BankAdvice.aspx";
             item.SubItems.Add(Subitem);
             Subitem = new skmMenu.MenuItem("Company Information For CDS");
             Subitem.Url = "CompanyInformationForCDS.aspx";
