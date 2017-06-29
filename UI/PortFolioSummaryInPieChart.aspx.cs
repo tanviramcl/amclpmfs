@@ -47,8 +47,9 @@ public partial class UI_BalancechekReport : System.Web.UI.Page
         Session["fundCode"] = fundNameDropDownList.SelectedValue.ToString();
         Session["balDate"] = PortfolioAsOnDropDownList.SelectedValue.ToString();
 
-        ClientScript.RegisterStartupScript(this.GetType(), "PortfolioSummaryInPieChartReportViewer", "window.open('ReportViewer/PortfolioSummaryInPieChartReportViewer.aspx')", true);
-
+        // ClientScript.RegisterStartupScript(this.GetType(), "PortfolioSummaryInPieChartReportViewer", "window.open('ReportViewer/PortfolioSummaryInPieChartReportViewer.aspx')", true);
+        Response.Redirect("ReportViewer/PortfolioSummaryInPieChartReportViewer.aspx");
+       // Response.Redirect("ReportViewer/StockDeclarationBeforePostedReportViewer.aspx");
     }
 
     public DataTable BalanceDateDropDownList()//Get Howla Date from invest.fund_trans_hb Table
