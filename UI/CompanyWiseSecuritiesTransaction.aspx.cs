@@ -51,6 +51,7 @@ public partial class UI_CompanyWiseSecuritiesTransaction : System.Web.UI.Page
         Session["companyCode"] = companyNameDropDownList.SelectedValue.ToString();
         Session["companyCode"] = companyNameDropDownList.SelectedValue.ToString();
         Session["bdf"] = bdf.ToString();
-        ClientScript.RegisterStartupScript(this.GetType(), "CompanyWiseSecuritiesTransactionReportViewer", "window.open('ReportViewer/CompanyWiseSecuritiesTransactionReportViewer.aspx')", true);
+        //  ClientScript.RegisterStartupScript(this.GetType(), "CompanyWiseSecuritiesTransactionReportViewer", "window.open('ReportViewer/CompanyWiseSecuritiesTransactionReportViewer.aspx')", true);
+        Response.Redirect("ReportViewer/CompanyWiseSecuritiesTransactionReportViewer.aspx");
     }
 }

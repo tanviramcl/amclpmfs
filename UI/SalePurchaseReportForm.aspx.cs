@@ -36,6 +36,7 @@ public partial class UI_SalePurchaseReportForm : System.Web.UI.Page
         Session["fromDate"] = howlaDateFromTextBox.Text.ToString();
         Session["toDate"] = howlaDateToTextBox.Text.ToString();
         Session["fundCode"] = fundNameDropDownList.SelectedValue.ToString();
-        ClientScript.RegisterStartupScript(this.GetType(), "SalePurchaseReportViewer", "window.open('ReportViewer/SalePurchaseReportViewer.aspx')", true);
+        //ClientScript.RegisterStartupScript(this.GetType(), "SalePurchaseReportViewer", "window.open('ReportViewer/SalePurchaseReportViewer.aspx')", true);
+        Response.Redirect("ReportViewer/SalePurchaseReportViewer.aspx");
     }
 }
