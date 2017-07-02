@@ -16,7 +16,7 @@ public partial class UI_ReportViewer_CapitalGainAllFundsReportViewer : System.We
         string strFromdate = "";
         string strTodate = "";
         string fundCodes = "";
-        string strSQL,strsql2;
+        string strSQL;
         //string companyCodes = "";
         //string percentageCheck = "";
 

@@ -109,9 +109,9 @@ public partial class UI_BalancechekReport : System.Web.UI.Page
         Session["companycode"] = companyNameDropDownList.SelectedValue.ToString();
         Session["transtype"] = transTypeDropDownList.SelectedValue.ToString();
 
-        
+        Response.Redirect("ReportViewer/SellBuyCheckReportViwer.aspx");
 
-        ClientScript.RegisterStartupScript(this.GetType(), "SellBuyCheckReportViwer", "window.open('ReportViewer/SellBuyCheckReportViwer.aspx')", true);
+       // ClientScript.RegisterStartupScript(this.GetType(), "SellBuyCheckReportViwer", "window.open('ReportViewer/SellBuyCheckReportViwer.aspx')", true);
 
 
     }
