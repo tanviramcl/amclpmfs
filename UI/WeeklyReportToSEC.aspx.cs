@@ -33,6 +33,7 @@ public partial class UI_WeeklyReportToSEC : System.Web.UI.Page
         //ClientScript.RegisterStartupScript(this.GetType(), "ReportViwer", sb.ToString(), true);
         Session["weekEndDate"] = weekEndDateTextBox.Text.ToString();
 
-        ClientScript.RegisterStartupScript(this.GetType(), "PortfolioSummaryReportViewer", "window.open('ReportViewer/WeeklyReportToSECreportViewer.aspx')", true);
+        // ClientScript.RegisterStartupScript(this.GetType(), "PortfolioSummaryReportViewer", "window.open('ReportViewer/WeeklyReportToSECreportViewer.aspx')", true);
+        Response.Redirect("ReportViewer/WeeklyReportToSECreportViewer.aspx");
     }
 }

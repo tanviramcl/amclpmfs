@@ -114,7 +114,8 @@ public partial class UI_MarketValuationWithNonListedSecuritesCompanyAndAllFunds 
             //Session["percentageCheck"] = percentageTextBox.Text.ToString();
             //Session["companyCodes"] = companyCodeTextBox.Text.ToString();
             dvGridFund.Visible = true;
-            ClientScript.RegisterStartupScript(this.GetType(), "MarketValuationWithNonListedSecuritesCompanyAndAllFunds", "window.open('ReportViewer/MarketValuationWithNonListedSecuritesCompanyAndAllFundsReportViewer.aspx')", true);
+            //ClientScript.RegisterStartupScript(this.GetType(), "MarketValuationWithNonListedSecuritesCompanyAndAllFunds", "window.open('ReportViewer/MarketValuationWithNonListedSecuritesCompanyAndAllFundsReportViewer.aspx')", true);
+            Response.Redirect("ReportViewer/MarketValuationWithNonListedSecuritesCompanyAndAllFundsReportViewer.aspx");
         }
     }
     //private string SelectFundCode()

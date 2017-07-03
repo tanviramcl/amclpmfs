@@ -51,7 +51,8 @@ public partial class UI_QuarterlyReportToSEC : System.Web.UI.Page
             Session["quarterStartDate"] = quarterStartDateTextBox.Text.ToString();
             Session["quarterEndDate"] = quarterEndDateDropDownList.SelectedValue.ToString();
             Session["reportType"] = reportType;
-            ClientScript.RegisterStartupScript(this.GetType(), "QuarterlyReportViewer", "window.open('ReportViewer/QuarterlyReportToSECReportViewer.aspx')", true);
+            //  ClientScript.RegisterStartupScript(this.GetType(), "QuarterlyReportViewer", "window.open('ReportViewer/QuarterlyReportToSECReportViewer.aspx')", true);
+            Response.Redirect("ReportViewer/QuarterlyReportToSECReportViewer.aspx");
         }
         else
         {

@@ -34,7 +34,8 @@ public partial class UI_BalancechekReport : System.Web.UI.Page
        
         StringBuilder sb = new StringBuilder();
 
-        ClientScript.RegisterStartupScript(this.GetType(), "CapitalGainSummaryStockWiseReportVeiwer", "window.open('ReportViewer/CapitalGainSummaryStockWiseReportVeiwer.aspx')", true);
+        //  ClientScript.RegisterStartupScript(this.GetType(), "CapitalGainSummaryStockWiseReportVeiwer", "window.open('ReportViewer/CapitalGainSummaryStockWiseReportVeiwer.aspx')", true);
+        Response.Redirect("ReportViewer/CapitalGainSummaryStockWiseReportVeiwer.aspx");
     }
 
   

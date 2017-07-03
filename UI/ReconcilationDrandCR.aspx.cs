@@ -46,7 +46,8 @@ public partial class UI_BalancechekReport : System.Web.UI.Page
 
         StringBuilder sb = new StringBuilder();
 
-        ClientScript.RegisterStartupScript(this.GetType(), "ReconCilationDRandCRReportVeiwer", "window.open('ReportViewer/ReconCilationDRandCRReportVeiwer.aspx')", true);
+        // ClientScript.RegisterStartupScript(this.GetType(), "ReconCilationDRandCRReportVeiwer", "window.open('ReportViewer/ReconCilationDRandCRReportVeiwer.aspx')", true);
+        Response.Redirect("ReportViewer/ReconCilationDRandCRReportVeiwer.aspx");
     }
 
   

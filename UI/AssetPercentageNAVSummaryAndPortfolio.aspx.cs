@@ -60,8 +60,9 @@ public partial class UI_AssetPercentageNAVSummaryAndPortfolio : System.Web.UI.Pa
         Session["fundCode"] = fundNameDropDownList.SelectedValue.ToString();
         Session["fundName"] = fundNameDropDownList.SelectedItem.Text.ToString();
         Session["balDate"] = portfolioAsOnDropDownList.SelectedValue.ToString();
-       
 
-       ClientScript.RegisterStartupScript(this.GetType(), "AssetPercentageNAVSummaryAndPortfolioReportViewer", "window.open('ReportViewer/AssetPercentageNAVSummaryAndPortfolioReportViewer.aspx')", true);
+
+        //  ClientScript.RegisterStartupScript(this.GetType(), "AssetPercentageNAVSummaryAndPortfolioReportViewer", "window.open('ReportViewer/AssetPercentageNAVSummaryAndPortfolioReportViewer.aspx')", true);
+        Response.Redirect("ReportViewer/AssetPercentageNAVSummaryAndPortfolioReportViewer.aspx");
     }
 }

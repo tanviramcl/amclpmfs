@@ -81,6 +81,7 @@ public partial class UI_PortfolioStatementWithProfitLoss : System.Web.UI.Page
         Session["balDate"] = portfolioAsOnDropDownList.SelectedValue.ToString();
         Session["orderType"] = orderType;
 
-        ClientScript.RegisterStartupScript(this.GetType(), "PortfolioSummaryReportViewer", "window.open('ReportViewer/PortfolioWithProfitLossReportViewer.aspx')", true);
+        // ClientScript.RegisterStartupScript(this.GetType(), "PortfolioSummaryReportViewer", "window.open('ReportViewer/PortfolioWithProfitLossReportViewer.aspx')", true);
+        Response.Redirect("ReportViewer/PortfolioWithProfitLossReportViewer.aspx");
     }
 }

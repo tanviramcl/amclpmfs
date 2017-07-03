@@ -41,6 +41,7 @@ public partial class UI_MonthlyDeductionOfIAMCLemployeesReportForm : System.Web.
 
         Session["calDate"] = monthOfDeductionDropDownList.SelectedValue.ToString();
         Session["deductionType"] = deductionType.ToString();
-        ClientScript.RegisterStartupScript(this.GetType(), "MonthlyDeductionOfIAMCLemployeesReportViewer", "window.open('ReportViewer/MonthlyDeductionOfIAMCLemployeesReportViewer.aspx')", true);
+        // ClientScript.RegisterStartupScript(this.GetType(), "MonthlyDeductionOfIAMCLemployeesReportViewer", "window.open('ReportViewer/MonthlyDeductionOfIAMCLemployeesReportViewer.aspx')", true);
+        Response.Redirect("ReportViewer/MonthlyDeductionOfIAMCLemployeesReportViewer.aspx");
     }
 }
