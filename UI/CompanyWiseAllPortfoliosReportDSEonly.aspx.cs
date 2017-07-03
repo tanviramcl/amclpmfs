@@ -85,7 +85,8 @@ public partial class UI_CompanyWiseAllPortfoliosReportDSEonly : System.Web.UI.Pa
         Session["percentageCheck"] = percentageTextBox.Text.ToString();
         Session["companyCodes"] = companyCodeTextBox.Text.ToString();
 
-        ClientScript.RegisterStartupScript(this.GetType(), "ReceivableCashDividendReportViewer", "window.open('ReportViewer/CompanyWiseAllPortfoliosReportDSEonlyReportViewer.aspx')", true);
+        // ClientScript.RegisterStartupScript(this.GetType(), "ReceivableCashDividendReportViewer", "window.open('ReportViewer/CompanyWiseAllPortfoliosReportDSEonlyReportViewer.aspx')", true);
+        Response.Redirect("ReportViewer/CompanyWiseAllPortfoliosReportDSEonlyReportViewer.aspx");
     }
     private string SelectFundCode()
     {

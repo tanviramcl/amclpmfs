@@ -42,6 +42,7 @@ public partial class UI_PortfolioSummaryForm : System.Web.UI.Page
         Session["fundCode"] = fundNameDropDownList.SelectedValue.ToString();
         Session["balDate"] = portfolioAsOnDropDownList.SelectedValue.ToString();
 
-        ClientScript.RegisterStartupScript(this.GetType(), "PortfolioSummaryReportViewer", "window.open('ReportViewer/PortfolioSummaryReportViewer.aspx')", true);
+        // ClientScript.RegisterStartupScript(this.GetType(), "PortfolioSummaryReportViewer", "window.open('ReportViewer/PortfolioSummaryReportViewer.aspx')", true);
+        Response.Redirect("ReportViewer/PortfolioSummaryReportViewer.aspx");
     }
 }

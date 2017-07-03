@@ -58,7 +58,8 @@ public partial class UI_BalancechekReport : System.Web.UI.Page
         Session["fundName"] = fundNameDropDownList.SelectedItem.Text.ToString();
         StringBuilder sb = new StringBuilder();
 
-        ClientScript.RegisterStartupScript(this.GetType(), "StatementOfProfitOnSaleOfInvestmentReportVeiwer", "window.open('ReportViewer/StatementOfProfitOnSaleOfInvestmentReportVeiwer.aspx')", true);
+        //  ClientScript.RegisterStartupScript(this.GetType(), "StatementOfProfitOnSaleOfInvestmentReportVeiwer", "window.open('ReportViewer/StatementOfProfitOnSaleOfInvestmentReportVeiwer.aspx')", true);
+        Response.Redirect("ReportViewer/StatementOfProfitOnSaleOfInvestmentReportVeiwer.aspx");
     }
 
   

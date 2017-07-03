@@ -46,7 +46,8 @@ public partial class UI_BalancechekReport : System.Web.UI.Page
 
         StringBuilder sb = new StringBuilder();
 
-        ClientScript.RegisterStartupScript(this.GetType(), "ReceivablePayableFundwiseReportVeiwer", "window.open('ReportViewer/ReceivablePayableFundwiseReportVeiwer.aspx')", true);
+        // ClientScript.RegisterStartupScript(this.GetType(), "ReceivablePayableFundwiseReportVeiwer", "window.open('ReportViewer/ReceivablePayableFundwiseReportVeiwer.aspx')", true);
+        Response.Redirect("ReportViewer/ReceivablePayableFundwiseReportVeiwer.aspx");
     }
 
   

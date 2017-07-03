@@ -73,7 +73,8 @@ public partial class UI_BalancechekReport : System.Web.UI.Page
                     Session["quaterEndDate"] = blncdate;
                     Session["PrevQuaterEnddate"] = prevBalancedate;
                     Session["fundCodes"] = fundNameDropDownList.SelectedValue.ToString();
-                    ClientScript.RegisterStartupScript(this.GetType(), "PortfolioSummaryReportViewer", "window.open('ReportViewer/PortFolioQuaterWiseWithNonListedReportViewer.aspx')", true);
+                // ClientScript.RegisterStartupScript(this.GetType(), "PortfolioSummaryReportViewer", "window.open('ReportViewer/PortFolioQuaterWiseWithNonListedReportViewer.aspx')", true);
+                Response.Redirect("ReportViewer/PortFolioQuaterWiseWithNonListedReportViewer.aspx");
                 }
                 else
                 {

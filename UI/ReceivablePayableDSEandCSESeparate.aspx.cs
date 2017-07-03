@@ -34,7 +34,8 @@ public partial class UI_BalancechekReport : System.Web.UI.Page
        
         StringBuilder sb = new StringBuilder();
 
-        ClientScript.RegisterStartupScript(this.GetType(), "ReceivablePayableDSEandCSESeparateReportVeiwer", "window.open('ReportViewer/ReceivablePayableDSEandCSESeparateReportVeiwer.aspx')", true);
+        // ClientScript.RegisterStartupScript(this.GetType(), "ReceivablePayableDSEandCSESeparateReportVeiwer", "window.open('ReportViewer/ReceivablePayableDSEandCSESeparateReportVeiwer.aspx')", true);
+        Response.Redirect("ReportViewer/ReceivablePayableDSEandCSESeparateReportVeiwer.aspx");
     }
 
   

@@ -43,6 +43,7 @@ public partial class UI_PortfolioWithNonListedSecurities : System.Web.UI.Page
         Session["fundCode"] = fundNameDropDownList.SelectedValue.ToString();
         Session["balDate"] = portfolioAsOnDropDownList.SelectedValue.ToString();
 
-        ClientScript.RegisterStartupScript(this.GetType(), "PortfolioSummaryReportViewer", "window.open('ReportViewer/PortfolioWithNonListedReportViewer.aspx')", true);
+        //   ClientScript.RegisterStartupScript(this.GetType(), "PortfolioSummaryReportViewer", "window.open('ReportViewer/PortfolioWithNonListedReportViewer.aspx')", true);
+        Response.Redirect("ReportViewer/PortfolioWithNonListedReportViewer.aspx");
     }
 }
