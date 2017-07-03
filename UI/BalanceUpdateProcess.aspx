@@ -74,27 +74,27 @@
                       <td align="right" style="font-weight: 700"><b>Balance Date:</b></td>
                       <td align="left" width="300px">
                           <asp:TextBox ID="txtBalanceDate" runat="server" style="width:195px;" 
-                        CssClass="textInputStyle" TabIndex="7" AutoPostBack="True"
+                        CssClass="textInputStyle" TabIndex="7" AutoPostBack="True" ReadOnly="true"
                         ></asp:TextBox>
-                          <ajaxToolkit:CalendarExtender ID="txtBalanceDate_CalendarExtender"
+                          <%--<ajaxToolkit:CalendarExtender ID="txtBalanceDate_CalendarExtender"
                               runat="server" TargetControlID="txtBalanceDate"
                               PopupButtonID="ImageButton" Format="dd-MMM-yyyy" />
                           <asp:ImageButton ID="ImageButton" runat="server"
                               AlternateText="Click Here" ImageUrl="~/Image/Calendar_scheduleHS.png"
-                              TabIndex="24" />
+                              TabIndex="24" />--%>
                            
                        </td>
                          <td align="right" style="font-weight: 700"><b>Last Update Date</b></td>
                         <td align="left" width="300px">
                          <asp:TextBox ID="txtLastUpadateDate" runat="server" style="width:195px;" 
-                        CssClass="textInputStyle" TabIndex="7" AutoPostBack="True" 
+                        CssClass="textInputStyle" TabIndex="7" AutoPostBack="True"  ReadOnly="true"
                        ></asp:TextBox>
-                            <ajaxToolkit:CalendarExtender ID="txtlastUpadateDate_CalendarExtender1"
+                            <%--<ajaxToolkit:CalendarExtender ID="txtlastUpadateDate_CalendarExtender1"
                                 runat="server" TargetControlID="txtlastUpadateDate"
                                 PopupButtonID="ImageButton1" Format="dd-MMM-yyyy" />
                             <asp:ImageButton ID="ImageButton1" runat="server"
                                 AlternateText="Click Here" ImageUrl="~/Image/Calendar_scheduleHS.png"
-                                TabIndex="24" />
+                                TabIndex="24" />--%>
                         </td>
                  </tr> 
             <tr>
@@ -187,7 +187,56 @@
     </div></td>
                  
               </tr>    
-        </table>                
-                  
+        </table>      
+    
+              
+           <%-- <script type="text/javascript">
+
+    $(function () {
+
+          $('#<%=txtBalanceDate.ClientID%>').datepicker({
+                 changeMonth: true,
+                 changeYear: true,
+                 dateFormat: "dd/mm/yy",
+                 maxDate:"today"
+                
+             });
+             $('#<%=txtLastUpadateDate.ClientID%>').datepicker({ 
+                 changeMonth: true,
+                 changeYear: true,
+                 dateFormat: "dd/mm/yy",
+                 maxDate:"today"
+                
+             });  
+
+    });
+  
+    $("#aspnetForm").validate({
+        rules: {
+                   
+                    <%=txtBalanceDate.UniqueID %>: {
+                        
+                        required: true,
+                        
+                    },<%=txtLastUpadateDate.UniqueID %>: {
+                        
+                        required: true,
+                       
+                    }
+                                   
+              
+        }, messages: {
+            <%=txtBalanceDate.UniqueID %>:{  
+                required: "*Balance Date  is required*",
+                       
+            },<%=txtLastUpadateDate.UniqueID %>:{  
+                required: "* Last update Date  is required*",
+                      
+            }
+                    
+        }    
+      });
+
+    </script>         --%>
  </asp:Content>
 
