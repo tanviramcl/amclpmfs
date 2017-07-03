@@ -223,10 +223,10 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
 
     }
 
-    private void adv_proc1(string vchDtFrom,string vchDtTo, string f_cd)
+    private string adv_proc1(string vchDtFrom,string vchDtTo, string f_cd)
     {
 
-        string strQuery, strSelFromFundFolioHBQuery, strUpdFundfolioHBForTrTypeS, strUpdFundfolioHBForTrTypeNotS, strInsIntoFundFolioHBForTrTypeS, strInsIntoFundFolioHBForTrTypeNotS, strUpdateFundTransHB, LoginID = Session["UserID"].ToString();
+        string strQuery, strSelFromFundFolioHBQuery, strUpdFundfolioHBForTrTypeS, strUpdFundfolioHBForTrTypeNotS, strInsIntoFundFolioHBForTrTypeS, strInsIntoFundFolioHBForTrTypeNotS, strUpdateFundTransHB, LoginID = Session["UserID"].ToString(), strRetVal;
         Double cmp = 0, mt_shr = 0, mt_cost = 0, mt_cst_aft_com = 0, mcost_rt = 0, mcost_rt_acm = 0, m_amt, m_amt_acm, m_no = 0, m_cost = 0, m_cost_acm = 0;
         DataTable dtFromFundTransHB = new DataTable();
         DataTable dtFromFundFolioHB = new DataTable();
@@ -432,16 +432,19 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
                    
 
                 }
-                   
+
 
             }
-
+            strRetVal = "Processing Completed";
+            return strRetVal;
 
         }
         else
         {
-         
-            ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('No data found !');", true);
+            strRetVal = "No data found !";
+            return strRetVal;
+            //ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('No data found !');", true);
+            //lblProcessing.Text = "No data found !";
 
         }
 
@@ -451,7 +454,7 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
     {
 
 
-        string strBalanceDate, strLastBalDate, strLastUpadateDate, strLastUpadatePlusOneDate, strUpdateFundTransHB, strDelFromFundFolioHB, strMarketPriceDate;
+        string strBalanceDate, strLastBalDate, strLastUpadateDate, strLastUpadatePlusOneDate, strUpdateFundTransHB, strDelFromFundFolioHB, strMarketPriceDate,temp;
        
         DateTime? dtimeBalanceDate, dtimeLastBalDate, dtimeLastUpadateDate, dtimeLastUpadatePlusOneDate, dtMarketPriceDate;
         DataTable dtFromFundTransHB = new DataTable();
@@ -512,9 +515,19 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
             if (dtimeBalanceDate > dtimeLastBalDate)
             {
 
-                adv_proc1(strLastUpadatePlusOneDate, strBalanceDate, fundNameDropDownList.SelectedValue.ToString());
-                lblProcessing.Text = "Processing completed!!!!";
-
+                 temp = adv_proc1(strLastUpadatePlusOneDate, strBalanceDate, fundNameDropDownList.SelectedValue.ToString());
+                if (temp.Trim() == "Processing Completed")
+                {
+                    lblProcessing.Text = "Processing completed!!!!";
+                    ClearFields();
+                }
+                else
+                {
+                    lblProcessing.Text = "No data found!!!!";
+                    ClearFields();
+                }
+                //lblProcessing.Text = "Processing completed!!!!";
+                //ClearFields();
             }
 
             else
@@ -527,8 +540,18 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
                 int noUpdRowsFundTransHB = commonGatewayObj.ExecuteNonQuery(strUpdateFundTransHB);
                 commonGatewayObj.CommitTransaction();
 
-                adv_proc1(strLastUpadatePlusOneDate, strBalanceDate, fundNameDropDownList.SelectedValue.ToString());
-                lblProcessing.Text = "Processing completed!!!!";
+                temp= adv_proc1(strLastUpadatePlusOneDate, strBalanceDate, fundNameDropDownList.SelectedValue.ToString());
+                if (temp.Trim() == "Processing Completed")
+                {
+                    lblProcessing.Text = "Processing completed!!!!";
+                    ClearFields();
+                }
+                else {
+                    lblProcessing.Text = "No data found!!!!";
+                    ClearFields();
+                }
+              //  lblProcessing.Text = "Processing completed!!!!";
+              
 
                 // Code goes here Code goes here
 
