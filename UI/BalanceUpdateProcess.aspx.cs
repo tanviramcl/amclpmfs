@@ -519,12 +519,12 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
                 if (temp.Trim() == "Processing Completed")
                 {
                     lblProcessing.Text = "Processing completed!!!!";
-                    ClearFields();
+                   // ClearFields();
                 }
                 else
                 {
                     lblProcessing.Text = "No data found!!!!";
-                    ClearFields();
+                  //  ClearFields();
                 }
                 //lblProcessing.Text = "Processing completed!!!!";
                 //ClearFields();
@@ -544,11 +544,11 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
                 if (temp.Trim() == "Processing Completed")
                 {
                     lblProcessing.Text = "Processing completed!!!!";
-                    ClearFields();
+                   // ClearFields();
                 }
                 else {
                     lblProcessing.Text = "No data found!!!!";
-                    ClearFields();
+                 //   ClearFields();
                 }
               //  lblProcessing.Text = "Processing completed!!!!";
               
@@ -560,7 +560,7 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
 
 
             string strCompnayTransdate = "select a.comp_cd, max(a.tran_date) tran_date from invest.market_price a, invest.fund_folio_hb b where a.comp_cd = b.comp_cd and b.f_cd =" + fundNameDropDownList.SelectedValue.ToString() + " and a.tran_date <= '" + strBalanceDate + "' group by a.comp_cd order by a.comp_cd";
-
+                                                                                                                                                                                    
             dtSource = commonGatewayObj.Select(strCompnayTransdate);
 
             List<CompanayTransdate> lstCompnayTransdate = new List<CompanayTransdate>();
@@ -606,7 +606,7 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
 
             // System.Threading.Thread.Sleep(3000);
 
-            ClearFields();
+           // ClearFields();
         }
         catch (Exception ex)
         {
