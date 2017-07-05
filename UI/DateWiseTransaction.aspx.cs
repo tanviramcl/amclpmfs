@@ -45,11 +45,7 @@ public partial class DateWiseTransaction : System.Web.UI.Page
 
         }
     }
-
-  
-
-
-
+    
     protected void fundNameDropDownList_SelectedIndexChanged(object sender, EventArgs e)
     {
 
