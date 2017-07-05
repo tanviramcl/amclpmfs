@@ -131,8 +131,8 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
 
 
         string Date1 = Convert.ToDateTime(dtDate1.Rows[0]["date1"]).ToString("dd-MMM-yyyy");
-      
-        string dt1 = txtbalanceDate2.Text;
+        DateTime baldate1 = DateTime.ParseExact(txtbalanceDate2.Text, "dd/MM/yyyy", null);
+        string dt1 = Convert.ToDateTime(baldate1).ToString("dd-MMM-yyyy");
 
         // int row;
         lblProcessing.Text = "Processing completed!!!!";
