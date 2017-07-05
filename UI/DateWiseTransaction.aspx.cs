@@ -60,7 +60,7 @@ public partial class DateWiseTransaction : System.Web.UI.Page
         if (stockExchangeDropDownList.SelectedValue == "D") // For DSE
         {
 
-            strQuery = "select TO_CHAR(max(vch_dt),'DD-MON-YYYY')last_tr_dt,TO_CHAR(max(vch_dt) + 1,'DD-MON-YYYY')vch_dt  from invest.fund_trans_hb where f_cd =" + fundNameDropDownList.SelectedValue.ToString() +
+            strQuery = "select TO_CHAR(max(vch_dt),'DD-MON-YYYY')    last_tr_dt,TO_CHAR(max(vch_dt) + 1,'DD-MON-YYYY')vch_dt  from invest.fund_trans_hb where f_cd =" + fundNameDropDownList.SelectedValue.ToString() +
                  " and tran_tp in ('C','S') and stock_ex in ('D','A')";
             dt = commonGatewayObj.Select(strQuery);
         }
@@ -542,7 +542,46 @@ public partial class DateWiseTransaction : System.Web.UI.Page
 
                     }
                     ClearFields();
-                    ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Process completed!');", true);
+                    //...................for bond.............update fundtrans_hb........................
+
+
+                    DataTable dtcurrentDate, dtSourcefundtranshbbybond;
+                    string currentdate , strUPdQueryforBond;
+                    string strQuerycurrentdate = "SELECT TO_CHAR(SYSDATE, 'DD-MON-YYYY')currentDate FROM dual";
+                    dtcurrentDate = commonGatewayObj.Select(strQuerycurrentdate);
+                    if (dtcurrentDate.Rows.Count > 0)
+                    {
+
+                        currentdate = dtcurrentDate.Rows[0]["currentDate"].ToString();
+
+                    }
+
+                    
+                    string strCompnaybond = "SELECT  VCH_DT, F_CD, COMP_CD, TRAN_TP, VCH_NO, NO_SHARE, RATE, COST_RATE, CRT_AFT_COM,AMOUNT, AMT_AFT_COM, STOCK_EX,OP_NAME FROM INVEST.FUND_TRANS_HB where comp_cd in(950,954) and VCH_DT='5-Jul-2017'";
+                    dtSourcefundtranshbbybond = commonGatewayObj.Select(strCompnaybond);
+
+                    if (dtSourcefundtranshbbybond != null && dtSourcefundtranshbbybond.Rows.Count > 0)
+                    {
+
+                        for (int k = 0; k < dtSourcefundtranshbbybond.Rows.Count; k++)
+                        {
+                            if (dtSourcefundtranshbbybond.Rows[k]["TRAN_TP"].ToString() == "C")
+                            {
+                                 strUPdQueryforBond = "UPDATE INVEST.FUND_TRANS_HB SET AMT_AFT_COM = AMOUNT + 50 + AMOUNT * 0.002 WHERE  comp_cd =" + dtSourcefundtranshbbybond.Rows[k]["COMP_CD"].ToString() + " and VCH_DT = '5-Jul-2017' and TRAN_TP = 'C' ";
+                                
+                              int NumOfRows = commonGatewayObj.ExecuteNonQuery(strUPdQueryforBond);
+                            }
+                            else if (dtSourcefundtranshbbybond.Rows[k]["TRAN_TP"].ToString() == "S")
+                            {
+                                 strUPdQueryforBond = "UPDATE INVEST.FUND_TRANS_HB SET AMT_AFT_COM = AMOUNT-50 - AMOUNT * 0.002 WHERE  comp_cd =" + dtSourcefundtranshbbybond.Rows[k]["COMP_CD"].ToString() + " and VCH_DT = '5-Jul-2017' and TRAN_TP = 'S' ";
+                               
+                                int NumOfRows = commonGatewayObj.ExecuteNonQuery(strUPdQueryforBond);
+                            }
+                            
+                        }
+                    }
+  
+                        ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Process completed!');", true);
                 }
                 else
                 {
