@@ -542,7 +542,13 @@ public partial class DateWiseTransaction : System.Web.UI.Page
 
                     }
                     ClearFields();
+
+                    //
+
+
+                    //
                     ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Process completed!');", true);
+
                 }
                 else
                 {
