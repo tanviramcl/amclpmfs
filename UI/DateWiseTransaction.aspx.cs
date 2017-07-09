@@ -129,6 +129,7 @@ public partial class DateWiseTransaction : System.Web.UI.Page
         txtHowlaDateFrom.Text = "";
         txtLastHowlaDate.Text = "";
         txtHowlaDateTo.Text = "";
+        txtVoucherNumber.Text = "";
 
 
     }
@@ -261,7 +262,7 @@ public partial class DateWiseTransaction : System.Web.UI.Page
 
                                     string strInsQuery = "insert into fund_trans_hb(vch_dt, f_cd, comp_cd, vch_no," +
                                     " tran_tp, no_share, rate, amount, stock_ex, amt_aft_com,op_name) values('" + dtFromHowla.Rows[i]["sp_date"].ToString() + "'," + dtFromHowla.Rows[i]["f_cd"].ToString() + "," + dtFromHowla.Rows[i]["comp_cd"].ToString() + 
-                                     ",vch_no='" + txtVoucherNumber.Text.Replace("'", "''") + "'," +
+                                     ",'" + txtVoucherNumber.Text.Replace("'", "''") + "'," +
                                    " decode('" + dtFromHowla.Rows[i]["in_out"].ToString() + "', 'I', 'C', 'O', 'S')," + dtFromHowla.Rows[i]["qty"].ToString() + "," + dtFromHowla.Rows[i]["rate"].ToString() + "," + dtFromHowla.Rows[i]["amt"].ToString() + ",'" + dtFromHowla.Rows[i]["brk"].ToString() + "'," + amt_cm + ",'" + LoginID + "')";
 
                                     int NumOfRows = commonGatewayObj.ExecuteNonQuery(strInsQuery);
@@ -302,7 +303,7 @@ public partial class DateWiseTransaction : System.Web.UI.Page
 
                                     string strInsQuery = "insert into fund_trans_hb(vch_dt, f_cd, comp_cd,vch_no," +
                                     " tran_tp, no_share, rate, amount, stock_ex, amt_aft_com,op_name) values('" + dtFromHowla.Rows[i]["sp_date"].ToString() + "'," + dtFromHowla.Rows[i]["f_cd"].ToString() + "," + dtFromHowla.Rows[i]["comp_cd"].ToString() + 
-                                     ",vch_no='" + txtVoucherNumber.Text.Replace("'", "''") + "'," +
+                                     ",'" + txtVoucherNumber.Text.Replace("'", "''") + "'," +
                                    " decode('" + dtFromHowla.Rows[i]["in_out"].ToString() + "', 'I', 'C', 'O', 'S')," + dtFromHowla.Rows[i]["qty"].ToString() + "," + dtFromHowla.Rows[i]["rate"].ToString() + "," + dtFromHowla.Rows[i]["amt"].ToString() + ",'" + dtFromHowla.Rows[i]["brk"].ToString() + "'," + amt_cm + ",'" + LoginID + "')";
 
                                     int NumOfRows = commonGatewayObj.ExecuteNonQuery(strInsQuery);
@@ -341,7 +342,7 @@ public partial class DateWiseTransaction : System.Web.UI.Page
 
                                     string strInsQuery = "insert into fund_trans_hb(vch_dt, f_cd, comp_cd,vch_no," +
                                     " tran_tp, no_share, rate, amount, stock_ex, amt_aft_com,op_name) values('" + dtFromHowla.Rows[i]["sp_date"].ToString() + "'," + dtFromHowla.Rows[i]["f_cd"].ToString() + "," + dtFromHowla.Rows[i]["comp_cd"].ToString() + 
-                                     ",vch_no='" + txtVoucherNumber.Text.Replace("'", "''") + "'," +
+                                     ",'" + txtVoucherNumber.Text.Replace("'", "''") + "'," +
                                    " decode('" + dtFromHowla.Rows[i]["in_out"].ToString() + "', 'I', 'C', 'O', 'S')," + dtFromHowla.Rows[i]["qty"].ToString() + "," + dtFromHowla.Rows[i]["rate"].ToString() + "," + dtFromHowla.Rows[i]["amt"].ToString() + ",'" + dtFromHowla.Rows[i]["brk"].ToString() + "'," + amt_cm + ",'" + LoginID + "')";
 
                                     int NumOfRows = commonGatewayObj.ExecuteNonQuery(strInsQuery);
@@ -380,7 +381,7 @@ public partial class DateWiseTransaction : System.Web.UI.Page
 
                                     string strInsQuery = "insert into fund_trans_hb(vch_dt, f_cd, comp_cd,vch_no," +
                                     " tran_tp, no_share, rate, amount, stock_ex, amt_aft_com,op_name) values('" + dtFromHowla.Rows[i]["sp_date"].ToString() + "'," + dtFromHowla.Rows[i]["f_cd"].ToString() + "," + dtFromHowla.Rows[i]["comp_cd"].ToString() + "," +
-                                     " vch_no='" + txtVoucherNumber.Text.Replace("'", "''") + "'," +
+                                     " '" + txtVoucherNumber.Text.Replace("'", "''") + "'," +
                                    " decode('" + dtFromHowla.Rows[i]["in_out"].ToString() + "', 'I', 'C', 'O', 'S')," + dtFromHowla.Rows[i]["qty"].ToString() + "," + dtFromHowla.Rows[i]["rate"].ToString() + "," + dtFromHowla.Rows[i]["amt"].ToString() + ",'" + dtFromHowla.Rows[i]["brk"].ToString() + "'," + amt_cm + ",'" + LoginID + "')";
 
                                     int NumOfRows = commonGatewayObj.ExecuteNonQuery(strInsQuery);
@@ -432,7 +433,7 @@ public partial class DateWiseTransaction : System.Web.UI.Page
 
                                     string strInsQuery = "insert into fund_trans_hb(vch_dt, f_cd, comp_cd,vch_no," +
                                     " tran_tp, no_share, rate, amount, stock_ex, amt_aft_com,op_name) values('" + dtFromHowla.Rows[i]["sp_date"].ToString() + "'," + dtFromHowla.Rows[i]["f_cd"].ToString() + "," + dtFromHowla.Rows[i]["comp_cd"].ToString() +
-                                   ", vch_no='" + txtVoucherNumber.Text.Replace("'", "''") + "'," +
+                                   ", '" + txtVoucherNumber.Text.Replace("'", "''") + "'," +
                                    " decode('" + dtFromHowla.Rows[i]["in_out"].ToString() + "', 'I', 'C', 'O', 'S')," + dtFromHowla.Rows[i]["qty"].ToString() + "," + dtFromHowla.Rows[i]["rate"].ToString() + "," + dtFromHowla.Rows[i]["amt"].ToString() + ",'" + dtFromHowla.Rows[i]["brk"].ToString() + "'," + amt_cm + ",'" + LoginID + "')";
 
                                     int NumOfRows = commonGatewayObj.ExecuteNonQuery(strInsQuery);
@@ -473,7 +474,7 @@ public partial class DateWiseTransaction : System.Web.UI.Page
 
                                     string strInsQuery = "insert into fund_trans_hb(vch_dt, f_cd, comp_cd,vch_no," +
                                     " tran_tp, no_share, rate, amount, stock_ex, amt_aft_com,op_name) values('" + dtFromHowla.Rows[i]["sp_date"].ToString() + "'," + dtFromHowla.Rows[i]["f_cd"].ToString() + "," + dtFromHowla.Rows[i]["comp_cd"].ToString() + "," +
-                                     " vch_no='" + txtVoucherNumber.Text.Replace("'", "''") + "'," +
+                                     " '" + txtVoucherNumber.Text.Replace("'", "''") + "'," +
                                    " decode('" + dtFromHowla.Rows[i]["in_out"].ToString() + "', 'I', 'C', 'O', 'S')," + dtFromHowla.Rows[i]["qty"].ToString() + "," + dtFromHowla.Rows[i]["rate"].ToString() + "," + dtFromHowla.Rows[i]["amt"].ToString() + ",'" + dtFromHowla.Rows[i]["brk"].ToString() + "'," + amt_cm + ",'" + LoginID + "')";
 
                                     int NumOfRows = commonGatewayObj.ExecuteNonQuery(strInsQuery);
@@ -512,7 +513,7 @@ public partial class DateWiseTransaction : System.Web.UI.Page
 
                                     string strInsQuery = "insert into fund_trans_hb(vch_dt, f_cd, comp_cd,vch_no," +
                                     " tran_tp, no_share, rate, amount, stock_ex, amt_aft_com,op_name) values('" + dtFromHowla.Rows[i]["sp_date"].ToString() + "'," + dtFromHowla.Rows[i]["f_cd"].ToString() + "," + dtFromHowla.Rows[i]["comp_cd"].ToString() + "," +
-                                     " vch_no='" + txtVoucherNumber.Text.Replace("'", "''") + "'," +
+                                     " '" + txtVoucherNumber.Text.Replace("'", "''") + "'," +
                                    " decode('" + dtFromHowla.Rows[i]["in_out"].ToString() + "', 'I', 'C', 'O', 'S')," + dtFromHowla.Rows[i]["qty"].ToString() + "," + dtFromHowla.Rows[i]["rate"].ToString() + "," + dtFromHowla.Rows[i]["amt"].ToString() + ",'" + dtFromHowla.Rows[i]["brk"].ToString() + "'," + amt_cm + ",'" + LoginID + "')";
 
                                     int NumOfRows = commonGatewayObj.ExecuteNonQuery(strInsQuery);
@@ -550,7 +551,7 @@ public partial class DateWiseTransaction : System.Web.UI.Page
 
                                     string strInsQuery = "insert into fund_trans_hb(vch_dt, f_cd, comp_cd,vch_no," +
                                     " tran_tp, no_share, rate, amount, stock_ex, amt_aft_com,op_name) values('" + dtFromHowla.Rows[i]["sp_date"].ToString() + "'," + dtFromHowla.Rows[i]["f_cd"].ToString() + "," + dtFromHowla.Rows[i]["comp_cd"].ToString() + "," +
-                                     " vch_no='" + txtVoucherNumber.Text.Replace("'", "''") + "'," +
+                                     " '" + txtVoucherNumber.Text.Replace("'", "''") + "'," +
                                    " decode('" + dtFromHowla.Rows[i]["in_out"].ToString() + "', 'I', 'C', 'O', 'S')," + dtFromHowla.Rows[i]["qty"].ToString() + "," + dtFromHowla.Rows[i]["rate"].ToString() + "," + dtFromHowla.Rows[i]["amt"].ToString() + ",'" + dtFromHowla.Rows[i]["brk"].ToString() + "'," + amt_cm + ",'" + LoginID + "')";
 
                                     int NumOfRows = commonGatewayObj.ExecuteNonQuery(strInsQuery);
