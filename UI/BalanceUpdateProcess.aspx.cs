@@ -99,7 +99,7 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
 
             }
 
-            strQLastBalDtFrFundControl = "select TO_CHAR(bal_dt,'DD-MON-YYYY')lst_bal_dt from invest.fund_control where f_cd =" + fundNameDropDownList.SelectedValue.ToString();
+            strQLastBalDtFrFundControl = "select TO_CHAR(bal_dt,'DD-MON-YYYY')lst_bal_dt from fund_control where f_cd =" + fundNameDropDownList.SelectedValue.ToString();
 
             dtFromFundControl = commonGatewayObj.Select(strQLastBalDtFrFundControl);
             if (dtFromFundControl!=null && dtFromFundControl.Rows.Count > 0)
@@ -155,7 +155,7 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
                 strLastUpadatePlusOneDate = "";
             }
 
-            strQForMrktPrice = "select TO_CHAR(max(Tran_date),'DD-MON-YYYY')mp_dt from invest.market_price where tran_date <='" + strBalanceDate + "'";
+            strQForMrktPrice = "select TO_CHAR(max(Tran_date),'DD-MON-YYYY')mp_dt from market_price where tran_date <='" + strBalanceDate + "'";
 
             dtFromMarketPrice = commonGatewayObj.Select(strQForMrktPrice);
             if (dtFromMarketPrice != null && dtFromMarketPrice.Rows.Count > 0)
@@ -174,7 +174,7 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
             }
             // For sell of shares
 
-            strQForSellShares = "select  count(*)NoSaleRecord,sum(no_share)NoSaleShares from invest.fund_trans_hb where f_cd =" + fundNameDropDownList.SelectedValue.ToString() +
+            strQForSellShares = "select  count(*)NoSaleRecord,sum(no_share)NoSaleShares from fund_trans_hb where f_cd =" + fundNameDropDownList.SelectedValue.ToString() +
                 " and tran_tp = 'S' and vch_dt between '" + strLastUpadatePlusOneDate + "' and '" + strBalanceDate + "'";
 
             dtFromFundTrHBForSale = commonGatewayObj.Select(strQForSellShares);
@@ -200,7 +200,7 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
           */
 
             // For purchase of shares
-            strQForPurchaseShares = "select  count(*)NoPurchaseRecord,sum(no_share)NoPurchaseShares from invest.fund_trans_hb where f_cd =" + fundNameDropDownList.SelectedValue.ToString() +
+            strQForPurchaseShares = "select  count(*)NoPurchaseRecord,sum(no_share)NoPurchaseShares from fund_trans_hb where f_cd =" + fundNameDropDownList.SelectedValue.ToString() +
                 " and tran_tp = 'C' and vch_dt between '" + strLastUpadatePlusOneDate + "' and '" + strBalanceDate + "'";
 
             dtFromFundTrHBForBuy = commonGatewayObj.Select(strQForPurchaseShares);
@@ -233,7 +233,7 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
         DataTable dtFromFundTransHB = new DataTable();
         DataTable dtFromFundFolioHB = new DataTable();
      
-        strQuery = "select TO_CHAR(vch_dt,'DD-MON-YYYY')vch_dt, f_cd, comp_cd, no_share, rate, nvl(amount,0)amount,amt_aft_com, tran_tp, stock_ex from invest.fund_trans_hb" +
+        strQuery = "select TO_CHAR(vch_dt,'DD-MON-YYYY')vch_dt, f_cd, comp_cd, no_share, rate, nvl(amount,0)amount,amt_aft_com, tran_tp, stock_ex from fund_trans_hb" +
         " where vch_dt between '" + vchDtFrom + "' and '" + vchDtTo + "' and f_cd=" + f_cd +
         " order by f_cd, vch_dt, comp_cd";
 
@@ -269,7 +269,7 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
                     m_amt_acm = 0;
                 }
 
-                strSelFromFundFolioHBQuery = "select comp_cd, tot_nos, tot_cost, tcst_aft_com from invest.fund_folio_hb" +
+                strSelFromFundFolioHBQuery = "select comp_cd, tot_nos, tot_cost, tcst_aft_com from fund_folio_hb" +
                 " where f_cd = " + dtFromFundTransHB.Rows[i]["f_cd"].ToString() + " and comp_cd = " + dtFromFundTransHB.Rows[i]["comp_cd"].ToString();
 
                 dtFromFundFolioHB = commonGatewayObj.Select(strSelFromFundFolioHBQuery);
@@ -327,7 +327,7 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
                             //m_cost:= mt_cost - m_amt;
                             //m_cost_acm:= mt_cst_aft_com - m_amt_acm;
 
-                            strUpdFundfolioHBForTrTypeS = "update invest.fund_folio_hb set o_no_shr = nvl(o_no_shr, 0) +" + Convert.ToDouble(dtFromFundTransHB.Rows[i]["no_share"].ToString()) + "," +
+                            strUpdFundfolioHBForTrTypeS = "update fund_folio_hb set o_no_shr = nvl(o_no_shr, 0) +" + Convert.ToDouble(dtFromFundTransHB.Rows[i]["no_share"].ToString()) + "," +
                                                    "o_rate = (nvl(o_rate, 0) * nvl(o_no_shr, 0) +" + Convert.ToDouble(dtFromFundTransHB.Rows[i]["amount"].ToString()) + ") / (nvl(o_no_shr, 0) +" + Convert.ToDouble(dtFromFundTransHB.Rows[i]["no_share"].ToString()) + ")," +
                                                    "ort_aft_com = (nvl(ort_aft_com, 0) * nvl(o_no_shr, 0) +" + Convert.ToDouble(dtFromFundTransHB.Rows[i]["amt_aft_com"].ToString()) + ")/(nvl(o_no_shr, 0) +" + Convert.ToDouble(dtFromFundTransHB.Rows[i]["no_share"].ToString()) + ")," +
                                                    "tot_nos =" + m_no +
@@ -350,7 +350,7 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
                             m_cost = mt_cost + m_amt;
                             m_cost_acm = mt_cst_aft_com + m_amt_acm;
 
-                            strUpdFundfolioHBForTrTypeNotS = "update invest.fund_folio_hb set i_no_shr = nvl(i_no_shr, 0) +" + Convert.ToDouble(dtFromFundTransHB.Rows[i]["no_share"].ToString()) + "," +
+                            strUpdFundfolioHBForTrTypeNotS = "update fund_folio_hb set i_no_shr = nvl(i_no_shr, 0) +" + Convert.ToDouble(dtFromFundTransHB.Rows[i]["no_share"].ToString()) + "," +
                                                     "i_rate = (nvl(i_rate, 0) * nvl(i_no_shr, 0) +" + Convert.ToDouble(dtFromFundTransHB.Rows[i]["amount"].ToString()) + ") / (nvl(i_no_shr, 0) +" + Convert.ToDouble(dtFromFundTransHB.Rows[i]["no_share"].ToString()) + ")," +
                                                     "irt_aft_com = (nvl(irt_aft_com, 0) * nvl(i_no_shr, 0) +" + Convert.ToDouble(dtFromFundTransHB.Rows[i]["amt_aft_com"].ToString()) + ")/(nvl(i_no_shr, 0) +" + Convert.ToDouble(dtFromFundTransHB.Rows[i]["no_share"].ToString()) + ")," +
                                                     "tot_nos =" + m_no +
@@ -385,7 +385,7 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
                         m_cost= mt_cost + m_amt;
                         m_cost_acm= mt_cst_aft_com + m_amt_acm;
 
-                        strInsIntoFundFolioHBForTrTypeNotS = "insert into invest.fund_folio_hb(f_cd, comp_cd, i_no_shr, i_rate,irt_aft_com, bal_dt, tot_nos, tot_cost, tcst_aft_com)" +
+                        strInsIntoFundFolioHBForTrTypeNotS = "insert into fund_folio_hb(f_cd, comp_cd, i_no_shr, i_rate,irt_aft_com, bal_dt, tot_nos, tot_cost, tcst_aft_com)" +
                         " values(" +
                         dtFromFundTransHB.Rows[i]["f_cd"].ToString() + "," +
                         dtFromFundTransHB.Rows[i]["comp_cd"].ToString() + "," +
@@ -408,7 +408,7 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
                         m_cost= mt_cost - m_amt;
                         m_cost_acm= mt_cst_aft_com - m_amt_acm;
 
-                        strInsIntoFundFolioHBForTrTypeS = "insert into invest.fund_folio_hb(f_cd, comp_cd, o_no_shr, o_rate,ort_aft_com, bal_dt, tot_nos, tot_cost, tcst_aft_com)" +
+                        strInsIntoFundFolioHBForTrTypeS = "insert into fund_folio_hb(f_cd, comp_cd, o_no_shr, o_rate,ort_aft_com, bal_dt, tot_nos, tot_cost, tcst_aft_com)" +
                        " values(" +
                        dtFromFundTransHB.Rows[i]["f_cd"].ToString() + "," +
                        dtFromFundTransHB.Rows[i]["comp_cd"].ToString() + "," +
@@ -429,7 +429,7 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
                 if (dtFromFundTransHB.Rows[i]["tran_tp"].ToString() == "S")
 
                 {
-                    strUpdateFundTransHB = "update invest.fund_trans_hb set " +
+                    strUpdateFundTransHB = "update fund_trans_hb set " +
                         " cost_rate =" + mcost_rt +","+
                         " crt_aft_com=" + mcost_rt_acm +
                         " where f_cd =" + dtFromFundTransHB.Rows[i]["f_cd"].ToString() + " and comp_cd=" + dtFromFundTransHB.Rows[i]["comp_cd"].ToString() +
@@ -540,10 +540,10 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
             else
             {
                 commonGatewayObj.BeginTransaction();
-                strDelFromFundFolioHB = "delete from invest.fund_folio_hb where f_cd =" + fundNameDropDownList.SelectedValue.ToString();
+                strDelFromFundFolioHB = "delete from fund_folio_hb where f_cd =" + fundNameDropDownList.SelectedValue.ToString();
                 int noDelRowsFromFundFolioHB = commonGatewayObj.ExecuteNonQuery(strDelFromFundFolioHB);
 
-                strUpdateFundTransHB = "update invest.fund_trans_hb set cost_rate = null,crt_aft_com = null where f_cd =" + fundNameDropDownList.SelectedValue.ToString();
+                strUpdateFundTransHB = "update fund_trans_hb set cost_rate = null,crt_aft_com = null where f_cd =" + fundNameDropDownList.SelectedValue.ToString();
                 int noUpdRowsFundTransHB = commonGatewayObj.ExecuteNonQuery(strUpdateFundTransHB);
                 commonGatewayObj.CommitTransaction();
 
@@ -566,7 +566,7 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
 
 
 
-            string strCompnayTransdate = "select a.comp_cd, max(a.tran_date) tran_date from invest.market_price a, invest.fund_folio_hb b where a.comp_cd = b.comp_cd and b.f_cd =" + fundNameDropDownList.SelectedValue.ToString() + " and a.tran_date <= '" + strBalanceDate + "' group by a.comp_cd order by a.comp_cd";
+            string strCompnayTransdate = "select a.comp_cd, max(a.tran_date) tran_date from market_price a, fund_folio_hb b where a.comp_cd = b.comp_cd and b.f_cd =" + fundNameDropDownList.SelectedValue.ToString() + " and a.tran_date <= '" + strBalanceDate + "' group by a.comp_cd order by a.comp_cd";
                                                                                                                                                                                     
             dtSource = commonGatewayObj.Select(strCompnayTransdate);
 
@@ -579,14 +579,14 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
                                        TRAN_DATE = dr["TRAN_DATE"].ToString()
                                    }).ToList();
 
-            string dltQuery = "delete from invest.mprice_temp where f_cd=" + fundNameDropDownList.SelectedValue.ToString();
+            string dltQuery = "delete from mprice_temp where f_cd=" + fundNameDropDownList.SelectedValue.ToString();
             int dltNumOfRows = commonGatewayObj.ExecuteNonQuery(dltQuery);
 
             foreach (CompanayTransdate comtransdate in lstCompnayTransdate)
             {
 
 
-                string strInsQuery = "select " + fundNameDropDownList.SelectedValue.ToString() + " as FundId, comp_cd, avg_rt from  invest.market_price where comp_cd = " + comtransdate.COMP_CD + " and tran_date = '" + Convert.ToDateTime(comtransdate.TRAN_DATE).ToString("dd-MMM-yyyy") + "'";
+                string strInsQuery = "select " + fundNameDropDownList.SelectedValue.ToString() + " as FundId, comp_cd, avg_rt from  market_price where comp_cd = " + comtransdate.COMP_CD + " and tran_date = '" + Convert.ToDateTime(comtransdate.TRAN_DATE).ToString("dd-MMM-yyyy") + "'";
 
                 dtSource2 = commonGatewayObj.Select(strInsQuery);
 
@@ -602,12 +602,12 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
                 foreach (CompanyAvarageRate comAvgrate in lstCompnayAvgrate)
                 {
 
-                    string strQueryInsMprice_Temp = "insert into invest.mprice_temp(f_cd, comp_cd, avg_rt) values ('" + comAvgrate.FUNDID + "','" + comAvgrate.COMP_CD + "','" + comAvgrate.AVG_RT + "')";
+                    string strQueryInsMprice_Temp = "insert into mprice_temp(f_cd, comp_cd, avg_rt) values ('" + comAvgrate.FUNDID + "','" + comAvgrate.COMP_CD + "','" + comAvgrate.AVG_RT + "')";
                     int NumOfRows = commonGatewayObj.ExecuteNonQuery(strQueryInsMprice_Temp);
                 }
 
             }
-            string strupdateQueryfund_control = "update invest.fund_control set bal_dt='" + strBalanceDate + "',mprice_dt='" + strMarketPriceDate + "' where f_cd =" + fundNameDropDownList.SelectedValue.ToString() + "";
+            string strupdateQueryfund_control = "update fund_control set bal_dt='" + strBalanceDate + "',mprice_dt='" + strMarketPriceDate + "' where f_cd =" + fundNameDropDownList.SelectedValue.ToString() + "";
             int updatefund_controlNumOfRows = commonGatewayObj.ExecuteNonQuery(strupdateQueryfund_control);
             //ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Data Insert Successfully');", true);
 

@@ -99,14 +99,14 @@
                       <td align="right" style="font-weight: 700"><b>Howla Date From:</b></td>
                       <td align="left" width="300px">
                           <asp:TextBox ID="txtHowlaDateFrom" runat="server" style="width:195px;" 
-                        CssClass="textInputStyle" TabIndex="7" AutoPostBack="True" 
+                        CssClass="textInputStyle" TabIndex="7" AutoPostBack="True"  ReadOnly="true"
                         ontextchanged="txtHowlaDateFrom_TextChanged"></asp:TextBox>
-                        <ajaxToolkit:CalendarExtender ID="txtHowlaDateFrom_CalendarExtender"
+                      <%--  <ajaxToolkit:CalendarExtender ID="txtHowlaDateFrom_CalendarExtender"
                             runat="server" TargetControlID="txtHowlaDateFrom"
                             PopupButtonID="ImageButton" Format="dd-MMM-yyyy" />
                         <asp:ImageButton ID="ImageButton" runat="server"
                             AlternateText="Click Here" ImageUrl="~/Image/Calendar_scheduleHS.png"
-                            TabIndex="24" />
+                            TabIndex="24" />--%>
 
                       </td>
                          <td align="right" style="font-weight: 700"><b>Last Howla Date</b></td>
@@ -125,14 +125,14 @@
                 <td align="right" style="font-weight: 700"><b>Howla Date to:</b></td>
                 <td align="left" width="200px">
                     <asp:TextBox ID="txtHowlaDateTo" runat="server" style="width:195px;" 
-                CssClass="textInputStyle" TabIndex="7" AutoPostBack="True" 
+                CssClass="textInputStyle" TabIndex="7" AutoPostBack="True"   ReadOnly="true"
                 ontextchanged="txtHowlaDateTo_TextChanged"></asp:TextBox>
-                    <ajaxToolkit:CalendarExtender ID="txtHowlaDateTo_CalendarExtender1"
+                  <%--  <ajaxToolkit:CalendarExtender ID="txtHowlaDateTo_CalendarExtender1"
                         runat="server" TargetControlID="txtHowlaDateTo"
                         PopupButtonID="ImageButton2" Format="dd-MMM-yyyy" />
                     <asp:ImageButton ID="ImageButton2" runat="server"
                         AlternateText="Click Here" ImageUrl="~/Image/Calendar_scheduleHS.png"
-                        TabIndex="24" />
+                        TabIndex="24" />--%>
                 </td>
             </tr>
              <tr>
