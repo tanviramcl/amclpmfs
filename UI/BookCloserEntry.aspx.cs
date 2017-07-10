@@ -39,7 +39,7 @@ public partial class UI_BookCloserEntry : System.Web.UI.Page
 
     protected void searchButton_Click(object sender, EventArgs e)
     {
-        DataTable dtFind = commonGatewayObj.Select("SELECT * FROM invest.BOOK_CL WHERE COMP_CD=" + companyCodeTextBox.Text + " AND fy='" + financialYearTextBox.Text.ToString() + "' ORDER BY RECORD_DT DESC ");
+        DataTable dtFind = commonGatewayObj.Select("SELECT * FROM BOOK_CL WHERE COMP_CD=" + companyCodeTextBox.Text + " AND fy='" + financialYearTextBox.Text.ToString() + "' ORDER BY RECORD_DT DESC ");
         if (dtFind.Rows.Count > 0)
         {
             addNewButton.Visible = false;
@@ -115,7 +115,7 @@ public partial class UI_BookCloserEntry : System.Web.UI.Page
             httable.Add("PDATE", Convert.ToDateTime(postedDateTextBox.Text.ToString()).ToString("dd-MMM-yyyy"));
         }
         httable.Add("ENTRY_DATE", DateTime.Today.ToString("dd-MMM-yyyy"));
-        commonGatewayObj.Insert(httable, "invest.book_cl");
+        commonGatewayObj.Insert(httable, "book_cl");
         ClearFields();
         //ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Saved Successfully');", true);
         ScriptManager.RegisterStartupScript(this.Page, this.Page.GetType(), "Popup", "alert('Data Saved Successfully.');", true);
@@ -257,7 +257,7 @@ public partial class UI_BookCloserEntry : System.Web.UI.Page
         {
             httable.Add("PDATE", DBNull.Value);
         }
-        commonGatewayObj.Update(httable, "invest.book_cl", "comp_cd = " + companyCodeTextBox.Text + "and fy = '" + financialYearTextBox.Text.ToString() + "'");
+        commonGatewayObj.Update(httable, "book_cl", "comp_cd = " + companyCodeTextBox.Text + "and fy = '" + financialYearTextBox.Text.ToString() + "'");
         ClearFields();
         //ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Data Updated Successfully');", true);
         ScriptManager.RegisterStartupScript(this.Page, this.Page.GetType(), "Popup", "alert('Data Updated Successfully.');", true);

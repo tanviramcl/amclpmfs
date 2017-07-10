@@ -67,8 +67,8 @@ public partial class UI_AssetPercentageCheck : System.Web.UI.Page
         StringBuilder sbOrderBy = new StringBuilder();
         sbOrderBy.Append("");
 
-        sbMst.Append("SELECT     INVEST.FUND.F_CD, INVEST.FUND.F_NAME, DERIVEDTBL_NAV.ASSET_VALUE ");
-        sbMst.Append(" FROM         INVEST.FUND LEFT OUTER JOIN ");
+        sbMst.Append("SELECT     FUND.F_CD, FUND.F_NAME, DERIVEDTBL_NAV.ASSET_VALUE ");
+        sbMst.Append(" FROM         FUND LEFT OUTER JOIN ");
         sbMst.Append(" (SELECT     NAV.NAV_MASTER.NAVFUNDID, SUM(NAV.NAV_DETAILS.COSTPRICE) AS ASSET_VALUE ");
         sbMst.Append(" FROM          NAV.NAV_MASTER INNER JOIN ");
         sbMst.Append("  NAV.NAV_DETAILS ON NAV.NAV_MASTER.NAVNO = NAV.NAV_DETAILS.NAVNO AND  ");
@@ -79,10 +79,10 @@ public partial class UI_AssetPercentageCheck : System.Web.UI.Page
         sbMst.Append(" GROUP BY NAVFUNDID) DERIVEDTBL_1 ON NAV.NAV_MASTER.NAVFUNDID = DERIVEDTBL_1.NAVFUNDID AND  ");
         sbMst.Append("  NAV.NAV_MASTER.NAVDATE = DERIVEDTBL_1.MAX_NAVDATE ");
         sbMst.Append("  WHERE      (NAV.NAV_DETAILS.NAVROWTYPE = 'A')  ");
-        sbMst.Append("  GROUP BY NAV.NAV_MASTER.NAVFUNDID) DERIVEDTBL_NAV ON INVEST.FUND.F_CD = DERIVEDTBL_NAV.NAVFUNDID ");
-        sbMst.Append(" WHERE     (INVEST.FUND.F_CD BETWEEN 1 AND 26) ");
-        sbMst.Append(" GROUP BY INVEST.FUND.F_CD, INVEST.FUND.F_NAME, DERIVEDTBL_NAV.ASSET_VALUE ");
-        sbOrderBy.Append(" ORDER BY INVEST.FUND.F_CD ");
+        sbMst.Append("  GROUP BY NAV.NAV_MASTER.NAVFUNDID) DERIVEDTBL_NAV ON FUND.F_CD = DERIVEDTBL_NAV.NAVFUNDID ");
+        sbMst.Append(" WHERE     (FUND.F_CD BETWEEN 1 AND 26) ");
+        sbMst.Append(" GROUP BY FUND.F_CD, FUND.F_NAME, DERIVEDTBL_NAV.ASSET_VALUE ");
+        sbOrderBy.Append(" ORDER BY  FUND.F_CD ");
 
         sbMst.Append(sbOrderBy.ToString());
         dtFundName = commonGatewayObj.Select(sbMst.ToString());
@@ -93,7 +93,7 @@ public partial class UI_AssetPercentageCheck : System.Web.UI.Page
     {
         StringBuilder sbFilter = new StringBuilder();
         sbFilter.Append(" 1=1 ");
-        commonGatewayObj.DeleteByCommand("INVEST.ASSET_VALUE", sbFilter.ToString());
+        commonGatewayObj.DeleteByCommand(" ASSET_VALUE", sbFilter.ToString());
         commonGatewayObj.CommitTransaction();
 
         InsertAssetValue();
@@ -130,7 +130,7 @@ public partial class UI_AssetPercentageCheck : System.Web.UI.Page
 
                 try
                 {
-                    noOfInsertRows = noOfInsertRows + commonGatewayObj.Insert(htAssetValueInfo, "INVEST.ASSET_VALUE");
+                    noOfInsertRows = noOfInsertRows + commonGatewayObj.Insert(htAssetValueInfo, "ASSET_VALUE");
                     msg = 1;
                 }
                 catch (Exception ex)

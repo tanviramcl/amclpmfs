@@ -32,28 +32,28 @@ public partial class UI_ReportViewer_FundTransactionReportViewer : System.Web.UI
         StringBuilder sbMst = new StringBuilder();
         StringBuilder sbfilter = new StringBuilder();
         sbfilter.Append(" ");
-        sbMst.Append("SELECT     INVEST.FUND_TRANS_HB.COMP_CD, INVEST.COMP.COMP_NM, INVEST.FUND_TRANS_HB.VCH_DT, INVEST.FUND_TRANS_HB.F_CD, ");
-        sbMst.Append(" INVEST.FUND.F_NAME, INVEST.FUND_TRANS_HB.TRAN_TP, INVEST.FUND_TRANS_HB.NO_SHARE, INVEST.FUND_TRANS_HB.RATE,  INVEST.FUND_TRANS_HB.AMT_AFT_COM ");
-        sbMst.Append("FROM         INVEST.COMP INNER JOIN ");
-        sbMst.Append("INVEST.FUND_TRANS_HB ON INVEST.COMP.COMP_CD = INVEST.FUND_TRANS_HB.COMP_CD INNER JOIN INVEST.FUND ON INVEST.FUND_TRANS_HB.F_CD = INVEST.FUND.F_CD ");
-        sbMst.Append("WHERE     (INVEST.FUND_TRANS_HB.VCH_DT BETWEEN '" + Convert.ToDateTime(Request.QueryString["howlaDateFrom"]).ToString("dd-MMM-yyyy") + "' AND '" + Convert.ToDateTime(Request.QueryString["howlaDateTo"]).ToString("dd-MMM-yyyy") + "')  ");
+        sbMst.Append("SELECT     FUND_TRANS_HB.COMP_CD, COMP.COMP_NM, FUND_TRANS_HB.VCH_DT, FUND_TRANS_HB.F_CD, ");
+        sbMst.Append(" FUND.F_NAME, FUND_TRANS_HB.TRAN_TP, FUND_TRANS_HB.NO_SHARE, INVEST.FUND_TRANS_HB.RATE,  INVEST.FUND_TRANS_HB.AMT_AFT_COM ");
+        sbMst.Append("FROM         COMP INNER JOIN ");
+        sbMst.Append("FUND_TRANS_HB ON COMP.COMP_CD = FUND_TRANS_HB.COMP_CD INNER JOIN INVEST.FUND ON INVEST.FUND_TRANS_HB.F_CD = INVEST.FUND.F_CD ");
+        sbMst.Append("WHERE     (FUND_TRANS_HB.VCH_DT BETWEEN '" + Convert.ToDateTime(Request.QueryString["howlaDateFrom"]).ToString("dd-MMM-yyyy") + "' AND '" + Convert.ToDateTime(Request.QueryString["howlaDateTo"]).ToString("dd-MMM-yyyy") + "')  ");
         if (transType !="0")
         {
-            sbMst.Append(" AND (INVEST.FUND_TRANS_HB.TRAN_TP ='"+transType+"')");
+            sbMst.Append(" AND (FUND_TRANS_HB.TRAN_TP ='"+transType+"')");
         }
         if (comCode != 0)
         {
-            sbMst.Append(" AND (INVEST.FUND_TRANS_HB.COMP_CD =" + comCode + ")");
+            sbMst.Append(" AND (FUND_TRANS_HB.COMP_CD =" + comCode + ")");
         }
         if (fundCode != 0)
         {
-            sbMst.Append(" AND (INVEST.FUND_TRANS_HB.F_CD =" + fundCode + ")");
+            sbMst.Append(" AND (FUND_TRANS_HB.F_CD =" + fundCode + ")");
         }
         
        // sbMst.Append(" AND (INVEST.FUND_TRANS_HB.COMP_CD in (172,169,167,182,179,173,186,175)) ");
         //sbMst.Append(" AND (INVEST.FUND_TRANS_HB.F_CD = 17) ");
         
-        sbMst.Append(" ORDER BY INVEST.COMP.COMP_NM, INVEST.FUND_TRANS_HB.F_CD ");
+        sbMst.Append(" ORDER BY COMP.COMP_NM, FUND_TRANS_HB.F_CD ");
 
         sbMst.Append(sbfilter.ToString());
         dtReprtSource = commonGatewayObj.Select(sbMst.ToString());

@@ -50,7 +50,7 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
                 ditinctto = (noofShares + DictincFrom) - 1;
             }
 
-            string strInsQuery = "insert into invest.PSDR_FI(F_CD,comp_cd,PSDR_NO,NO_SHARES,SH_TYPE,OM_LOT,SP_DATE,DIS_NO_FM,DIS_NO_TO, FOLIO_NO,CERT_NO,POSTED,OP_NAME)values('" + Convert.ToUInt32(fundcode) + "','" + Convert.ToInt32(companycode) + "','" + Convert.ToInt32(psdrNo) + "','" + noofShares + "','" + securType + "','" + marketlot + "','" + sp_date + "','" + DictincFrom + "','" + ditinctto + "','" + folioNo + "','" + certificateNo + "','A','"+loginId+"')";
+            string strInsQuery = "insert into PSDR_FI(F_CD,comp_cd,PSDR_NO,NO_SHARES,SH_TYPE,OM_LOT,SP_DATE,DIS_NO_FM,DIS_NO_TO, FOLIO_NO,CERT_NO,POSTED,OP_NAME)values('" + Convert.ToUInt32(fundcode) + "','" + Convert.ToInt32(companycode) + "','" + Convert.ToInt32(psdrNo) + "','" + noofShares + "','" + securType + "','" + marketlot + "','" + sp_date + "','" + DictincFrom + "','" + ditinctto + "','" + folioNo + "','" + certificateNo + "','A','"+loginId+"')";
 
             int NumOfRows = commonGatewayObj.ExecuteNonQuery(strInsQuery);
             clearField();
@@ -89,13 +89,13 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
 
         if (companyCodeTextBox.Text == "")
         {
-            Query1 = "select allot_no from invest.psdr_fi where comp_cd = '" + companyCodeTextBox.Text + "' ";
-            Query2 = "select allot_no from invest.psdr where comp_cd = '" + companyCodeTextBox.Text + "' ";
+            Query1 = "select allot_no from psdr_fi where comp_cd = '" + companyCodeTextBox.Text + "' ";
+            Query2 = "select allot_no from psdr where comp_cd = '" + companyCodeTextBox.Text + "' ";
         }
         else
         {
-            Query1 = "select allot_no from invest.psdr_fi where comp_cd = '" + companyCodeTextBox.Text + "' and allot_no = '" + AllotmentNoTextBox.Text + "' ";
-            Query2 ="select allot_no from invest.psdr where comp_cd = '" + companyCodeTextBox.Text + "' and allot_no = '" + AllotmentNoTextBox.Text + "' ";
+            Query1 = "select allot_no from psdr_fi where comp_cd = '" + companyCodeTextBox.Text + "' and allot_no = '" + AllotmentNoTextBox.Text + "' ";
+            Query2 ="select allot_no from psdr where comp_cd = '" + companyCodeTextBox.Text + "' and allot_no = '" + AllotmentNoTextBox.Text + "' ";
         }
 
         
@@ -157,13 +157,13 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
 
         if (companyCodeTextBox.Text == "")
         {
-            Query1 = "select cert_no  from invest.psdr_fi where  cert_no = '" + certificateNoTextBox.Text + "' ";
-            Query2 = "select cert_no from invest.psdr where  cert_no = '" + certificateNoTextBox.Text + "' ";
+            Query1 = "select cert_no  from psdr_fi where  cert_no = '" + certificateNoTextBox.Text + "' ";
+            Query2 = "select cert_no from psdr where  cert_no = '" + certificateNoTextBox.Text + "' ";
         }
         else
         {
-            Query1 = "select cert_no  from invest.psdr_fi where comp_cd = '" + companyCodeTextBox.Text + "' and cert_no = '" + certificateNoTextBox.Text + "' ";
-            Query2 = "select cert_no from invest.psdr where comp_cd = '" + companyCodeTextBox.Text + "' and cert_no = '" + certificateNoTextBox.Text + "' ";
+            Query1 = "select cert_no  from psdr_fi where comp_cd = '" + companyCodeTextBox.Text + "' and cert_no = '" + certificateNoTextBox.Text + "' ";
+            Query2 = "select cert_no from psdr where comp_cd = '" + companyCodeTextBox.Text + "' and cert_no = '" + certificateNoTextBox.Text + "' ";
         }
 
 

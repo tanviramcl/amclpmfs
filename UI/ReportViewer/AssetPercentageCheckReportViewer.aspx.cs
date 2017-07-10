@@ -31,24 +31,24 @@ public partial class UI_ReportViewer_AssetPercentageCheckReportViewer : System.W
         StringBuilder sbMst = new StringBuilder();
         StringBuilder sbfilter = new StringBuilder();
         sbfilter.Append(" ");
-        sbMst.Append(" SELECT     INVEST.ASSET_VALUE.F_NAME, INVEST.COMP.COMP_NM, INVEST.PFOLIO_BK.SECT_MAJ_NM, INVEST.PFOLIO_BK.TOT_NOS,  ");
-        sbMst.Append(" INVEST.PFOLIO_BK.TCST_AFT_COM, ROUND(INVEST.PFOLIO_BK.TCST_AFT_COM / INVEST.PFOLIO_BK.TOT_NOS, 2) AS COST_RT_PER_SHARE, ");
-        sbMst.Append(" NVL(INVEST.PFOLIO_BK.DSE_RT, 0) AS DSE_RT, NVL(INVEST.PFOLIO_BK.CSE_RT, 0) AS CSE_RT, ROUND(INVEST.PFOLIO_BK.ADC_RT, 2) ");
-        sbMst.Append(" AS AVG_RATE, ROUND(INVEST.PFOLIO_BK.TOT_NOS * INVEST.PFOLIO_BK.ADC_RT, 2) AS TOT_MARKET_PRICE,  ");
-        sbMst.Append(" ROUND(ROUND(INVEST.PFOLIO_BK.ADC_RT, 2) - ROUND(INVEST.PFOLIO_BK.TCST_AFT_COM / INVEST.PFOLIO_BK.TOT_NOS, 2), 2) AS RATE_DIFF, ");
-        sbMst.Append(" ROUND(ROUND(INVEST.PFOLIO_BK.TOT_NOS * INVEST.PFOLIO_BK.ADC_RT, 2) - INVEST.PFOLIO_BK.TCST_AFT_COM, 2) ");
-        sbMst.Append(" AS APPRICIATION_ERROTION, INVEST.PFOLIO_BK.BAL_DT_CTRL, INVEST.ASSET_VALUE.ASSET_VALUE,  ");
-        sbMst.Append(" ROUND(INVEST.PFOLIO_BK.TCST_AFT_COM / INVEST.ASSET_VALUE.ASSET_VALUE * 100, 2) AS HOLDING_PERCENTAGE_OF_ASSET, ");
-        sbMst.Append(" ROUND(INVEST.PFOLIO_BK.TOT_NOS / INVEST.COMP.NO_SHRS * 100, 2) AS PERCENTAGE_OF_PAIDUP ");
-        sbMst.Append(" FROM         INVEST.PFOLIO_BK INNER JOIN  ");
-        sbMst.Append(" INVEST.ASSET_VALUE ON INVEST.PFOLIO_BK.F_CD = INVEST.ASSET_VALUE.F_CD INNER JOIN ");
-        sbMst.Append(" INVEST.COMP ON INVEST.PFOLIO_BK.COMP_CD = INVEST.COMP.COMP_CD WHERE ");
+        sbMst.Append(" SELECT     ASSET_VALUE.F_NAME, COMP.COMP_NM, PFOLIO_BK.SECT_MAJ_NM, PFOLIO_BK.TOT_NOS,  ");
+        sbMst.Append(" PFOLIO_BK.TCST_AFT_COM, ROUND(PFOLIO_BK.TCST_AFT_COM / PFOLIO_BK.TOT_NOS, 2) AS COST_RT_PER_SHARE, ");
+        sbMst.Append(" NVL(PFOLIO_BK.DSE_RT, 0) AS DSE_RT, NVL(PFOLIO_BK.CSE_RT, 0) AS CSE_RT, ROUND(PFOLIO_BK.ADC_RT, 2) ");
+        sbMst.Append(" AS AVG_RATE, ROUND(PFOLIO_BK.TOT_NOS * PFOLIO_BK.ADC_RT, 2) AS TOT_MARKET_PRICE,  ");
+        sbMst.Append(" ROUND(ROUND(PFOLIO_BK.ADC_RT, 2) - ROUND(PFOLIO_BK.TCST_AFT_COM / PFOLIO_BK.TOT_NOS, 2), 2) AS RATE_DIFF, ");
+        sbMst.Append(" ROUND(ROUND(PFOLIO_BK.TOT_NOS * PFOLIO_BK.ADC_RT, 2) - PFOLIO_BK.TCST_AFT_COM, 2) ");
+        sbMst.Append(" AS APPRICIATION_ERROTION, PFOLIO_BK.BAL_DT_CTRL, ASSET_VALUE.ASSET_VALUE,  ");
+        sbMst.Append(" ROUND(PFOLIO_BK.TCST_AFT_COM / ASSET_VALUE.ASSET_VALUE * 100, 2) AS HOLDING_PERCENTAGE_OF_ASSET, ");
+        sbMst.Append(" ROUND(PFOLIO_BK.TOT_NOS / COMP.NO_SHRS * 100, 2) AS PERCENTAGE_OF_PAIDUP ");
+        sbMst.Append(" FROM         PFOLIO_BK INNER JOIN  ");
+        sbMst.Append(" ASSET_VALUE ON PFOLIO_BK.F_CD = ASSET_VALUE.F_CD INNER JOIN ");
+        sbMst.Append(" COMP ON PFOLIO_BK.COMP_CD = COMP.COMP_CD WHERE ");
         if (percentageCheck != "")
         {
-            sbMst.Append(" (ROUND(INVEST.PFOLIO_BK.TCST_AFT_COM / INVEST.ASSET_VALUE.ASSET_VALUE * 100, 2) >="+percentageCheck+") and ");
+            sbMst.Append(" (ROUND(PFOLIO_BK.TCST_AFT_COM / ASSET_VALUE.ASSET_VALUE * 100, 2) >="+percentageCheck+") and ");
         }
-        sbMst.Append(" (INVEST.PFOLIO_BK.BAL_DT_CTRL = '" + Convert.ToDateTime(Request.QueryString["transactionDate"]).ToString("dd-MMM-yyyy") + "')  ");
-        sbMst.Append(" ORDER BY INVEST.PFOLIO_BK.SECT_MAJ_NM, INVEST.COMP.COMP_NM, INVEST.PFOLIO_BK.F_CD ");
+        sbMst.Append(" (PFOLIO_BK.BAL_DT_CTRL = '" + Convert.ToDateTime(Request.QueryString["transactionDate"]).ToString("dd-MMM-yyyy") + "')  ");
+        sbMst.Append(" ORDER BY PFOLIO_BK.SECT_MAJ_NM, COMP.COMP_NM, PFOLIO_BK.F_CD ");
 
 
         sbMst.Append(sbfilter.ToString());

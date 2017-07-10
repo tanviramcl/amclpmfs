@@ -29,25 +29,25 @@ public partial class UI_ReportViewer_BankAdviceReportViewer : System.Web.UI.Page
         StringBuilder sbMst = new StringBuilder();
         StringBuilder sbfilter = new StringBuilder();
         sbfilter.Append(" ");
-        sbMst.Append("SELECT     DECODE(INVEST.EMP_INFO.SEX, 'M', 'Mr. ' || INVEST.EMP_INFO.NAME, 'F', 'Ms. ' || INVEST.EMP_INFO.NAME) AS NAME, INVEST.EMP_INFO.BKACNO, ");
-        sbMst.Append("  INVEST.AMCL_EMP_SALARY.NET_PAYABLE ");
-        sbMst.Append(" FROM         INVEST.AMCL_EMP_SALARY INNER JOIN ");
-        sbMst.Append(" INVEST.EMP_INFO ON INVEST.AMCL_EMP_SALARY.ID = INVEST.EMP_INFO.ID  ");
+        sbMst.Append("SELECT     DECODE(EMP_INFO.SEX, 'M', 'Mr. ' || EMP_INFO.NAME, 'F', 'Ms. ' || EMP_INFO.NAME) AS NAME, EMP_INFO.BKACNO, ");
+        sbMst.Append("  AMCL_EMP_SALARY.NET_PAYABLE ");
+        sbMst.Append(" FROM         AMCL_EMP_SALARY INNER JOIN ");
+        sbMst.Append(" EMP_INFO ON AMCL_EMP_SALARY.ID = EMP_INFO.ID  ");
         
         if (Request.QueryString["calDate"].ToString() != " ")
         {
-            sbfilter.Append(" WHERE (INVEST.AMCL_EMP_SALARY.CAL_DATE ='" + Convert.ToDateTime(Request.QueryString["calDate"]).ToString("dd-MMM-yyyy") + "')");
+            sbfilter.Append(" WHERE (AMCL_EMP_SALARY.CAL_DATE ='" + Convert.ToDateTime(Request.QueryString["calDate"]).ToString("dd-MMM-yyyy") + "')");
         }
 
         sbMst.Append(sbfilter.ToString());
-        sbMst.Append(" ORDER BY INVEST.EMP_INFO.RANK, INVEST.EMP_INFO.SENIORITY");
+        sbMst.Append(" ORDER BY EMP_INFO.RANK, EMP_INFO.SENIORITY");
         dtBankAdvice = commonGatewayObj.Select(sbMst.ToString());
         dtBankAdvice.TableName = "BankAdvice";
         
         DataTable dtTotalAmount = new DataTable();
         StringBuilder querySring = new StringBuilder();
-        querySring.Append("SELECT SUM(INVEST.AMCL_EMP_SALARY.NET_PAYABLE) AS TOTAL_AMOUNT FROM INVEST.AMCL_EMP_SALARY");
-        querySring.Append(" WHERE (INVEST.AMCL_EMP_SALARY.CAL_DATE ='" + Convert.ToDateTime(Request.QueryString["calDate"]).ToString("dd-MMM-yyyy") + "')");
+        querySring.Append("SELECT SUM(AMCL_EMP_SALARY.NET_PAYABLE) AS TOTAL_AMOUNT FROM AMCL_EMP_SALARY");
+        querySring.Append(" WHERE (AMCL_EMP_SALARY.CAL_DATE ='" + Convert.ToDateTime(Request.QueryString["calDate"]).ToString("dd-MMM-yyyy") + "')");
         dtTotalAmount = commonGatewayObj.Select(querySring.ToString());
         dtTotalAmount.TableName = "TotalAmount";
         

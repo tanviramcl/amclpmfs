@@ -111,7 +111,7 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
             foreach (PortFolioBk pk in portFoliobkdatalist)
             {
                 
-                string strInsQuery = "insert into  invest.pfolio_bk(F_CD,COMP_CD,TOT_NOS,TOT_COST,TCST_AFT_COM,BAL_DT,DSE_RT,CSE_RT,ADC_RT,SECT_MAJ_NM,SECT_MAJ_CD,BAL_DT_CTRL)values(" + Convert.ToInt32(pk.F_CD) + "," + Convert.ToInt32(pk.COMP_CD) + "," + Convert.ToDouble(pk.TOT_NOS) + "," + Convert.ToDouble(pk.TOT_COST) + "," + Convert.ToDouble(pk.TCST_AFT_COM) + ",TO_Date('" + pk.BAL_DT + "')," + Convert.ToDouble(pk.avg_RT) + "," + Convert.ToDouble(pk.CSE_RT) + ",'" + Convert.ToDouble(pk.ADC_RT) + "','" + pk.SECT_MAJ_NM.ToString() + "','" + pk.SECT_MAJ_CD + "',TO_DATE('" + pk.BalanceDate + "'))";
+                string strInsQuery = "insert into  pfolio_bk(F_CD,COMP_CD,TOT_NOS,TOT_COST,TCST_AFT_COM,BAL_DT,DSE_RT,CSE_RT,ADC_RT,SECT_MAJ_NM,SECT_MAJ_CD,BAL_DT_CTRL)values(" + Convert.ToInt32(pk.F_CD) + "," + Convert.ToInt32(pk.COMP_CD) + "," + Convert.ToDouble(pk.TOT_NOS) + "," + Convert.ToDouble(pk.TOT_COST) + "," + Convert.ToDouble(pk.TCST_AFT_COM) + ",TO_Date('" + pk.BAL_DT + "')," + Convert.ToDouble(pk.avg_RT) + "," + Convert.ToDouble(pk.CSE_RT) + ",'" + Convert.ToDouble(pk.ADC_RT) + "','" + pk.SECT_MAJ_NM.ToString() + "','" + pk.SECT_MAJ_CD + "',TO_DATE('" + pk.BalanceDate + "'))";
                 int NumOfRows = commonGatewayObj.ExecuteNonQuery(strInsQuery);
 
             }
