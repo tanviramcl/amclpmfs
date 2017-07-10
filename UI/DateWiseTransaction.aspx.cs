@@ -21,6 +21,7 @@ using System.Collections.Generic;
 //using AMCL.COMMON;
 
 
+
 public partial class DateWiseTransaction : System.Web.UI.Page
 {
 
