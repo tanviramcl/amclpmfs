@@ -48,38 +48,38 @@ public partial class UI_ReportViewer_CompanyWiseSecuritiesTransactionReportViewe
         StringBuilder sbMst = new StringBuilder();
         StringBuilder sbfilter = new StringBuilder();
         sbfilter.Append(" ");
-        sbMst.Append("SELECT     INVEST.COMP.COMP_NM, INVEST.FUND.F_NAME, SUM(INVEST.FUND_TRANS_HB.NO_SHARE) AS NO_OF_SHARE, ");
-        sbMst.Append("SUM(INVEST.FUND_TRANS_HB.CRT_AFT_COM * INVEST.FUND_TRANS_HB.NO_SHARE) AS COST_PRICE, ");
-        sbMst.Append("ROUND(SUM(INVEST.FUND_TRANS_HB.CRT_AFT_COM * INVEST.FUND_TRANS_HB.NO_SHARE) / SUM(INVEST.FUND_TRANS_HB.NO_SHARE), 2) ");
-        sbMst.Append("AS COST_RATE, SUM(INVEST.FUND_TRANS_HB.AMT_AFT_COM) AS TOTAL_AMT_AFT_COM, ROUND(SUM(INVEST.FUND_TRANS_HB.AMT_AFT_COM) ");
-        sbMst.Append("/ SUM(INVEST.FUND_TRANS_HB.NO_SHARE), 2) AS TRANSACTION_RATE, ROUND(SUM(INVEST.FUND_TRANS_HB.AMT_AFT_COM) ");
-        sbMst.Append("- SUM(INVEST.FUND_TRANS_HB.CRT_AFT_COM * INVEST.FUND_TRANS_HB.NO_SHARE), 2) AS PROFIT_LOSS, ");
-        sbMst.Append("decode(INVEST.FUND_TRANS_HB.TRAN_TP, 'B', 'Report for Bonus Shares', 'C', 'Report for Purchase Shares', 'S', 'STATEMENT OF PROFIT ON SALE OF INVESTMENT', 'R', 'Report for Right Shares', 'I', 'Report for IPO Shares') AS TRAN_TYPE, ");
-        sbMst.Append("INVEST.SECT_MAJ.SECT_MAJ_CD, INVEST.SECT_MAJ.SECT_MAJ_NM ");
-        sbMst.Append("FROM         INVEST.FUND INNER JOIN ");
-        sbMst.Append("INVEST.FUND_TRANS_HB ON INVEST.FUND.F_CD = INVEST.FUND_TRANS_HB.F_CD INNER JOIN ");
-        sbMst.Append("INVEST.COMP ON INVEST.FUND_TRANS_HB.COMP_CD = INVEST.COMP.COMP_CD INNER JOIN ");
-        sbMst.Append(" INVEST.SECT_MAJ ON INVEST.COMP.SECT_MAJ_CD = INVEST.SECT_MAJ.SECT_MAJ_CD ");
-        sbMst.Append("WHERE     (INVEST.FUND_TRANS_HB.VCH_DT BETWEEN '" + fromDate.ToString() + "' AND '" + toDate.ToString() + "')  ");
+        sbMst.Append("SELECT     COMP.COMP_NM, FUND.F_NAME, SUM(FUND_TRANS_HB.NO_SHARE) AS NO_OF_SHARE, ");
+        sbMst.Append("SUM(FUND_TRANS_HB.CRT_AFT_COM * FUND_TRANS_HB.NO_SHARE) AS COST_PRICE, ");
+        sbMst.Append("ROUND(SUM(FUND_TRANS_HB.CRT_AFT_COM * FUND_TRANS_HB.NO_SHARE) / SUM(FUND_TRANS_HB.NO_SHARE), 2) ");
+        sbMst.Append("AS COST_RATE, SUM(FUND_TRANS_HB.AMT_AFT_COM) AS TOTAL_AMT_AFT_COM, ROUND(SUM(FUND_TRANS_HB.AMT_AFT_COM) ");
+        sbMst.Append("/ SUM(FUND_TRANS_HB.NO_SHARE), 2) AS TRANSACTION_RATE, ROUND(SUM(FUND_TRANS_HB.AMT_AFT_COM) ");
+        sbMst.Append("- SUM(FUND_TRANS_HB.CRT_AFT_COM * FUND_TRANS_HB.NO_SHARE), 2) AS PROFIT_LOSS, ");
+        sbMst.Append("decode(FUND_TRANS_HB.TRAN_TP, 'B', 'Report for Bonus Shares', 'C', 'Report for Purchase Shares', 'S', 'STATEMENT OF PROFIT ON SALE OF INVESTMENT', 'R', 'Report for Right Shares', 'I', 'Report for IPO Shares') AS TRAN_TYPE, ");
+        sbMst.Append("SECT_MAJ.SECT_MAJ_CD, SECT_MAJ.SECT_MAJ_NM ");
+        sbMst.Append("FROM         FUND INNER JOIN ");
+        sbMst.Append("FUND_TRANS_HB ON FUND.F_CD = FUND_TRANS_HB.F_CD INNER JOIN ");
+        sbMst.Append("COMP ON FUND_TRANS_HB.COMP_CD = COMP.COMP_CD INNER JOIN ");
+        sbMst.Append(" SECT_MAJ ON COMP.SECT_MAJ_CD = SECT_MAJ.SECT_MAJ_CD ");
+        sbMst.Append("WHERE     (FUND_TRANS_HB.VCH_DT BETWEEN '" + fromDate.ToString() + "' AND '" + toDate.ToString() + "')  ");
 
         if (String.Compare(bdf.ToString(), "no", true) == 0)
         {
-            sbMst.Append(" AND INVEST.FUND.F_cd <>17 ");
+            sbMst.Append(" AND FUND.F_cd <>17 ");
         }
         if (transType != "0")
         {
-            sbMst.Append(" AND (INVEST.FUND_TRANS_HB.TRAN_TP ='" + transType.ToString() + "')");
+            sbMst.Append(" AND (FUND_TRANS_HB.TRAN_TP ='" + transType.ToString() + "')");
         }
         if (fundCode != "0")
         {
-            sbMst.Append(" AND (INVEST.FUND_TRANS_HB.F_CD =" + Convert.ToInt16(fundCode.ToString()) + ")");
+            sbMst.Append(" AND (FUND_TRANS_HB.F_CD =" + Convert.ToInt16(fundCode.ToString()) + ")");
         }
         if (companyCode != "0")
         {
-            sbMst.Append(" AND (INVEST.FUND_TRANS_HB.COMP_CD =" + Convert.ToInt16(companyCode.ToString()) + ")");
+            sbMst.Append(" AND (FUND_TRANS_HB.COMP_CD =" + Convert.ToInt16(companyCode.ToString()) + ")");
         }
-        sbMst.Append(" GROUP BY INVEST.COMP.COMP_NM, INVEST.FUND_TRANS_HB.TRAN_TP, INVEST.FUND.F_NAME, INVEST.FUND.F_CD, INVEST.SECT_MAJ.SECT_MAJ_CD, INVEST.SECT_MAJ.SECT_MAJ_NM ");
-        sbMst.Append(" ORDER BY INVEST.SECT_MAJ.SECT_MAJ_NM, INVEST.COMP.COMP_NM, INVEST.FUND.F_CD ");
+        sbMst.Append(" GROUP BY COMP.COMP_NM, FUND_TRANS_HB.TRAN_TP, FUND.F_NAME, FUND.F_CD, SECT_MAJ.SECT_MAJ_CD, SECT_MAJ.SECT_MAJ_NM ");
+        sbMst.Append(" ORDER BY SECT_MAJ.SECT_MAJ_NM, COMP.COMP_NM, FUND.F_CD ");
         sbMst.Append(sbfilter.ToString());
         dtReprtSource = commonGatewayObj.Select(sbMst.ToString());
         

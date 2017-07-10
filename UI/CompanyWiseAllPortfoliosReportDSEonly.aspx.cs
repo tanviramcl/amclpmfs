@@ -68,9 +68,9 @@ public partial class UI_CompanyWiseAllPortfoliosReportDSEonly : System.Web.UI.Pa
         StringBuilder sbOrderBy = new StringBuilder();
         sbOrderBy.Append("");
 
-        sbMst.Append(" SELECT     INVEST.FUND.F_CD, INVEST.FUND.F_NAME     FROM         INVEST.FUND  ");
-        sbMst.Append(" WHERE     (INVEST.FUND.F_CD BETWEEN 1 AND 26)   AND IS_F_CLOSE IS NULL AND BOID IS NOT NULL ");
-        sbOrderBy.Append(" ORDER BY INVEST.FUND.F_CD ");
+        sbMst.Append(" SELECT     FUND.F_CD, FUND.F_NAME     FROM         FUND  ");
+        sbMst.Append(" WHERE    IS_F_CLOSE IS NULL AND BOID IS NOT NULL ");
+        sbOrderBy.Append(" ORDER BY FUND.F_CD ");
 
         sbMst.Append(sbOrderBy.ToString());
         dtFundName = commonGatewayObj.Select(sbMst.ToString());

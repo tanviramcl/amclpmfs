@@ -62,7 +62,7 @@ public partial class UI_Process : System.Web.UI.Page
             StringBuilder sbfilter = new StringBuilder();
             sbfilter.Append(" ");
 
-            sbMst.Append("SELECT INVEST.COMP.COMP_CD, INVEST.PUB_TRANS.* FROM INVEST.COMP INNER JOIN INVEST.PUB_TRANS ON INVEST.COMP.INSTR_CD = INVEST.PUB_TRANS.INST_CD WHERE(INVEST.PUB_TRANS.TRANS_DT ='" + Convert.ToDateTime(closingPriceDate).ToString("dd-MMM-yyyy") + "')");
+            sbMst.Append("SELECT COMP.COMP_CD, PUB_TRANS.* FROM COMP INNER JOIN PUB_TRANS ON COMP.INSTR_CD = PUB_TRANS.INST_CD WHERE(PUB_TRANS.TRANS_DT ='" + Convert.ToDateTime(closingPriceDate).ToString("dd-MMM-yyyy") + "')");
             sbMst.Append(sbfilter.ToString());
             dtSelectQuery = commonGatewayObj.Select(sbMst.ToString());
 

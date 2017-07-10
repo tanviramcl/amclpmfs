@@ -44,7 +44,7 @@ public partial class UI_ReportViewer_PortfolioWithNonListedReportViewer : System
         StringBuilder sbfilter = new StringBuilder();
         sbfilter.Append(" ");
         sbMst.Append("select  b.f_name, a.folio_no, a.cert_no, a.dmat_no, a.dmat_dt, a.allot_no, a.dis_no_fm,a.dis_no_to, a.no_shares, a.sp_date, substr(a.sh_type,1,1) sh_tp ");
-        sbMst.Append(" from invest.shr_dmat_fi  a, invest.fund b where a.comp_cd = '"+companycode+"' and a.f_cd =b.f_cd and a.posted is null and a.dmat_dt  ='"+ blncdate + "'  and    a.f_cd = '"+fundcode+"' ");
+        sbMst.Append(" from shr_dmat_fi  a, fund b where a.comp_cd = '"+companycode+"' and a.f_cd =b.f_cd and a.posted is null and a.dmat_dt  ='"+ blncdate + "'  and    a.f_cd = '"+fundcode+"' ");
         sbMst.Append(" order by a.dmat_dt, c_dt, cert_no ");
        
         sbMst.Append(sbfilter.ToString());

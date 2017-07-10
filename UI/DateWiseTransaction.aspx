@@ -1,30 +1,12 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/UI/AMCLCommon.master" AutoEventWireup="true" CodeFile="DateWiseTransaction.aspx.cs" Inherits="DateWiseTransaction" Title="IAMCL Portfolio Market Price Update  (Design and Developed by Sakhawat)" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
-    <script language="javascript" type="text/javascript"> 
-    
-   
-    
-    function fnCheckInput()
-    {   
-       
-        if(document.getElementById("<%=stockExchangeDropDownList.ClientID%>").value =="0")
-        {
-            document.getElementById("<%=stockExchangeDropDownList.ClientID%>").focus();
-            alert("Please Select Stock Exchange.");
-            return false; 
-        }
-        if(document.getElementById("<%=fundNameDropDownList.ClientID%>").value =="0")
-        {
-            document.getElementById("<%=fundNameDropDownList.ClientID%>").focus();
-            alert("Please Select Fund Name.");
-            return false; 
-        }
-
-      
-        
-    }
-</script>
+    <style type ="text/css" >  
+        label.error {             
+            color: red;   
+            display:inline-flex ;                 
+        }  
+    </style>
  
    <style type="text/css">
         .style6
@@ -127,7 +109,7 @@
                 <td align="right" style="font-weight: 700"><b>Howla Date to:</b></td>
                 <td align="left" width="200px">
                     <asp:TextBox ID="txtHowlaDateTo" runat="server" style="width:195px;" 
-                CssClass="textInputStyle" TabIndex="7" AutoPostBack="True"   ReadOnly="true"
+                CssClass="textInputStyle" TabIndex="7" AutoPostBack="false"   ReadOnly="true"
                 ontextchanged="txtHowlaDateTo_TextChanged"></asp:TextBox>
                   <%--  <ajaxToolkit:CalendarExtender ID="txtHowlaDateTo_CalendarExtender1"
                         runat="server" TargetControlID="txtHowlaDateTo"
@@ -140,19 +122,102 @@
              <tr>
                     <td align="right" style="font-weight: 700"><b>Voucher Number:</b></td>
                 <td align="left" width="200px">
-                    <asp:TextBox ID="txtVoucherNumber" runat="server" style="width:195px;"  MaxLength="10"
-                CssClass="textInputStyle" TabIndex="7" AutoPostBack="False" 
+                    <asp:TextBox ID="txtVoucherNumber" runat="server" style="width:195px;"
+                CssClass="textInputStyle" TabIndex="7" AutoPostBack="false" 
                 ></asp:TextBox>
                 </td>
               </tr>   
 
-              <tr>
-                  <td align="right"><asp:Button ID="btnSave" runat="server" Text="Save"  CssClass="buttoncommon"  EnableViewState="false" OnClientClick=" return fnCheckInput();" OnClick="btnSave_Click"/></td>
+              <%--<tr>
+                  <td align="right">
+                      <asp:Button ID="btnSave" runat="server" Text="Save"  CssClass="buttoncommon"  OnClientClick=" return fnCheckInput();" OnClick="btnSave_Click"/></td>
                   <td align="left">
                       &nbsp;</td>
                  
-              </tr>    
-        </table>                
+              </tr> --%>   
+
+                <tr>
+            <td align="right">&nbsp;</td>
+            <td align="left">
+                <%--<asp:Button ID="btnSave" runat="server" Text="Save" 
+                       CssClass="buttoncommon" OnClick="btnSave_Click" OnClientClick=" return fnCheckInput();"/>--%></td>
+
+        </tr>
+
+
+        <tr>
+            <td align="right">&nbsp;</td>
+            <td align="left">
+                <div>
+
+                    <asp:UpdateProgress ID="updProgress"
+                        AssociatedUpdatePanelID="UpdatePanel1"
+                        runat="server">
+                        <ProgressTemplate>
+                            <img src="../Image/Processing.gif" alt="processing" style="width: 186px; height: 128px; margin-left: 36px" />
+
+                        </ProgressTemplate>
+                    </asp:UpdateProgress>
+
+                    <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+                        <ContentTemplate>
+                            <asp:Label ID="lblProcessing" runat="server" Text="" Style="font-size: 24px; color: green;"></asp:Label>
+                            <br />
+
+                            <asp:Button ID="btnSave" runat="server" Text="Save" 
+                                CssClass="buttoncommon" OnClick="btnSave_Click" EnableViewState="false"/>
+                        </ContentTemplate>
+                    </asp:UpdatePanel>
+                </div>
+            </td>
+
+        </tr>
+        </table>   
+    
+     <script type="text/javascript">
+
+
+
+         $.validator.addMethod("StockDropDownList", function (value, element, param) {  
+             if (value == '0')  
+                 return false;  
+             else  
+                 return true;  
+         },"Please select a stock exchange.");   
+    
+        $.validator.addMethod("FundDropDownList", function (value, element, param) {  
+            if (value == '0')  
+                return false;  
+            else  
+                return true;  
+        },"Please select a fund.");   
+
+      $("#aspnetForm").validate({
+          rules: {
+                    <%=stockExchangeDropDownList.UniqueID %>: {
+                        
+                        StockDropDownList: true,
+                        
+                    }, <%=fundNameDropDownList.UniqueID %>: {
+                        
+                        FundDropDownList: true,
+
+                    }, <%=txtVoucherNumber.UniqueID %>: {
+                        maxlength: 10
+                    }
+              
+                }, messages: {
+                     
+                   <%=txtVoucherNumber.UniqueID %>: {
+                        
+                        maxlength:"* Please enter maximum 10 characters *"
+                    }
+                
+                }
+      });
+     
+    </script>
+                 
                   
  </asp:Content>
 

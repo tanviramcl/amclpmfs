@@ -26,7 +26,7 @@ public partial class UI_GeneralReport : System.Web.UI.Page
     }
     private void FillCompanyNameDropDownList()
     {
-        DataTable dtCompName = commonGatewayObj.Select("SELECT COMP_NM, COMP_CD FROM INVEST.COMP ORDER BY COMP_NM");
+        DataTable dtCompName = commonGatewayObj.Select("SELECT COMP_NM, COMP_CD FROM COMP ORDER BY COMP_NM");
         DataTable dtCompNameDropDownList = new DataTable();
         dtCompNameDropDownList.Columns.Add("COMP_NM", typeof(string));
         dtCompNameDropDownList.Columns.Add("COMP_CD", typeof(string));
@@ -50,7 +50,7 @@ public partial class UI_GeneralReport : System.Web.UI.Page
     private void FillSectorDropDownList()
     {
 
-        DataTable dtSectorName = commonGatewayObj.Select("SELECT * FROM INVEST.SECT_MAJ ORDER BY SECT_MAJ_NM");
+        DataTable dtSectorName = commonGatewayObj.Select("SELECT * FROM SECT_MAJ ORDER BY SECT_MAJ_NM");
         DataTable dtSectorNameDropDownList = new DataTable();
         dtSectorNameDropDownList.Columns.Add("SECT_MAJ_NM", typeof(string));
         dtSectorNameDropDownList.Columns.Add("SECT_MAJ_CD", typeof(string));

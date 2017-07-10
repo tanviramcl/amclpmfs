@@ -58,7 +58,7 @@ public partial class UI_NonListedSecuritiesInvestmentEntryForm : System.Web.UI.P
         }
         else
         {
-            commonGatewayObj.Insert(httable, "invest.NON_LISTED_SECURITIES");
+            commonGatewayObj.Insert(httable, "NON_LISTED_SECURITIES");
             ClearFields();
             ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Saved Successfully');", true);
         }

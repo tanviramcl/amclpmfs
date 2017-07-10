@@ -157,7 +157,7 @@ public partial class UI_FundTransactionEntry : System.Web.UI.Page
         }
         else
         {
-            commonGatewayObj.Insert(httable, "invest.fund_trans_hb");
+            commonGatewayObj.Insert(httable, "fund_trans_hb");
             ClearFields();
             ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Saved Successfully');", true);
         }

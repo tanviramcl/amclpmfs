@@ -53,9 +53,10 @@ public partial class DateWiseTransaction : System.Web.UI.Page
         string strQuery;
         CommonGateway commonGatewayObj = new CommonGateway();
         DataTable dt = new DataTable();
-
+        lblProcessing.Text = "";
         txtHowlaDateFrom.Text = "";
         txtLastHowlaDate.Text = "";
+        txtVoucherNumber.Text = ""; 
         stockExchangeDropDownList.DataValueField = stockExchangeDropDownList.SelectedValue;
 
         if (stockExchangeDropDownList.SelectedValue == "D") // For DSE
@@ -74,7 +75,7 @@ public partial class DateWiseTransaction : System.Web.UI.Page
         }
         else if (stockExchangeDropDownList.SelectedValue == "0")// For CSE
         {
-            ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Please select a stock exchange.');", true);
+          //  ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Please select a stock exchange.');", true);
             fundNameDropDownList.SelectedValue = "0";
             
             dt = null;
@@ -138,7 +139,7 @@ public partial class DateWiseTransaction : System.Web.UI.Page
     {
         string strSleFromHowlaQuery, strSelFromFundTransHBQuery, strHowlaDateFrom, strLastHowlaDate, strHowlaDateTo, strSelFundofTwentyFivePaisa, strSelFundofTwentyPaisa, LoginID = Session["UserID"].ToString();
         char tp;
-        Double amt, temp = 0, amt_cm = 0;
+        Double amt, amt_cm = 0;
         string LoginName = Session["UserName"].ToString().ToUpper();
         CommonGateway commonGatewayObj = new CommonGateway();
 
@@ -611,13 +612,14 @@ public partial class DateWiseTransaction : System.Web.UI.Page
                             
                         }
                     }
-  
-                        ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Process completed!');", true);
+                     lblProcessing.Text = "Processing completed!!!!";
+                    // ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Process completed!');", true);
                 }
                 else
                 {
                     ClearFields();
-                    ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('No data found!');", true);
+                    lblProcessing.Text = "No data found!!!!";
+                    // ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('No data found!');", true);
                 }
 
             }

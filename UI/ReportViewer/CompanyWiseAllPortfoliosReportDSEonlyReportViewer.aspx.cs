@@ -41,31 +41,31 @@ public partial class UI_ReportViewer_CompanyWiseAllPortfoliosReportDSEonlyReport
         StringBuilder sbMst = new StringBuilder();
         StringBuilder sbfilter = new StringBuilder();
         sbfilter.Append(" ");
-        sbMst.Append(" SELECT     INVEST.PFOLIO_BK.SECT_MAJ_NM, INVEST.COMP.COMP_NM, INVEST.FUND.F_NAME, INVEST.PFOLIO_BK.TOT_NOS, INVEST.PFOLIO_BK.TCST_AFT_COM, ");
-        sbMst.Append(" ROUND(INVEST.PFOLIO_BK.TCST_AFT_COM / INVEST.PFOLIO_BK.TOT_NOS, 2) AS COST_RT_PER_SHARE, NVL(INVEST.PFOLIO_BK.DSE_RT, ");
-        sbMst.Append(" INVEST.PFOLIO_BK.CSE_RT) AS DSE_RT, ROUND(INVEST.PFOLIO_BK.TOT_NOS * NVL(INVEST.PFOLIO_BK.DSE_RT, INVEST.PFOLIO_BK.CSE_RT), 2) ");
-        sbMst.Append(" AS TOT_MARKET_PRICE, ROUND(ROUND(NVL(INVEST.PFOLIO_BK.DSE_RT, INVEST.PFOLIO_BK.CSE_RT), 2) ");
-        sbMst.Append(" - ROUND(INVEST.PFOLIO_BK.TCST_AFT_COM / INVEST.PFOLIO_BK.TOT_NOS, 2), 2) AS RATE_DIFF, ");
-        sbMst.Append(" ROUND(ROUND(INVEST.PFOLIO_BK.TOT_NOS * NVL(INVEST.PFOLIO_BK.DSE_RT, INVEST.PFOLIO_BK.CSE_RT), 2) - INVEST.PFOLIO_BK.TCST_AFT_COM, 2) ");
-        sbMst.Append(" AS APPRICIATION_ERROTION, INVEST.PFOLIO_BK.BAL_DT_CTRL, ROUND(INVEST.PFOLIO_BK.TOT_NOS / INVEST.COMP.NO_SHRS * 100, 3) ");
+        sbMst.Append(" SELECT     PFOLIO_BK.SECT_MAJ_NM, COMP.COMP_NM, FUND.F_NAME, PFOLIO_BK.TOT_NOS, PFOLIO_BK.TCST_AFT_COM, ");
+        sbMst.Append(" ROUND(PFOLIO_BK.TCST_AFT_COM / PFOLIO_BK.TOT_NOS, 2) AS COST_RT_PER_SHARE, NVL(PFOLIO_BK.DSE_RT, ");
+        sbMst.Append(" PFOLIO_BK.CSE_RT) AS DSE_RT, ROUND(PFOLIO_BK.TOT_NOS * NVL(PFOLIO_BK.DSE_RT, PFOLIO_BK.CSE_RT), 2) ");
+        sbMst.Append(" AS TOT_MARKET_PRICE, ROUND(ROUND(NVL(PFOLIO_BK.DSE_RT, PFOLIO_BK.CSE_RT), 2) ");
+        sbMst.Append(" - ROUND(PFOLIO_BK.TCST_AFT_COM / PFOLIO_BK.TOT_NOS, 2), 2) AS RATE_DIFF, ");
+        sbMst.Append(" ROUND(ROUND(PFOLIO_BK.TOT_NOS * NVL(PFOLIO_BK.DSE_RT, PFOLIO_BK.CSE_RT), 2) - PFOLIO_BK.TCST_AFT_COM, 2) ");
+        sbMst.Append(" AS APPRICIATION_ERROTION, PFOLIO_BK.BAL_DT_CTRL, ROUND(PFOLIO_BK.TOT_NOS / COMP.NO_SHRS * 100, 3) ");
         sbMst.Append(" AS PERCENTAGE_OF_PAIDUP ");
-        sbMst.Append(" FROM         INVEST.PFOLIO_BK INNER JOIN ");
-        sbMst.Append(" INVEST.COMP ON INVEST.PFOLIO_BK.COMP_CD = INVEST.COMP.COMP_CD INNER JOIN ");
-        sbMst.Append(" INVEST.FUND ON INVEST.PFOLIO_BK.F_CD = INVEST.FUND.F_CD ");
-        sbMst.Append(" WHERE     (INVEST.PFOLIO_BK.BAL_DT_CTRL = '"+howlaDate.ToString()+"') ");
+        sbMst.Append(" FROM         PFOLIO_BK INNER JOIN ");
+        sbMst.Append(" COMP ON PFOLIO_BK.COMP_CD = COMP.COMP_CD INNER JOIN ");
+        sbMst.Append(" FUND ON PFOLIO_BK.F_CD = FUND.F_CD ");
+        sbMst.Append(" WHERE     (PFOLIO_BK.BAL_DT_CTRL = '"+howlaDate.ToString()+"') ");
         if (percentageCheck != "")
         {
-            sbMst.Append(" AND (ROUND(INVEST.PFOLIO_BK.TOT_NOS / INVEST.COMP.NO_SHRS * 100, 3) >=" + percentageCheck + ") ");
+            sbMst.Append(" AND (ROUND(PFOLIO_BK.TOT_NOS / COMP.NO_SHRS * 100, 3) >=" + percentageCheck + ") ");
         }
         if (fundCodes != "")
         {
-            sbMst.Append(" AND INVEST.FUND.F_CD IN(" + fundCodes + ") ");
+            sbMst.Append(" AND FUND.F_CD IN(" + fundCodes + ") ");
         }
         if (companyCodes != "")
         {
-            sbMst.Append(" AND INVEST.PFOLIO_BK.COMP_CD IN(" + companyCodes + ") ");
+            sbMst.Append(" AND PFOLIO_BK.COMP_CD IN(" + companyCodes + ") ");
         }
-        sbMst.Append(" ORDER BY INVEST.PFOLIO_BK.SECT_MAJ_NM, INVEST.COMP.COMP_NM, INVEST.PFOLIO_BK.F_CD ");
+        sbMst.Append(" ORDER BY PFOLIO_BK.SECT_MAJ_NM, COMP.COMP_NM, PFOLIO_BK.F_CD ");
 
         sbMst.Append(sbfilter.ToString());
         dtReprtSource = commonGatewayObj.Select(sbMst.ToString());

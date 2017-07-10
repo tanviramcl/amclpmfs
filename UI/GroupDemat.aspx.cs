@@ -154,7 +154,7 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
             }
             //allowtmentNO;
 
-            Query = "select no_shares from invest.psdr_fi where comp_cd = "+companyCodeTextBox.Text.ToString()+" and f_cd = "+fundcodeTextBox.Text.ToString()+" and allot_no = '"+ allowtmentNO + "' and sh_type<> 'T' and posted = 'A'";
+            Query = "select no_shares from psdr_fi where comp_cd = "+companyCodeTextBox.Text.ToString()+" and f_cd = "+fundcodeTextBox.Text.ToString()+" and allot_no = '"+ allowtmentNO + "' and sh_type<> 'T' and posted = 'A'";
             dtsource = commonGatewayObj.Select(Query.ToString());
             if (dtsource.Rows.Count > 0)
             {
@@ -243,7 +243,7 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
             }
 
         }
-        Query = "select no_shares from invest.psdr_fi where comp_cd = " + companyCodeTextBox.Text.ToString() + " and f_cd = " + fundcodeTextBox.Text.ToString() + " and cert_no = '" + certificateNO + "' and sh_type<> 'T' and posted = 'A'";
+        Query = "select no_shares from psdr_fi where comp_cd = " + companyCodeTextBox.Text.ToString() + " and f_cd = " + fundcodeTextBox.Text.ToString() + " and cert_no = '" + certificateNO + "' and sh_type<> 'T' and posted = 'A'";
         dtsource = commonGatewayObj.Select(Query.ToString());
         if (dtsource.Rows.Count > 0)
         {
@@ -333,7 +333,7 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
                         certificateNO = NOZero;
                     }
                 }
-                Query = "select comp_cd  from invest.shr_dmat_fi where comp_cd = "+companyCodeTextBox.Text.ToString()+" and cert_no = '"+ certificateNO + "'";
+                Query = "select comp_cd  from shr_dmat_fi where comp_cd = "+companyCodeTextBox.Text.ToString()+" and cert_no = '"+ certificateNO + "'";
                 dtsource = commonGatewayObj.Select(Query.ToString());
                 if (dtsource.Rows.Count > 0)
                 {
@@ -356,7 +356,7 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
                 }
 
 
-                Query2 = "select f_cd,psdr_no,sh_type,om_lot,sp_date,no_shares,folio_no,cert_no,dis_no_fm,dis_no_to,allot_no,howla_no,sp_rate,mv_date, ref_no,bk_cd,op_name from  invest.psdr_fi where comp_cd="+companycode+" and f_cd = "+fundcodeTextBox.Text+" and cert_no = '"+ certificateNO + "' and sh_type<>'T' and posted ='A'";
+                Query2 = "select f_cd,psdr_no,sh_type,om_lot,sp_date,no_shares,folio_no,cert_no,dis_no_fm,dis_no_to,allot_no,howla_no,sp_rate,mv_date, ref_no,bk_cd,op_name from  psdr_fi where comp_cd="+companycode+" and f_cd = "+fundcodeTextBox.Text+" and cert_no = '"+ certificateNO + "' and sh_type<>'T' and posted ='A'";
                 dtsourcepsdrfi = commonGatewayObj.Select(Query2.ToString());
                 if (dtsourcepsdrfi.Rows.Count > 0)
                 {
@@ -383,11 +383,11 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
                                        }).ToList();
                     foreach (PSDR_FI psdrfi in psdrfilist)
                     {
-                        string strInsQuery = "insert into invest.shr_dmat_fi(f_cd, comp_cd, sh_type, sp_date, no_shares, folio_no, cert_no, dis_no_fm, dis_no_to, allot_no, sp_rate, dmat_no, dmat_dt, posted, op_name, c_dt)values('"+psdrfi.f_cd+"','"+companycode+"', '"+psdrfi.sh_type+"', '"+Convert.ToDateTime(psdrfi.sp_date).ToString("dd-MMM-yyyy") +"','"+psdrfi.no_shares+"','"+psdrfi.folio_no+"','"+psdrfi.cert_no+"','"+psdrfi.dis_no_fm +"','"+psdrfi.dis_no_to +"','"+psdrfi.allot_no+"', '"+psdrfi.sp_rate+"',  '"+LatterNoTextBox.Text.ToString()+"', '"+ strlatterdate + "','D','"+ LoginName + "','"+ currentdate + "')";
+                        string strInsQuery = "insert into shr_dmat_fi(f_cd, comp_cd, sh_type, sp_date, no_shares, folio_no, cert_no, dis_no_fm, dis_no_to, allot_no, sp_rate, dmat_no, dmat_dt, posted, op_name, c_dt)values('"+psdrfi.f_cd+"','"+companycode+"', '"+psdrfi.sh_type+"', '"+Convert.ToDateTime(psdrfi.sp_date).ToString("dd-MMM-yyyy") +"','"+psdrfi.no_shares+"','"+psdrfi.folio_no+"','"+psdrfi.cert_no+"','"+psdrfi.dis_no_fm +"','"+psdrfi.dis_no_to +"','"+psdrfi.allot_no+"', '"+psdrfi.sp_rate+"',  '"+LatterNoTextBox.Text.ToString()+"', '"+ strlatterdate + "','D','"+ LoginName + "','"+ currentdate + "')";
 
                         int NumOfRows = commonGatewayObj.ExecuteNonQuery(strInsQuery);
 
-                        string strUPQuery = "update invest.psdr_fi set posted='D' where comp_cd = "+companyCodeTextBox.Text.ToString()+" and f_cd ="+fundcodeTextBox.Text.ToString()+"  and cert_no = '"+psdrfi.cert_no+"'";
+                        string strUPQuery = "update psdr_fi set posted='D' where comp_cd = "+companyCodeTextBox.Text.ToString()+" and f_cd ="+fundcodeTextBox.Text.ToString()+"  and cert_no = '"+psdrfi.cert_no+"'";
 
                         int NumOfRowsupdate = commonGatewayObj.ExecuteNonQuery(strUPQuery);
                         nofoshare = nofoshare + Convert.ToInt32(psdrfi.no_shares);
@@ -460,7 +460,7 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
 
                     }
                 }
-                Query = "select comp_cd  from invest.shr_dmat_fi where comp_cd = " + companyCodeTextBox.Text.ToString() + " and allot_no = '" + allowtmentNO + "'";
+                Query = "select comp_cd  from shr_dmat_fi where comp_cd = " + companyCodeTextBox.Text.ToString() + " and allot_no = '" + allowtmentNO + "'";
                 dtsource = commonGatewayObj.Select(Query.ToString());
                 if (dtsource.Rows.Count > 0)
                 {
@@ -481,7 +481,7 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
                 {
                     companycode = companyCodeTextBox.Text;
                 }
-                Query2 = "select f_cd,psdr_no,sh_type,om_lot,sp_date,no_shares,folio_no,cert_no,dis_no_fm,dis_no_to,allot_no,howla_no,sp_rate,mv_date, ref_no,bk_cd,op_name from  invest.psdr_fi where comp_cd=" + companycode + " and f_cd = " + fundcodeTextBox.Text + " and allot_no = '" + allowtmentNO + "' and sh_type<>'T' and posted ='A'";
+                Query2 = "select f_cd,psdr_no,sh_type,om_lot,sp_date,no_shares,folio_no,cert_no,dis_no_fm,dis_no_to,allot_no,howla_no,sp_rate,mv_date, ref_no,bk_cd,op_name from  psdr_fi where comp_cd=" + companycode + " and f_cd = " + fundcodeTextBox.Text + " and allot_no = '" + allowtmentNO + "' and sh_type<>'T' and posted ='A'";
                 dtsourcepsdrfi = commonGatewayObj.Select(Query2.ToString());
                 if (dtsourcepsdrfi.Rows.Count > 0)
                 {
@@ -508,11 +508,11 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
                                   }).ToList();
                     foreach (PSDR_FI psdrfi in psdrfilist)
                     {
-                        string strInsQuery = "insert into invest.shr_dmat_fi(f_cd, comp_cd, sh_type, sp_date, no_shares, folio_no, cert_no, dis_no_fm, dis_no_to, allot_no, sp_rate, dmat_no, dmat_dt, posted, op_name, c_dt)values('" + psdrfi.f_cd + "','" + companycode + "', '" + psdrfi.sh_type + "', '" + Convert.ToDateTime(psdrfi.sp_date).ToString("dd-MMM-yyyy") + "','" + psdrfi.no_shares + "','" + psdrfi.folio_no + "','" + psdrfi.cert_no + "','" + psdrfi.dis_no_fm + "','" + psdrfi.dis_no_to + "','" + psdrfi.allot_no + "', '" + psdrfi.sp_rate + "',  '" + LatterNoTextBox.Text.ToString() + "', '" + strlatterdate + "','D','" + LoginName + "','" + currentdate + "')";
+                        string strInsQuery = "insert into shr_dmat_fi(f_cd, comp_cd, sh_type, sp_date, no_shares, folio_no, cert_no, dis_no_fm, dis_no_to, allot_no, sp_rate, dmat_no, dmat_dt, posted, op_name, c_dt)values('" + psdrfi.f_cd + "','" + companycode + "', '" + psdrfi.sh_type + "', '" + Convert.ToDateTime(psdrfi.sp_date).ToString("dd-MMM-yyyy") + "','" + psdrfi.no_shares + "','" + psdrfi.folio_no + "','" + psdrfi.cert_no + "','" + psdrfi.dis_no_fm + "','" + psdrfi.dis_no_to + "','" + psdrfi.allot_no + "', '" + psdrfi.sp_rate + "',  '" + LatterNoTextBox.Text.ToString() + "', '" + strlatterdate + "','D','" + LoginName + "','" + currentdate + "')";
 
                         int NumOfRows = commonGatewayObj.ExecuteNonQuery(strInsQuery);
 
-                        string strUPQuery = "update invest.psdr_fi set posted='D' where comp_cd = " + companyCodeTextBox.Text.ToString() + " and f_cd =" + fundcodeTextBox.Text.ToString() + "  and allot_no = '" + psdrfi.allot_no + "'";
+                        string strUPQuery = "update psdr_fi set posted='D' where comp_cd = " + companyCodeTextBox.Text.ToString() + " and f_cd =" + fundcodeTextBox.Text.ToString() + "  and allot_no = '" + psdrfi.allot_no + "'";
 
                         int NumOfRowsupdate = commonGatewayObj.ExecuteNonQuery(strUPQuery);
                         nofoshare = nofoshare + Convert.ToInt32(psdrfi.no_shares);

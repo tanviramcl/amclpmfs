@@ -46,29 +46,29 @@ public partial class UI_ReportViewer_Report_BookCloserEntryViewer : System.Web.U
 
         dtReprtSource.TableName = "Report";
 
-        sbMst.Append("SELECT INVEST.COMP.COMP_NM, INVEST.BOOK_CL.COMP_CD, INVEST.BOOK_CL.FY, INVEST.BOOK_CL.RECORD_DT, INVEST.BOOK_CL.BOOK_TO, INVEST.BOOK_CL.BONUS, INVEST.BOOK_CL.RIGHT_APPR_DT, INVEST.BOOK_CL.\"RIGHT\",");
-        sbMst.Append("INVEST.BOOK_CL.CASH, INVEST.BOOK_CL.AGM, INVEST.BOOK_CL.REMARKS, INVEST.BOOK_CL.POSTED, INVEST.BOOK_CL.PDATE FROM INVEST.COMP INNER JOIN INVEST.BOOK_CL ON INVEST.COMP.COMP_CD = INVEST.BOOK_CL.COMP_CD WHERE(1 = 1)");
+        sbMst.Append("SELECT COMP.COMP_NM, BOOK_CL.COMP_CD, BOOK_CL.FY, BOOK_CL.RECORD_DT, BOOK_CL.BOOK_TO, BOOK_CL.BONUS, BOOK_CL.RIGHT_APPR_DT, BOOK_CL.\"RIGHT\",");
+        sbMst.Append("BOOK_CL.CASH, BOOK_CL.AGM, BOOK_CL.REMARKS, BOOK_CL.POSTED, BOOK_CL.PDATE FROM COMP INNER JOIN BOOK_CL ON COMP.COMP_CD = BOOK_CL.COMP_CD WHERE(1 = 1)");
 
         if (entryDate != "" && toEntryDate == "")
         {
-            sbfilter.Append(" AND  (INVEST.BOOK_CL.ENTRY_DATE >='" + Convert.ToDateTime(Request.QueryString["entryDate"]).ToString("dd-MMM-yyyy") + "')");
+            sbfilter.Append(" AND  (BOOK_CL.ENTRY_DATE >='" + Convert.ToDateTime(Request.QueryString["entryDate"]).ToString("dd-MMM-yyyy") + "')");
         }
         else if (entryDate == "" && toEntryDate != "")
         {
-            sbfilter.Append(" AND  (INVEST.BOOK_CL.ENTRY_DATE <='" + Convert.ToDateTime(Request.QueryString["toEntryDate"]).ToString("dd-MMM-yyyy") + "')");
+            sbfilter.Append(" AND  (BOOK_CL.ENTRY_DATE <='" + Convert.ToDateTime(Request.QueryString["toEntryDate"]).ToString("dd-MMM-yyyy") + "')");
         }
         else if (entryDate != "" && toEntryDate != "")
         {
-            sbfilter.Append(" AND  (INVEST.BOOK_CL.ENTRY_DATE >='" + Convert.ToDateTime(Request.QueryString["entryDate"]).ToString("dd-MMM-yyyy") + "') AND  (BOOK_CL.ENTRY_DATE <='" + Convert.ToDateTime(Request.QueryString["toEntryDate"]).ToString("dd-MMM-yyyy") + "')");
+            sbfilter.Append(" AND  (BOOK_CL.ENTRY_DATE >='" + Convert.ToDateTime(Request.QueryString["entryDate"]).ToString("dd-MMM-yyyy") + "') AND  (BOOK_CL.ENTRY_DATE <='" + Convert.ToDateTime(Request.QueryString["toEntryDate"]).ToString("dd-MMM-yyyy") + "')");
         }
 
         if (comCode != 0)
         {
-            sbfilter.Append(" AND (INVEST.BOOK_CL.COMP_CD =" + comCode + ")");
+            sbfilter.Append(" AND (BOOK_CL.COMP_CD =" + comCode + ")");
         }
 
         sbMst.Append(sbfilter.ToString());
-        sbMst.Append(" ORDER BY INVEST.COMP.COMP_NM");
+        sbMst.Append(" ORDER BY COMP.COMP_NM");
         dtReprtSource = commonGatewayObj.Select(sbMst.ToString());
 
 

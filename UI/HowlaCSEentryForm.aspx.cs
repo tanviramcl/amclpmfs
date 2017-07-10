@@ -83,7 +83,7 @@ public partial class UI_HowlaCSEentryForm : System.Web.UI.Page
                                 drTradeCusdata["IN_OUT"] = "O";
                             }
                             drTradeCusdata["SETTLE_DT"] = Convert.ToDateTime(tradingDateTextBox.Text.ToString()).ToString("dd-MMM-yyyy");
-                            compCode = pf1s1DAOObj.GetFundOrCompCode("INVEST.COMP", "COMP_CD", "CSEINSTR_CD = '" + lineContent[2] + "'");
+                            compCode = pf1s1DAOObj.GetFundOrCompCode("COMP", "COMP_CD", "CSEINSTR_CD = '" + lineContent[2] + "'");
                             drTradeCusdata["COMP_CD"] = compCode;
                             drTradeCusdata["SP_QTY"] = lineContent[4].ToString().Trim();
                             drTradeCusdata["SP_RATE"] = lineContent[5].ToString().Trim().ToUpper();

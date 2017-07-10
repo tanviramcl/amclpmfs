@@ -27,7 +27,7 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
 
         DataTable dtsource = new DataTable();
         List<CompanyInfo> companyInfolist = new List<CompanyInfo>();
-        string Query = "select COMP_CD,comp_nm,mlot,fc_val,avg_rt,rt_upd_dt,instr_cd,cseinstr_cd, cse_sid, trade_meth, cds from invest.comp where comp_cd ='" + companyCodeTextBox.Text + "'";
+        string Query = "select COMP_CD,comp_nm,mlot,fc_val,avg_rt,rt_upd_dt,instr_cd,cseinstr_cd, cse_sid, trade_meth, cds from comp where comp_cd ='" + companyCodeTextBox.Text + "'";
 
         dtsource = commonGatewayObj.Select(Query.ToString());
 
@@ -58,7 +58,7 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
                 {
                     DataTable dtsourcecdscomcd = new DataTable();
                     List<CompanyInfoCDS> companyInfocds = new List<CompanyInfoCDS>();
-                    string Query2 = "  select COMP_CD from invest.comp_cds where comp_cd =" + compInfo.COMP_CD + "";
+                    string Query2 = "  select COMP_CD from comp_cds where comp_cd =" + compInfo.COMP_CD + "";
 
                     dtsourcecdscomcd = commonGatewayObj.Select(Query2.ToString());
 
@@ -68,7 +68,7 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
                         DataTable companyinfocds = new DataTable();
 
 
-                        string strUPQuery2 = "update invest.comp_cds  set  start_dt ='" + Convert.ToDateTime(CDSStartDateTextBox.Text).ToString("dd - MMM - yyyy") + "',isin_cd ='" + isinCode.Text.ToString() + "' where comp_cd =" + compInfo.COMP_CD + "";
+                        string strUPQuery2 = "update comp_cds  set  start_dt ='" + Convert.ToDateTime(CDSStartDateTextBox.Text).ToString("dd - MMM - yyyy") + "',isin_cd ='" + isinCode.Text.ToString() + "' where comp_cd =" + compInfo.COMP_CD + "";
 
                         int NumOfRows = commonGatewayObj.ExecuteNonQuery(strUPQuery2);
                         ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Update Successfully');", true);
@@ -101,7 +101,7 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
     {
         DataTable dtsource = new DataTable();
         List<CompanyInfo> companyInfolist = new List<CompanyInfo>();
-        string Query = "select comp_nm,mlot,fc_val,avg_rt,rt_upd_dt,instr_cd,cseinstr_cd, cse_sid, trade_meth, cds from invest.comp where comp_cd ='" + companyCodeTextBox.Text + "'";
+        string Query = "select comp_nm,mlot,fc_val,avg_rt,rt_upd_dt,instr_cd,cseinstr_cd, cse_sid, trade_meth, cds from comp where comp_cd ='" + companyCodeTextBox.Text + "'";
 
         dtsource = commonGatewayObj.Select(Query.ToString());
 
@@ -111,7 +111,7 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
 
         DataTable dtsourcecds = new DataTable();
         List<CompanyInfoCDS> companyInfocds = new List<CompanyInfoCDS>();
-        string Query2 = "  select start_dt,isin_cd from invest.comp_cds where comp_cd ='" + companyCodeTextBox.Text + "'";
+        string Query2 = "  select start_dt,isin_cd from comp_cds where comp_cd ='" + companyCodeTextBox.Text + "'";
 
         dtsourcecds = commonGatewayObj.Select(Query2.ToString());
 
@@ -244,7 +244,7 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
         DataTable companyinfoupdate = new DataTable();
 
 
-        string strUPQuery = "update invest.comp set    instr_cd ='" + dsecodeTextBox.Text.ToString() + "',cseinstr_cd ='" + csecodeTextBox.Text.ToString() + "',cse_sid='" + cseScriptIdTextBox.Text.ToString() + "',trade_meth ='" + GROUPDropDownList.SelectedValue.ToString() + "',cds='" + IscdsTextBox.Text.ToString() + "' where comp_cd =" + companyCodeTextBox.Text.ToString() + "";
+        string strUPQuery = "update comp set    instr_cd ='" + dsecodeTextBox.Text.ToString() + "',cseinstr_cd ='" + csecodeTextBox.Text.ToString() + "',cse_sid='" + cseScriptIdTextBox.Text.ToString() + "',trade_meth ='" + GROUPDropDownList.SelectedValue.ToString() + "',cds='" + IscdsTextBox.Text.ToString() + "' where comp_cd =" + companyCodeTextBox.Text.ToString() + "";
 
         int NumOfRows = commonGatewayObj.ExecuteNonQuery(strUPQuery);
         // ClearFields();
@@ -255,7 +255,7 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
         string strInsQuery;
         DataTable dtsource = new DataTable();
         List<CompanyInfo> companyInfolist = new List<CompanyInfo>();
-        string Query = "select comp_nm,mlot,fc_val,avg_rt,rt_upd_dt,instr_cd,cseinstr_cd, cse_sid, trade_meth, cds from invest.comp where comp_cd ='" + COMP_CD + "'";
+        string Query = "select comp_nm,mlot,fc_val,avg_rt,rt_upd_dt,instr_cd,cseinstr_cd, cse_sid, trade_meth, cds from comp where comp_cd ='" + COMP_CD + "'";
 
         dtsource = commonGatewayObj.Select(Query.ToString());
 
@@ -275,7 +275,7 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
             {
                 // companyCodeTextBox.Text = ;
 
-                strInsQuery = "insert into invest.comp_cds(comp_cd,comp_nm,start_dt,isin_cd) values(" + COMP_CD + ", '" + compInfo.COMP_NM + "', '" + Convert.ToDateTime(CDSStartDateTextBox.Text).ToString("dd - MMM - yyyy") + "','" + isinCode.Text.ToString() + "')";
+                strInsQuery = "insert into comp_cds(comp_cd,comp_nm,start_dt,isin_cd) values(" + COMP_CD + ", '" + compInfo.COMP_NM + "', '" + Convert.ToDateTime(CDSStartDateTextBox.Text).ToString("dd - MMM - yyyy") + "','" + isinCode.Text.ToString() + "')";
                 int NumOfRows = commonGatewayObj.ExecuteNonQuery(strInsQuery);
                 ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Insert Data Successfully');", true);
             }

@@ -81,7 +81,7 @@ public partial class UI_AssetPercentageNAVSummaryAndPortfolioReportViewer : Syst
                      "nvl(a.dse_rt, 0) DSE_rate, nvl(a.cse_rt, 0)  CSE_rate, a.adc_rt m_rt, a.dse_rt* tot_nos m_p," +
                      "(a.dse_rt - trunc(tcst_aft_com / tot_nos, 2)) diff ," +
                      "(round(a.dse_rt, 2) - trunc(tcst_aft_com / tot_nos, 2)) * trunc(tot_nos) gain,round((" + cf_unlist/cs_asset+")*100,2)unl_p" +
-                     " from invest.pfolio_bk a, invest.comp c ,  nav.nav_master n " +
+                     " from pfolio_bk a, comp c ,  nav.nav_master n " +
                       " where c.comp_cd = a.comp_cd and a.f_cd =" + fundCode + " and a.bal_dt_ctrl ='" + balDate + "' and n.navfundid = " + fundCode +
                       " and n.navno = (select max(navno) from nav.nav_master where navfundid = " + fundCode + "   AND NAVDATE<='" + balDate + "' ) order by a.sect_maj_cd)p"+
                       " group by p.sect_maj_cd,p.sect_maj_nm,p.f_cd order by p.sect_maj_cd";
@@ -97,7 +97,7 @@ public partial class UI_AssetPercentageNAVSummaryAndPortfolioReportViewer : Syst
                      "nvl(a.dse_rt, 0) DSE_rate, nvl(a.cse_rt, 0)  CSE_rate, a.adc_rt m_rt, a.dse_rt* tot_nos m_p," +
                      "(a.dse_rt - trunc(tcst_aft_com / tot_nos, 2)) diff ," +
                      "(round(a.dse_rt, 2) - trunc(tcst_aft_com / tot_nos, 2)) * trunc(tot_nos) gain,round((" + cf_unlist / cs_asset + ")*100,2)unl_p" +
-                     " from invest.pfolio_bk a, invest.comp c ,  nav.nav_master n " +
+                     " from pfolio_bk a, comp c ,  nav.nav_master n " +
                       " where c.comp_cd = a.comp_cd and a.f_cd =" + fundCode + " and a.bal_dt_ctrl ='" + balDate + "' and n.navfundid = " + fundCode +
                       " and n.navno = (select max(navno) from nav.nav_master where navfundid = " + fundCode + "   AND NAVDATE<='" + balDate + "' ) order by a.sect_maj_cd)p" +
                       " group by p.sect_maj_cd,p.sect_maj_nm,p.f_cd order by p.sect_maj_cd)";
@@ -149,7 +149,7 @@ public partial class UI_AssetPercentageNAVSummaryAndPortfolioReportViewer : Syst
                        "trunc(tcst_aft_com, 2) tcst_aft_com, round((tot_cost / tot_nos),2) c_rt, tot_cost," +
                        "a.adc_rt m_rt, a.adc_rt* tot_nos m_p,(a.adc_rt * tot_nos - tcst_aft_com) diff," +
                        "(round(a.adc_rt, 2) - trunc(tcst_aft_com / tot_nos, 2)) * trunc(tot_nos) gain,round(((trunc(tot_nos) / c.no_shrs) * 100),2)  paid_cap " +
-                       " from invest.pfolio_bk a, comp c ,  nav.nav_master n " +
+                       " from pfolio_bk a, comp c ,  nav.nav_master n " +
                        " where c.comp_cd = a.comp_cd and a.f_cd = " + fundCode + " and a.bal_dt_ctrl ='" + balDate + "' and n.navfundid = " + fundCode +
                        "and navno = (select max(navno) from nav.nav_master where navfundid =" + fundCode + "   AND NAVDATE<='" + balDate + "' )  order by a.sect_maj_cd";
             dtReprtSource = commonGatewayObj.Select(strSQL);
@@ -159,7 +159,7 @@ public partial class UI_AssetPercentageNAVSummaryAndPortfolioReportViewer : Syst
                        "trunc(tcst_aft_com, 2) tcst_aft_com, round((tot_cost / tot_nos),2) c_rt, tot_cost," +
                        "a.adc_rt m_rt, a.adc_rt* tot_nos m_p,(a.adc_rt * tot_nos - tcst_aft_com) diff," +
                        "(round(a.adc_rt, 2) - trunc(tcst_aft_com / tot_nos, 2)) * trunc(tot_nos) gain,round(((trunc(tot_nos) / c.no_shrs) * 100),2)  paid_cap " +
-                       " from invest.pfolio_bk a, comp c ,  nav.nav_master n " +
+                       " from pfolio_bk a, comp c ,  nav.nav_master n " +
                        " where c.comp_cd = a.comp_cd and a.f_cd = " + fundCode + " and a.bal_dt_ctrl ='" + balDate + "' and n.navfundid = " + fundCode +
                        "and navno = (select max(navno) from nav.nav_master where navfundid =" + fundCode + "   AND NAVDATE<='" + balDate + "' )  order by a.sect_maj_cd)";
             dtGrandTotCostVal = commonGatewayObj.Select(strSQLGrandTotCostVal);
@@ -208,7 +208,7 @@ public partial class UI_AssetPercentageNAVSummaryAndPortfolioReportViewer : Syst
                       "(select trim(c.comp_nm), sect_maj_nm, a.sect_maj_cd,a.f_cd,trunc(tot_nos) nos_t,  bal_dt , trunc(tcst_aft_com / tot_nos, 2) rt_acm," +
                       " trunc(tcst_aft_com, 2) tcst_aft_com,    round((tot_cost / tot_nos),2) c_rt, tot_cost, round(((tcst_aft_com / n.navtotalcostprice) * 100),2) cost_percent," +
                       "a.adc_rt m_rt, a.dse_rt* tot_nos m_p,(a.dse_rt - trunc(tcst_aft_com / tot_nos, 2)) diff ,(round(a.dse_rt, 2) - trunc(tcst_aft_com / tot_nos, 2)) * trunc(tot_nos) gain," +
-                      "n.navtotalcostprice asset from invest.pfolio_bk a, comp c, nav.nav_master n where c.comp_cd = a.comp_cd and " +
+                      "n.navtotalcostprice asset from pfolio_bk a, comp c, nav.nav_master n where c.comp_cd = a.comp_cd and " +
                       "a.f_cd =" + fundCode + " and a.bal_dt_ctrl ='" + balDate + "' and n.navfundid = " + fundCode +
                       " and navno = (select max(navno) from nav.nav_master where navfundid =  " + fundCode + "  AND NAVDATE<='" + balDate + "') order by c.comp_nm)p"+
                       " group by p.sect_maj_cd,p.sect_maj_nm,p.f_cd,p.asset order by p.sect_maj_cd"; 
@@ -221,7 +221,7 @@ public partial class UI_AssetPercentageNAVSummaryAndPortfolioReportViewer : Syst
                       "(select trim(c.comp_nm), sect_maj_nm, a.sect_maj_cd,a.f_cd,trunc(tot_nos) nos_t,  bal_dt , trunc(tcst_aft_com / tot_nos, 2) rt_acm," +
                       " trunc(tcst_aft_com, 2) tcst_aft_com,    round((tot_cost / tot_nos),2) c_rt, tot_cost, round(((tcst_aft_com / n.navtotalcostprice) * 100),2) cost_percent," +
                       "a.adc_rt m_rt, a.dse_rt* tot_nos m_p,(a.dse_rt - trunc(tcst_aft_com / tot_nos, 2)) diff ,(round(a.dse_rt, 2) - trunc(tcst_aft_com / tot_nos, 2)) * trunc(tot_nos) gain," +
-                      "n.navtotalcostprice asset from invest.pfolio_bk a, comp c, nav.nav_master n where c.comp_cd = a.comp_cd and " +
+                      "n.navtotalcostprice asset from pfolio_bk a, comp c, nav.nav_master n where c.comp_cd = a.comp_cd and " +
                       "a.f_cd =" + fundCode + " and a.bal_dt_ctrl ='" + balDate + "' and n.navfundid = " + fundCode +
                       " and navno = (select max(navno) from nav.nav_master where navfundid =  " + fundCode + "  AND NAVDATE<='" + balDate + "') order by c.comp_nm)p" +
                       " group by p.sect_maj_cd,p.sect_maj_nm,p.f_cd,p.asset order by p.sect_maj_cd)";
