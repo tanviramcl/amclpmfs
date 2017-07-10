@@ -549,7 +549,7 @@ public partial class DateWiseTransaction : System.Web.UI.Page
 
                                 else
                                 {
-
+                                    // This is insert
                                     string strInsQuery = "insert into fund_trans_hb(vch_dt, f_cd, comp_cd,vch_no," +
                                     " tran_tp, no_share, rate, amount, stock_ex, amt_aft_com,op_name) values('" + dtFromHowla.Rows[i]["sp_date"].ToString() + "'," + dtFromHowla.Rows[i]["f_cd"].ToString() + "," + dtFromHowla.Rows[i]["comp_cd"].ToString() + "," +
                                      " '" + txtVoucherNumber.Text.Replace("'", "''") + "'," +
