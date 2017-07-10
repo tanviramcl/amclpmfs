@@ -141,13 +141,13 @@
                     <td align="right" style="font-weight: 700"><b>Voucher Number:</b></td>
                 <td align="left" width="200px">
                     <asp:TextBox ID="txtVoucherNumber" runat="server" style="width:195px;"  MaxLength="10"
-                CssClass="textInputStyle" TabIndex="7" AutoPostBack="True" 
+                CssClass="textInputStyle" TabIndex="7" AutoPostBack="False" 
                 ></asp:TextBox>
                 </td>
               </tr>   
 
               <tr>
-                  <td align="right"><asp:Button ID="btnSave" runat="server" Text="Save"  CssClass="buttoncommon"  OnClientClick=" return fnCheckInput();" OnClick="btnSave_Click"/></td>
+                  <td align="right"><asp:Button ID="btnSave" runat="server" Text="Save"  CssClass="buttoncommon"  EnableViewState="false" OnClientClick=" return fnCheckInput();" OnClick="btnSave_Click"/></td>
                   <td align="left">
                       &nbsp;</td>
                  
