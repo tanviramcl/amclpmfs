@@ -46,28 +46,28 @@ public partial class UI_ReportViewer_IPODateWiseReportViewer : System.Web.UI.Pag
 
         dtReprtSource.TableName = "IPO_DateWiseReport";
 
-        sbMst.Append("SELECT     INVEST.COMP.COMP_CD, INVEST.COMP.COMP_NM || ' (' || INVEST.COMP.COMP_CD || ')' as COMP_NM , INVEST.FUND.F_NAME, INVEST.FUND_TRANS_HB.VCH_DT,");
-        sbMst.Append("INVEST.FUND_TRANS_HB.NO_SHARE, INVEST.FUND_TRANS_HB.AMOUNT, INVEST.FUND_TRANS_HB.AMT_AFT_COM ");
-        sbMst.Append("FROM INVEST.COMP INNER JOIN ");
-        sbMst.Append("INVEST.FUND_TRANS_HB ON INVEST.COMP.COMP_CD = INVEST.FUND_TRANS_HB.COMP_CD INNER JOIN");
-        sbMst.Append(" INVEST.FUND ON INVEST.FUND_TRANS_HB.F_CD = INVEST.FUND.F_CD WHERE(INVEST.FUND_TRANS_HB.TRAN_TP = 'I')");
+        sbMst.Append("SELECT     COMP.COMP_CD, COMP.COMP_NM || ' (' || COMP.COMP_CD || ')' as COMP_NM , FUND.F_NAME, FUND_TRANS_HB.VCH_DT,");
+        sbMst.Append("FUND_TRANS_HB.NO_SHARE, FUND_TRANS_HB.AMOUNT, FUND_TRANS_HB.AMT_AFT_COM ");
+        sbMst.Append("FROM COMP INNER JOIN ");
+        sbMst.Append("FUND_TRANS_HB ON COMP.COMP_CD = FUND_TRANS_HB.COMP_CD INNER JOIN");
+        sbMst.Append(" FUND ON FUND_TRANS_HB.F_CD = FUND.F_CD WHERE(FUND_TRANS_HB.TRAN_TP = 'I')");
 
         if (howlaDateFrom != "" && howlaDateTo == "")
         {
-            sbfilter.Append(" AND  (INVEST.FUND_TRANS_HB.VCH_DT >='" + Convert.ToDateTime(Request.QueryString["howlaDateFrom"]).ToString("dd-MMM-yyyy") + "')");
+            sbfilter.Append(" AND  (FUND_TRANS_HB.VCH_DT >='" + Convert.ToDateTime(Request.QueryString["howlaDateFrom"]).ToString("dd-MMM-yyyy") + "')");
         }
         else if (howlaDateFrom == "" && howlaDateTo != "")
         {
-            sbfilter.Append(" AND  (INVEST.FUND_TRANS_HB.VCH_DT <='" + Convert.ToDateTime(Request.QueryString["howlaDateTo"]).ToString("dd-MMM-yyyy") + "')");
+            sbfilter.Append(" AND  (FUND_TRANS_HB.VCH_DT <='" + Convert.ToDateTime(Request.QueryString["howlaDateTo"]).ToString("dd-MMM-yyyy") + "')");
         }
         else if (howlaDateFrom != "" && howlaDateTo != "")
         {
-            sbfilter.Append(" AND  (INVEST.FUND_TRANS_HB.VCH_DT >='" + Convert.ToDateTime(Request.QueryString["howlaDateFrom"]).ToString("dd-MMM-yyyy") + "') AND  (INVEST.FUND_TRANS_HB.VCH_DT <='" + Convert.ToDateTime(Request.QueryString["howlaDateTo"]).ToString("dd-MMM-yyyy") + "')");
+            sbfilter.Append(" AND  (FUND_TRANS_HB.VCH_DT >='" + Convert.ToDateTime(Request.QueryString["howlaDateFrom"]).ToString("dd-MMM-yyyy") + "') AND  (FUND_TRANS_HB.VCH_DT <='" + Convert.ToDateTime(Request.QueryString["howlaDateTo"]).ToString("dd-MMM-yyyy") + "')");
         }
 
 
         sbMst.Append(sbfilter.ToString());
-        sbMst.Append(" ORDER BY INVEST.FUND_TRANS_HB.VCH_DT, INVEST.FUND.F_CD");
+        sbMst.Append(" ORDER BY FUND_TRANS_HB.VCH_DT, FUND.F_CD");
         dtReprtSource = commonGatewayObj.Select(sbMst.ToString());
         dtReprtSource.TableName = "IPO_DateWiseReport";
 

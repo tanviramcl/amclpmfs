@@ -26,7 +26,7 @@ public class DropDownList
     public DataTable FillSectorDropDownList()//Sector Name
     {
 
-        DataTable dtSectorName = commonGatewayObj.Select("SELECT * FROM INVEST.SECT_MAJ ORDER BY SECT_MAJ_NM");
+        DataTable dtSectorName = commonGatewayObj.Select("SELECT * FROM SECT_MAJ ORDER BY SECT_MAJ_NM");
         DataTable dtSectorNameDropDownList = new DataTable();
         dtSectorNameDropDownList.Columns.Add("SECT_MAJ_NM", typeof(string));
         dtSectorNameDropDownList.Columns.Add("SECT_MAJ_CD", typeof(string));
@@ -45,7 +45,7 @@ public class DropDownList
     }
     public DataTable FillCompanyNameDropDownList()//For All Company Name
     {
-        DataTable dtCompName = commonGatewayObj.Select("SELECT COMP_NM, COMP_CD FROM INVEST.COMP ORDER BY COMP_NM");
+        DataTable dtCompName = commonGatewayObj.Select("SELECT COMP_NM, COMP_CD FROM COMP ORDER BY COMP_NM");
         DataTable dtCompNameDropDownList = new DataTable();
         dtCompNameDropDownList.Columns.Add("COMP_NM", typeof(string));
         dtCompNameDropDownList.Columns.Add("COMP_CD", typeof(string));
@@ -64,7 +64,7 @@ public class DropDownList
     }
     public DataTable FundNameDropDownList()//For All Funds
     {
-        DataTable dtFundName = commonGatewayObj.Select("SELECT F_NAME, F_CD FROM INVEST.FUND WHERE IS_F_CLOSE IS NULL AND BOID IS NOT NULL ORDER BY F_CD");
+        DataTable dtFundName = commonGatewayObj.Select("SELECT F_NAME, F_CD FROM FUND WHERE IS_F_CLOSE IS NULL AND BOID IS NOT NULL ORDER BY F_CD");
         DataTable dtFundNameDropDownList = new DataTable();
         dtFundNameDropDownList.Columns.Add("F_NAME", typeof(string));
         dtFundNameDropDownList.Columns.Add("F_CD", typeof(string));
@@ -83,7 +83,7 @@ public class DropDownList
     }
     public DataTable CloseEndFundNameDropDownList()//For Close End MF
     {
-        DataTable dtCloseEndFundName = commonGatewayObj.Select("SELECT F_NAME, F_CD FROM INVEST.FUND WHERE (F_CD between 3 and 26) AND F_CD NOT IN(4) ORDER BY F_CD");
+        DataTable dtCloseEndFundName = commonGatewayObj.Select("SELECT F_NAME, F_CD FROM FUND WHERE (F_CD between 3 and 26) AND F_CD NOT IN(4) ORDER BY F_CD");
         DataTable dtCloseEndFundNameDropDownList = new DataTable();
         dtCloseEndFundNameDropDownList.Columns.Add("F_NAME", typeof(string));
         dtCloseEndFundNameDropDownList.Columns.Add("F_CD", typeof(string));
@@ -102,7 +102,7 @@ public class DropDownList
     }
     public DataTable OpenEndFundNameDropDownList()//For Open End MF
     {
-        DataTable dtOpenEndFundName = commonGatewayObj.Select("SELECT F_NAME, F_CD FROM INVEST.FUND WHERE F_CD IN(2,4) ORDER BY F_CD");
+        DataTable dtOpenEndFundName = commonGatewayObj.Select("SELECT F_NAME, F_CD FROM FUND WHERE F_CD IN(2,4) ORDER BY F_CD");
         DataTable dtOpenEndFundNameDropDownList = new DataTable();
         dtOpenEndFundNameDropDownList.Columns.Add("F_NAME", typeof(string));
         dtOpenEndFundNameDropDownList.Columns.Add("F_CD", typeof(string));
@@ -156,7 +156,7 @@ public class DropDownList
     }
     public DataTable MonthlyBankAdviceDropDownList()//For Month of Bank Advice
     {
-        DataTable dtMonthOfBankAdvice = commonGatewayObj.Select("SELECT  CAL_DATE, TO_CHAR(CAL_DATE, 'MONTH,YYYY') AS MONTH_OF_BANK_ADVICE FROM INVEST.AMCL_EMP_SALARY GROUP BY CAL_DATE ORDER BY CAL_DATE DESC");
+        DataTable dtMonthOfBankAdvice = commonGatewayObj.Select("SELECT  CAL_DATE, TO_CHAR(CAL_DATE, 'MONTH,YYYY') AS MONTH_OF_BANK_ADVICE FROM AMCL_EMP_SALARY GROUP BY CAL_DATE ORDER BY CAL_DATE DESC");
         DataTable dtMonthOfBankAdviceDropDownList = new DataTable();
         dtMonthOfBankAdviceDropDownList.Columns.Add("MONTH_OF_BANK_ADVICE", typeof(string));
         dtMonthOfBankAdviceDropDownList.Columns.Add("CAL_DATE", typeof(string));
@@ -175,7 +175,7 @@ public class DropDownList
     }
     public DataTable HowlaDateDropDownList()//Get Howla Date from invest.fund_trans_hb Table
     {
-        DataTable dtHowlaDate = commonGatewayObj.Select("SELECT DISTINCT VCH_DT    FROM   INVEST.FUND_TRANS_HB  ORDER BY VCH_DT DESC");
+        DataTable dtHowlaDate = commonGatewayObj.Select("SELECT DISTINCT VCH_DT    FROM   FUND_TRANS_HB  ORDER BY VCH_DT DESC");
         DataTable dtHowlaDateDropDownList = new DataTable();
         dtHowlaDateDropDownList.Columns.Add("Howla_Date", typeof(string));
         dtHowlaDateDropDownList.Columns.Add("VCH_DT", typeof(string));

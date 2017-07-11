@@ -45,35 +45,35 @@ public partial class UI_ReportViewer_ReceivableCashDividendReportViewer : System
         DataTable dtReprtSource = new DataTable();
         StringBuilder sbMst = new StringBuilder();
        
-        sbMst.Append(" SELECT     INVEST.FUND.F_NAME, INVEST.COMP.COMP_NM, INVEST.BOOK_CL.AGM, INVEST.BOOK_CL.RECORD_DT, INVEST.COMP.FC_VAL, INVEST.BOOK_CL.CASH, ");
-        sbMst.Append(" INVEST.COMP.FC_VAL * INVEST.BOOK_CL.CASH / 100 AS DIVIDEND_PER_SHARE, INVEST.PFOLIO_BK.TOT_NOS,  ");
-        sbMst.Append(" INVEST.PFOLIO_BK.TOT_NOS * INVEST.COMP.FC_VAL / 100 * INVEST.BOOK_CL.CASH AS GROSS_DIVIDEND, decode(INVEST.FUND.F_CD, 1, ");
-        sbMst.Append(" INVEST.PFOLIO_BK.TOT_NOS * INVEST.COMP.FC_VAL / 100 * INVEST.BOOK_CL.CASH * .2, 0) AS TAX, decode(INVEST.FUND.F_CD, 1,  ");
-        sbMst.Append(" INVEST.PFOLIO_BK.TOT_NOS * INVEST.COMP.FC_VAL / 100 * INVEST.BOOK_CL.CASH * .8,  ");
-        sbMst.Append(" INVEST.PFOLIO_BK.TOT_NOS * INVEST.COMP.FC_VAL / 100 * INVEST.BOOK_CL.CASH) AS NET_DIVIDEND ");
-        sbMst.Append(" FROM         INVEST.BOOK_CL INNER JOIN ");
-        sbMst.Append(" INVEST.COMP ON INVEST.BOOK_CL.COMP_CD = INVEST.COMP.COMP_CD INNER JOIN ");
-        sbMst.Append(" INVEST.FUND INNER JOIN ");
-        sbMst.Append(" INVEST.PFOLIO_BK ON INVEST.FUND.F_CD = INVEST.PFOLIO_BK.F_CD ON INVEST.BOOK_CL.COMP_CD = INVEST.PFOLIO_BK.COMP_CD AND ");
-        sbMst.Append(" INVEST.BOOK_CL.RECORD_DT = INVEST.PFOLIO_BK.BAL_DT_CTRL ");
-        sbMst.Append(" WHERE       (INVEST.BOOK_CL.CASH IS NOT NULL) ");
+        sbMst.Append(" SELECT     FUND.F_NAME, COMP.COMP_NM, BOOK_CL.AGM, BOOK_CL.RECORD_DT, COMP.FC_VAL, BOOK_CL.CASH, ");
+        sbMst.Append(" COMP.FC_VAL * BOOK_CL.CASH / 100 AS DIVIDEND_PER_SHARE, PFOLIO_BK.TOT_NOS,  ");
+        sbMst.Append(" PFOLIO_BK.TOT_NOS * COMP.FC_VAL / 100 * BOOK_CL.CASH AS GROSS_DIVIDEND, decode(FUND.F_CD, 1, ");
+        sbMst.Append(" PFOLIO_BK.TOT_NOS * COMP.FC_VAL / 100 * BOOK_CL.CASH * .2, 0) AS TAX, decode(FUND.F_CD, 1,  ");
+        sbMst.Append(" PFOLIO_BK.TOT_NOS * COMP.FC_VAL / 100 * BOOK_CL.CASH * .8,  ");
+        sbMst.Append(" PFOLIO_BK.TOT_NOS * COMP.FC_VAL / 100 * BOOK_CL.CASH) AS NET_DIVIDEND ");
+        sbMst.Append(" FROM         BOOK_CL INNER JOIN ");
+        sbMst.Append(" COMP ON BOOK_CL.COMP_CD = COMP.COMP_CD INNER JOIN ");
+        sbMst.Append(" FUND INNER JOIN ");
+        sbMst.Append(" PFOLIO_BK ON FUND.F_CD = PFOLIO_BK.F_CD ON BOOK_CL.COMP_CD = PFOLIO_BK.COMP_CD AND ");
+        sbMst.Append(" BOOK_CL.RECORD_DT = PFOLIO_BK.BAL_DT_CTRL ");
+        sbMst.Append(" WHERE       (BOOK_CL.CASH IS NOT NULL) ");
 
         if ((recordDateFrom != "") && (recordDateTo != ""))
         {
-            sbMst.Append(" AND (INVEST.BOOK_CL.RECORD_DT BETWEEN '"+recordDateFrom+"' AND '"+recordDateTo+"')");
+            sbMst.Append(" AND (BOOK_CL.RECORD_DT BETWEEN '"+recordDateFrom+"' AND '"+recordDateTo+"')");
         }
         
         if ((agmDateFrom != "") && (agmDateTo == ""))
         {
-            sbMst.Append(" AND (INVEST.BOOK_CL.AGM >= '" + agmDateFrom + "')");
+            sbMst.Append(" AND (BOOK_CL.AGM >= '" + agmDateFrom + "')");
         }
         else if ((agmDateFrom == "") && (agmDateTo != ""))
         {
-            sbMst.Append(" AND (INVEST.BOOK_CL.AGM <= '" + agmDateTo + "')");
+            sbMst.Append(" AND (BOOK_CL.AGM <= '" + agmDateTo + "')");
         }
         else if ((agmDateFrom != "") && (agmDateTo != ""))
         {
-            sbMst.Append(" AND (INVEST.BOOK_CL.AGM BETWEEN '" + agmDateFrom + "' AND '" + agmDateTo + "')");
+            sbMst.Append(" AND (BOOK_CL.AGM BETWEEN '" + agmDateFrom + "' AND '" + agmDateTo + "')");
         }
 
         if (fundCode != "0")

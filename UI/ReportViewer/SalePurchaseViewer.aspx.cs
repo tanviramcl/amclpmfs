@@ -24,7 +24,7 @@ public partial class UI_ReportViewer_SalePurchaseViewer : System.Web.UI.Page
             Response.Redirect("../../Default.aspx");
         }
 
-        DataTable dtTransactionDate = commonGatewayObj.Select("SELECT DISTINCT VCH_DT  FROM INVEST.FUND_TRANS_HB WHERE VCH_DT BETWEEN '" + Convert.ToDateTime(Request.QueryString["howlaDateFrom"]).ToString("dd-MMM-yyyy") + "' AND '" + Convert.ToDateTime(Request.QueryString["howlaDateTo"]).ToString("dd-MMM-yyyy") + "' AND TRAN_TP IN ('C','S')");
+        DataTable dtTransactionDate = commonGatewayObj.Select("SELECT DISTINCT VCH_DT  FROM FUND_TRANS_HB WHERE VCH_DT BETWEEN '" + Convert.ToDateTime(Request.QueryString["howlaDateFrom"]).ToString("dd-MMM-yyyy") + "' AND '" + Convert.ToDateTime(Request.QueryString["howlaDateTo"]).ToString("dd-MMM-yyyy") + "' AND TRAN_TP IN ('C','S')");
         string howlaDateFrom = Convert.ToDateTime(Request.QueryString["howlaDateFrom"]).ToString("dd-MMM-yyyy");
         string  howlaDateTo = Convert.ToDateTime(Request.QueryString["howlaDateTo"]).ToString("dd-MMM-yyyy");
         if (dtTransactionDate.Rows.Count > 0)
@@ -36,14 +36,14 @@ public partial class UI_ReportViewer_SalePurchaseViewer : System.Web.UI.Page
             {
                 drReport = dtReport.NewRow();
                 drReport["TRANSACTION_DATE"] = Convert.ToDateTime(dtTransactionDate.Rows[loop]["VCH_DT"].ToString()).ToString("dd-MMM-yyyy");
-                drReport["AMCL_BUY"] = SalePurchase("SELECT NVL(ROUND(SUM(AMT_AFT_COM)/10000000,2),0)AS SP_VALUE FROM INVEST.FUND_TRANS_HB WHERE F_CD IN (1) AND TRAN_TP='C' AND VCH_DT = '" + Convert.ToDateTime(dtTransactionDate.Rows[loop]["VCH_DT"].ToString()).ToString("dd-MMM-yyyy") + "'");
-                drReport["AMCL_SALE"] = SalePurchase("SELECT NVL(ROUND(SUM(AMT_AFT_COM)/10000000,2),0)AS SP_VALUE FROM INVEST.FUND_TRANS_HB WHERE F_CD IN (1) AND TRAN_TP='S' AND VCH_DT = '" + Convert.ToDateTime(dtTransactionDate.Rows[loop]["VCH_DT"].ToString()).ToString("dd-MMM-yyyy") + "'");
+                drReport["AMCL_BUY"] = SalePurchase("SELECT NVL(ROUND(SUM(AMT_AFT_COM)/10000000,2),0)AS SP_VALUE FROM FUND_TRANS_HB WHERE F_CD IN (1) AND TRAN_TP='C' AND VCH_DT = '" + Convert.ToDateTime(dtTransactionDate.Rows[loop]["VCH_DT"].ToString()).ToString("dd-MMM-yyyy") + "'");
+                drReport["AMCL_SALE"] = SalePurchase("SELECT NVL(ROUND(SUM(AMT_AFT_COM)/10000000,2),0)AS SP_VALUE FROM FUND_TRANS_HB WHERE F_CD IN (1) AND TRAN_TP='S' AND VCH_DT = '" + Convert.ToDateTime(dtTransactionDate.Rows[loop]["VCH_DT"].ToString()).ToString("dd-MMM-yyyy") + "'");
 
-                drReport["UNIT_BUY"] = SalePurchase("SELECT NVL(ROUND(SUM(AMT_AFT_COM)/10000000,2),0)AS SP_VALUE FROM INVEST.FUND_TRANS_HB  WHERE F_CD IN (2,4) AND TRAN_TP='C' AND VCH_DT = '" + Convert.ToDateTime(dtTransactionDate.Rows[loop]["VCH_DT"].ToString()).ToString("dd-MMM-yyyy") + "'");
-                drReport["UNIT_SALE"] = SalePurchase("SELECT NVL(ROUND(SUM(AMT_AFT_COM)/10000000,2),0)AS SP_VALUE FROM INVEST.FUND_TRANS_HB WHERE F_CD IN (2,4) AND TRAN_TP='S' AND VCH_DT = '" + Convert.ToDateTime(dtTransactionDate.Rows[loop]["VCH_DT"].ToString()).ToString("dd-MMM-yyyy") + "'");
+                drReport["UNIT_BUY"] = SalePurchase("SELECT NVL(ROUND(SUM(AMT_AFT_COM)/10000000,2),0)AS SP_VALUE FROM FUND_TRANS_HB  WHERE F_CD IN (2,4) AND TRAN_TP='C' AND VCH_DT = '" + Convert.ToDateTime(dtTransactionDate.Rows[loop]["VCH_DT"].ToString()).ToString("dd-MMM-yyyy") + "'");
+                drReport["UNIT_SALE"] = SalePurchase("SELECT NVL(ROUND(SUM(AMT_AFT_COM)/10000000,2),0)AS SP_VALUE FROM FUND_TRANS_HB WHERE F_CD IN (2,4) AND TRAN_TP='S' AND VCH_DT = '" + Convert.ToDateTime(dtTransactionDate.Rows[loop]["VCH_DT"].ToString()).ToString("dd-MMM-yyyy") + "'");
 
-                drReport["MF_BUY"] = SalePurchase("SELECT NVL(ROUND(SUM(AMT_AFT_COM)/10000000,2),0)AS SP_VALUE FROM INVEST.FUND_TRANS_HB WHERE F_CD NOT IN (1,2,4) AND TRAN_TP='C' AND VCH_DT = '" + Convert.ToDateTime(dtTransactionDate.Rows[loop]["VCH_DT"].ToString()).ToString("dd-MMM-yyyy") + "'");
-                drReport["MF_SALE"] = SalePurchase("SELECT NVL(ROUND(SUM(AMT_AFT_COM)/10000000,2),0)AS SP_VALUE FROM INVEST.FUND_TRANS_HB WHERE F_CD NOT IN (1,2,4) AND TRAN_TP='S' AND VCH_DT = '" + Convert.ToDateTime(dtTransactionDate.Rows[loop]["VCH_DT"].ToString()).ToString("dd-MMM-yyyy") + "'");
+                drReport["MF_BUY"] = SalePurchase("SELECT NVL(ROUND(SUM(AMT_AFT_COM)/10000000,2),0)AS SP_VALUE FROM FUND_TRANS_HB WHERE F_CD NOT IN (1,2,4) AND TRAN_TP='C' AND VCH_DT = '" + Convert.ToDateTime(dtTransactionDate.Rows[loop]["VCH_DT"].ToString()).ToString("dd-MMM-yyyy") + "'");
+                drReport["MF_SALE"] = SalePurchase("SELECT NVL(ROUND(SUM(AMT_AFT_COM)/10000000,2),0)AS SP_VALUE FROM FUND_TRANS_HB WHERE F_CD NOT IN (1,2,4) AND TRAN_TP='S' AND VCH_DT = '" + Convert.ToDateTime(dtTransactionDate.Rows[loop]["VCH_DT"].ToString()).ToString("dd-MMM-yyyy") + "'");
                 dtReport.Rows.Add(drReport);
             }
             dtReport.TableName = "Transaction";

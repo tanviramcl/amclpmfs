@@ -39,23 +39,23 @@ public partial class UI_ReportViewer_MonthlyDeductionOfIAMCLemployeesReportViewe
         StringBuilder sbMst = new StringBuilder();
         StringBuilder sbfilter = new StringBuilder();
         sbfilter.Append(" ");
-        sbMst.Append("SELECT     INVEST.EMP_INFO.ID, decode(INVEST.EMP_INFO.SEX, 'M', 'Mr. ' || INVEST.EMP_INFO.NAME, 'Ms. ' || INVEST.EMP_INFO.NAME) AS NAME, ");
-        sbMst.Append("INVEST.DESIGNATION.DESIG, ");
+        sbMst.Append("SELECT     EMP_INFO.ID, decode(EMP_INFO.SEX, 'M', 'Mr. ' || EMP_INFO.NAME, 'Ms. ' || EMP_INFO.NAME) AS NAME, ");
+        sbMst.Append("DESIGNATION.DESIG, ");
         if (String.Compare(deductionType.ToString(), "welfareFund", true) == 0)
         {
-            sbMst.Append("INVEST.AMCL_EMP_SALARY.EMP_BEN_FUND AS DEDUCTION_AMT ");
+            sbMst.Append(" AMCL_EMP_SALARY.EMP_BEN_FUND AS DEDUCTION_AMT ");
             deductType = "Benevolent Fund";
         }
         else if (String.Compare(deductionType.ToString(), "groupInsurance", true) == 0)
         {
-            sbMst.Append("INVEST.AMCL_EMP_SALARY.GI_PREM AS DEDUCTION_AMT ");
+            sbMst.Append("AMCL_EMP_SALARY.GI_PREM AS DEDUCTION_AMT ");
             deductType = "Group Insurance";
         }
-        sbMst.Append("FROM         INVEST.EMP_INFO INNER JOIN ");
-        sbMst.Append("INVEST.AMCL_EMP_SALARY ON INVEST.EMP_INFO.ID = INVEST.AMCL_EMP_SALARY.ID INNER JOIN ");
-        sbMst.Append("INVEST.DESIGNATION ON INVEST.EMP_INFO.RANK = INVEST.DESIGNATION.RANK ");
-        sbMst.Append("WHERE     (INVEST.EMP_INFO.ISCOMP = 'Y') AND (INVEST.AMCL_EMP_SALARY.CAL_DATE = '" +Convert.ToDateTime(calDate).ToString("dd-MMM-yyyy") + "') ");
-        sbMst.Append("ORDER BY INVEST.EMP_INFO.RANK, INVEST.EMP_INFO.SENIORITY ");
+        sbMst.Append("FROM         EMP_INFO INNER JOIN ");
+        sbMst.Append("AMCL_EMP_SALARY ON EMP_INFO.ID = AMCL_EMP_SALARY.ID INNER JOIN ");
+        sbMst.Append("DESIGNATION ON EMP_INFO.RANK = DESIGNATION.RANK ");
+        sbMst.Append("WHERE     (EMP_INFO.ISCOMP = 'Y') AND (AMCL_EMP_SALARY.CAL_DATE = '" +Convert.ToDateTime(calDate).ToString("dd-MMM-yyyy") + "') ");
+        sbMst.Append("ORDER BY EMP_INFO.RANK, EMP_INFO.SENIORITY ");
         dtReprtSource = commonGatewayObj.Select(sbMst.ToString());
 
         if (dtReprtSource.Rows.Count > 0)

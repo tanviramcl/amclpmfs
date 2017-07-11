@@ -38,26 +38,26 @@ public partial class UI_ReportViewer_PortfolioSummaryReportViewer : System.Web.U
         StringBuilder sbMst = new StringBuilder();
         StringBuilder sbfilter = new StringBuilder();
         sbfilter.Append(" ");
-        sbMst.Append("SELECT     INVEST.FUND.F_NAME, INVEST.PFOLIO_BK.SECT_MAJ_NM, TRUNC(SUM(INVEST.PFOLIO_BK.TOT_NOS),0) AS NO_OF_SHARE, ");
-        sbMst.Append("SUM(INVEST.PFOLIO_BK.TCST_AFT_COM) AS COST_PRICE, SUM(INVEST.PFOLIO_BK.TOT_NOS * INVEST.PFOLIO_BK.ADC_RT) AS MARKET_PRICE, ");
-        sbMst.Append("SUM(INVEST.PFOLIO_BK.TOT_NOS * INVEST.PFOLIO_BK.ADC_RT) - SUM(INVEST.PFOLIO_BK.TCST_AFT_COM) AS APPRE_EROSION, ");
-        sbMst.Append("ROUND((SUM(INVEST.PFOLIO_BK.TOT_NOS * INVEST.PFOLIO_BK.ADC_RT) - SUM(INVEST.PFOLIO_BK.TCST_AFT_COM)) ");
-        sbMst.Append("* 100 / SUM(INVEST.PFOLIO_BK.TCST_AFT_COM), 2) AS PERCENT_APPRE_EROSION ");
-        sbMst.Append("FROM         INVEST.FUND INNER JOIN ");
-        sbMst.Append("INVEST.PFOLIO_BK ON INVEST.FUND.F_CD = INVEST.PFOLIO_BK.F_CD ");
-        sbMst.Append("WHERE     (INVEST.FUND.F_CD ="+ fundCode + ") AND (INVEST.PFOLIO_BK.BAL_DT_CTRL = '"+ balDate +"') ");
-        sbMst.Append("GROUP BY INVEST.PFOLIO_BK.SECT_MAJ_NM, INVEST.FUND.F_NAME,PFOLIO_BK.SECT_MAJ_CD ");
-        sbMst.Append(" ORDER BY INVEST.PFOLIO_BK.SECT_MAJ_CD ");
+        sbMst.Append("SELECT     FUND.F_NAME, PFOLIO_BK.SECT_MAJ_NM, TRUNC(SUM(PFOLIO_BK.TOT_NOS),0) AS NO_OF_SHARE, ");
+        sbMst.Append("SUM(PFOLIO_BK.TCST_AFT_COM) AS COST_PRICE, SUM(PFOLIO_BK.TOT_NOS * PFOLIO_BK.ADC_RT) AS MARKET_PRICE, ");
+        sbMst.Append("SUM(PFOLIO_BK.TOT_NOS * PFOLIO_BK.ADC_RT) - SUM(PFOLIO_BK.TCST_AFT_COM) AS APPRE_EROSION, ");
+        sbMst.Append("ROUND((SUM(PFOLIO_BK.TOT_NOS * PFOLIO_BK.ADC_RT) - SUM(PFOLIO_BK.TCST_AFT_COM)) ");
+        sbMst.Append("* 100 / SUM(PFOLIO_BK.TCST_AFT_COM), 2) AS PERCENT_APPRE_EROSION ");
+        sbMst.Append("FROM        FUND INNER JOIN ");
+        sbMst.Append(" PFOLIO_BK ON FUND.F_CD = PFOLIO_BK.F_CD ");
+        sbMst.Append("WHERE     (FUND.F_CD ="+ fundCode + ") AND (PFOLIO_BK.BAL_DT_CTRL = '"+ balDate +"') ");
+        sbMst.Append("GROUP BY PFOLIO_BK.SECT_MAJ_NM, FUND.F_NAME,PFOLIO_BK.SECT_MAJ_CD ");
+        sbMst.Append(" ORDER BY PFOLIO_BK.SECT_MAJ_CD ");
         sbMst.Append(sbfilter.ToString());
         dtReprtSource = commonGatewayObj.Select(sbMst.ToString());
 
         DataTable dtNonlistedSecrities = new DataTable();
         sbMst = new StringBuilder();
         sbMst.Append("SELECT      'NON LISTED SECURITIES' AS SECT_MAJ_NM,INV_AMOUNT AS COST_PRICE, INV_AMOUNT AS MARKET_PRICE, 0 AS APPRE_EROSION, 0 AS PERCENT_APPRE_EROSION ");
-        sbMst.Append("FROM         INVEST.NON_LISTED_SECURITIES ");
+        sbMst.Append("FROM         NON_LISTED_SECURITIES ");
         sbMst.Append("WHERE     (F_CD = "+ fundCode +") AND (INV_DATE = ");
         sbMst.Append(" (SELECT     MAX(INV_DATE) AS EXPR1 ");
-        sbMst.Append("FROM          INVEST.NON_LISTED_SECURITIES NON_LISTED_SECURITIES_1 ");
+        sbMst.Append("FROM          NON_LISTED_SECURITIES NON_LISTED_SECURITIES_1 ");
         sbMst.Append("WHERE      (F_CD = " + fundCode + ") AND (INV_DATE <= '" + balDate + "'))) ");
         dtNonlistedSecrities = commonGatewayObj.Select(sbMst.ToString());
 

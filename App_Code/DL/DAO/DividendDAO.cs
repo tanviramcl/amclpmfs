@@ -47,7 +47,7 @@ public class DividendDAO
     }
     public DataTable dtFundList()
     {
-        DataTable dtFundList = commonGatewayObj.Select("SELECT F_CD , F_NAME FROM INVEST.FUND WHERE F_CD IN(SELECT DISTINCT(FUND_CODE) FROM DIVIDEND_PARA) ORDER BY F_CD");
+        DataTable dtFundList = commonGatewayObj.Select("SELECT F_CD , F_NAME FROM FUND WHERE F_CD IN(SELECT DISTINCT(FUND_CODE) FROM DIVIDEND_PARA) ORDER BY F_CD");
         DataTable dtFundListDropDown = new DataTable();
         dtFundListDropDown.Columns.Add("F_CD", typeof(string));
         dtFundListDropDown.Columns.Add("F_NAME", typeof(string));
@@ -91,7 +91,7 @@ public class DividendDAO
     }
     public DataTable dtWindingUpFundName()
     {
-        DataTable dtList = commonGatewayObj.Select("SELECT     F_CD, F_NAME             FROM         INVEST.FUND         WHERE     (F_CD IN   (SELECT     FUND_CODE   FROM          WINDING_UP_PARA))    ORDER BY F_CD");
+        DataTable dtList = commonGatewayObj.Select("SELECT     F_CD, F_NAME             FROM         FUND         WHERE     (F_CD IN   (SELECT     FUND_CODE   FROM          WINDING_UP_PARA))    ORDER BY F_CD");
         DataTable dtDropDown = new DataTable();
         dtDropDown.Columns.Add("F_NAME", typeof(string));
         dtDropDown.Columns.Add("F_CD", typeof(string));
@@ -185,7 +185,7 @@ public class DividendDAO
     }
     public DataTable dtAllFundNameRecordDateWise(string fy, string recordDate)
     {
-        DataTable dtList = commonGatewayObj.Select("SELECT Distinct INVEST.FUND.F_NAME,INVEST.FUND.F_CD FROM  DIVIDEND_PARA INNER JOIN INVEST.FUND ON DIVIDEND_PARA.FUND_CODE = INVEST.FUND.F_CD WHERE (DIVIDEND_PARA.RECORD_DATE = '" + recordDate + "') and (DIVIDEND_PARA.FY = '"+ fy +"') ORDER BY INVEST.FUND.F_CD");
+        DataTable dtList = commonGatewayObj.Select("SELECT Distinct FUND.F_NAME,FUND.F_CD FROM  DIVIDEND_PARA INNER JOIN FUND ON DIVIDEND_PARA.FUND_CODE = FUND.F_CD WHERE (DIVIDEND_PARA.RECORD_DATE = '" + recordDate + "') and (DIVIDEND_PARA.FY = '"+ fy +"') ORDER BY FUND.F_CD");
         DataTable dtDropDown = new DataTable();
         dtDropDown.Columns.Add("F_CD", typeof(string));
         dtDropDown.Columns.Add("F_NAME", typeof(string));
@@ -236,9 +236,9 @@ public class DividendDAO
         StringBuilder sbOrderBy = new StringBuilder();
         sbfilter.Append(" ");
         sbOrderBy.Append("");
-        sbMst.Append(" SELECT     ONLINE_TRANSFER_SUMMARY.FUND_CODE, INVEST.FUND.F_NAME ");
-        sbMst.Append(" FROM         INVEST.FUND INNER JOIN ");
-        sbMst.Append(" ONLINE_TRANSFER_SUMMARY ON INVEST.FUND.F_CD = ONLINE_TRANSFER_SUMMARY.FUND_CODE ");
+        sbMst.Append(" SELECT     ONLINE_TRANSFER_SUMMARY.FUND_CODE, FUND.F_NAME ");
+        sbMst.Append(" FROM         FUND INNER JOIN ");
+        sbMst.Append(" ONLINE_TRANSFER_SUMMARY ON FUND.F_CD = ONLINE_TRANSFER_SUMMARY.FUND_CODE ");
         sbMst.Append(" WHERE     (ONLINE_TRANSFER_SUMMARY.FY = '" + fy + "') AND (ONLINE_TRANSFER_SUMMARY.RECORD_DATE = '" + recordDate + "') AND ");
         sbMst.Append(" (ONLINE_TRANSFER_SUMMARY.BANK_ID =" + bankId + ") AND (ONLINE_TRANSFER_SUMMARY.IS_TRAN_SUCCESS IS NULL) ");
         sbOrderBy.Append(" ORDER BY ONLINE_TRANSFER_SUMMARY.FUND_CODE ");
@@ -406,14 +406,14 @@ public class DividendDAO
     public DataTable GetWindingUpData(int fundCode, string filter)
     {
         StringBuilder sb = new StringBuilder();
-        sb.Append(" SELECT     INVEST.FUND.F_NAME, WINDING_UP_DATA.WINDING_UP_DATE, WINDING_UP_DATA.BO, WINDING_UP_DATA.ALLOT_NO,  ");
+        sb.Append(" SELECT     FUND.F_NAME, WINDING_UP_DATA.WINDING_UP_DATE, WINDING_UP_DATA.BO, WINDING_UP_DATA.ALLOT_NO,  ");
         sb.Append(" WINDING_UP_DATA.FOLIO_NO, WINDING_UP_DATA.NAME1, WINDING_UP_DATA.BO_FATHER,WINDING_UP_DATA.BO_MOTHER,WINDING_UP_DATA.BALANCE, WINDING_UP_DATA.BO_TYPE, ");
         sb.Append(" WINDING_UP_DATA.BO_CATAGORY, WINDING_UP_DATA.ADDRESS1, WINDING_UP_DATA.ADDRESS2, WINDING_UP_DATA.ADDRESS3, ");
         sb.Append(" WINDING_UP_DATA.ADDRESS4, WINDING_UP_DATA.CITY, WINDING_UP_DATA.POST_CODE, WINDING_UP_DATA.COUNTRY, ");
         sb.Append(" WINDING_UP_DATA.PHONE1, WINDING_UP_DATA.PHONE2, WINDING_UP_DATA.RESIDENCY, WINDING_UP_DATA.EMAIL, WINDING_UP_DATA.BANK, ");
         sb.Append(" WINDING_UP_DATA.BRANCH, WINDING_UP_DATA.BANK_ACC, WINDING_UP_DATA.ROUTING_NO,WINDING_UP_DATA.VOTTER_NO ");
-        sb.Append(" FROM         INVEST.FUND INNER JOIN ");
-        sb.Append(" WINDING_UP_DATA ON INVEST.FUND.F_CD = WINDING_UP_DATA.FUND_CODE ");
+        sb.Append(" FROM         FUND INNER JOIN ");
+        sb.Append(" WINDING_UP_DATA ON FUND.F_CD = WINDING_UP_DATA.FUND_CODE ");
         sb.Append(" WHERE (WINDING_UP_DATA.VALID IS NULL) AND (WINDING_UP_DATA.FUND_CODE = " + fundCode + ") " + filter);
         sb.Append(" ORDER BY WINDING_UP_DATA.VOTTER_NO ");
 
@@ -423,7 +423,7 @@ public class DividendDAO
     public DataTable GetLetterOfEntitlementofUnitsData(int fundCode, string filter)
     {
         StringBuilder sb = new StringBuilder();
-        sb.Append(" SELECT     INVEST.FUND.F_NAME, WINDING_UP_PARA.CONVERTED_FUND_NAME, WINDING_UP_PARA.WINDING_UP_DATE, WINDING_UP_PARA.NAV, WINDING_UP_PARA.ISSUED_UNIT_PRICE,    ");
+        sb.Append(" SELECT     FUND.F_NAME, WINDING_UP_PARA.CONVERTED_FUND_NAME, WINDING_UP_PARA.WINDING_UP_DATE, WINDING_UP_PARA.NAV, WINDING_UP_PARA.ISSUED_UNIT_PRICE,    ");
         sb.Append(" WINDING_UP_PARA.SPECIAL_MEETING_DATE, WINDING_UP_DATA.BO, WINDING_UP_DATA.ALLOT_NO, WINDING_UP_DATA.FOLIO_NO,   ");
         sb.Append(" WINDING_UP_DATA.NAME1, WINDING_UP_DATA.BALANCE, WINDING_UP_DATA.BO_TYPE, WINDING_UP_DATA.BO_CATAGORY,  ");
         sb.Append(" WINDING_UP_DATA.BO_FATHER, WINDING_UP_DATA.BO_MOTHER, WINDING_UP_DATA.ADDRESS1, WINDING_UP_DATA.ADDRESS2,  ");
@@ -434,7 +434,7 @@ public class DividendDAO
         sb.Append(" WINDING_UP_DATA.FRACTION_AMT ");
         sb.Append(" FROM         WINDING_UP_DATA INNER JOIN ");
         sb.Append(" WINDING_UP_PARA ON WINDING_UP_DATA.FUND_CODE = WINDING_UP_PARA.FUND_CODE INNER JOIN ");
-        sb.Append(" INVEST.FUND ON WINDING_UP_PARA.FUND_CODE = INVEST.FUND.F_CD ");
+        sb.Append(" FUND ON WINDING_UP_PARA.FUND_CODE = FUND.F_CD ");
         sb.Append(" WHERE (WINDING_UP_DATA.VALID IS NULL) AND (WINDING_UP_DATA.FUND_CODE = " + fundCode + ") " + filter);
         sb.Append(" ORDER BY WINDING_UP_DATA.VOTTER_NO ");
 
@@ -444,7 +444,7 @@ public class DividendDAO
     public DataTable GetDividendWarrantData(int fundCode, int diviNo, string filter)
     {
         StringBuilder sb = new StringBuilder();
-        sb.Append(" SELECT     INVEST.FUND.F_NAME, DIVIDEND_PARA.FUND_CODE, DIVIDEND_PARA.DIVI_NO, DIVIDEND_PARA.FY, DIVIDEND_PARA.RECORD_DATE, ");
+        sb.Append(" SELECT     FUND.F_NAME, DIVIDEND_PARA.FUND_CODE, DIVIDEND_PARA.DIVI_NO, DIVIDEND_PARA.FY, DIVIDEND_PARA.RECORD_DATE, ");
         sb.Append(" DIVIDEND_PARA.AGM_DATE, DIVIDEND_PARA.ISSUE_DATE, DIVIDEND_PARA.FACE_VALUE, DIVIDEND_PARA.DIVI_RATE, ((DIVIDEND_PARA.FACE_VALUE * DIVIDEND_PARA.DIVI_RATE)/100) AS DIVI_RATE_PER_UNIT, DIVIDEND_PARA.TAX_LIMIT, ");
         sb.Append(" DIVIDEND_PARA.TAX_RATE_INDV, DIVIDEND_PARA.TAX_RATE_ORG, DIVIDEND_PARA.BANK_NAME, DIVIDEND_PARA.BANK_ACC_NO, ");
         sb.Append(" DIVIDEND_PARA.BANK_ADDRS1, DIVIDEND_PARA.BANK_ADDRS2, DIVIDEND_PARA.BANK_ROUTING_NO, DIVIDEND_PARA.BANK_TRANSACTION_NO, ");
@@ -454,7 +454,7 @@ public class DividendDAO
         sb.Append(" DIVIDEND.NET_DIVIDEND, decode(DIVIDEND.IS_BEFTN,'YES','BEFTN','WARRANT') AS PAY_SYS,DIVIDEND.DP_ID  ");
         sb.Append(" FROM         DIVIDEND_PARA INNER JOIN ");
         sb.Append(" DIVIDEND ON DIVIDEND_PARA.FUND_CODE = DIVIDEND.FUND_CODE AND DIVIDEND_PARA.DIVI_NO = DIVIDEND.DIVI_NO INNER JOIN ");
-        sb.Append(" INVEST.FUND ON DIVIDEND_PARA.FUND_CODE = INVEST.FUND.F_CD ");
+        sb.Append(" FUND ON DIVIDEND_PARA.FUND_CODE = FUND.F_CD ");
         sb.Append(" WHERE (DIVIDEND.VALID IS NULL) AND (DIVIDEND_PARA.FUND_CODE = " + fundCode + ") AND (DIVIDEND_PARA.DIVI_NO = " + diviNo + ")" + filter);
         sb.Append(" ORDER BY DIVIDEND.WAR_NO ");
 
@@ -464,7 +464,7 @@ public class DividendDAO
     public DataTable GetDividendWarrantDataBankList(int fundCode, int diviNo, string filter)
     {
         StringBuilder sb = new StringBuilder();
-        sb.Append(" SELECT     INVEST.FUND.F_NAME, DIVIDEND_PARA.FUND_CODE, DIVIDEND_PARA.DIVI_NO, DIVIDEND_PARA.FY, DIVIDEND_PARA.RECORD_DATE, ");
+        sb.Append(" SELECT     FUND.F_NAME, DIVIDEND_PARA.FUND_CODE, DIVIDEND_PARA.DIVI_NO, DIVIDEND_PARA.FY, DIVIDEND_PARA.RECORD_DATE, ");
         sb.Append(" DIVIDEND_PARA.AGM_DATE, DIVIDEND_PARA.ISSUE_DATE, DIVIDEND_PARA.FACE_VALUE, DIVIDEND_PARA.DIVI_RATE, ((DIVIDEND_PARA.FACE_VALUE * DIVIDEND_PARA.DIVI_RATE)/100) AS DIVI_RATE_PER_UNIT, DIVIDEND_PARA.TAX_LIMIT, ");
         sb.Append(" DIVIDEND_PARA.TAX_RATE_INDV, DIVIDEND_PARA.TAX_RATE_ORG, DIVIDEND_PARA.BANK_NAME, DIVIDEND_PARA.BANK_ACC_NO, ");
         sb.Append(" DIVIDEND_PARA.BANK_ADDRS1, DIVIDEND_PARA.BANK_ADDRS2, DIVIDEND_PARA.BANK_ROUTING_NO, DIVIDEND_PARA.BANK_TRANSACTION_NO, ");
@@ -474,7 +474,7 @@ public class DividendDAO
         sb.Append(" DIVIDEND.NET_DIVIDEND,DIVIDEND.BANK AS BANK_NAME_HOLDER,DIVIDEND.BRANCH AS BRANCH_NAME_HOLDER,DIVIDEND.BANK_ACC AS BANK_ACC_HOLDER,DIVIDEND.DP_ID ");
         sb.Append(" FROM         DIVIDEND_PARA INNER JOIN ");
         sb.Append(" DIVIDEND ON DIVIDEND_PARA.FUND_CODE = DIVIDEND.FUND_CODE AND DIVIDEND_PARA.DIVI_NO = DIVIDEND.DIVI_NO INNER JOIN ");
-        sb.Append(" INVEST.FUND ON DIVIDEND_PARA.FUND_CODE = INVEST.FUND.F_CD ");
+        sb.Append(" FUND ON DIVIDEND_PARA.FUND_CODE = FUND.F_CD ");
         sb.Append(" WHERE (DIVIDEND.VALID IS NULL) AND (DIVIDEND_PARA.FUND_CODE = " + fundCode + ") AND (DIVIDEND_PARA.DIVI_NO = " + diviNo + ")" + filter);
         sb.Append(" ORDER BY DIVIDEND.WAR_NO ");
 
@@ -484,7 +484,7 @@ public class DividendDAO
     public DataTable GetDividendWarrantPrintData(int fundCode, int diviNo, string filter)
     {
         StringBuilder sb = new StringBuilder();
-        sb.Append(" SELECT     INVEST.FUND.F_NAME, DIVIDEND_PARA.FY, TO_CHAR(DIVIDEND_PARA.RECORD_DATE, 'DD-MON-YYYY') AS RECORD_DATE,  ");
+        sb.Append(" SELECT     FUND.F_NAME, DIVIDEND_PARA.FY, TO_CHAR(DIVIDEND_PARA.RECORD_DATE, 'DD-MON-YYYY') AS RECORD_DATE,  ");
         sb.Append(" TO_CHAR(DIVIDEND_PARA.AGM_DATE, 'DD-MON-YYYY') AS AGM_DATE, TO_CHAR(DIVIDEND_PARA.ISSUE_DATE, 'DD-MON-YYYY') AS ISSUE_DATE, ");
         sb.Append(" LTRIM(TO_CHAR(DIVIDEND_PARA.FACE_VALUE * DIVIDEND_PARA.DIVI_RATE / 100, '99999999999.99'), ' ') AS DIVI_RATE_PER_UNIT, ");
         sb.Append(" DIVIDEND_PARA.TAX_RATE_INDV || '%' AS TAX_RATE_INDV, DIVIDEND_PARA.TAX_RATE_ORG || '%' AS TAX_RATE_ORG, ");
@@ -501,7 +501,7 @@ public class DividendDAO
         sb.Append(" 'Taka ' || trim(DIVIDEND.NET_DIVIDEND_IN_WORDS) || ' Only' AS DIVI_WORD ");
         sb.Append(" FROM         DIVIDEND INNER JOIN ");
         sb.Append(" DIVIDEND_PARA ON DIVIDEND.FUND_CODE = DIVIDEND_PARA.FUND_CODE AND DIVIDEND.DIVI_NO = DIVIDEND_PARA.DIVI_NO INNER JOIN ");
-        sb.Append(" INVEST.FUND ON DIVIDEND_PARA.FUND_CODE = INVEST.FUND.F_CD ");
+        sb.Append(" FUND ON DIVIDEND_PARA.FUND_CODE = FUND.F_CD ");
         sb.Append(" WHERE (DIVIDEND.VALID IS NULL) AND (DIVIDEND.WAR_NO IS NOT NULL) AND (DIVIDEND.FUND_CODE = " + fundCode + ") AND (DIVIDEND.DIVI_NO = " + diviNo + ")" + filter);
         sb.Append(" ORDER BY DIVIDEND.WAR_NO ");
 
@@ -511,7 +511,7 @@ public class DividendDAO
     public DataTable GetIntimationData(int fundCode, int diviNo, string filter)
     {
         StringBuilder sb = new StringBuilder();
-        sb.Append(" SELECT     INVEST.FUND.F_NAME, DIVIDEND_PARA.FY, TO_CHAR(DIVIDEND_PARA.RECORD_DATE, 'DD-MON-YYYY') AS RECORD_DATE,  ");
+        sb.Append(" SELECT     FUND.F_NAME, DIVIDEND_PARA.FY, TO_CHAR(DIVIDEND_PARA.RECORD_DATE, 'DD-MON-YYYY') AS RECORD_DATE,  ");
         sb.Append(" TO_CHAR(DIVIDEND_PARA.AGM_DATE, 'DD-MON-YYYY') AS AGM_DATE, TO_CHAR(DIVIDEND_PARA.ISSUE_DATE, 'DD-MON-YYYY') AS ISSUE_DATE, ");
         sb.Append(" LTRIM(TO_CHAR(DIVIDEND_PARA.FACE_VALUE * DIVIDEND_PARA.DIVI_RATE / 100, '99999999999.99'), ' ') AS DIVI_RATE_PER_UNIT, ");
         sb.Append(" DIVIDEND_PARA.TAX_RATE_INDV || '%' AS TAX_RATE_INDV, DIVIDEND_PARA.TAX_RATE_ORG || '%' AS TAX_RATE_ORG, ");
@@ -529,7 +529,7 @@ public class DividendDAO
         sb.Append(" 'Taka ' || trim(DIVIDEND.NET_DIVIDEND_IN_WORDS) || ' Only' AS DIVI_WORD ");
         sb.Append(" FROM         DIVIDEND INNER JOIN ");
         sb.Append(" DIVIDEND_PARA ON DIVIDEND.FUND_CODE = DIVIDEND_PARA.FUND_CODE AND DIVIDEND.DIVI_NO = DIVIDEND_PARA.DIVI_NO INNER JOIN ");
-        sb.Append(" INVEST.FUND ON DIVIDEND_PARA.FUND_CODE = INVEST.FUND.F_CD ");
+        sb.Append(" FUND ON DIVIDEND_PARA.FUND_CODE = FUND.F_CD ");
         sb.Append(" WHERE (DIVIDEND.VALID IS NULL) AND (DIVIDEND.WAR_NO IS NOT NULL) AND (DIVIDEND.FUND_CODE = " + fundCode + ") AND (DIVIDEND.DIVI_NO = " + diviNo + ")" + filter);
         sb.Append(" ORDER BY DIVIDEND.WAR_NO ");
 
@@ -541,11 +541,11 @@ public class DividendDAO
         StringBuilder sbMaster = new StringBuilder();
 
         sbMaster.Append(" SELECT     ONLINE_TRANSFER_SUMMARY.FY, ONLINE_TRANSFER_SUMMARY.NAME1, TRIM(UNIT.BANK_NAME.BANK_MD_BR_ADDRS) AS BANK_MD_BR_ADDRS, UNIT.BANK_NAME.BANK_MD_FAX,  ");
-        sbMaster.Append(" UNIT.BANK_NAME.BANK_MD_PHONE, INVEST.FUND.F_NAME, LPAD(ONLINE_TRANSFER_SUMMARY.WAR_NO, 7, '0') as WAR_NO,  ");
+        sbMaster.Append(" UNIT.BANK_NAME.BANK_MD_PHONE, FUND.F_NAME, LPAD(ONLINE_TRANSFER_SUMMARY.WAR_NO, 7, '0') as WAR_NO,  ");
         sbMaster.Append(" ONLINE_TRANSFER_SUMMARY.NO_OF_WARRANT, ONLINE_TRANSFER_SUMMARY.NET_DIVIDEND ");
         sbMaster.Append(" FROM         UNIT.BANK_NAME INNER JOIN ");
         sbMaster.Append(" ONLINE_TRANSFER_SUMMARY ON UNIT.BANK_NAME.BANK_CODE = ONLINE_TRANSFER_SUMMARY.BANK_ID INNER JOIN ");
-        sbMaster.Append(" INVEST.FUND ON ONLINE_TRANSFER_SUMMARY.FUND_CODE = INVEST.FUND.F_CD ");
+        sbMaster.Append(" FUND ON ONLINE_TRANSFER_SUMMARY.FUND_CODE = FUND.F_CD ");
         sbMaster.Append(" WHERE     (ONLINE_TRANSFER_SUMMARY.FY = '" + fy + "') AND (ONLINE_TRANSFER_SUMMARY.RECORD_DATE = '" + recordDate + "') " + filter);
         sbMaster.Append(" ORDER BY ONLINE_TRANSFER_SUMMARY.NAME1, ONLINE_TRANSFER_SUMMARY.FUND_CODE ");
 
@@ -556,7 +556,7 @@ public class DividendDAO
     public DataTable GetOnlineReturnWarrantData(int fundCode, int diviNo, string filter)
     {
         StringBuilder sb = new StringBuilder();
-        sb.Append(" SELECT     INVEST.FUND.F_NAME, DIVIDEND_PARA.FY, TO_CHAR(DIVIDEND_PARA.RECORD_DATE, 'DD-MON-YYYY') AS RECORD_DATE,  ");
+        sb.Append(" SELECT     FUND.F_NAME, DIVIDEND_PARA.FY, TO_CHAR(DIVIDEND_PARA.RECORD_DATE, 'DD-MON-YYYY') AS RECORD_DATE,  ");
         sb.Append(" TO_CHAR(DIVIDEND_PARA.AGM_DATE, 'DD-MON-YYYY') AS AGM_DATE, TO_CHAR(DIVIDEND_PARA.ISSUE_DATE, 'DD-MON-YYYY') AS ISSUE_DATE, ");
         sb.Append(" (DIVIDEND_PARA.FACE_VALUE * DIVIDEND_PARA.DIVI_RATE / 100) AS DIVI_RATE_PER_UNIT, ");
         sb.Append(" DIVIDEND_PARA.TAX_RATE_INDV || '%' AS TAX_RATE_INDV, DIVIDEND_PARA.TAX_RATE_ORG || '%' AS TAX_RATE_ORG, ");
@@ -574,7 +574,7 @@ public class DividendDAO
         sb.Append(" 'Taka ' || trim(DIVIDEND.NET_DIVIDEND_IN_WORDS) || ' Only' AS DIVI_WORD, Dividend.Routing_no ");
         sb.Append(" FROM         DIVIDEND INNER JOIN ");
         sb.Append(" DIVIDEND_PARA ON DIVIDEND.FUND_CODE = DIVIDEND_PARA.FUND_CODE AND DIVIDEND.DIVI_NO = DIVIDEND_PARA.DIVI_NO INNER JOIN ");
-        sb.Append(" INVEST.FUND ON DIVIDEND_PARA.FUND_CODE = INVEST.FUND.F_CD ");
+        sb.Append(" FUND ON DIVIDEND_PARA.FUND_CODE = FUND.F_CD ");
         sb.Append(" WHERE (DIVIDEND.VALID IS NULL) AND (DIVIDEND.WAR_NO IS NOT NULL) AND (DIVIDEND.FUND_CODE = " + fundCode + ") AND (DIVIDEND.DIVI_NO = " + diviNo + ")" + filter);
         sb.Append(" ORDER BY DIVIDEND.WAR_NO ");
 
@@ -666,7 +666,7 @@ public class DividendDAO
     }
     public string GetFundNameByFundCode(int fundCode)
     {
-        DataTable dtFundName = commonGatewayObj.Select("SELECT F_NAME FROM INVEST.FUND WHERE F_CD=" + fundCode);
+        DataTable dtFundName = commonGatewayObj.Select("SELECT F_NAME FROM FUND WHERE F_CD=" + fundCode);
         string fundName = dtFundName.Rows[0]["F_NAME"].Equals(DBNull.Value) ? "" : dtFundName.Rows[0]["F_NAME"].ToString();
         return fundName;
     }

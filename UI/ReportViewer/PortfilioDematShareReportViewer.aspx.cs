@@ -36,8 +36,8 @@ public partial class UI_ReportViewer_NegativeBalanceCheckReportViewer : System.W
         sbMst.Append("select CompanyName,sect_maj_nm,sect_maj_cd,nos_t,bal_dt,rt_acm,tcst_aft_com,c_rt,tot_cost,DSE_rate,m_rt,m_p,diff,gain,f.f_name from (select trim(c.comp_nm) as CompanyName, f_cd,sect_maj_nm, a.sect_maj_cd,"+
         " trunc(tot_nos) nos_t, bal_dt, trunc(tcst_aft_com / tot_nos, 2) rt_acm, ROUND(tcst_aft_com,2) tcst_aft_com, ROUND( tot_cost/tot_nos,2 )c_rt, tot_cost," +
         " nvl(a.dse_rt, 0) DSE_rate, a.adc_rt m_rt, a.adc_rt * tot_nos m_p,(a.adc_rt - trunc(tcst_aft_com / tot_nos, 2)) diff, (round(a.adc_rt, 2) - trunc(tcst_aft_com / tot_nos, 2)) * trunc(tot_nos) gain"+
-        " from invest.pfolio_bk a, comp c where c.comp_cd = a.comp_cd and f_cd ="+fundcode+" and a.bal_dt_ctrl = '"+ Convert.ToDateTime(balancedate).ToString("dd - MMM - yyyy") +"' and c.cds = 'Y' " +
-        " order by c.comp_nm) tab1 inner join invest.Fund f ON tab1.f_cd = f.f_cd order by  tab1.sect_maj_nm,tab1.CompanyName");
+        " from pfolio_bk a, comp c where c.comp_cd = a.comp_cd and f_cd ="+fundcode+" and a.bal_dt_ctrl = '"+ Convert.ToDateTime(balancedate).ToString("dd - MMM - yyyy") +"' and c.cds = 'Y' " +
+        " order by c.comp_nm) tab1 inner join Fund f ON tab1.f_cd = f.f_cd order by  tab1.sect_maj_nm,tab1.CompanyName");
         sbMst.Append(sbfilter.ToString());
         dtReprtSource = commonGatewayObj.Select(sbMst.ToString());
         dtReprtSource.TableName = "PortFolioDemateShare";
