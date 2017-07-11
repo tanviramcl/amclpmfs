@@ -135,7 +135,7 @@ public class Pf1s1DAO
     }
      public bool IsDuplicateBonusRightEntry(int fund_code, int comp_code, string howla_date, string tran_tp, int no_of_shares)
      {
-         DataTable dtDuplicateEntry = CommonGetwayObj.Select("SELECT * FROM invest.fund_trans_hb WHERE F_CD = " + fund_code + " AND COMP_CD = " + comp_code + " AND VCH_DT = '" + howla_date + "' AND NO_SHARE = " +no_of_shares);
+         DataTable dtDuplicateEntry = CommonGetwayObj.Select("SELECT * FROM fund_trans_hb WHERE F_CD = " + fund_code + " AND COMP_CD = " + comp_code + " AND VCH_DT = '" + howla_date + "' AND NO_SHARE = " +no_of_shares);
          if (dtDuplicateEntry.Rows.Count > 0)
              return true;
          else
@@ -144,7 +144,7 @@ public class Pf1s1DAO
     public bool IsDuplicateNonListedSecurities(int fund_code, decimal investmentAmount, string investmentDate)
     {
        
-        DataTable dtDuplicateEntry = CommonGetwayObj.Select("SELECT * FROM invest.NON_LISTED_SECURITIES WHERE F_CD = " + fund_code + " AND INV_DATE = '" + investmentDate+"' ");
+        DataTable dtDuplicateEntry = CommonGetwayObj.Select("SELECT * FROM NON_LISTED_SECURITIES WHERE F_CD = " + fund_code + " AND INV_DATE = '" + investmentDate+"' ");
         if (dtDuplicateEntry.Rows.Count > 0)
         {
             return true;
@@ -181,7 +181,7 @@ public class Pf1s1DAO
     }
     public long getMaxIDForNonListedSecurities()
     {
-        DataTable dtMaxID = CommonGetwayObj.Select("SELECT MAX(NVL(ID,0)) AS ID FROM invest.NON_LISTED_SECURITIES");
+        DataTable dtMaxID = CommonGetwayObj.Select("SELECT MAX(NVL(ID,0)) AS ID FROM NON_LISTED_SECURITIES");
         long MaxID = dtMaxID.Rows[0]["ID"].Equals(DBNull.Value) ? 0 : Convert.ToInt32(dtMaxID.Rows[0]["ID"].ToString());
         return MaxID;
     }

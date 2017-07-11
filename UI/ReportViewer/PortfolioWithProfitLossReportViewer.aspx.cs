@@ -42,32 +42,32 @@ public partial class UI_ReportViewer_PortfolioWithProfitLossReportViewer : Syste
         StringBuilder sbMst = new StringBuilder();
         StringBuilder sbfilter = new StringBuilder();
         sbfilter.Append(" ");
-        sbMst.Append("SELECT     INVEST.FUND.F_NAME, INVEST.COMP.COMP_NM, INVEST.PFOLIO_BK.SECT_MAJ_NM, INVEST.PFOLIO_BK.SECT_MAJ_CD, ");
-        sbMst.Append("TRUNC(INVEST.PFOLIO_BK.TOT_NOS, 0) AS TOT_NOS, ROUND(INVEST.PFOLIO_BK.TCST_AFT_COM / INVEST.PFOLIO_BK.TOT_NOS, 2) ");
-        sbMst.Append("AS COST_RT_PER_SHARE, INVEST.PFOLIO_BK.TCST_AFT_COM, NVL(INVEST.PFOLIO_BK.DSE_RT, INVEST.PFOLIO_BK.CSE_RT) AS DSE_RT, ");
-        sbMst.Append("ROUND(INVEST.PFOLIO_BK.TOT_NOS * NVL(INVEST.PFOLIO_BK.DSE_RT, INVEST.PFOLIO_BK.CSE_RT), 2) AS TOT_MARKET_PRICE, ");
-        sbMst.Append("ROUND(ROUND(NVL(INVEST.PFOLIO_BK.DSE_RT, INVEST.PFOLIO_BK.CSE_RT), 2) ");
-        sbMst.Append("- ROUND(INVEST.PFOLIO_BK.TCST_AFT_COM / INVEST.PFOLIO_BK.TOT_NOS, 2), 2) AS RATE_DIFF, ");
-        sbMst.Append("ROUND(ROUND(INVEST.PFOLIO_BK.TOT_NOS * NVL(INVEST.PFOLIO_BK.DSE_RT, INVEST.PFOLIO_BK.CSE_RT), 2) ");
-        sbMst.Append("- INVEST.PFOLIO_BK.TCST_AFT_COM, 2) AS APPRICIATION_ERROTION ");
-        sbMst.Append("FROM         INVEST.PFOLIO_BK INNER JOIN ");
-        sbMst.Append("INVEST.COMP ON INVEST.PFOLIO_BK.COMP_CD = INVEST.COMP.COMP_CD INNER JOIN ");
-        sbMst.Append("INVEST.FUND ON INVEST.PFOLIO_BK.F_CD = INVEST.FUND.F_CD ");
-        sbMst.Append("WHERE     (INVEST.PFOLIO_BK.BAL_DT_CTRL = '" + balDate + "') AND (INVEST.FUND.F_CD =" + fundCode + ") ");
+        sbMst.Append("SELECT     FUND.F_NAME, COMP.COMP_NM, FOLIO_BK.SECT_MAJ_NM, PFOLIO_BK.SECT_MAJ_CD, ");
+        sbMst.Append("TRUNC(PFOLIO_BK.TOT_NOS, 0) AS TOT_NOS, ROUND(PFOLIO_BK.TCST_AFT_COM / PFOLIO_BK.TOT_NOS, 2) ");
+        sbMst.Append("AS COST_RT_PER_SHARE, PFOLIO_BK.TCST_AFT_COM, NVL(PFOLIO_BK.DSE_RT, PFOLIO_BK.CSE_RT) AS DSE_RT, ");
+        sbMst.Append("ROUND(PFOLIO_BK.TOT_NOS * NVL(PFOLIO_BK.DSE_RT, PFOLIO_BK.CSE_RT), 2) AS TOT_MARKET_PRICE, ");
+        sbMst.Append("ROUND(ROUND(NVL(PFOLIO_BK.DSE_RT, PFOLIO_BK.CSE_RT), 2) ");
+        sbMst.Append("- ROUND(PFOLIO_BK.TCST_AFT_COM / PFOLIO_BK.TOT_NOS, 2), 2) AS RATE_DIFF, ");
+        sbMst.Append("ROUND(ROUND(PFOLIO_BK.TOT_NOS * NVL(PFOLIO_BK.DSE_RT, PFOLIO_BK.CSE_RT), 2) ");
+        sbMst.Append("- PFOLIO_BK.TCST_AFT_COM, 2) AS APPRICIATION_ERROTION ");
+        sbMst.Append("FROM         PFOLIO_BK INNER JOIN ");
+        sbMst.Append("COMP ON PFOLIO_BK.COMP_CD = COMP.COMP_CD INNER JOIN ");
+        sbMst.Append("FUND ON PFOLIO_BK.F_CD = FUND.F_CD ");
+        sbMst.Append("WHERE     (PFOLIO_BK.BAL_DT_CTRL = '" + balDate + "') AND (FUND.F_CD =" + fundCode + ") ");
         if (string.Compare(statementType, "Profit", true) == 0)
         {
-            sbMst.Append(" AND  (ROUND(ROUND(INVEST.PFOLIO_BK.TOT_NOS * NVL(INVEST.PFOLIO_BK.DSE_RT, INVEST.PFOLIO_BK.CSE_RT), 2)  - INVEST.PFOLIO_BK.TCST_AFT_COM, 2) >= 0) ");
+            sbMst.Append(" AND  (ROUND(ROUND(PFOLIO_BK.TOT_NOS * NVL(PFOLIO_BK.DSE_RT, PFOLIO_BK.CSE_RT), 2)  - PFOLIO_BK.TCST_AFT_COM, 2) >= 0) ");
             appOrEro = "Appreciation";
         }
         else if (string.Compare(statementType, "Loss", true) == 0)
         {
-            sbMst.Append(" AND  (ROUND(ROUND(INVEST.PFOLIO_BK.TOT_NOS * NVL(INVEST.PFOLIO_BK.DSE_RT, INVEST.PFOLIO_BK.CSE_RT), 2)  - INVEST.PFOLIO_BK.TCST_AFT_COM, 2) < 0) ");
+            sbMst.Append(" AND  (ROUND(ROUND(PFOLIO_BK.TOT_NOS * NVL(PFOLIO_BK.DSE_RT,PFOLIO_BK.CSE_RT), 2)  - PFOLIO_BK.TCST_AFT_COM, 2) < 0) ");
             appOrEro = "Erosion";
         }
 
         if (string.Compare(orderType, "orderByInvest", true) == 0)
         {
-            sbMst.Append("ORDER BY INVEST.PFOLIO_BK.TCST_AFT_COM DESC ");
+            sbMst.Append("ORDER BY PFOLIO_BK.TCST_AFT_COM DESC ");
         }
         else if (string.Compare(orderType, "orderByAppriciation", true) == 0)
         {
@@ -87,7 +87,7 @@ public partial class UI_ReportViewer_PortfolioWithProfitLossReportViewer : Syste
         }
         else
         {
-            sbMst.Append("ORDER BY INVEST.PFOLIO_BK.SECT_MAJ_CD, INVEST.COMP.COMP_NM ");
+            sbMst.Append("ORDER BY PFOLIO_BK.SECT_MAJ_CD, COMP.COMP_NM ");
         }
         //sbMst.Append(sbfilter.ToString());
         dtReprtSource = commonGatewayObj.Select(sbMst.ToString());
@@ -99,10 +99,10 @@ public partial class UI_ReportViewer_PortfolioWithProfitLossReportViewer : Syste
                 DataTable dtNonlistedSecrities = new DataTable();
                 sbMst = new StringBuilder();
                 sbMst.Append("SELECT      'OTHERS' AS COMP_NM,'OTHERS' AS SECT_MAJ_NM, 999 AS SECT_MAJ_CD, INV_AMOUNT AS TCST_AFT_COM, INV_AMOUNT AS TOT_MARKET_PRICE, 0 AS APPRICIATION_ERROTION ");
-                sbMst.Append("FROM         INVEST.NON_LISTED_SECURITIES ");
+                sbMst.Append("FROM        NON_LISTED_SECURITIES ");
                 sbMst.Append("WHERE     (F_CD = " + fundCode + ") AND (INV_DATE = ");
                 sbMst.Append(" (SELECT     MAX(INV_DATE) AS EXPR1 ");
-                sbMst.Append("FROM          INVEST.NON_LISTED_SECURITIES NON_LISTED_SECURITIES_1 ");
+                sbMst.Append("FROM          NON_LISTED_SECURITIES NON_LISTED_SECURITIES_1 ");
                 sbMst.Append("WHERE     (F_CD = " + fundCode + ") AND (INV_DATE <= '" + balDate + "'))) ");
                 dtNonlistedSecrities = commonGatewayObj.Select(sbMst.ToString());
 

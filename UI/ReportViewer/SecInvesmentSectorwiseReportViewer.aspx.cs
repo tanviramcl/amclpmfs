@@ -75,7 +75,7 @@ public partial class UI_ReportViewer_NegativeBalanceCheckReportViewer : System.W
         sbMst.Append(" select trim(c.comp_nm) as CompanyName , sect_maj_nm, a.sect_maj_cd,trunc(tot_nos) nos_t,  bal_dt , trunc(tcst_aft_com/tot_nos,2) rt_acm,  trunc (tcst_aft_com,2) tcst_aft_com, Round(tot_cost/tot_nos,2) c_rt,");
         sbMst.Append(" tot_cost, ROUND(tcst_aft_com/ '" + cs_asset + "'*100,2) cost_percent,nvl(a.dse_rt,0) DSE_rate, a.adc_rt m_rt,    a.adc_rt* tot_nos m_p,(a.dse_rt - trunc(tcst_aft_com/tot_nos,2)) diff , ");
         sbMst.Append(" (round(a.dse_rt,2) - trunc(tcst_aft_com/tot_nos,2)) * trunc(tot_nos) gain  ,ROUND(trunc(tot_nos)/c.no_shrs*100,2)  paid_cap,'" + cs_asset + "' asset,ROUND('" + cf_unlist + "'/'" + cs_asset + "'*100,2) unl_p ");
-        sbMst.Append(" from invest.pfolio_bk a, comp c ,  nav.nav_master n where c.comp_cd=a.comp_cd and f_cd='" + fundCode + "' and a.bal_dt_ctrl='" + balDate + "' and n.navfundid= '" + fundCode + "' and  n.navfundid=f_cd ");
+        sbMst.Append(" from pfolio_bk a, comp c ,  nav.nav_master n where c.comp_cd=a.comp_cd and f_cd='" + fundCode + "' and a.bal_dt_ctrl='" + balDate + "' and n.navfundid= '" + fundCode + "' and  n.navfundid=f_cd ");
         sbMst.Append(" and navno=(select max(navno) from nav.nav_master where navfundid=f_cd   AND NAVDATE<='" + balDate + "' ) order by c.comp_nm ");
         sbMst.Append(sbfilter.ToString());
         dtReprtSource = commonGatewayObj.Select(sbMst.ToString());

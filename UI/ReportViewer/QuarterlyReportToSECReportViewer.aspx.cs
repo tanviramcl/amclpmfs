@@ -33,7 +33,7 @@ public partial class UI_ReportViewer_QuarterlyReportToSECReportViewer : System.W
 
         DataTable dtOppeningBalDate = new DataTable();
         StringBuilder queryString = new StringBuilder();
-        queryString.Append("SELECT TO_CHAR(MAX(VCH_DT),'DD-MON-YYYY') AS VCH_DT FROM INVEST.FUND_TRANS_HB ");
+        queryString.Append("SELECT TO_CHAR(MAX(VCH_DT),'DD-MON-YYYY') AS VCH_DT FROM FUND_TRANS_HB ");
         queryString.Append(" WHERE (VCH_DT < '" + qStartDate + "')");
         dtOppeningBalDate = commonGatewayObj.Select(queryString.ToString());
 
@@ -76,27 +76,27 @@ public partial class UI_ReportViewer_QuarterlyReportToSECReportViewer : System.W
         sbMst.Append("ROUND(NVL(CLOSING_BALANCE.TOTAL_AMT / 1000000, 0), 2) AS CLOSING_BALANCE_COSTPRICE,   ");
         sbMst.Append("ROUND(NVL(CLOSING_BALANCE.MARKET_PRICE / 1000000, 0), 2) AS CLOSING_BALANCE_MARKETPRICE ");
         sbMst.Append("FROM         (SELECT     F_CD, SUM(TCST_AFT_COM) AS TOTAL_AMT ");
-        sbMst.Append(" FROM          invest.PFOLIO_BK PFOLIO_BK_1  ");
+        sbMst.Append(" FROM          PFOLIO_BK PFOLIO_BK_1  ");
         sbMst.Append("WHERE      (BAL_DT_CTRL = '" + oppeningBalDate + "') AND " + fundFilter + "  ");
         sbMst.Append("GROUP BY F_CD) OPENING_BALANCE RIGHT OUTER JOIN ");
         sbMst.Append("(SELECT     F_CD, SUM(AMT_AFT_COM) AS INV_AMT_IPO_RIGHTS ");
-        sbMst.Append("FROM          invest.FUND_TRANS_HB FUND_TRANS_HB_2  ");
+        sbMst.Append("FROM          FUND_TRANS_HB FUND_TRANS_HB_2  ");
         sbMst.Append("WHERE      (VCH_DT BETWEEN '" + qStartDate + "' AND '" + qEndDate + "') AND (TRAN_TP IN ('I', 'R'))  ");
         sbMst.Append("GROUP BY F_CD) IPO_RIGHTS_INV RIGHT OUTER JOIN ");
         sbMst.Append("(SELECT     F_CD, SUM(TCST_AFT_COM) AS TOTAL_AMT, SUM(ADC_RT * TOT_NOS) AS MARKET_PRICE ");
-        sbMst.Append(" FROM          invest.PFOLIO_BK  ");
+        sbMst.Append(" FROM          PFOLIO_BK  ");
         sbMst.Append(" WHERE      (BAL_DT_CTRL = '" + qEndDate + "')  AND " + fundFilter + "  ");
         sbMst.Append("GROUP BY F_CD) CLOSING_BALANCE INNER JOIN ");
         sbMst.Append("(SELECT     F_CD, F_NAME ");
-        sbMst.Append(" FROM          invest.FUND FUND_1  ");
+        sbMst.Append(" FROM          FUND FUND_1  ");
         sbMst.Append("WHERE      " + fundFilter + " ) FUND ON CLOSING_BALANCE.F_CD = FUND.F_CD ON IPO_RIGHTS_INV.F_CD = FUND.F_CD ON  ");
         sbMst.Append("OPENING_BALANCE.F_CD = FUND.F_CD LEFT OUTER JOIN ");
         sbMst.Append("(SELECT     F_CD, SUM(AMT_AFT_COM) AS SELL_AMT, SUM(NO_SHARE * CRT_AFT_COM) AS CI_OF_SALE  ");
-        sbMst.Append(" FROM          invest.FUND_TRANS_HB  ");
+        sbMst.Append(" FROM          FUND_TRANS_HB  ");
         sbMst.Append("WHERE      (VCH_DT BETWEEN '" + qStartDate + "' AND '" + qEndDate + "') AND (TRAN_TP = 'S') ");
         sbMst.Append("GROUP BY F_CD) SELL ON CLOSING_BALANCE.F_CD = SELL.F_CD LEFT OUTER JOIN  ");
         sbMst.Append("(SELECT     F_CD, SUM(AMT_AFT_COM) AS COST_AMT ");
-        sbMst.Append(" FROM          invest.FUND_TRANS_HB FUND_TRANS_HB_1  ");
+        sbMst.Append(" FROM          FUND_TRANS_HB FUND_TRANS_HB_1  ");
         sbMst.Append(" WHERE      (VCH_DT BETWEEN '" + qStartDate + "' AND '" + qEndDate + "') AND (TRAN_TP = 'C')  ");
         sbMst.Append("GROUP BY F_CD) PURCHASE ON CLOSING_BALANCE.F_CD = PURCHASE.F_CD ");
         sbMst.Append("ORDER BY FUND.F_CD ");
