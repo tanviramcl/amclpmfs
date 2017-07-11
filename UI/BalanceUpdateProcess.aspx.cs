@@ -235,7 +235,7 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
      
         strQuery = "select TO_CHAR(vch_dt,'DD-MON-YYYY')vch_dt, f_cd, comp_cd, no_share, rate, nvl(amount,0)amount,amt_aft_com, tran_tp, stock_ex from fund_trans_hb" +
         " where vch_dt between '" + vchDtFrom + "' and '" + vchDtTo + "' and f_cd=" + f_cd +
-        " order by f_cd, vch_dt, comp_cd";
+        " order by  comp_cd";
 
         dtFromFundTransHB = commonGatewayObj.Select(strQuery);
 

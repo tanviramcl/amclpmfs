@@ -165,7 +165,9 @@
                             <br />
 
                             <asp:Button ID="btnSave" runat="server" Text="Save" 
-                                CssClass="buttoncommon" OnClick="btnSave_Click" EnableViewState="false"/>
+                                CssClass="buttoncommon" OnClick="btnSave_Click" 
+                                
+                                />
                         </ContentTemplate>
                     </asp:UpdatePanel>
                 </div>
@@ -177,6 +179,7 @@
      <script type="text/javascript">
 
 
+         function fn_init() {
 
          $.validator.addMethod("StockDropDownList", function (value, element, param) {  
              if (value == '0')  
@@ -214,10 +217,24 @@
                     }
                 
                 }
+
       });
-     
+             var prm = Sys.WebForms.PageRequestManager.getInstance();
+             prm.add_initializeRequest(onEachRequest);
+         }
+         function onEachRequest(sender, args) {
+             if ($("#aspnetForm").valid() == false) {
+                 args.set_cancel(true);
+             }
+         }
     </script>
-                 
+      <script type="text/javascript">
+
+
+        function pageLoad() {
+            fn_init();
+        }
+    </script>             
                   
  </asp:Content>
 
