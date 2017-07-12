@@ -45,7 +45,8 @@ public partial class UI_InvestmentByMFasPerSECrulesReportForm : System.Web.UI.Pa
         Session["balDate"] = portfolioAsOnDropDownList.SelectedValue.ToString();
         Session["assetValue"] = assetValueTextBox.Text;
         //ClientScript.RegisterStartupScript(this.GetType(), "InvestmentByMFasPerSECrulesReportViewer", "window.open('ReportViewer/InvestmentByMFasPerSECrulesReportViewer.aspx')", true);
-        ScriptManager.RegisterStartupScript(this.Page,this.Page.GetType(), "InvestmentByMFasPerSECrulesReportViewer", "window.open('ReportViewer/InvestmentByMFasPerSECrulesReportViewer.aspx')", true);
+        // ScriptManager.RegisterStartupScript(this.Page,this.Page.GetType(), "InvestmentByMFasPerSECrulesReportViewer", "window.open('ReportViewer/InvestmentByMFasPerSECrulesReportViewer.aspx')", true);
+        Response.Redirect("ReportViewer/InvestmentByMFasPerSECrulesReportViewer.aspx");
         showButton.Visible = false;
     }
     protected void showTotalAssetButton_Click(object sender, EventArgs e)
