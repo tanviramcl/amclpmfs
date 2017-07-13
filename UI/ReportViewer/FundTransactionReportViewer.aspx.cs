@@ -33,9 +33,9 @@ public partial class UI_ReportViewer_FundTransactionReportViewer : System.Web.UI
         StringBuilder sbfilter = new StringBuilder();
         sbfilter.Append(" ");
         sbMst.Append("SELECT     FUND_TRANS_HB.COMP_CD, COMP.COMP_NM, FUND_TRANS_HB.VCH_DT, FUND_TRANS_HB.F_CD, ");
-        sbMst.Append(" FUND.F_NAME, FUND_TRANS_HB.TRAN_TP, FUND_TRANS_HB.NO_SHARE, INVEST.FUND_TRANS_HB.RATE,  INVEST.FUND_TRANS_HB.AMT_AFT_COM ");
+        sbMst.Append(" FUND.F_NAME, FUND_TRANS_HB.TRAN_TP, FUND_TRANS_HB.NO_SHARE, FUND_TRANS_HB.RATE,  FUND_TRANS_HB.AMT_AFT_COM ");
         sbMst.Append("FROM         COMP INNER JOIN ");
-        sbMst.Append("FUND_TRANS_HB ON COMP.COMP_CD = FUND_TRANS_HB.COMP_CD INNER JOIN INVEST.FUND ON INVEST.FUND_TRANS_HB.F_CD = INVEST.FUND.F_CD ");
+        sbMst.Append("FUND_TRANS_HB ON COMP.COMP_CD = FUND_TRANS_HB.COMP_CD INNER JOIN FUND ON FUND_TRANS_HB.F_CD = FUND.F_CD ");
         sbMst.Append("WHERE     (FUND_TRANS_HB.VCH_DT BETWEEN '" + Convert.ToDateTime(Request.QueryString["howlaDateFrom"]).ToString("dd-MMM-yyyy") + "' AND '" + Convert.ToDateTime(Request.QueryString["howlaDateTo"]).ToString("dd-MMM-yyyy") + "')  ");
         if (transType !="0")
         {

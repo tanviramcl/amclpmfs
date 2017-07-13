@@ -42,7 +42,7 @@ public partial class UI_ReportViewer_PortfolioWithProfitLossReportViewer : Syste
         StringBuilder sbMst = new StringBuilder();
         StringBuilder sbfilter = new StringBuilder();
         sbfilter.Append(" ");
-        sbMst.Append("SELECT     FUND.F_NAME, COMP.COMP_NM, FOLIO_BK.SECT_MAJ_NM, PFOLIO_BK.SECT_MAJ_CD, ");
+        sbMst.Append("SELECT     FUND.F_NAME, COMP.COMP_NM, PFOLIO_BK.SECT_MAJ_NM, PFOLIO_BK.SECT_MAJ_CD, ");
         sbMst.Append("TRUNC(PFOLIO_BK.TOT_NOS, 0) AS TOT_NOS, ROUND(PFOLIO_BK.TCST_AFT_COM / PFOLIO_BK.TOT_NOS, 2) ");
         sbMst.Append("AS COST_RT_PER_SHARE, PFOLIO_BK.TCST_AFT_COM, NVL(PFOLIO_BK.DSE_RT, PFOLIO_BK.CSE_RT) AS DSE_RT, ");
         sbMst.Append("ROUND(PFOLIO_BK.TOT_NOS * NVL(PFOLIO_BK.DSE_RT, PFOLIO_BK.CSE_RT), 2) AS TOT_MARKET_PRICE, ");

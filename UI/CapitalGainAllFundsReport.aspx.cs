@@ -115,7 +115,8 @@ public partial class UI_MarketValuationWithProfitLoss : System.Web.UI.Page
 
               
             dvGridFund.Visible = true;
-            ClientScript.RegisterStartupScript(this.GetType(), "CapitalGainAllFundsReportViewer", "window.open('ReportViewer/CapitalGainAllFundsReportViewer.aspx')", true);
+            //    ClientScript.RegisterStartupScript(this.GetType(), "CapitalGainAllFundsReportViewer", "window.open('ReportViewer/CapitalGainAllFundsReportViewer.aspx')", true);
+            Response.Redirect("ReportViewer/CapitalGainAllFundsReportViewer.aspx");
         }
     }
 
