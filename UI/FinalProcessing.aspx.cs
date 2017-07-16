@@ -43,8 +43,8 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
             txtbalanceDate2.Text = dtBalanceDate.Rows[0]["balancedate2"].ToString();
 
             string Date1 = Convert.ToDateTime(dtDate1.Rows[0]["date1"]).ToString("dd-MMM-yyyy");
-            string dttotalrow = GetTotalrowPortfolio(Date1);
-            txttotalRowCount.Text = dttotalrow;
+            DataTable dttotalrow = GetTotalrowPortfolio_bk(Date1);
+            txttotalRowCount.Text = dttotalrow.Rows[0]["TOTALROW"].ToString();
 
             lblProcessing.Text = "";
         }
@@ -62,11 +62,11 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
     {
         DataTable dtBalanceDate = getbalanceDate();
         string Bal_Date1 = Convert.ToDateTime(dtBalanceDate.Rows[0]["balancedate1"]).ToString("dd-MMM-yyyy");
-        DataTable dtDateFromPfolioBk = GetDate1();
-        DataTable dtRateUpdDateFromComp = GetDate2();
+        DataTable dtDate1 = GetDate1();
+        DataTable dtDate2 = GetDate2();
 
-        string Date1 = Convert.ToDateTime(dtDateFromPfolioBk.Rows[0]["date1"]).ToString("dd-MMM-yyyy"); 
-        string Date2 = Convert.ToDateTime(dtRateUpdDateFromComp.Rows[0]["date2"]).ToString("dd-MMM-yyyy");
+        string Date1 = Convert.ToDateTime(dtDate1.Rows[0]["date1"]).ToString("dd-MMM-yyyy"); 
+        string Date2 = Convert.ToDateTime(dtDate2.Rows[0]["date2"]).ToString("dd-MMM-yyyy");
         lblProcessing.Text = "Processing completed!!!!";
 
         if (Date1 == Date2)
@@ -118,8 +118,8 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
 
             ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Data Inserted Successfully');", true);
         }
-        string dttotalrow = GetTotalrowPortfolio(txtbalanceDate1.Text);
-        txttotalRowCount.Text= dttotalrow;
+        DataTable dttotalrow = GetTotalrowPortfolio_bk(txtbalanceDate1.Text);
+        txttotalRowCount.Text= dttotalrow.Rows[0]["TOTALROW"].ToString();
 
      //   Response.Redirect("FinalProcessing.aspx");
     }
@@ -138,8 +138,8 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
         lblProcessing.Text = "Processing completed!!!!";
         if (Date1 == dt1)
         {
-            string dttotalrow = GetTotalrowPortfolio(dt1);
-            int row= Convert.ToInt32(dttotalrow);
+            DataTable dttotalrow = GetTotalrowPortfolio_bk(dt1);
+            int row= Convert.ToInt32(dttotalrow.Rows[0]["TOTALROW"].ToString());
             string strDelQuery = "delete from pfolio_bk where bal_dt_ctrl='"+dt1+"'";
             int NumOfRows = commonGatewayObj.ExecuteNonQuery(strDelQuery);
             //  ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Delete Successfully');", true);
@@ -222,33 +222,23 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
         return Date2;
     }
 
-    //public DataTable GetTotalrowPortfolio_bk(string date)
-    //{
-    //    DataTable trow = commonGatewayObj.Select("select count(*) as TotalRow from pfolio_bk where baL_dt_ctrl='"+date+ "'");
-    //    DataTable txttotalrow = new DataTable();
-    //    txttotalrow.Columns.Add("TOTALROW", typeof(string));
-
-    //    DataRow dr = txttotalrow.NewRow();
-
-    //    for (int loop = 0; loop < trow.Rows.Count; loop++)
-    //    {
-    //        dr = txttotalrow.NewRow();
-    //        dr["TOTALROW"] = trow.Rows[loop]["TOTALROW"].ToString();
-
-    //        txttotalrow.Rows.Add(dr);
-    //    }
-    //    return txttotalrow;
-    //}
-
-
-    public string GetTotalrowPortfolio(string date)
+    public DataTable GetTotalrowPortfolio_bk(string date)
     {
-        DataTable dtTotRowCount = commonGatewayObj.Select("select count(*) as TotalRow from pfolio_bk where baL_dt_ctrl='" + date + "'");
-        string totRows = dtTotRowCount.Rows[0]["TotalRow"].ToString();
-        
-        return totRows;
-    }
+        DataTable trow = commonGatewayObj.Select("select count(*) as TotalRow from pfolio_bk where baL_dt_ctrl='"+date+ "'");
+        DataTable txttotalrow = new DataTable();
+        txttotalrow.Columns.Add("TOTALROW", typeof(string));
 
+        DataRow dr = txttotalrow.NewRow();
+
+        for (int loop = 0; loop < trow.Rows.Count; loop++)
+        {
+            dr = txttotalrow.NewRow();
+            dr["TOTALROW"] = trow.Rows[loop]["TOTALROW"].ToString();
+
+            txttotalrow.Rows.Add(dr);
+        }
+        return txttotalrow;
+    }
     private void ClearFields()
     {
         DataTable dtBalanceDate = getbalanceDate();
