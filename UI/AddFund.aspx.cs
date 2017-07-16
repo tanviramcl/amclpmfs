@@ -33,24 +33,22 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
 
     protected void saveButton_Click(object sender, EventArgs e)
     {
-
-
         insertdata();
-
-
 
     }
     protected void fundCodeTextBox_TextChanged(object sender, EventArgs e)
     {
         DataTable dtgetfund  ;
-      
-        string strfundcode = "SELECT  *  FROM    FUND WHERE    BOID IS NOT NULL  and f_cd = "+fundcodeTextBox.Text.ToString()+"";
-        dtgetfund = commonGatewayObj.Select(strfundcode);
-
-        if (dtgetfund.Rows.Count > 0)
+        if (fundcodeTextBox.Text.ToString() != "")
         {
-            ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('this fund is already exits !');", true);
+            string strfundcode = "SELECT  *  FROM    FUND WHERE    BOID IS NOT NULL  and f_cd = " + fundcodeTextBox.Text.ToString() + "";
+            dtgetfund = commonGatewayObj.Select(strfundcode);
+            if (dtgetfund != null && dtgetfund.Rows.Count > 0)
+            {
+                txtfundName.Value = dtgetfund.Rows[0]["F_NAME"].ToString();
+                ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('This fund is already available !');", true);
 
+            }
         }
 
     
@@ -58,14 +56,15 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
 
     private void insertdata()
     {
-
+      
         DataTable fundinfo = new DataTable();
-       
+        string strInsQuery;
+      
+            strInsQuery = "insert into Fund(F_CD,F_NAME,COMP_CD,F_TYPE,IS_F_CLOSE,CUSTOMER,BOID,SL_BUY_COM_PCT)values('" + Convert.ToUInt32(fundcodeTextBox.Text.ToString()) + "','" + txtfundName.Value.ToString() + "','" + txtCompanyCode.Text.ToString() + "','" + FundTypeDropDownList.Text.ToString() + "','" + txtfundClose.Text.ToString() + "','" + customerCode.Text.ToString() + "','" + boIdTextBox.Text.ToString() + "','" + txtsellbuycommision.Text.ToString() + "')";
+        
 
-       string strInsQuery = "insert into Fund(F_CD,F_NAME,IS_F_CLOSE,CUSTOMER,BOID,SL_BUY_COM_PCT)values('" + Convert.ToUInt32(fundcodeTextBox.Text.ToString()) + "','" + txtfundName.Value.ToString() + "','" + txtfundClose.Text.ToString() + "','" + customerCode.Text.ToString() + "','"+boIdTextBox.Text.ToString()+"','"+txtsellbuycommision.Text.ToString()+"')";
-
-        //int NumOfRows = commonGatewayObj.ExecuteNonQuery(strInsQuery);
-        //  ClearFields();
+          int NumOfRows = commonGatewayObj.ExecuteNonQuery(strInsQuery);
+        ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Fund Insert Sucessfylly !');", true);
 
     }
 

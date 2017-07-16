@@ -29,8 +29,15 @@
         </table>
 
         <table id="Table2" width="600" align="center" cellpadding="2" cellspacing="2" runat="server">
+           
+        </table>
+        
+                 
+            <table class="table table-hover" id="bootstrap-table">
           
-            <tr>
+            <tbody>
+          
+                        <tr>
                 <td align="left">
                     <b>Fund code </b>
                 </td>
@@ -59,8 +66,8 @@
                     <asp:DropDownList ID="FundTypeDropDownList" Width="100px" runat="server"
                         TabIndex="3">
                         <asp:ListItem Text="--Select--" Value="0"></asp:ListItem>
-                        <asp:ListItem Text="OPEN END" Value="N"></asp:ListItem>
-                        <asp:ListItem Text="CLOSE END" Value="R"></asp:ListItem>
+                        <asp:ListItem Text="OPEN END" Value="OPEN END"></asp:ListItem>
+                        <asp:ListItem Text="CLOSE END" Value="CLOSE END"></asp:ListItem>
                     </asp:DropDownList>
                 </td>
                 <td align="left">
@@ -97,14 +104,27 @@
                 <td align="left">
                     <asp:TextBox ID="txtCompanyCode" runat="server" Width="100px"></asp:TextBox>
                 </td>
+
+                   <%
+                     string userType = Session["UserType"].ToString();
+                   
+                     if (userType == "SA")
+                     {
+                       
+                 %>
                 <td align="left">
                     <b>IS Fund Close ?</b>
                 </td>
                 <td align="left">
                     <asp:TextBox ID="txtfundClose" runat="server" Width="100px"></asp:TextBox>
                 </td>
+                 <%
+                    }
 
+                %>
             </tr>
+
+
             <tr>
                 
                 <td align="center" colspan="6">
@@ -116,9 +136,10 @@
                 </td>
 
             </tr>
-        </table>
-        
-
+               
+                
+             </tbody>
+            </table>
      
 
     <script type="text/javascript">
@@ -130,6 +151,20 @@
             else  
                 return true;  
         },"Please select a Fund Type."); 
+
+       
+
+        $.validator.addMethod("CheckFundOpenorClose", function (value, element, param) { 
+            // alert(value);
+            if (value == 'Y')  
+                return true;  
+            else if(value == 'N') 
+                return true;  
+            else if(value == '')
+                return true;
+            else
+                return false;  
+        },"Please select 'Y' for fund Open and 'N' for fund close.");
 
 
         $("#aspnetForm").validate({
@@ -147,13 +182,18 @@
                     },<%=customerCode.UniqueID %>: {
                         required: true 
                     },<%=boIdTextBox.UniqueID %>: {
-                        required: true 
+                        required: true,
+                        maxlength:16,
                     },<%=txtsellbuycommision.UniqueID %>: {
                         required: true,
+                        maxlength:4,
                         number:true
                     },<%=txtCompanyCode.UniqueID %>: {
                         
                         number:true
+                    },<%=txtfundClose.UniqueID %>: {
+                        
+                        CheckFundOpenorClose:true
                     }
                     
           }, messages: {
@@ -170,6 +210,7 @@
                         required: "*BO ID is required*",
                     }, <%=txtsellbuycommision.UniqueID %>:{  
                         required: "*Sell buy commision is required*",
+                        maxlength: "*Sell buy commision  must be less than 4 digit*"
                     }
                     
                 }

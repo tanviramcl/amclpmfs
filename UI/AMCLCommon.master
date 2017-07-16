@@ -146,7 +146,7 @@
                  <%
                      string userType = Session["UserType"].ToString();
                    
-                     if (userType == "A")
+                     if (userType == "SA" || userType == "A")
                      {
                        
                  %>
@@ -213,7 +213,7 @@
                              <li><a href="CapitalGainSummeryCompanyWiseDsc.aspx">Company Wise Capital Gain Summary Descending</a></li>
                              <li><a href="SellBuyCheck.aspx">Sell Buy Check</a></li>
                              <li><a href="PortfilioDematShare.aspx">Portfilio Demat Share</a></li>
-                             <li><a href="PortFolioQuaterWise.aspx">Portfolio Quarterwise Report</a></li>
+
                          </ul>
 
                          <%--<a class="ldd_subfoot" href="#">+ New Deals</a>--%>
@@ -224,6 +224,7 @@
                      <div class="ldd_submenu">
                          <ul>
                              <li class="ldd_heading"></li>
+                                                          <li><a href="PortFolioQuaterWise.aspx">Quarterly Portfolio Report With Previous Quarter</a></li>
                              <li><a href="BalanceCheckReport.aspx">Balance Check</a></li>
                              <li><a href="NonDemateSharesCheckReport.aspx">Non Demate Shares Check</a></li>
                              <li><a href="NegativeBalanceCheckReport.aspx">Negative Balance Check</a></li>
@@ -306,7 +307,7 @@
                      }
                      else
                      {
-                         Response.Write("u r not admin user");
+                         Response.Write("You are not admin user");
                  %>
 
 

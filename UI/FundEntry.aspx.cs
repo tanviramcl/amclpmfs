@@ -20,9 +20,6 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
             Session.RemoveAll();
             Response.Redirect("../Default.aspx");
         }
-
-        
-
         Session["funds"] = GetFundName();
 
         DataTable dtNoOfFunds = (DataTable)Session["funds"];
