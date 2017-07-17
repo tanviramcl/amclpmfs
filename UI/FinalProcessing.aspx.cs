@@ -34,7 +34,7 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
             Response.Redirect("../Default.aspx");
         }
         DataTable dtBalanceDate = getbalanceDate();
-        DataTable dtDate1 = GetDate1();
+        DataTable dtmaxpfolioDate = Getmaximumdatefromportfolio_bK();
 
       //  lblProcessing.Text = "";
         if (!IsPostBack)
@@ -42,9 +42,9 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
             txtbalanceDate1.Text = dtBalanceDate.Rows[0]["balancedate1"].ToString();
             txtbalanceDate2.Text = dtBalanceDate.Rows[0]["balancedate2"].ToString();
 
-            string Date1 = Convert.ToDateTime(dtDate1.Rows[0]["date1"]).ToString("dd-MMM-yyyy");
-            string dttotalrow = GetTotalrowPortfolio(Date1);
-            txttotalRowCount.Text = dttotalrow;
+            string maxpfolioDate = Convert.ToDateTime(dtmaxpfolioDate.Rows[0]["date1"]).ToString("dd-MMM-yyyy");
+            DataTable dttotalrow = GetTotalrowPortfolio_bk(maxpfolioDate);
+            txttotalRowCount.Text = dttotalrow.Rows[0]["TOTALROW"].ToString();
 
             lblProcessing.Text = "";
         }
@@ -52,22 +52,16 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
 
 
     }
-
-
-   
-
-    
-  
     protected void btnProcessingforBackup_Click(object sender, EventArgs e)
     {
         DataTable dtBalanceDate = getbalanceDate();
         string Bal_Date1 = Convert.ToDateTime(dtBalanceDate.Rows[0]["balancedate1"]).ToString("dd-MMM-yyyy");
-        DataTable dtDateFromPfolioBk = GetDate1();
-        DataTable dtRateUpdDateFromComp = GetDate2();
+        DataTable dtmaximumDatefrompflio = Getmaximumdatefromportfolio_bK();
+        DataTable dtrateUpdatedDate = Get_maximum_RateUpadatedate_fromComp();
 
-        string Date1 = Convert.ToDateTime(dtDateFromPfolioBk.Rows[0]["date1"]).ToString("dd-MMM-yyyy"); 
-        string Date2 = Convert.ToDateTime(dtRateUpdDateFromComp.Rows[0]["date2"]).ToString("dd-MMM-yyyy");
-        lblProcessing.Text = "Processing completed!!!!";
+        string Date1 = Convert.ToDateTime(dtmaximumDatefrompflio.Rows[0]["date1"]).ToString("dd-MMM-yyyy"); 
+        string Date2 = Convert.ToDateTime(dtrateUpdatedDate.Rows[0]["date2"]).ToString("dd-MMM-yyyy");
+ 
 
         if (Date1 == Date2)
         {
@@ -118,33 +112,34 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
 
             ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Data Inserted Successfully');", true);
         }
-        string dttotalrow = GetTotalrowPortfolio(txtbalanceDate1.Text);
-        txttotalRowCount.Text= dttotalrow;
+        DataTable dttotalrow = GetTotalrowPortfolio_bk(txtbalanceDate1.Text);
+        txttotalRowCount.Text= dttotalrow.Rows[0]["TOTALROW"].ToString();
 
-     //   Response.Redirect("FinalProcessing.aspx");
+        lblProcessing.Text = "Processing completed!!!!";
+
+        //   Response.Redirect("FinalProcessing.aspx");
     }
 
     protected void btnDelete_Click(object sender, EventArgs e)
     {
-        DataTable dtDate1 = GetDate1();
-        DataTable dtBalanceDate = getbalanceDate();
+        DataTable dtDate1 = Getmaximumdatefromportfolio_bK();
+        //DateTime balDate1 = Convert.ToDateTime(txtbalanceDate2.Text.ToString());
+        DateTime balDate1 = DateTime.ParseExact(txtbalanceDate2.Text, "dd/MM/yyyy", null);
 
 
         string Date1 = Convert.ToDateTime(dtDate1.Rows[0]["date1"]).ToString("dd-MMM-yyyy");
-        DateTime baldate1 = DateTime.ParseExact(txtbalanceDate2.Text, "dd/MM/yyyy", null);
-        string dt1 = Convert.ToDateTime(baldate1).ToString("dd-MMM-yyyy");
-
-        // int row;
+        string dt1 = Convert.ToDateTime(balDate1).ToString("dd-MMM-yyyy");
+    
         lblProcessing.Text = "Processing completed!!!!";
         if (Date1 == dt1)
         {
-            string dttotalrow = GetTotalrowPortfolio(dt1);
-            int row= Convert.ToInt32(dttotalrow);
+            DataTable dttotalrow = GetTotalrowPortfolio_bk(dt1);
+            int row= Convert.ToInt32(dttotalrow.Rows[0]["TOTALROW"].ToString());
             string strDelQuery = "delete from pfolio_bk where bal_dt_ctrl='"+dt1+"'";
             int NumOfRows = commonGatewayObj.ExecuteNonQuery(strDelQuery);
-            //  ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Delete Successfully');", true);
+                       
             lblProcessing.Text = "Delete  Successfully";
-            // txttotalRowCount.Text = Convert.ToString(row);
+            txttotalRowCount.Text = row.ToString();
 
             ClearFields();
         }
@@ -187,73 +182,29 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
         return pdateDropDownList;
     }
 
-    public DataTable GetDate1()
+    public DataTable Getmaximumdatefromportfolio_bK()
     {
-        DataTable maxdate1 = commonGatewayObj.Select("select max(bal_dt_ctrl) as date1 from pfolio_bk");
-        DataTable Date1 = new DataTable();
-        Date1.Columns.Add("date1", typeof(string));
-
-        DataRow dr = Date1.NewRow();
-
-        for (int loop = 0; loop < maxdate1.Rows.Count; loop++)
-        {
-            dr = Date1.NewRow();
-            dr["date1"] = maxdate1.Rows[loop]["date1"].ToString();
-
-            Date1.Rows.Add(dr);
-        }
-        return Date1;
+        DataTable maxdate = commonGatewayObj.Select("select max(bal_dt_ctrl) as date1 from pfolio_bk");
+       
+        return maxdate;
     }
-    public DataTable GetDate2()
+    public DataTable Get_maximum_RateUpadatedate_fromComp()
     {
-        DataTable maxdate2 = commonGatewayObj.Select("select max(rt_upd_dt) as date2  from comp");
-        DataTable Date2 = new DataTable();
-        Date2.Columns.Add("date2", typeof(string));
-
-        DataRow dr = Date2.NewRow();
-
-        for (int loop = 0; loop < maxdate2.Rows.Count; loop++)
-        {
-            dr = Date2.NewRow();
-            dr["date2"] = maxdate2.Rows[loop]["date2"].ToString();
-
-            Date2.Rows.Add(dr);
-        }
-        return Date2;
+        DataTable maxdate = commonGatewayObj.Select("select max(rt_upd_dt) as date2  from comp");
+      
+        return maxdate;
     }
 
-    //public DataTable GetTotalrowPortfolio_bk(string date)
-    //{
-    //    DataTable trow = commonGatewayObj.Select("select count(*) as TotalRow from pfolio_bk where baL_dt_ctrl='"+date+ "'");
-    //    DataTable txttotalrow = new DataTable();
-    //    txttotalrow.Columns.Add("TOTALROW", typeof(string));
-
-    //    DataRow dr = txttotalrow.NewRow();
-
-    //    for (int loop = 0; loop < trow.Rows.Count; loop++)
-    //    {
-    //        dr = txttotalrow.NewRow();
-    //        dr["TOTALROW"] = trow.Rows[loop]["TOTALROW"].ToString();
-
-    //        txttotalrow.Rows.Add(dr);
-    //    }
-    //    return txttotalrow;
-    //}
-
-
-    public string GetTotalrowPortfolio(string date)
+    public DataTable GetTotalrowPortfolio_bk(string date)
     {
-        DataTable dtTotRowCount = commonGatewayObj.Select("select count(*) as TotalRow from pfolio_bk where baL_dt_ctrl='" + date + "'");
-        string totRows = dtTotRowCount.Rows[0]["TotalRow"].ToString();
-        
-        return totRows;
+        DataTable totalrow = commonGatewayObj.Select("select count(*) as TotalRow from pfolio_bk where baL_dt_ctrl='"+date+ "'");
+        return totalrow;
     }
-
     private void ClearFields()
     {
-        DataTable dtBalanceDate = getbalanceDate();
-        txtbalanceDate1.Text = dtBalanceDate.Rows[0]["balancedate1"].ToString(); ;
-        txtbalanceDate2.Text = dtBalanceDate.Rows[0]["balancedate2"].ToString();
+        //DataTable dtBalanceDate = getbalanceDate();
+        //txtbalanceDate1.Text = dtBalanceDate.Rows[0]["balancedate1"].ToString(); ;
+        //txtbalanceDate2.Text = dtBalanceDate.Rows[0]["balancedate2"].ToString();
         txttotalRowCount.Text = "";
 
 

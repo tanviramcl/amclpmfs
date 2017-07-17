@@ -19,7 +19,7 @@
     <asp:ScriptManager ID="ScriptManager1" EnableScriptGlobalization="true" EnableScriptLocalization="true" runat="server"></asp:ScriptManager>
     <table style="text-align: center">
         <tr>
-            <td class="FormTitle" align="center">Capital Gain Summary Date Wise</td>
+            <td class="FormTitle" align="center">Capital Gain Summary (Date Wise)</td>
             <td>
                 <br />
             </td>
