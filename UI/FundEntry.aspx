@@ -53,7 +53,7 @@
                      <td><%   Response.Write( dtNoOfFunds.Rows[i]["CUSTOMER"].ToString());   %> </td>
                      <td><%   Response.Write( dtNoOfFunds.Rows[i]["BOID"].ToString());   %> </td>
                     <td><%   Response.Write( dtNoOfFunds.Rows[i]["SL_BUY_COM_PCT"].ToString());   %> </td>
-                    <td><asp:Button ID="UpdateButton" runat="server" Text="Update"  CssClass="buttoncommon" TabIndex="48" OnClick="UpdateButton_Click" /> </td> 
+                  <%--  <td><asp:Button ID="UpdateButton" runat="server" Text="Update"  CssClass="buttoncommon" TabIndex="48" OnClick="UpdateButton_Click" /> </td> --%>
                 </tr>
                 <%
 
