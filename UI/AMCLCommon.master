@@ -224,7 +224,6 @@
                      <div class="ldd_submenu">
                          <ul>
                              <li class="ldd_heading"></li>
-                                                          <li><a href="PortFolioQuaterWise.aspx">Quarterly Portfolio Report With Previous Quarter</a></li>
                              <li><a href="BalanceCheckReport.aspx">Balance Check</a></li>
                              <li><a href="NonDemateSharesCheckReport.aspx">Non Demate Shares Check</a></li>
                              <li><a href="NegativeBalanceCheckReport.aspx">Negative Balance Check</a></li>
@@ -248,7 +247,7 @@
                              <li><a href="QuarterlyReportToSEC.aspx">Quarterly</a></li>
                              <li><a href="InvestmentByMFasPerSECrulesReportForm.aspx">Investment by the MF as per SEC Rules</a></li>
                              <li><a href="StatementOfProfitOnSaleOfInvestment.aspx">Statement Of Profit On Sale Of Investment</a></li>
-
+                             <li><a href="PortFolioQuaterWise.aspx">Quarterly Portfolio Report With Previous Quarter</a></li>
                          </ul>
 
                          <%--<a class="ldd_subfoot" href="#">+ New Deals</a>--%>
