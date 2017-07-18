@@ -3,11 +3,13 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
     
-  <style type ="text/css" >  
-        label.error {             
-            color: red;   
-            display:inline-flex ;                 
-        }  
+  <style type ="text/css" >
+      label.error {
+          color: red;
+          display: inline-flex;
+      }
+
+     
     </style> 
     
     
@@ -36,6 +38,9 @@
             <table class="table table-hover" id="bootstrap-table">
           
             <tbody>
+
+             
+
           
                         <tr>
                 <td align="left">
@@ -127,24 +132,28 @@
 
             <tr>
                 
-                <td align="center" colspan="6">
-                    <asp:Button ID="saveButton" runat="server" Text="Save"
+               <%-- <td align="center" colspan="6">
+                    <asp:Button ID="saveButton" runat="server" Text="Save" Visible="false"
                         CssClass="buttoncommon" TabIndex="48"
                         OnClick="saveButton_Click" />
 
 
-                </td>
+                </td>--%>
+                <td align="center" colspan="6">
+                  <asp:Button ID="Button1" Visible="false" Text="Save" CssClass="buttoncommon"  runat="server" OnClick="Button1_Click" />
+                    </td>
 
             </tr>
                
-                
+             
              </tbody>
             </table>
      
 
     <script type="text/javascript">
+     
 
-        
+
         $.validator.addMethod("CheckDropDownList", function (value, element, param) {  
             if (value == '0')  
                 return false;  
@@ -168,6 +177,9 @@
 
 
         $("#aspnetForm").validate({
+            submitHandler: function () {
+                test();
+            },
             rules: {
                 <%=fundcodeTextBox.UniqueID %>: {
                         
@@ -215,7 +227,26 @@
                     
                 }
       });
-     
+        function test() {   
+             $.ajax({
+                type: "POST",
+                url: "Addfund.aspx/InsertandUpdateFund",
+                data: '{FundId: "' + $("#<%=fundcodeTextBox.ClientID%>").val() + '",FundName: "' + $("#<%=txtfundName.ClientID%>").val() + '",FundType: "' + $("#<%=FundTypeDropDownList.ClientID%>").val() + '",customerCode: "' + $("#<%=customerCode.ClientID%>").val() + '",boId: "' + $("#<%=boIdTextBox.ClientID%>").val() + '",sellbuycommision: "' + $("#<%=txtsellbuycommision.ClientID%>").val() + '",CompanyCode: "' + $("#<%=txtCompanyCode.ClientID%>").val() + '",fundClose: "' + $("#<%=txtfundClose.ClientID%>").val() + '" }',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                  if (response.d) {
+                      alert('data saved successfully');
+                      window.location = 'FundEntry.aspx';
+                  }
+                
+                },
+                failure: function (response) {
+                  
+                }
+              });
+
+        }
     </script>
       </div>
 
