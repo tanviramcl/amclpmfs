@@ -57,7 +57,8 @@
                         <td><%   Response.Write(dtNoOfFunds.Rows[i]["SL_BUY_COM_PCT"].ToString());   %> </td>
                         <td><%   Response.Write(dtNoOfFunds.Rows[i]["COMP_CD"].ToString());   %> </td>
                         <%--  <td><asp:Button ID="UpdateButton" runat="server" Text="Update"  CssClass="buttoncommon" TabIndex="48" OnClick="UpdateButton_Click" /> </td> --%>
-                        <td><a href="AddFund.aspx?ID=<%   Response.Write(dtNoOfFunds.Rows[i]["F_CD"].ToString());   %>" style="">Update</a></td>
+                        <td><a href="AddFund.aspx?ID=<%   Response.Write(dtNoOfFunds.Rows[i]["F_CD"].ToString());   %>" 
+                            class="custUpdBtn">Update</a></td>
                     </tr>
                     <%
 
