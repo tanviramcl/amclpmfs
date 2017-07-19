@@ -524,9 +524,23 @@ A.TableText:hover
 /*  for Links */
 A:link 
 {
-	color: #000000; 
+	color: #ffffff; 
 	background-color: transparent; 
 	text-decoration: none;
+	font-family: Verdana, Arial, Helvetica, sans-serif; 
+	font-size:11px;
+   
+
+}
+.custUpdBtn:link {
+    font-size:13px;padding:5px;border-radius:8px;background-color:green;color:#ffffff;
+
+}
+.custUpdBtn:hover
+{
+	color: #ffffff; 
+	background-color: blue; 
+	text-decoration: none; 
 	font-family: Verdana, Arial, Helvetica, sans-serif; 
 	font-size:11px;
 }
@@ -540,7 +554,7 @@ A:visited
 }
 A:hover 	
 {
-	color: #0423BE; 
+	color: #ffffff; 
 	background-color: transparent; 
 	text-decoration: none; 
 	font-family: Verdana, Arial, Helvetica, sans-serif; 
