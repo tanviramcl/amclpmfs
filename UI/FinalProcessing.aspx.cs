@@ -57,10 +57,10 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
         DataTable dtBalanceDate = getbalanceDate();
         string Bal_Date1 = Convert.ToDateTime(dtBalanceDate.Rows[0]["balancedate1"]).ToString("dd-MMM-yyyy");
         DataTable dtmaximumDatefrompflio = Getmaximumdatefromportfolio_bK();
-        DataTable dtrateUpdatedDate = Get_maximum_RateUpadatedate_fromComp();
+        DataTable dtRateUpdatedDate = Get_maximum_RateUpadatedate_fromComp();
 
         string Date1 = Convert.ToDateTime(dtmaximumDatefrompflio.Rows[0]["date1"]).ToString("dd-MMM-yyyy"); 
-        string Date2 = Convert.ToDateTime(dtrateUpdatedDate.Rows[0]["date2"]).ToString("dd-MMM-yyyy");
+        string Date2 = Convert.ToDateTime(dtRateUpdatedDate.Rows[0]["date2"]).ToString("dd-MMM-yyyy");
  
 
         if (Date1 == Date2)
