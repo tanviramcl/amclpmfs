@@ -43,19 +43,7 @@ public partial class UI_NonListedSecuritiesInvestmentEntryForm : System.Web.UI.P
     }
     protected void saveButton_Click(object sender, EventArgs e)
     {
-        string confirmValue = Request.Form["confirm_value"];
-
-        if (confirmValue == "Yes")
-        {
-
-            string updateMsgNonlistedSecurites = UpdateAmmountInNonlisted(fundNameDropDownList.SelectedValue.ToString(), PortfolioAsOnDropDownList.Text.ToString(),amountTextBox.Text.ToString());
-
-            ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Data Updated Successfully');", true);
-           // UpdateAmmountInNonlisted();
-
-            //code goes here
-        }
-
+       
 
 
         string LoginID = Session["UserID"].ToString();
@@ -79,7 +67,11 @@ public partial class UI_NonListedSecuritiesInvestmentEntryForm : System.Web.UI.P
 
         if (pf1s1DAOObj.IsDuplicateNonListedSecurities(Convert.ToInt32(fundNameDropDownList.SelectedValue.ToString()), Convert.ToDecimal(amountTextBox.Text.Trim().ToString()), Convert.ToDateTime(PortfolioAsOnDropDownList.Text.Trim().ToString()).ToString("dd-MMM-yyyy")))
         {
-            ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Save Failed: You Are Trying to Duplicate entry.');", true);
+            //ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Save Failed: You Are Trying to Duplicate entry.');", true);
+            string updateMsgNonlistedSecurites = UpdateAmmountInNonlisted(fundNameDropDownList.SelectedValue.ToString(), PortfolioAsOnDropDownList.Text.ToString(), amountTextBox.Text.ToString());
+
+            ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Data Updated Successfully');", true);
+            ClearFields();
         }
         else
         {
