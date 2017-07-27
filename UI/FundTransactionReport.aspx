@@ -116,9 +116,9 @@
         <td align="right" style="font-weight: 700"><b>Company Name:</b></td>
         <td align="left" >
             <asp:DropDownList ID="companyNameDropDownList" runat="server" TabIndex="4"></asp:DropDownList>
-            <ajaxToolkit:ListSearchExtender ID="ListSearchExtender1" runat="server" TargetControlID="companyNameDropDownList" 
+            <%--<ajaxToolkit:ListSearchExtender ID="ListSearchExtender1" runat="server" TargetControlID="companyNameDropDownList" 
                 QueryPattern="Contains" QueryTimeout="2000">
-            </ajaxToolkit:ListSearchExtender></td>
+            </ajaxToolkit:ListSearchExtender></td>--%>
     </tr>
         <tr>
         <td align="right" style="font-weight: 700"><b>Fund Name:&nbsp; </b></td>

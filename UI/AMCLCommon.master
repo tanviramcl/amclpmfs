@@ -58,7 +58,7 @@
     <style type="text/css">
         
 			body{
-                background:#f0f0f0;
+                /*background:#f0f0f0;*/
                 font-family:"Helvetica Neue",Arial,Helvetica,Geneva,sans-serif;
 				overflow-x:hidden;
 
@@ -155,7 +155,7 @@
                      <div class="ldd_submenu">
                          <ul>
                              <li class="ldd_heading">From</li>
-                             <li><a href="FundEntry.aspx">Fund Entry</a></li>
+                             <li><a href="FundEntry.aspx">Fund Information</a></li>
                              <li><a href="FundTransactionEntry.aspx">Fund Transaction Entry</a></li>
                              <li><a href="BookCloserEntry.aspx">Book Closer Entry</a></li>
                              <li><a href="NonListedSecuritiesInvestmentEntryForm.aspx">Non Listed Securities Entry</a></li>
@@ -192,6 +192,7 @@
                          <ul>
                              <li class="ldd_heading"></li>
                              <li><a href="SalePurchaseReportForm.aspx">Sale-Purchase Report</a></li>
+                             <li><a href="SalePurchaseSummaryReopot.aspx">Sale-Purchase Summary Report</a></li> 
                              <li><a href="FundTransactionReport.aspx">Fund Transaction Report</a></li>
                              <li><a href="BookCloserReport.aspx">Book Closer Report</a></li>
                              <li><a href="CompanyWiseSecuritiesTransaction.aspx">Company Wise Securites Transaction Report</a></li>
@@ -294,14 +295,6 @@
                          </ul>
                      </div>--%>
                  </li>
-
-
-
-
-                
-
-
-
                  <%
                      }
                      else

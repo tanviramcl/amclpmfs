@@ -58,8 +58,8 @@ public partial class UI_ReportViewer_SalePurchaseViewer : System.Web.UI.Page
             CRV_SalePurchaseSummary.DisplayToolbar = true;
             CRV_SalePurchaseSummary.HasExportButton = true;
             CRV_SalePurchaseSummary.HasPrintButton = true;
-            rdoc.SetParameterValue("prmHowlaDateFrom", howlaDateFrom);
-            rdoc.SetParameterValue("prmHowlaDateTo", howlaDateTo);
+            rdoc.SetParameterValue("prmFromDate", howlaDateFrom);
+            rdoc.SetParameterValue("prmToDate", howlaDateTo);
             rdoc = ReportFactory.GetReport(rdoc.GetType());
         }
         else
