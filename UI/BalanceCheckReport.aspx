@@ -15,7 +15,7 @@
     <table width="750" style="text-align: center" cellpadding="0" cellspacing="0" border="0">
         <tr>
             <td align="center" colspan="2">
-                <asp:Button ID="showButton" runat="server" Text="Show Report"
+                <asp:Button ID="showButton" runat="server" Text="Show Report" target="_blank"
                     CssClass="buttoncommon" TabIndex="5" OnClick="showButton_Click" />
             </td>
         </tr>

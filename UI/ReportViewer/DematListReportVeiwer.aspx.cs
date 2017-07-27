@@ -64,7 +64,7 @@ public partial class UI_ReportViewer_PortfolioWithNonListedReportViewer : System
             CRV_DematListReport.DisplayToolbar = true;
             CRV_DematListReport.HasExportButton = true;
             CRV_DematListReport.HasPrintButton = true;
-            rdoc.SetParameterValue("prmCompanyName", CompanyName);
+            rdoc.SetParameterValue("prmFromDate", CompanyName);
             rdoc.SetParameterValue("prmFundCode", fundcode);
             rdoc.SetParameterValue("prmcompanycode", companycode);
 
