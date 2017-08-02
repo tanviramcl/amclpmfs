@@ -171,6 +171,7 @@
                              <li><a href="PortfolioHowlaUpdate.aspx">Howla Update</a></li>
                              <li><a href="DateWiseTransaction.aspx">Date Wise Transaction</a></li>
                              <li><a href="BalanceUpdateProcess.aspx">Balance Update Process</a></li>
+                               <li><a href="AdvanceBalanceUpdateProcess.aspx">Advance Balance Update Process</a></li>
                              <li><a href="FinalProcessing.aspx">Final Processing</a></li>
                          </ul>
                          <ul>

@@ -166,7 +166,7 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
 
     private void ClearFields()
     {
-        companyCodeTextBox.Text = "";
+      //  companyCodeTextBox.Text = "";
         companyNameTextBox.Text = "";
         dsecodeTextBox.Text = "";
         TextBoxPaidUpCapital.Text = "";
@@ -194,6 +194,8 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
         RIssuefromTextBox.Text = "";
         RIssuetoTextBox.Text = "";
         merginTextBox.Text = "";
+        TextBoxAuthorizedcapital.Text = "";
+        productTextBox.Text = "";
     }
 
     public class CompanyInfo
