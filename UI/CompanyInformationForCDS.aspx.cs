@@ -247,7 +247,7 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
         string strUPQuery = "update comp set    instr_cd ='" + dsecodeTextBox.Text.ToString() + "',cseinstr_cd ='" + csecodeTextBox.Text.ToString() + "',cse_sid='" + cseScriptIdTextBox.Text.ToString() + "',trade_meth ='" + GROUPDropDownList.SelectedValue.ToString() + "',cds='" + IscdsTextBox.Text.ToString() + "' where comp_cd =" + companyCodeTextBox.Text.ToString() + "";
 
         int NumOfRows = commonGatewayObj.ExecuteNonQuery(strUPQuery);
-        // ClearFields();
+        ClearFields();
 
     }
     private void insertComp_CDS( string COMP_CD)

@@ -67,7 +67,44 @@ public partial class UI_ReportViewer_PortfolioWithNonListedReportViewer : System
         sbMst.Append(" and quarterend.comp_Cd=prevquarterend.comp_Cd ");
         dtReprtSource = commonGatewayObj.Select(sbMst.ToString());
 
-     
+        DataTable dtNonlistedSecritiesQuarterEnddate = new DataTable();
+        sbMst = new StringBuilder();
+        sbMst.Append("SELECT      INV_AMOUNT AS COST_PRICE, INV_AMOUNT AS MARKET_PRICE ");
+        sbMst.Append("FROM         NON_LISTED_SECURITIES ");
+        sbMst.Append("WHERE     (F_CD = " + fundCode + ") AND (INV_DATE = ");
+        sbMst.Append(" (SELECT     MAX(INV_DATE) AS EXPR1 ");
+        sbMst.Append("FROM          NON_LISTED_SECURITIES NON_LISTED_SECURITIES_1 ");
+        sbMst.Append("WHERE     (F_CD = " + fundCode + ") AND (INV_DATE <= '" + quaterEndDate + "'))) ");
+        dtNonlistedSecritiesQuarterEnddate = commonGatewayObj.Select(sbMst.ToString());
+
+        Decimal nonlistedCostPriceQuarterEnddate = 0;
+        Decimal nonlistedMarketPriceQuarterEnddate = 0;
+        if (dtNonlistedSecritiesQuarterEnddate.Rows.Count > 0)
+        {
+            nonlistedCostPriceQuarterEnddate = Convert.ToDecimal(dtNonlistedSecritiesQuarterEnddate.Rows[0][0]);
+            nonlistedMarketPriceQuarterEnddate = Convert.ToDecimal(dtNonlistedSecritiesQuarterEnddate.Rows[0][0]);
+        }
+
+        DataTable dtNonlistedSecritiesprevQuaterEndDate = new DataTable();
+        sbMst = new StringBuilder();
+        sbMst.Append("SELECT      INV_AMOUNT AS COST_PRICE, INV_AMOUNT AS MARKET_PRICE ");
+        sbMst.Append("FROM         NON_LISTED_SECURITIES ");
+        sbMst.Append("WHERE     (F_CD = " + fundCode + ") AND (INV_DATE = ");
+        sbMst.Append(" (SELECT     MAX(INV_DATE) AS EXPR1 ");
+        sbMst.Append("FROM          NON_LISTED_SECURITIES NON_LISTED_SECURITIES_1 ");
+        sbMst.Append("WHERE     (F_CD = " + fundCode + ") AND (INV_DATE <= '" + prevQuaterEndDate + "'))) ");
+        dtNonlistedSecritiesQuarterEnddate = commonGatewayObj.Select(sbMst.ToString());
+
+        Decimal nonlistedCostPriceprevQuaterEndDate = 0;
+        Decimal nonlistedMarketPriceprevQuaterEndDate = 0;
+        if (dtNonlistedSecritiesQuarterEnddate.Rows.Count > 0)
+        {
+            nonlistedCostPriceprevQuaterEndDate = Convert.ToDecimal(dtNonlistedSecritiesQuarterEnddate.Rows[0][0]);
+            nonlistedMarketPriceprevQuaterEndDate = Convert.ToDecimal(dtNonlistedSecritiesQuarterEnddate.Rows[0][0]);
+        }
+
+
+
         if (dtReprtSource.Rows.Count > 0)
         {
           
@@ -85,8 +122,10 @@ public partial class UI_ReportViewer_PortfolioWithNonListedReportViewer : System
             rdoc.SetParameterValue("prmbalDate", quaterEndDate);
             rdoc.SetParameterValue("prmbalDate2", prevQuaterEndDate);
             //rdoc.SetParameterValue("prmTotalInvest", totalInvest);
-            //rdoc.SetParameterValue("prmNonlistedCostPrice", nonlistedCostPrice);
-            //rdoc.SetParameterValue("prmNonlisteMarketPrice", nonlistedMarketPrice);
+            rdoc.SetParameterValue("prmNonlistedCostPriceQuarterEnddate", nonlistedCostPriceQuarterEnddate);
+            rdoc.SetParameterValue("prmNonlisteMarketPriceQuarterEnddate", nonlistedMarketPriceQuarterEnddate);
+            rdoc.SetParameterValue("prmNonlistedCostPriceprevQuaterEndDate", nonlistedCostPriceprevQuaterEndDate);
+            rdoc.SetParameterValue("prmNonlisteMarketPriceprevQuaterEndDate", nonlistedMarketPriceprevQuaterEndDate);
             rdoc = ReportFactory.GetReport(rdoc.GetType());
         }
         else
