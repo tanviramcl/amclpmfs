@@ -137,10 +137,7 @@
                 </td>
                 <td align="left">
                      <asp:TextBox ID="CDSStartDateTextBox" runat="server" Width="100px"></asp:TextBox>
-                   <%-- <asp:TextBox ID="CDSStartDateTextBox" runat="server" Width="100px"></asp:TextBox>
-                       <asp:ImageButton ID="CDSStartDateImageButton" runat="server"
-                        ImageUrl="~/Image/Calendar_scheduleHS.png" TabIndex="7" />
-                     <ajaxToolkit:CalendarExtender ID="CDSStartDateTextBoxCalendarExtender" runat="server" Format="dd-MMM-yyyy" PopupButtonID="CDSStartDateImageButton" TargetControlID="CDSStartDateTextBox"></ajaxToolkit:CalendarExtender>--%>
+
 
                 </td>
                   <td align="left">

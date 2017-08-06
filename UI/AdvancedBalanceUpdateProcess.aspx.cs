@@ -69,7 +69,7 @@ public partial class AdvancedBalanceUpdateProcess : System.Web.UI.Page
 
     public DataTable getTblAllFundInfo()
     {
-        string strQuery, strQLastBalDtFrFundControl, strBalanceDate, strLastBalDate, strLastUpadateDate, strMarketPriceDate, strLastUpadatePlusOneDate, strQForSellShares, strQForPurchaseShares, strQForMrktPrice;
+        string  strQLastBalDtFrFundControl, strBalanceDate, strLastBalDate, strLastUpadateDate, strMarketPriceDate, strLastUpadatePlusOneDate, strQForSellShares, strQForPurchaseShares, strQForMrktPrice;
         DateTime? dtimeBalanceDate, dtimeLastBalDate, dtimeLastUpadateDate, dtMarketPriceDate, dtimeLastUpadatePlusOneDate;
 
         string strtxtBalanceDate, strtxtLastUpadateDate, strtxtLastBalDate, txtMarketPriceDate, strtxtNoSaleRecord, strtxtNoOfSaleShare, strtxtNoPurchaseRecord, strtxtNoPurchaseShares;

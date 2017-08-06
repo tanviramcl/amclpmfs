@@ -57,7 +57,9 @@ public partial class UI_BalancechekReport : System.Web.UI.Page
         Session["companycode"] = companycode;
         Session["blncdate"] = blncdate;
         Session["CompanyName"] = companyNameDropDownList.SelectedItem.Text.ToString();
-        ClientScript.RegisterStartupScript(this.GetType(), "DematListReportVeiwer", "window.open('ReportViewer/DematListReportVeiwer.aspx')", true);
+        //  ClientScript.RegisterStartupScript(this.GetType(), "DematListReportVeiwer", "window.open('ReportViewer/DematListReportVeiwer.aspx')", true);
+
+        Response.Redirect("ReportViewer/DematListReportVeiwer.aspx");
     }
 
     public DataTable BalanceDateDropDownList()//Get Howla Date from invest.fund_trans_hb Table

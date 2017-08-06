@@ -70,7 +70,7 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
     }
     protected void fundNameDropDownList_SelectedIndexChanged(object sender, EventArgs e)
     {
-        string strQuery,strQLastBalDtFrFundControl, strBalanceDate, strLastBalDate, strLastUpadateDate, strLastUpadatePlusOneDate, strQForSellShares, strQForPurchaseShares, strQForMrktPrice;
+        string strQLastBalDtFrFundControl, strBalanceDate, strLastBalDate, strLastUpadateDate, strLastUpadatePlusOneDate, strQForSellShares, strQForPurchaseShares, strQForMrktPrice;
         DateTime?  dtimeBalanceDate, dtimeLastBalDate, dtimeLastUpadateDate, dtimeLastUpadatePlusOneDate;
 
        
