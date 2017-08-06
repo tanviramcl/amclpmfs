@@ -68,9 +68,9 @@
            <tr>
 
             <td align="center" colspan="4">
-                <div id="dvGridDSETradeInfo" runat="server" style="text-align: center; display: block; overflow: auto; height: 200px; width: 952px;"
+                <div id="dvGridDSETradeInfo" visible="false" runat="server" style="text-align: center; display: block; overflow: auto; height: 200px; width: 952px; "
                     dir="ltr">
-                    <asp:GridView ID="grdShowDSEMP" runat="server" AutoGenerateColumns="False"
+                    <asp:GridView ID="grdShowDSE" runat="server" AutoGenerateColumns="False"
                         BackColor="#000000"
                         BorderColor="#33D4FF" BorderStyle="None" BorderWidth="1px" CellPadding="3"
                         CellSpacing="2" Width="920px">
@@ -92,7 +92,35 @@
                     </asp:GridView>
                 </div>
             </td>
+           
         </tr>
+        <tr>
+              <td align="center" colspan="4">
+                <div id="dvGridCSETradeInfo" visible="false" runat="server" style="text-align: center; display: block; overflow: auto; height: 100px; width: 952px; "
+                    dir="ltr">
+                    <asp:GridView ID="grdShowCSE" runat="server" AutoGenerateColumns="False"
+                        BackColor="#000000"
+                        BorderColor="#2874A6" BorderStyle="None" BorderWidth="1px" CellPadding="3"
+                        CellSpacing="2" Width="920px">
+                        <FooterStyle BackColor="#2874A6" ForeColor="#000000" />
+                        <PagerStyle ForeColor="#2874A6" HorizontalAlign="Center" />
+                        <SelectedRowStyle BackColor="#2874A6" Font-Bold="True" ForeColor="White" />
+                        <HeaderStyle BackColor="#2874A6" Font-Bold="true" ForeColor="White" />
+                        <RowStyle BackColor="#2874A6" ForeColor="#0000" />
+                        <Columns>
+                            <asp:BoundField DataField="F_CD" HeaderText="Fund Code" />
+                            <asp:BoundField DataField="F_NAME" HeaderText="Fund Name" />
+                            <asp:BoundField DataField="Howla_Date_From" HeaderText="Howla Date From" />
+                            <asp:BoundField DataField="Howla_LastUpdated_Date" HeaderText="Howla LastUpdated Date" />
+                             <asp:BoundField DataField="Howla_Date_To" HeaderText="Howla Date To" />
+                             <asp:BoundField DataField="Stock_Exchange" HeaderText="Stock Exchange" />
+                  
+
+                        </Columns>
+                    </asp:GridView>
+                </div>
+            </td>
+         </tr>
         <tr>
                 <td align="right" style="font-weight: 700"><b>Voucher Number:</b></td>
             <td align="left" width="200px">
