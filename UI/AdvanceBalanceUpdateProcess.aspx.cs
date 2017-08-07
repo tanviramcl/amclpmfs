@@ -43,15 +43,6 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
     {
 
     }
-   
- 
-
-
-
-   
-
-   
-
 
     //  ClearFields();
 
@@ -181,7 +172,7 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
                     if (dtimeBalanceDate <= dtimeLastUpadateDate)
                     {
 
-                        txtLastUpadateDate = "01-JUL-2002";
+                        strLastUpadateDate = "01-JUL-2002";
                       //  ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Process will be started from July 2002.');", true);
                     }
 
@@ -275,7 +266,7 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
         string lastupdateddate = "01-JUL-2002";
         if (fundBalanceDate.Contains(lastupdateddate.ToString()))
         {
-             ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Process will be started from July 2002.');", true);
+            ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Process will be started from July 2002.');", true);
         }
 
       
@@ -333,7 +324,17 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
             {
 
                 temp = adv_proc1(strLastUpadatePlusOneDate, strBalanceDate, tblAllfundInfo.Rows[i]["F_CD"].ToString());
-                
+
+                if (temp.Trim() == "Processing Completed")
+                {
+                    lblProcessing.Text = "Processing completed!!!!";
+                    // ClearFields();
+                }
+                else
+                {
+                    lblProcessing.Text = "No data found!!!!";
+                    //  ClearFields();
+                }
             }
             else
             {
@@ -346,20 +347,22 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
                 commonGatewayObj.CommitTransaction();
 
                 temp = adv_proc1(strLastUpadatePlusOneDate, strBalanceDate, tblAllfundInfo.Rows[i]["F_CD"].ToString());
-               
+                if (temp.Trim() == "Processing Completed")
+                {
+                    lblProcessing.Text = "Processing completed!!!!";
+                    // ClearFields();
+                }
+                else
+                {
+                    lblProcessing.Text = "No data found!!!!";
+                    //  ClearFields();
+                }
+
+
             }
 
 
-            if (temp.Trim() == "Processing Completed")
-            {
-                lblProcessing.Text = "Processing completed!!!!";
-                // ClearFields();
-            }
-            else
-            {
-                lblProcessing.Text = "No data found!!!!";
-                //  ClearFields();
-            }
+           
 
 
             string strCompnayTransdate = "select a.comp_cd, max(a.tran_date) tran_date from market_price a, fund_folio_hb b where a.comp_cd = b.comp_cd and b.f_cd =" + tblAllfundInfo.Rows[i]["F_CD"].ToString() + " and a.tran_date <= '" + strBalanceDate + "' group by a.comp_cd order by a.comp_cd";
@@ -407,7 +410,17 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
             int updatefund_controlNumOfRows = commonGatewayObj.ExecuteNonQuery(strupdateQueryfund_control);
 
 
-
+            // Response.Redirect("testjquery.aspx");
+            if (temp.Trim() == "Processing Completed")
+            {
+                lblProcessing.Text = "Processing completed!!!!";
+                // ClearFields();
+            }
+            else
+            {
+                lblProcessing.Text = "No data found!!!!";
+                //  ClearFields();
+            }
 
         }
 
@@ -669,6 +682,10 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
 
 
     }
+
+
+
+
     public class CompanayTransdate
     {
         public string COMP_CD { get; set; }

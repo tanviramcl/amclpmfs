@@ -59,11 +59,11 @@
     <table width="1100" cellpadding="0" cellspacing="0" border="0">
     </table>
     <table>
-        <colgroup width="200"></colgroup>
+       <%-- <colgroup width="200"></colgroup>
         <colgroup width="220"></colgroup>
-        <colgroup width="150"></colgroup>
+        <colgroup width="150"></colgroup>--%>
         <tr>
-            <td align="center" colspan="4" class="style8">Advance Balance Update Process  
+            <td align="center" colspan="10" class="style8"> Advance Balance Update Process  
             </td>
         </tr>
 
@@ -94,7 +94,7 @@
                             <br />
 
 
-                              <asp:Button ID="btnProcess" runat="server"  Text="Process" 
+                              <asp:Button ID="btnProcess"  colspan="1" runat="server"  Text="Process" 
                                 CssClass="processBtn"  OnClick="btnProcess_Click" />
 
                         </ContentTemplate>
