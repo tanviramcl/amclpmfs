@@ -63,7 +63,7 @@
         <colgroup width="220"></colgroup>
         <colgroup width="150"></colgroup>--%>
         <tr>
-            <td align="center" colspan="10" class="style8"> Advance Balance Update Process  
+            <td align="center" colspan="10" class="style8"> Advanced Balance Update Process  
             </td>
         </tr>
 
