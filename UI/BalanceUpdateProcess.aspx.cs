@@ -71,7 +71,7 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
     protected void fundNameDropDownList_SelectedIndexChanged(object sender, EventArgs e)
     {
         string strQuery,strQLastBalDtFrFundControl, strBalanceDate, strLastBalDate, strLastUpadateDate, strLastUpadatePlusOneDate, strQForSellShares, strQForPurchaseShares, strQForMrktPrice;
-        DateTime? dtimeBalanceDate, dtimeLastBalDate, dtimeLastUpadateDate, dtimeLastUpadatePlusOneDate;
+        DateTime?  dtimeBalanceDate, dtimeLastBalDate, dtimeLastUpadateDate, dtimeLastUpadatePlusOneDate;
 
        
         DataTable dtFromDual = new DataTable();
@@ -90,16 +90,25 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
          */
         try
         {
-            strQuery = "SELECT TO_CHAR(SYSDATE, 'DD-MON-YYYY')currentDate FROM dual";
-            dtFromDual = commonGatewayObj.Select(strQuery);
-            if (dtFromDual.Rows.Count > 0)
+            //strQuery = "SELECT TO_CHAR(SYSDATE, 'DD-MON-YYYY')currentDate FROM dual";
+            //dtFromDual = commonGatewayObj.Select(strQuery);
+            //if (dtFromDual.Rows.Count > 0)
+            //{
+
+            //    txtBalanceDate.Text = dtFromDual.Rows[0]["currentDate"].ToString();
+
+            //}
+
+            DateTime dtimeCurrentDate = DateTime.Now;
+
+            string currentDate = Convert.ToDateTime(dtimeCurrentDate).ToString("dd-MMM-yyyy");
+
+            if (!string.IsNullOrEmpty(currentDate))
             {
-
-                txtBalanceDate.Text = dtFromDual.Rows[0]["currentDate"].ToString();
-
+                txtBalanceDate.Text= currentDate;
             }
 
-            strQLastBalDtFrFundControl = "select TO_CHAR(bal_dt,'DD-MON-YYYY')lst_bal_dt from fund_control where f_cd =" + fundNameDropDownList.SelectedValue.ToString();
+                strQLastBalDtFrFundControl = "select TO_CHAR(bal_dt,'DD-MON-YYYY')lst_bal_dt from fund_control where f_cd =" + fundNameDropDownList.SelectedValue.ToString();
 
             dtFromFundControl = commonGatewayObj.Select(strQLastBalDtFrFundControl);
             if (dtFromFundControl!=null && dtFromFundControl.Rows.Count > 0)

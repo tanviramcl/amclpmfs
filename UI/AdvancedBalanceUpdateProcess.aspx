@@ -2,6 +2,7 @@
 
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
+    <link href="../CSS/vendor/bootstrap.min.css" rel="stylesheet" />
     <style type="text/css">
         label.error {
             color: red;
@@ -59,18 +60,13 @@
     <table width="1100" cellpadding="0" cellspacing="0" border="0">
     </table>
     <table>
-        <colgroup width="200"></colgroup>
-        <colgroup width="220"></colgroup>
-        <colgroup width="150"></colgroup>
+        
         <tr>
-            <td align="center" colspan="4" class="style8">Advance Balance Update Process  
+            <td align="center" colspan="4" class="style8">Advanced Balance Update Process  
             </td>
         </tr>
 
-        <tr>
-            <td colspan="4" align="left">&nbsp;&nbsp;</td>
-        </tr>
-
+    
        
 
 
@@ -104,6 +100,48 @@
 
         </tr>
     </table>
+          <table class="table table-hover" id="bootstrap-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Fund Name</th>
+                        <th>Balance Date</th>
+                        <th>Last Upadate Date</th>
+                      
+                    </tr>
+                </thead>
+                <tbody>
+                    <%
 
+                        System.Data.DataTable dtGetAllFundTransHb = (System.Data.DataTable)Session["tblAllfundInfo"];
+                        if (dtGetAllFundTransHb.Rows.Count > 0)
+                        {
+                            for (int i = 0; i < dtGetAllFundTransHb.Rows.Count; i++)
+                            {
+                    %>
+                    <tr>
+                        <td><%   Response.Write(dtGetAllFundTransHb.Rows[i]["F_CD"].ToString());   %> </td>
+                        <td><%   Response.Write(dtGetAllFundTransHb.Rows[i]["F_NAME"].ToString());   %> </td>
+                         <td><%   Response.Write(dtGetAllFundTransHb.Rows[i]["BalanceDate"].ToString());   %> </td>
+                         <td><%   Response.Write(dtGetAllFundTransHb.Rows[i]["LastUpadateDate"].ToString());   %> </td>
+                     
+                        
+                    </tr>
+                    <%
+
+                            }
+                        }
+
+                    %>
+                </tbody>
+            </table>
+            
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#bootstrap-table').bdt({
+                "lengthMenu": [[5, -1], [5, "All"]]
+            });
+        });
+    </script>
 </asp:Content>
 
