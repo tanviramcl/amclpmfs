@@ -35,16 +35,17 @@ public partial class AdvancedBalanceUpdateProcess : System.Web.UI.Page
         }
 
         lblProcessing.Text = "";
-     
+        DataTable tblAllfundInfo = getTblAllFundInfo();
+
+        Session["tblAllfundInfo"] = getTblAllFundInfo();
+
+        DataTable dtGetAllFundTransHb = (DataTable)Session["tblAllfundInfo"];
+
+
 
     }
+
     
-    protected void ImageButton1_Click(object sender, ImageClickEventArgs e)
-    {
-
-    }
-   
-
     //  ClearFields();
 
     /*
@@ -53,6 +54,22 @@ public partial class AdvancedBalanceUpdateProcess : System.Web.UI.Page
      */
 
     protected void btnProcess_Click(object sender, EventArgs e)
+    {
+
+        DataTable tblAllfundInfo = getTblAllFundInfo();
+
+        if (tblAllfundInfo.Rows.Count > 0)
+        {
+            Save(tblAllfundInfo);
+        }
+        else
+        {
+            Response.Write("No Data Found");
+        }
+    }
+
+
+    public DataTable getTblAllFundInfo()
     {
         string strQuery, strQLastBalDtFrFundControl, strBalanceDate, strLastBalDate, strLastUpadateDate, strMarketPriceDate, strLastUpadatePlusOneDate, strQForSellShares, strQForPurchaseShares, strQForMrktPrice;
         DateTime? dtimeBalanceDate, dtimeLastBalDate, dtimeLastUpadateDate, dtMarketPriceDate, dtimeLastUpadatePlusOneDate;
@@ -66,7 +83,7 @@ public partial class AdvancedBalanceUpdateProcess : System.Web.UI.Page
         lblProcessing.Text = "";
 
 
-       
+
 
         DataTable dtFundNameDropDownList = FundNameDropDownList();
 
@@ -89,14 +106,27 @@ public partial class AdvancedBalanceUpdateProcess : System.Web.UI.Page
             //lblProcessingRelatedMessage.Visible = true;
             //lblProcessingRelatedMessage.Text = "process is running!!!!";
 
-            strQuery = "SELECT TO_CHAR(SYSDATE, 'DD-MON-YYYY')currentDate FROM dual";
-            dtFromDual = commonGatewayObj.Select(strQuery);
-            strtxtBalanceDate = dtFromDual.Rows[0]["currentDate"].ToString();
+            //strQuery = "SELECT TO_CHAR(SYSDATE, 'DD-MON-YYYY')currentDate FROM dual";
+            //dtFromDual = commonGatewayObj.Select(strQuery);
+            //strtxtBalanceDate = dtFromDual.Rows[0]["currentDate"].ToString();
+
+            DateTime dtimeCurrentDate = DateTime.Now;
+
+            string currentDate = Convert.ToDateTime(dtimeCurrentDate).ToString("dd-MMM-yyyy");
+
+            if (!string.IsNullOrEmpty(currentDate))
+            {
+                strtxtBalanceDate = currentDate;
+            }
+            else
+            {
+                strtxtBalanceDate = "";
+            }
 
             for (int i = 0; i < dtFundNameDropDownList.Rows.Count; i++)
             {
-                if (dtFromDual.Rows.Count > 0)
-                {
+                //if (dtFromDual.Rows.Count > 0)
+                //{
                     strQLastBalDtFrFundControl = "select TO_CHAR(bal_dt,'DD-MON-YYYY')lst_bal_dt from fund_control where f_cd =" + dtFundNameDropDownList.Rows[i]["F_CD"].ToString();
 
                     dtFromFundControl = commonGatewayObj.Select(strQLastBalDtFrFundControl);
@@ -154,7 +184,7 @@ public partial class AdvancedBalanceUpdateProcess : System.Web.UI.Page
                         strLastUpadatePlusOneDate = "";
                     }
 
-                   
+
 
                     strQForMrktPrice = "select TO_CHAR(max(Tran_date),'DD-MON-YYYY')mp_dt from market_price where tran_date <='" + strBalanceDate + "'";
 
@@ -174,7 +204,7 @@ public partial class AdvancedBalanceUpdateProcess : System.Web.UI.Page
                     {
 
                         strtxtLastUpadateDate = "01-JUL-2002";
-                      //  ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Process will be started from July 2002.');", true);
+                        //  ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Process will be started from July 2002.');", true);
                     }
 
 
@@ -210,7 +240,7 @@ public partial class AdvancedBalanceUpdateProcess : System.Web.UI.Page
                     }
 
 
-                    strQForPurchaseShares = "select  count(*)NoPurchaseRecord,sum(no_share)NoPurchaseShares from fund_trans_hb where f_cd =" + dtFundNameDropDownList.Rows[i]["F_CD"].ToString() +
+                     strQForPurchaseShares = "select  count(*)NoPurchaseRecord,sum(no_share)NoPurchaseShares from fund_trans_hb where f_cd =" + dtFundNameDropDownList.Rows[i]["F_CD"].ToString() +
                 " and tran_tp = 'C' and vch_dt between '" + strLastUpadatePlusOneDate + "' and '" + strBalanceDate + "'";
 
                     dtFromFundTrHBForBuy = commonGatewayObj.Select(strQForPurchaseShares);
@@ -230,20 +260,16 @@ public partial class AdvancedBalanceUpdateProcess : System.Web.UI.Page
 
                     tblAllfundInfo.Rows.Add(Convert.ToInt32(dtFundNameDropDownList.Rows[i]["F_CD"].ToString()), dtFundNameDropDownList.Rows[i]["F_NAME"].ToString(), strBalanceDate, strLastUpadateDate, strLastBalDate, strMarketPriceDate, strtxtNoSaleRecord, strtxtNoOfSaleShare, strtxtNoPurchaseRecord, strtxtNoPurchaseShares);
 
-                  
+
 
                 }
-               
-            }
 
-
-            Save(tblAllfundInfo);
-
-
+            //}
 
         }
+        return tblAllfundInfo;
     }
-
+    
 
     public void Save(DataTable dt)
     {
@@ -342,18 +368,6 @@ public partial class AdvancedBalanceUpdateProcess : System.Web.UI.Page
             }
 
 
-            if (temp.Trim() == "Processing Completed")
-            {
-                lblProcessing.Text = "Processing completed!!!!";
-                // ClearFields();
-            }
-            else
-            {
-                lblProcessing.Text = "No data found!!!!";
-                //  ClearFields();
-            }
-
-
             string strCompnayTransdate = "select a.comp_cd, max(a.tran_date) tran_date from market_price a, fund_folio_hb b where a.comp_cd = b.comp_cd and b.f_cd =" + tblAllfundInfo.Rows[i]["F_CD"].ToString() + " and a.tran_date <= '" + strBalanceDate + "' group by a.comp_cd order by a.comp_cd";
 
             dtSource = commonGatewayObj.Select(strCompnayTransdate);
@@ -399,6 +413,16 @@ public partial class AdvancedBalanceUpdateProcess : System.Web.UI.Page
             int updatefund_controlNumOfRows = commonGatewayObj.ExecuteNonQuery(strupdateQueryfund_control);
 
 
+            if (temp.Trim() == "Processing Completed")
+            {
+                lblProcessing.Text = "Processing completed!!!!";
+                // ClearFields();
+            }
+            else
+            {
+                lblProcessing.Text = "No data found!!!!";
+                //  ClearFields();
+            }
 
 
         }

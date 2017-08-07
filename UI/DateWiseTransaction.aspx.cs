@@ -100,13 +100,21 @@ public partial class DateWiseTransaction : System.Web.UI.Page
                 txtLastHowlaDate.Text = dt.Rows[0]["last_tr_dt"].ToString();
 
 
-                strQuery = "SELECT TO_CHAR(SYSDATE, 'DD-MON-YYYY')currentDate FROM dual";
-                dt = commonGatewayObj.Select(strQuery);
-                if (dt.Rows.Count > 0)
+                //strQuery = "SELECT TO_CHAR(SYSDATE, 'DD-MON-YYYY')currentDate FROM dual";
+                //dt = commonGatewayObj.Select(strQuery);
+                //if (dt.Rows.Count > 0)
+                //{
+
+                //    txtHowlaDateTo.Text = dt.Rows[0]["currentDate"].ToString();
+
+                //}
+                DateTime dtimeCurrentDate = DateTime.Now;
+
+                string currentDate = Convert.ToDateTime(dtimeCurrentDate).ToString("dd-MMM-yyyy");
+
+                if (!string.IsNullOrEmpty(currentDate))
                 {
-
-                    txtHowlaDateTo.Text = dt.Rows[0]["currentDate"].ToString();
-
+                    txtHowlaDateTo.Text = currentDate;
                 }
 
             }
@@ -573,21 +581,21 @@ public partial class DateWiseTransaction : System.Web.UI.Page
                     //...................for bond.............update fundtrans_hb........................
 
 
-                    DataTable dtcurrentDate, dtSourcefundtranshbbybond;
+                    DataTable  dtSourcefundtranshbbybond;
                     string currentdate , strUPdQueryforBond;
-                    string strQuerycurrentdate = "SELECT TO_CHAR(SYSDATE, 'DD-MON-YYYY')currentDate FROM dual";
-                    dtcurrentDate = commonGatewayObj.Select(strQuerycurrentdate);
-                    if (dtcurrentDate.Rows.Count > 0)
+                    
+                    DateTime dtimeCurrentDate = DateTime.Now;
+
+               
+
+                    if (!string.IsNullOrEmpty(dtimeCurrentDate.ToString()))
                     {
-
-                        currentdate = dtcurrentDate.Rows[0]["currentDate"].ToString();
-
+                        currentdate = Convert.ToDateTime(dtimeCurrentDate).ToString("dd-MMM-yyyy"); 
                     }
                     else
                     {
                         currentdate = "";
                     }
-
 
                     string strCompnaybond = "SELECT  VCH_DT, F_CD, COMP_CD, TRAN_TP, VCH_NO, NO_SHARE, RATE, COST_RATE, CRT_AFT_COM,AMOUNT, AMT_AFT_COM, STOCK_EX,OP_NAME FROM FUND_TRANS_HB where comp_cd in(950,954) and VCH_DT='" + currentdate + "'";
                     dtSourcefundtranshbbybond = commonGatewayObj.Select(strCompnaybond);
