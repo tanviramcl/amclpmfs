@@ -2,7 +2,6 @@
 
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
-    <link href="../CSS/vendor/bootstrap.min.css" rel="stylesheet" />
     <style type="text/css">
         label.error {
             color: red;
@@ -66,13 +65,35 @@
             </td>
         </tr>
 
-    
+      <tr>
        
-
+        <td align="center" colspan="4" >
+            <div id="dvGridDSETradeInfo" runat="server"  style="text-align: center; display: block; overflow: auto;height:200px; width: 952px;" 
+                                dir="ltr">
+                                <asp:GridView ID="grdShowDSEMP" runat="server" AutoGenerateColumns="False" 
+                                    BackColor="#000000" 
+                                    BorderColor="#33D4FF" BorderStyle="None" BorderWidth="1px" CellPadding="3" 
+                                    CellSpacing="2" Width="920px" >
+                                    <FooterStyle BackColor="#33D4FF" ForeColor="#000000" />
+                                    <PagerStyle ForeColor="#33D4FF" HorizontalAlign="Center" />
+                                    <SelectedRowStyle BackColor="#33D4FF" Font-Bold="True" ForeColor="White" />
+                                <HeaderStyle BackColor="#33D4FF" Font-Bold="true" ForeColor="White" />
+                                    <RowStyle BackColor="#33D4FF" ForeColor="#0000" />
+                                <Columns>
+                                <asp:BoundField DataField="F_CD" HeaderText="Fund Code"  />
+                                <asp:BoundField DataField="F_NAME" HeaderText="Fund Name" />
+                                <asp:BoundField DataField="BalanceDate" HeaderText="Balance Date" />
+                                 <asp:BoundField DataField="LastUpadateDate" HeaderText="Last Upadate Date" />
+                                                                                                                       
+                                </Columns>
+                                </asp:GridView>
+                            </div>
+         </td>
+          </tr>
 
         <tr>
-            <td align="right">&nbsp;</td>
-            <td align="left">
+            <td align="center">&nbsp;</td>
+            <td align="center">
                 <div>
 
                     <asp:UpdateProgress ID="updProgress"
@@ -100,48 +121,6 @@
 
         </tr>
     </table>
-          <table class="table table-hover" id="bootstrap-table">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Fund Name</th>
-                        <th>Balance Date</th>
-                        <th>Last Upadate Date</th>
-                      
-                    </tr>
-                </thead>
-                <tbody>
-                    <%
-
-                        System.Data.DataTable dtGetAllFundTransHb = (System.Data.DataTable)Session["tblAllfundInfo"];
-                        if (dtGetAllFundTransHb.Rows.Count > 0)
-                        {
-                            for (int i = 0; i < dtGetAllFundTransHb.Rows.Count; i++)
-                            {
-                    %>
-                    <tr>
-                        <td><%   Response.Write(dtGetAllFundTransHb.Rows[i]["F_CD"].ToString());   %> </td>
-                        <td><%   Response.Write(dtGetAllFundTransHb.Rows[i]["F_NAME"].ToString());   %> </td>
-                         <td><%   Response.Write(dtGetAllFundTransHb.Rows[i]["BalanceDate"].ToString());   %> </td>
-                         <td><%   Response.Write(dtGetAllFundTransHb.Rows[i]["LastUpadateDate"].ToString());   %> </td>
-                     
-                        
-                    </tr>
-                    <%
-
-                            }
-                        }
-
-                    %>
-                </tbody>
-            </table>
-            
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('#bootstrap-table').bdt({
-                "lengthMenu": [[5, -1], [5, "All"]]
-            });
-        });
-    </script>
+ 
 </asp:Content>
 

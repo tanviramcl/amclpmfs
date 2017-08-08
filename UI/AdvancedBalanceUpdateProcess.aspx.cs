@@ -36,10 +36,8 @@ public partial class AdvancedBalanceUpdateProcess : System.Web.UI.Page
 
         lblProcessing.Text = "";
         DataTable tblAllfundInfo = getTblAllFundInfo();
-
-        Session["tblAllfundInfo"] = getTblAllFundInfo();
-
-        DataTable dtGetAllFundTransHb = (DataTable)Session["tblAllfundInfo"];
+        grdShowDSEMP.DataSource = tblAllfundInfo;
+        grdShowDSEMP.DataBind();
 
 
 
