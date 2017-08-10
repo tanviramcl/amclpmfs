@@ -174,8 +174,9 @@ public partial class DateWiseTransaction : System.Web.UI.Page
             if ((dtimeHowlaDateFrom < dtimeLastHowlaDate) || (dtimeHowlaDateTo <= dtimeLastHowlaDate))
             {
                 // message('This Trading Date is already allocated. ' || to_char(:div_rec.sp_dt_fm));
-                ClearFields();
-                ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('This Trading Date is already allocated.');", true);
+                // ClearFields();
+                // ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('This Trading Date is already allocated.');", true);
+                lblProcessing.Text = "This Trading Date is already allocated !!";
             }
 
             else

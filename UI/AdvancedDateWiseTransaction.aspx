@@ -1,20 +1,21 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/UI/AMCLCommon.master" AutoEventWireup="true" CodeFile="AdvancedBalanceUpdateProcess.aspx.cs" Inherits="AdvancedBalanceUpdateProcess" Title="IAMCL Advanced Balance Update Process  " %>
-
+﻿<%@ Page Language="C#" MasterPageFile="~/UI/AMCLCommon.master" AutoEventWireup="true" CodeFile="AdvancedDateWiseTransaction.aspx.cs" Inherits="DateWiseTransaction" Title="IAMCL Portfolio Market Price Update  (Design and Developed by Sakhawat)" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
-<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
-    <style type="text/css">
-        label.error {
-            color: red;
-            display: inline-flex;
-        }
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    <style type ="text/css" >  
+        label.error {             
+            color: red;   
+            display:inline-flex ;                 
+        }  
     </style>
-    <style type="text/css">
-        .style6 {
+ 
+   <style type="text/css">
+        .style6
+        {
             font-family: "Times New Roman";
             font-weight: bold;
         }
-
-        .style8 {
+        .style8
+        {
             font-family: Verdana, Arial, Helvetica, sans-serif;
             font-size: 17px;
             color: #08559D;
@@ -24,13 +25,12 @@
             /*padding-right: 5;
             padding-bottom: 3;*/
             height: 21px;
-        }
-
-        .style11 {
-            height: 18px;
-        }
-
-        .processBtn {
+        }  
+       .style11
+       {
+           height: 18px;
+       }
+       .processBtn {
             BORDER-TOP: #CCCCCC 1px solid;
             BORDER-BOTTOM: #000000 1px solid;
             BORDER-LEFT: #CCCCCC 1px solid;
@@ -45,25 +45,27 @@
             border-radius: 25px;
         }
     </style>
-
+ 
 
 </asp:Content>
 
-<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
-
-    <ajaxToolkit:ToolkitScriptManager runat="Server" EnableScriptGlobalization="true" AsyncPostBackTimeout="4000"
-        EnableScriptLocalization="true" ID="ScriptManager1" />
-
-    <table width="1100" cellpadding="0" cellspacing="0" border="0">
-    </table>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">  
+   
+      <ajaxToolkit:ToolkitScriptManager runat="Server" EnableScriptGlobalization="true"
+        EnableScriptLocalization="true" ID="ScriptManager1" />    
+    
+        <table width="1100" cellpadding="0" cellspacing="0" border="0" >
+            </table>
     <table>
-
+              <colgroup width="200"></colgroup>
+              <colgroup width="220"></colgroup>
+              <colgroup width="150"></colgroup>
         <tr>
-            <td align="center" colspan="4" class="style8">Advanced Balance Update Process  
+            <td align="center" colspan="4" class="style8" >
+               Advanced Date Wise Transaction&nbsp; (DSE/CSE)&nbsp;  
             </td>
         </tr>
-
-        <tr>
+           <tr>
 
             <td align="center" colspan="4">
                 <div id="dvGridDSETradeInfo" runat="server" style="text-align: center; display: block; overflow: auto; height: 200px; width: 952px;"
@@ -80,18 +82,29 @@
                         <Columns>
                             <asp:BoundField DataField="F_CD" HeaderText="Fund Code" />
                             <asp:BoundField DataField="F_NAME" HeaderText="Fund Name" />
-                            <asp:BoundField DataField="BalanceDate" HeaderText="Balance Date" />
-                            <asp:BoundField DataField="LastUpadateDate" HeaderText="Last Upadate Date" />
+                            <asp:BoundField DataField="Howla_Date_From" HeaderText="Howla Date From" />
+                            <asp:BoundField DataField="Howla_LastUpdated_Date" HeaderText="Howla LastUpdated Date" />
+                             <asp:BoundField DataField="Howla_Date_To" HeaderText="Howla Date To" />
+                             <asp:BoundField DataField="Stock_Exchange" HeaderText="Stock Exchange" />
+                  
 
                         </Columns>
                     </asp:GridView>
                 </div>
             </td>
         </tr>
-
         <tr>
-            <td align="center">&nbsp;</td>
-            <td align="center">
+                <td align="right" style="font-weight: 700"><b>Voucher Number:</b></td>
+            <td align="left" width="200px">
+                <asp:TextBox ID="txtVoucherNumber" runat="server" style="width:195px;"
+            CssClass="textInputStyle" TabIndex="7" AutoPostBack="false" 
+            ></asp:TextBox>
+            </td>
+            </tr>  
+       
+        <tr>
+            <td align="right">&nbsp;</td>
+            <td align="left">
                 <div>
 
                     <asp:UpdateProgress ID="updProgress"
@@ -108,17 +121,19 @@
                             <asp:Label ID="lblProcessing" runat="server" Text="" Style="font-size: 24px; color: green;"></asp:Label>
                             <br />
 
-
-                            <asp:Button ID="btnProcess" runat="server" Text="Process"
-                                CssClass="processBtn" OnClick="btnProcess_Click" />
-
+                          
+                            <asp:Button ID="btnProcess" runat="server" Text="Process" 
+                               CssClass="processBtn" OnClick="btnProcess_Click" 
+                             />
                         </ContentTemplate>
                     </asp:UpdatePanel>
                 </div>
             </td>
 
         </tr>
-    </table>
-
-</asp:Content>
+        </table>   
+    
+   
+                  
+ </asp:Content>
 
