@@ -37,12 +37,12 @@ public partial class DateWiseTransaction : System.Web.UI.Page
 
         lblProcessing.Text = "";
 
-        DataTable tblAllfundInfo = getTblAllFundFromHowlaInfo();
+         DataTable tblAllfundInforDSE = getTblAllFundFromHowlaInfo();
         DataTable tblAllfundInfoCSE = getTblAllFundFromHowla_CSEInfo();
-        List<TblFundInfo> tblAllfundInfolist = new List<TblFundInfo>();
-       
+        List<TblFundInfo> tblAllfundInfolistDSE = new List<TblFundInfo>();
 
-            tblAllfundInfolist = (from DataRow dr in tblAllfundInfo.Rows
+
+        tblAllfundInfolistDSE = (from DataRow dr in tblAllfundInforDSE.Rows
                                select new TblFundInfo()
                                {
                                    // COMP_CD = dr["COMP_CD"].ToString(),
@@ -54,11 +54,11 @@ public partial class DateWiseTransaction : System.Web.UI.Page
                                    Stock_Exchange = dr["Stock_Exchange"].ToString(),
 
                                }).ToList();
-        if (tblAllfundInfolist.Count > 0)
+        if (tblAllfundInfolistDSE.Count > 0)
         {
 
             dvGridDSETradeInfo.Visible = true;
-            var dtFundinfolist= tblAllfundInfolist.OrderByDescending(fund => fund.Stock_Exchange).ToList();
+            var dtFundinfolist= tblAllfundInfolistDSE.OrderByDescending(fund => fund.Stock_Exchange).ToList();
             grdShowDSE.DataSource = dtFundinfolist;
             grdShowDSE.DataBind();
         }
@@ -99,20 +99,73 @@ public partial class DateWiseTransaction : System.Web.UI.Page
 
     protected void btnProcess_Click(object sender, EventArgs e)
     {
-        DataTable tblAllfundInfo = getTblAllFundInfo();
-        if (tblAllfundInfo.Rows.Count > 0)
+        //DataTable tblAllfundInfo = getTblAllFundInfo();
+        string strProcessing;
+        DataTable tblAllfundInforDSE = getTblAllFundFromHowlaInfo();
+        DataTable tblAllfundInfoCSE = getTblAllFundFromHowla_CSEInfo();
+
+        if (tblAllfundInforDSE != null && tblAllfundInforDSE.Rows.Count > 0)
         {
-          Save(tblAllfundInfo);
+            Save(tblAllfundInforDSE);
+        }
+        else if (tblAllfundInfoCSE != null && tblAllfundInfoCSE.Rows.Count > 0)
+        {
+            Save(tblAllfundInfoCSE);
         }
         else
         {
-            Response.Write("No Data Found");
+
+            strProcessing = "No data found!!!!";
+
+            if (!string.IsNullOrEmpty(strProcessing))
+            {
+                lblProcessing.Text = strProcessing;
+            }
+            else
+            {
+                lblProcessing.Text = "";
+            }
+            // ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('No data found!');", true);
         }
     }
 
+    //public DataTable FundNameDropDownList()//For All Funds
+    //{
+    //    DataTable dtFundName = commonGatewayObj.Select("SELECT F_NAME, F_CD FROM FUND WHERE IS_F_CLOSE IS NULL AND BOID IS NOT NULL ORDER BY F_CD");
+    //    DataTable dtFundNameDropDownList = new DataTable();
+    //    dtFundNameDropDownList.Columns.Add("F_NAME", typeof(string));
+    //    dtFundNameDropDownList.Columns.Add("F_CD", typeof(string));
+    //    DataRow dr = dtFundNameDropDownList.NewRow();
+
+    //    for (int loop = 0; loop < dtFundName.Rows.Count; loop++)
+    //    {
+    //        dr = dtFundNameDropDownList.NewRow();
+    //        dr["F_NAME"] = dtFundName.Rows[loop]["F_NAME"].ToString();
+    //        dr["F_CD"] = Convert.ToInt32(dtFundName.Rows[loop]["F_CD"]);
+    //        dtFundNameDropDownList.Rows.Add(dr);
+    //    }
+    //    return dtFundNameDropDownList;
+    //}
+
     public DataTable FundNameDropDownList()//For All Funds
     {
-        DataTable dtFundName = commonGatewayObj.Select("SELECT F_NAME, F_CD FROM FUND WHERE IS_F_CLOSE IS NULL AND BOID IS NOT NULL ORDER BY F_CD");
+        string currentdate;
+
+        DateTime dtimeCurrentDate = DateTime.Now;
+
+
+
+        if (!string.IsNullOrEmpty(dtimeCurrentDate.ToString()))
+        {
+            currentdate = Convert.ToDateTime(dtimeCurrentDate).ToString("dd-MMM-yyyy");
+        }
+        else
+        {
+            currentdate = "";
+        }
+
+
+        DataTable dtFundName = commonGatewayObj.Select("select tab1.F_CD,f.F_NAME from (SELECT distinct(F_CD) FROM HOWLA where sp_date = '" + currentdate + "') tab1 inner join Fund f on tab1.F_CD = f.F_cd order by F_CD asc");
         DataTable dtFundNameDropDownList = new DataTable();
         dtFundNameDropDownList.Columns.Add("F_NAME", typeof(string));
         dtFundNameDropDownList.Columns.Add("F_CD", typeof(string));
@@ -611,7 +664,7 @@ public partial class DateWiseTransaction : System.Web.UI.Page
                     DataTable dtFromHowla = new DataTable();
                     DataTable dtFromFundTrans = new DataTable();
 
-                    if (tblAllfundInfo.Rows[l]["Stock_Exchange"].ToString() == "D")   // For DSE
+                    if (tblAllfundInfo.Rows[l]["Stock_Exchange"].ToString() == "DSE")   // For DSE
                     {
 
                         strSleFromHowlaQuery = "select TO_CHAR(sp_date,'DD-MON-YYYY')sp_date, f_cd, comp_cd, in_out, sum(sp_qty)qty, substr(bk_cd, 1, 1) brk," +
@@ -620,7 +673,7 @@ public partial class DateWiseTransaction : System.Web.UI.Page
                         dtFromHowla = commonGatewayObj.Select(strSleFromHowlaQuery);
                     }
 
-                    else if (tblAllfundInfo.Rows[l]["Stock_Exchange"].ToString() == "C")  // For CSE
+                    else if (tblAllfundInfo.Rows[l]["Stock_Exchange"].ToString() == "CSE")  // For CSE
                     {
 
                         strSleFromHowlaQuery = "select TO_CHAR(sp_date,'DD-MON-YYYY')sp_date, f_cd, comp_cd, in_out, sum(sp_qty)qty, substr(bk_cd, 1, 1) brk," +
@@ -1059,21 +1112,7 @@ public partial class DateWiseTransaction : System.Web.UI.Page
                         }
                         // ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Process completed!');", true);
                     }
-                    else
-                    {
-
-                        strProcessing = "No data found!!!!";
-
-                        if (!string.IsNullOrEmpty(strProcessing))
-                        {
-                            strlblProcessing = strProcessing;
-                        }
-                        else
-                        {
-                            strlblProcessing = "";
-                        }
-                        // ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('No data found!');", true);
-                    }
+                   
 
 
 
