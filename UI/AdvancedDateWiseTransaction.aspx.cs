@@ -14,11 +14,6 @@ using System.Text;
 using System.Data.OracleClient;
 using System.IO;
 using System.Collections.Generic;
-//using AMCL.DL;
-//using AMCL.BL;
-//using AMCL.UTILITY;
-//using AMCL.GATEWAY;
-//using AMCL.COMMON;
 
 
 
@@ -125,27 +120,10 @@ public partial class DateWiseTransaction : System.Web.UI.Page
             {
                 lblProcessing.Text = "";
             }
-            // ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('No data found!');", true);
+         
         }
     }
 
-    //public DataTable FundNameDropDownList()//For All Funds
-    //{
-    //    DataTable dtFundName = commonGatewayObj.Select("SELECT F_NAME, F_CD FROM FUND WHERE IS_F_CLOSE IS NULL AND BOID IS NOT NULL ORDER BY F_CD");
-    //    DataTable dtFundNameDropDownList = new DataTable();
-    //    dtFundNameDropDownList.Columns.Add("F_NAME", typeof(string));
-    //    dtFundNameDropDownList.Columns.Add("F_CD", typeof(string));
-    //    DataRow dr = dtFundNameDropDownList.NewRow();
-
-    //    for (int loop = 0; loop < dtFundName.Rows.Count; loop++)
-    //    {
-    //        dr = dtFundNameDropDownList.NewRow();
-    //        dr["F_NAME"] = dtFundName.Rows[loop]["F_NAME"].ToString();
-    //        dr["F_CD"] = Convert.ToInt32(dtFundName.Rows[loop]["F_CD"]);
-    //        dtFundNameDropDownList.Rows.Add(dr);
-    //    }
-    //    return dtFundNameDropDownList;
-    //}
 
     public DataTable FundNameDropDownList()//For All Funds
     {
@@ -278,124 +256,6 @@ public partial class DateWiseTransaction : System.Web.UI.Page
         return dtData;
     }
 
-    //public DataTable getTblAllFundInfo()
-    //{
-    //    DataTable dtFundNameDropDownList = FundNameDropDownList();
-
-    //    DataTable stockExchangeList = StockList();
-
-    //    DateTime? dtimeHowlaDateFrom, dtimeLastHowlaDate, dtHowlaDateto;
-
-
-
-    //    string strQuery;
-
-    //    DataTable dt = new DataTable();
-    //    lblProcessing.Text = "";
-    //    string strtxtHowlaDateFrom, strtxtLastHowlaDate, strtHowlaDateFrom, strHowlaDateTo, strLastHowlaDate, strHowlaDateto;
-
-
-
-    //    DataTable tblAllfundInfo = new DataTable();
-    //    tblAllfundInfo.Columns.Add("F_CD", typeof(int));
-    //    tblAllfundInfo.Columns.Add("F_NAME", typeof(string));
-    //    tblAllfundInfo.Columns.Add("Howla_Date_From", typeof(string));
-    //    tblAllfundInfo.Columns.Add("Howla_LastUpdated_Date", typeof(string));
-    //    tblAllfundInfo.Columns.Add("Howla_Date_To", typeof(string));
-    //    tblAllfundInfo.Columns.Add("Stock_Exchange", typeof(string));
-
-    //    for (int i = 0; i < dtFundNameDropDownList.Rows.Count; i++)
-    //    {
-
-
-
-
-
-    //        for (int j = 0; j < stockExchangeList.Rows.Count; j++)
-    //        {
-    //            if (stockExchangeList.Rows[j]["Stock_Value"].ToString() == "D") // For DSE
-    //            {
-    //                strQuery = "select TO_CHAR(max(vch_dt),'DD-MON-YYYY')last_tr_dt,TO_CHAR(max(vch_dt) + 1,'DD-MON-YYYY')vch_dt  from fund_trans_hb where f_cd =" + dtFundNameDropDownList.Rows[i]["F_CD"].ToString() +
-    //                     " and tran_tp in ('C','S') and stock_ex in ('D','A')";
-    //                dt = commonGatewayObj.Select(strQuery);
-    //            }
-
-
-
-    //            if (stockExchangeList.Rows[j]["Stock_Value"].ToString() == "C")// For CSE
-    //            {
-    //                strQuery = "select TO_CHAR(max(vch_dt),'DD-MON-YYYY')last_tr_dt,TO_CHAR(max(vch_dt) + 1,'DD-MON-YYYY')vch_dt  from fund_trans_hb where f_cd =" + dtFundNameDropDownList.Rows[i]["F_CD"].ToString() +
-    //                                " and tran_tp in ('C','S') and stock_ex in ('C','A')";
-    //                dt = commonGatewayObj.Select(strQuery);
-    //            }
-
-    //            if (dt != null && dt.Rows.Count > 0)
-    //            {
-
-
-    //                if (!dt.Rows[0].IsNull("vch_dt"))
-    //                {
-
-    //                    strtxtHowlaDateFrom = dt.Rows[0]["vch_dt"].ToString();
-    //                    strtxtLastHowlaDate = dt.Rows[0]["last_tr_dt"].ToString();
-
-    //                    if (!string.IsNullOrEmpty(strtxtHowlaDateFrom))
-    //                    {
-    //                        dtimeHowlaDateFrom = Convert.ToDateTime(strtxtHowlaDateFrom);
-
-    //                        strtHowlaDateFrom = dtimeHowlaDateFrom.Value.ToString("dd-MMM-yyyy");
-    //                    }
-    //                    else
-    //                    {
-    //                        dtimeHowlaDateFrom = null;
-    //                        strtHowlaDateFrom = "";
-    //                    }
-
-    //                    if (!string.IsNullOrEmpty(strtxtLastHowlaDate))
-    //                    {
-    //                        dtimeLastHowlaDate = Convert.ToDateTime(strtxtLastHowlaDate);
-
-    //                        strLastHowlaDate = dtimeHowlaDateFrom.Value.ToString("dd-MMM-yyyy");
-    //                    }
-    //                    else
-    //                    {
-    //                        dtimeLastHowlaDate = null;
-    //                        strLastHowlaDate = "";
-    //                    }
-
-
-    //                    dtHowlaDateto = DateTime.Now;
-
-    //                    strHowlaDateto = Convert.ToDateTime(dtHowlaDateto).ToString("dd-MMM-yyyy");
-
-    //                    if (!string.IsNullOrEmpty(strHowlaDateto))
-    //                    {
-
-    //                        strHowlaDateTo = strHowlaDateto;
-    //                    }
-
-    //                    tblAllfundInfo.Rows.Add(Convert.ToInt32(dtFundNameDropDownList.Rows[i]["F_CD"].ToString()), dtFundNameDropDownList.Rows[i]["F_NAME"].ToString(), strtHowlaDateFrom, strtxtLastHowlaDate, strHowlaDateto, stockExchangeList.Rows[j]["Stock_Value"].ToString());
-
-    //                }
-
-    //                else
-    //                {
-
-    //                    strtxtHowlaDateFrom = "";
-    //                    strtxtLastHowlaDate = "";
-    //                    strHowlaDateTo = "";
-    //                    ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('This Trading Date not found  else.');", true);
-    //                }
-
-    //            }
-
-
-    //        }
-
-
-    //    }
-    //    return tblAllfundInfo;
-    //}
 
     public DataTable getTblAllFundFromHowlaInfo()
     {
