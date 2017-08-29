@@ -26,7 +26,6 @@
                 </td>
             </tr>
             </table>
-    
              <table id="Table2" width="600" align="center" cellpadding="2" cellspacing="2" runat="server">
             <tr>
                 <td align="left">
@@ -38,8 +37,9 @@
 
                 <td align="left">
                     <b>Company Name </b>
-                </td>
+                </td> 
                 <td align="left">
+                   
                     <asp:TextBox ID="companyNameTextBox" runat="server" Width="100px"></asp:TextBox>
                 </td>
             </tr>
@@ -283,7 +283,7 @@
                     <asp:TextBox ID="TextBoxPaidUpCapital" runat="server" Width="100px"></asp:TextBox>
                 </td>
                 
-                
+                 
             </tr>
              <tr>
                 <td align="left">
@@ -292,15 +292,67 @@
                 <td align="left">
                     <asp:TextBox ID="TextBoxAuthorizedcapital" runat="server" Width="100px"></asp:TextBox>
                 </td>
+                
+                <td align="left">
+                     <% 
+                         string userType = Session["UserType"].ToString();
+
+                         if (userType == "SA")
+                         {
+
+                         %>
+                    <b>Is Buy Sell Charge Applicable ?</b>
+                    <% } %>
+                </td>
+                <td align="left">
+                    <% 
+                         string userType = Session["UserType"].ToString();
+
+                         if (userType == "SA")
+                         {
+
+                         %>
+                    <asp:TextBox ID="txtIsBuySellChargeApplicable" runat="server" Width="100px"></asp:TextBox>
+                     <% } %>
+                </td>
+                 
+            </tr>
+
+            <tr>
+
+                <td align="left">
+                      <% 
+                         string userType = Session["UserType"].ToString();
+
+                         if (userType == "SA")
+                         {
+
+                         %>
+                    <b>Additional buy/sell charge </b>
+                     <% } %>
+                </td>
+                <td align="left">
+                    <% 
+                         string userType = Session["UserType"].ToString();
+
+                         if (userType == "SA")
+                         {
+
+                         %>
+                    <asp:TextBox ID="txtTexAdditionalbuysellcharge" runat="server" Width="100px"></asp:TextBox>
+                    <% } %>
+                </td>
             
             </tr>
 
             <tr>
                
                 <td align="center" colspan="6">
-                    <asp:Button ID="saveButton" runat="server" Text="Save"
+                    <%--<asp:Button ID="saveButton" runat="server" Text="Save"
                         CssClass="buttoncommon" TabIndex="48" 
-                        OnClick="saveButton_Click" />
+                        OnClick="saveButton_Click" />--%>
+
+                     <asp:Button ID="saveButton"  Text="Save" CssClass="buttoncommon" runat="server" OnClick="saveButton_Click" />
                   
 
                 </td>
@@ -319,13 +371,16 @@
                 return true;  
         },"Please select a Category.");   
 
-      $("#aspnetForm").validate({
+        $("#aspnetForm").validate({
+            submitHandler: function () {
+                test();
+            },
           rules: {
                     <%=companyCodeTextBox.UniqueID %>: {
                         
                         required: true,
                         number:true,
-                        minlength: 3,
+                        minlength: 2,
                         maxlength: 3
                     }, <%=companyNameTextBox.UniqueID %>: {
                         
@@ -417,7 +472,32 @@
                 
                 }
       });
-     
+
+      
+          function test() {   
+          $.ajax({
+              type: "POST",
+              url: "CompanyInformation.aspx/InsertandUpdateCompany",
+              
+           //   flugTextBox.Text.ToString() + "','" + addressTextBox1.Value.ToString() + "','" + addressTextBox2.Value.ToString() + "','" + regofficeTextBox2.Text.ToString() + "','" + phnNoTextBox.Text.ToString() + "','" + openingdateTextBox.Text.ToString() + "','" + premiumTextBox.Text.ToString() + "','" + RIssuefromTextBox.Text.ToString() + "','" + RIssuetoTextBox.Text.ToString() + "','" + merginTextBox.Text.ToString() + "')";
+              data: '{CompanyCode: "' + $("#<%=companyCodeTextBox.ClientID%>").val() + '" ,companyName: "' + $("#<%=companyNameTextBox.ClientID%>").val() + '",dsecode: "' + $("#<%=dsecodeTextBox.ClientID%>").val() + '",PaidUpCapital: "' + $("#<%=TextBoxPaidUpCapital.ClientID%>").val() + '",atho_cap: "' + $("#<%=TextBoxAuthorizedcapital.ClientID%>").val() + '",totalshare: "' + $("#<%=totalshareTextBox.ClientID%>").val() + '" ,faceValue: "' + $("#<%=faceValueTextBox.ClientID%>").val() + '",MarketLot: "' + $("#<%=MarketLotTextBox.ClientID%>").val() + '",sector: "' + $("#<%=sectorTextBox.ClientID%>").val() + '",category: "' + $("#<%=categoryDropDownList.ClientID%>").val() + '",avarageMarketRate: "' + $("#<%=avarageMarketRateTextBox.ClientID%>").val() + '",baserate: "' + $("#<%=baserateTextBox.ClientID%>").val() + '",baseupdateDate: "' + $("#<%=baseupdateDateTextBox.ClientID%>").val() + '",lasttradingdate: "' + $("#<%=lasttradingdateTextBox.ClientID%>").val() + '",sector: "' + $("#<%=sectorTextBox.ClientID%>").val() + '",category: "' + $("#<%=categoryDropDownList.ClientID%>").val() + '" ,flug: "' + $("#<%=flugTextBox.ClientID%>").val() + '",group: "' + $("#<%=groupDropDownList.ClientID%>").val() + '",floatdatefrom: "' + $("#<%=floatdatefromTextBox.ClientID%>").val() + '",floatdateto: "' + $("#<%=floatdatetoTextBox.ClientID%>").val() + '",csecode: "' + $("#<%=csecodeTextBox.ClientID%>").val() + '",address1: "' + $("#<%=addressTextBox1.ClientID%>").val() + '",address2: "' + $("#<%=addressTextBox2.ClientID%>").val() + '",regoffice: "' + $("#<%=regofficeTextBox2.ClientID%>").val() + '",phnNo: "' + $("#<%=phnNoTextBox.ClientID%>").val() + '",openingdate: "' + $("#<%=openingdateTextBox.ClientID%>").val() + '",premium: "' + $("#<%=premiumTextBox.ClientID%>").val() + '",RIssuefrom: "' + $("#<%=RIssuefromTextBox.ClientID%>").val() + '",RIssueto: "' + $("#<%=RIssuetoTextBox.ClientID%>").val() + '",mergin: "' + $("#<%=merginTextBox.ClientID%>").val() + '",IsBuySellChargeApplicable: "' + $("#<%=txtIsBuySellChargeApplicable.ClientID%>").val() + '" ,Additionalbuysellcharge: "' + $("#<%=txtTexAdditionalbuysellcharge.ClientID%>").val() + '" }',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    if (response.d) {
+                        alert('data saved successfully');
+
+                       window.location = 'AllCompInfo.aspx';
+                    }
+                
+                },
+                failure: function (response) {
+                    alert(response);
+                }
+             });
+
+        }
+        
     </script>
 </asp:Content>
 
