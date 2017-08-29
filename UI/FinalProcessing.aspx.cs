@@ -138,14 +138,14 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
             string strDelQuery = "delete from pfolio_bk where bal_dt_ctrl='"+dt1+"'";
             int NumOfRows = commonGatewayObj.ExecuteNonQuery(strDelQuery);
                        
-            lblProcessing.Text = "Delete  Successfully";
+            lblProcessing.Text = "Delete  Successfull";
             txttotalRowCount.Text = row.ToString();
 
             ClearFields();
         }
         else
         {
-            lblProcessing.Text = "Delete unsuccessfully"; 
+            lblProcessing.Text = "Delete Unsuccessfull"; 
         }
        // Response.Redirect("FinalProcessing.aspx");
         

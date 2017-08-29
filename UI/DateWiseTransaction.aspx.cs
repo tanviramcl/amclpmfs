@@ -597,7 +597,7 @@ public partial class DateWiseTransaction : System.Web.UI.Page
                     {
                         currentdate = "";
                     }
-
+                    string strQueryFromHowla = "select count(*) from howla where comp_cd in(950,954) and sp_date= '" + currentdate + "'";
                     string strCompnaybond = "SELECT  VCH_DT, F_CD, COMP_CD, TRAN_TP, VCH_NO, NO_SHARE, RATE, COST_RATE, CRT_AFT_COM,AMOUNT, AMT_AFT_COM, STOCK_EX,OP_NAME FROM FUND_TRANS_HB where comp_cd in(950,954) and VCH_DT='" + currentdate + "'";
                     dtSourcefundtranshbbybond = commonGatewayObj.Select(strCompnaybond);
 
