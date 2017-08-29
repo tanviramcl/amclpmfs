@@ -167,7 +167,8 @@
                                     <li><a href="NonListedSecuritiesInvestmentEntryForm.aspx">Non Listed Securities Entry</a></li>
                                     <li><a href="HowlaDSEentryForm.aspx">DSE Howla Entry</a></li>
                                     <li><a href="HowlaDSEentryForm.aspx">CSE Howla Entry</a></li>
-                                    <li><a href="CompanyInformation.aspx">Company Information Entry</a></li>
+                                  <%--  <li><a href="CompanyInformation.aspx">Company Information Entry</a></li>--%>
+                                     <li><a href="AllCompInfo.aspx">Company Information</a></li>
                                 </ul>
                                 <ul>
                                     <li class="ldd_heading">Matching</li>
