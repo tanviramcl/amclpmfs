@@ -584,7 +584,7 @@ public partial class DateWiseTransaction : System.Web.UI.Page
 
                     DataTable  dtSourcefundtranshbbybond,dtExcepChargableBondFromHowla;
                     string currentdate , strUPdQueryforBond;
-                    Double NumExcepChargableRowsFromHowla;
+                    Double NumExcepChargableRowsFromHowla, AddBuySlChargeAmtDSE,ExcepBuySlCompctApplDSE;
                     DateTime dtimeCurrentDate = DateTime.Now;
 
                
@@ -599,9 +599,10 @@ public partial class DateWiseTransaction : System.Web.UI.Page
                     }
 
 
-                    string strQExcepChargableBondFromHowla = " select comp_cd,in_out,count(*) as NumofExcepChargableHowla from howla where comp_cd" +
-                                                              " in(select comp_cd from comp where ISADD_BUYSLCHARGE_APPLDSE='Y' and ADD_BUYSLCHARGE_AMTDSE "+
-                                                              " is not null and EXCEP_BUYSL_COMPCT_APPLDSE is not null) and sp_date = '" + currentdate + "' group by comp_cd,in_out";
+                    string strQExcepChargableBondFromHowla = " select comp_cd,in_out,count(*)NumofExcepChargableHowla from howla  where " +
+                                                              " comp_cd in (select comp_cd from comp where ISADD_BUYSLCHARGE_APPLDSE='Y' and ADD_BUYSLCHARGE_AMTDSE "+
+                                                              " is not null and EXCEP_BUYSL_COMPCT_APPLDSE is not null) and sp_date = '" + currentdate + "'"+
+                                                               " group by comp_cd,in_out";
                     dtExcepChargableBondFromHowla= commonGatewayObj.Select(strQExcepChargableBondFromHowla);
 
 
@@ -618,17 +619,31 @@ public partial class DateWiseTransaction : System.Web.UI.Page
 
                         for (int k = 0; k < dtExcepChargableBondFromHowla.Rows.Count; k++)
                         {
+                            NumExcepChargableRowsFromHowla = Convert.ToDouble(dtExcepChargableBondFromHowla.Rows[k]["NumofExcepChargableHowla"].ToString());
+                           
+
                             if (dtExcepChargableBondFromHowla.Rows[k]["IN_OUT"].ToString() == "I")
                             {
-                                NumExcepChargableRowsFromHowla = Convert.ToDouble(dtExcepChargableBondFromHowla.Rows[k]["NumofExcepChargableHowla"].ToString());
-                                strUPdQueryforBond = "UPDATE FUND_TRANS_HB SET AMT_AFT_COM = AMOUNT + 50*"+NumExcepChargableRowsFromHowla+" + AMOUNT * 0.002  WHERE  comp_cd =" + dtExcepChargableBondFromHowla.Rows[k]["COMP_CD"].ToString() + " and VCH_DT='" + currentdate + "' and TRAN_TP = 'C' ";
+
+                                string strQSelExtCharge = "select ADD_BUYSLCHARGE_AMTDSE,EXCEP_BUYSL_COMPCT_APPLDSE from comp where comp_cd=" + dtExcepChargableBondFromHowla.Rows[k]["COMP_CD"].ToString();
+                                DataTable dtSelExtCharge = commonGatewayObj.Select(strQSelExtCharge);
+                                AddBuySlChargeAmtDSE = Convert.ToDouble(dtSelExtCharge.Rows[k]["ADD_BUYSLCHARGE_AMTDSE"].ToString());
+                                ExcepBuySlCompctApplDSE = Convert.ToDouble(dtSelExtCharge.Rows[k]["EXCEP_BUYSL_COMPCT_APPLDSE"].ToString());
+
+                                strUPdQueryforBond = "UPDATE FUND_TRANS_HB SET AMT_AFT_COM = AMOUNT +"+ AddBuySlChargeAmtDSE * NumExcepChargableRowsFromHowla+ " + AMOUNT * " +(ExcepBuySlCompctApplDSE/100)+ "  WHERE  comp_cd =" + dtExcepChargableBondFromHowla.Rows[k]["COMP_CD"].ToString() + " and VCH_DT='" + currentdate + "' and TRAN_TP = 'C' ";
 
                                 int NumOfRows = commonGatewayObj.ExecuteNonQuery(strUPdQueryforBond);
                             }
                             else if (dtExcepChargableBondFromHowla.Rows[k]["in_out"].ToString() == "O")
                             {
-                                NumExcepChargableRowsFromHowla = Convert.ToDouble(dtExcepChargableBondFromHowla.Rows[k]["NumofExcepChargableHowla"].ToString());
-                                strUPdQueryforBond = "UPDATE FUND_TRANS_HB SET AMT_AFT_COM = AMOUNT- 50*" + NumExcepChargableRowsFromHowla + " - AMOUNT * 0.002 WHERE  comp_cd =" + dtExcepChargableBondFromHowla.Rows[k]["COMP_CD"].ToString() + " and VCH_DT='" + currentdate + "' and TRAN_TP = 'S' ";
+
+                                string strQSelExtCharge = "select ADD_BUYSLCHARGE_AMTDSE,EXCEP_BUYSL_COMPCT_APPLDSE from comp where comp_cd=" + dtExcepChargableBondFromHowla.Rows[k]["COMP_CD"].ToString();
+                                DataTable dtSelExtCharge = commonGatewayObj.Select(strQSelExtCharge);
+                                AddBuySlChargeAmtDSE = Convert.ToDouble(dtSelExtCharge.Rows[k]["ADD_BUYSLCHARGE_AMTDSE"].ToString());
+                                ExcepBuySlCompctApplDSE = Convert.ToDouble(dtSelExtCharge.Rows[k]["EXCEP_BUYSL_COMPCT_APPLDSE"].ToString());
+
+                                strUPdQueryforBond = "UPDATE FUND_TRANS_HB SET AMT_AFT_COM = AMOUNT -" + AddBuySlChargeAmtDSE * NumExcepChargableRowsFromHowla + " - AMOUNT * " + (ExcepBuySlCompctApplDSE / 100) + "  WHERE  comp_cd =" + dtExcepChargableBondFromHowla.Rows[k]["COMP_CD"].ToString() + " and VCH_DT='" + currentdate + "' and TRAN_TP = 'S' ";
+                                
 
                                 int NumOfRows = commonGatewayObj.ExecuteNonQuery(strUPdQueryforBond);
                             }
