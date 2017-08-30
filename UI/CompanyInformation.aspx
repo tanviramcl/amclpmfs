@@ -297,7 +297,7 @@
                      <% 
                          string userType = Session["UserType"].ToString();
 
-                         if (userType == "SA")
+                         if (userType == "A")
                          {
 
                          %>
@@ -308,7 +308,7 @@
                     <% 
                          string userType = Session["UserType"].ToString();
 
-                         if (userType == "SA")
+                         if (userType == "A")
                          {
 
                          %>
@@ -324,7 +324,7 @@
                       <% 
                          string userType = Session["UserType"].ToString();
 
-                         if (userType == "SA")
+                         if (userType == "A")
                          {
 
                          %>
@@ -335,11 +335,33 @@
                     <% 
                          string userType = Session["UserType"].ToString();
 
-                         if (userType == "SA")
+                         if (userType == "A")
                          {
 
                          %>
                     <asp:TextBox ID="txtTexAdditionalbuysellcharge" runat="server" Width="100px"></asp:TextBox>
+                    <% } %>
+                </td>
+                <td align="left">
+                      <% 
+                         string userType = Session["UserType"].ToString();
+
+                         if (userType == "A")
+                         {
+
+                         %>
+                    <b>Additional buy/sell Commision </b>
+                     <% } %>
+                </td>
+                <td align="left">
+                    <% 
+                         string userType = Session["UserType"].ToString();
+
+                         if (userType == "A")
+                         {
+
+                         %>
+                    <asp:TextBox ID="txtEXCEP_BUYSL_COMPCT_APPLDSE" runat="server" Width="100px"></asp:TextBox>
                     <% } %>
                 </td>
             
@@ -480,7 +502,7 @@
               url: "CompanyInformation.aspx/InsertandUpdateCompany",
               
            //   flugTextBox.Text.ToString() + "','" + addressTextBox1.Value.ToString() + "','" + addressTextBox2.Value.ToString() + "','" + regofficeTextBox2.Text.ToString() + "','" + phnNoTextBox.Text.ToString() + "','" + openingdateTextBox.Text.ToString() + "','" + premiumTextBox.Text.ToString() + "','" + RIssuefromTextBox.Text.ToString() + "','" + RIssuetoTextBox.Text.ToString() + "','" + merginTextBox.Text.ToString() + "')";
-              data: '{CompanyCode: "' + $("#<%=companyCodeTextBox.ClientID%>").val() + '" ,companyName: "' + $("#<%=companyNameTextBox.ClientID%>").val() + '",dsecode: "' + $("#<%=dsecodeTextBox.ClientID%>").val() + '",PaidUpCapital: "' + $("#<%=TextBoxPaidUpCapital.ClientID%>").val() + '",atho_cap: "' + $("#<%=TextBoxAuthorizedcapital.ClientID%>").val() + '",totalshare: "' + $("#<%=totalshareTextBox.ClientID%>").val() + '" ,faceValue: "' + $("#<%=faceValueTextBox.ClientID%>").val() + '",MarketLot: "' + $("#<%=MarketLotTextBox.ClientID%>").val() + '",sector: "' + $("#<%=sectorTextBox.ClientID%>").val() + '",category: "' + $("#<%=categoryDropDownList.ClientID%>").val() + '",avarageMarketRate: "' + $("#<%=avarageMarketRateTextBox.ClientID%>").val() + '",baserate: "' + $("#<%=baserateTextBox.ClientID%>").val() + '",baseupdateDate: "' + $("#<%=baseupdateDateTextBox.ClientID%>").val() + '",lasttradingdate: "' + $("#<%=lasttradingdateTextBox.ClientID%>").val() + '",sector: "' + $("#<%=sectorTextBox.ClientID%>").val() + '",category: "' + $("#<%=categoryDropDownList.ClientID%>").val() + '" ,flug: "' + $("#<%=flugTextBox.ClientID%>").val() + '",group: "' + $("#<%=groupDropDownList.ClientID%>").val() + '",floatdatefrom: "' + $("#<%=floatdatefromTextBox.ClientID%>").val() + '",floatdateto: "' + $("#<%=floatdatetoTextBox.ClientID%>").val() + '",csecode: "' + $("#<%=csecodeTextBox.ClientID%>").val() + '",address1: "' + $("#<%=addressTextBox1.ClientID%>").val() + '",address2: "' + $("#<%=addressTextBox2.ClientID%>").val() + '",regoffice: "' + $("#<%=regofficeTextBox2.ClientID%>").val() + '",phnNo: "' + $("#<%=phnNoTextBox.ClientID%>").val() + '",openingdate: "' + $("#<%=openingdateTextBox.ClientID%>").val() + '",premium: "' + $("#<%=premiumTextBox.ClientID%>").val() + '",RIssuefrom: "' + $("#<%=RIssuefromTextBox.ClientID%>").val() + '",RIssueto: "' + $("#<%=RIssuetoTextBox.ClientID%>").val() + '",mergin: "' + $("#<%=merginTextBox.ClientID%>").val() + '",IsBuySellChargeApplicable: "' + $("#<%=txtIsBuySellChargeApplicable.ClientID%>").val() + '" ,Additionalbuysellcharge: "' + $("#<%=txtTexAdditionalbuysellcharge.ClientID%>").val() + '" }',
+              data: '{CompanyCode: "' + $("#<%=companyCodeTextBox.ClientID%>").val() + '" ,companyName: "' + $("#<%=companyNameTextBox.ClientID%>").val() + '",dsecode: "' + $("#<%=dsecodeTextBox.ClientID%>").val() + '",PaidUpCapital: "' + $("#<%=TextBoxPaidUpCapital.ClientID%>").val() + '",atho_cap: "' + $("#<%=TextBoxAuthorizedcapital.ClientID%>").val() + '",totalshare: "' + $("#<%=totalshareTextBox.ClientID%>").val() + '" ,faceValue: "' + $("#<%=faceValueTextBox.ClientID%>").val() + '",MarketLot: "' + $("#<%=MarketLotTextBox.ClientID%>").val() + '",sector: "' + $("#<%=sectorTextBox.ClientID%>").val() + '",category: "' + $("#<%=categoryDropDownList.ClientID%>").val() + '",avarageMarketRate: "' + $("#<%=avarageMarketRateTextBox.ClientID%>").val() + '",baserate: "' + $("#<%=baserateTextBox.ClientID%>").val() + '",baseupdateDate: "' + $("#<%=baseupdateDateTextBox.ClientID%>").val() + '",lasttradingdate: "' + $("#<%=lasttradingdateTextBox.ClientID%>").val() + '",sector: "' + $("#<%=sectorTextBox.ClientID%>").val() + '",category: "' + $("#<%=categoryDropDownList.ClientID%>").val() + '" ,flug: "' + $("#<%=flugTextBox.ClientID%>").val() + '",group: "' + $("#<%=groupDropDownList.ClientID%>").val() + '",floatdatefrom: "' + $("#<%=floatdatefromTextBox.ClientID%>").val() + '",floatdateto: "' + $("#<%=floatdatetoTextBox.ClientID%>").val() + '",csecode: "' + $("#<%=csecodeTextBox.ClientID%>").val() + '",address1: "' + $("#<%=addressTextBox1.ClientID%>").val() + '",address2: "' + $("#<%=addressTextBox2.ClientID%>").val() + '",regoffice: "' + $("#<%=regofficeTextBox2.ClientID%>").val() + '",phnNo: "' + $("#<%=phnNoTextBox.ClientID%>").val() + '",openingdate: "' + $("#<%=openingdateTextBox.ClientID%>").val() + '",premium: "' + $("#<%=premiumTextBox.ClientID%>").val() + '",RIssuefrom: "' + $("#<%=RIssuefromTextBox.ClientID%>").val() + '",RIssueto: "' + $("#<%=RIssuetoTextBox.ClientID%>").val() + '",mergin: "' + $("#<%=merginTextBox.ClientID%>").val() + '",IsBuySellChargeApplicable: "' + $("#<%=txtIsBuySellChargeApplicable.ClientID%>").val() + '" ,Additionalbuysellcharge: "' + $("#<%=txtTexAdditionalbuysellcharge.ClientID%>").val() + '",AdditionalbuysellCommision: "' + $("#<%=txtEXCEP_BUYSL_COMPCT_APPLDSE.ClientID%>").val() + '" }',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (response) {
