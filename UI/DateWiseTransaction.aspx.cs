@@ -582,7 +582,7 @@ public partial class DateWiseTransaction : System.Web.UI.Page
                     //...................for bond.............update fundtrans_hb........................
 
 
-                    DataTable  dtSourcefundtranshbbybond,dtExcepChargableBondFromHowla;
+                    DataTable  dtExcepChargableBondFromHowla;
                     string currentdate , strUPdQueryforBond;
                     Double NumExcepChargableRowsFromHowla, AddBuySlChargeAmtDSE,ExcepBuySlCompctApplDSE;
                     DateTime dtimeCurrentDate = DateTime.Now;

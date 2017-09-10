@@ -312,7 +312,7 @@
                          {
 
                          %>
-                    <asp:TextBox ID="txtIsBuySellChargeApplicable" runat="server" Width="100px"></asp:TextBox>
+                    <asp:TextBox ID="txtIsBuySellChargeApplicable" runat="server" Width="100px" OnTextChanged="txtIsBuySellChargeApplicable_TextChanged"  AutoPostBack="true"></asp:TextBox>
                      <% } %>
                 </td>
                  
@@ -328,7 +328,8 @@
                          {
 
                          %>
-                    <b>Additional buy/sell charge </b>
+                    <b></b>
+                    <asp:Label ID="lblTexAdditionalbuysellcharge" runat="server" Visible="false" Text="Additional buy/sell charge "></asp:Label>
                      <% } %>
                 </td>
                 <td align="left">
@@ -339,7 +340,7 @@
                          {
 
                          %>
-                    <asp:TextBox ID="txtTexAdditionalbuysellcharge" runat="server" Width="100px"></asp:TextBox>
+                    <asp:TextBox ID="txtTexAdditionalbuysellcharge" runat="server" Visible="false" Width="100px"></asp:TextBox>
                     <% } %>
                 </td>
                 <td align="left">
@@ -350,7 +351,7 @@
                          {
 
                          %>
-                    <b>Additional buy/sell Commision </b>
+                     <asp:Label ID="lblEXCEP_BUYSL_COMPCT_APPLDSE" runat="server" Visible="false" Text="Additional buy/sell Commision "></asp:Label>
                      <% } %>
                 </td>
                 <td align="left">
@@ -361,7 +362,7 @@
                          {
 
                          %>
-                    <asp:TextBox ID="txtEXCEP_BUYSL_COMPCT_APPLDSE" runat="server" Width="100px"></asp:TextBox>
+                    <asp:TextBox ID="txtEXCEP_BUYSL_COMPCT_APPLDSE" Visible="false" runat="server" Width="100px"></asp:TextBox>
                     <% } %>
                 </td>
             
@@ -392,6 +393,8 @@
             else  
                 return true;  
         },"Please select a Category.");   
+
+  
 
         $("#aspnetForm").validate({
             submitHandler: function () {
