@@ -45,7 +45,7 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
         sbOrderBy.Append("");
 
         sbMst.Append(" SELECT COMP_CD, COMP_NM, SECT_MAJ_CD,INSTR_CD, CAT_TP, ATHO_CAP, PAID_CAP, NO_SHRS, ");
-        sbMst.Append(" FC_VAL, ISADD_BUYSLCHARGE_APPLDSE,ADD_BUYSLCHARGE_AMTDSE FROM COMP ");
+        sbMst.Append(" FC_VAL, ISADD_HOWLACHARGE_DSE,ADD_HOWLACHARGE_AMTDSE,EXCEP_BUYSL_COMPCT_DSE FROM COMP ");
         sbOrderBy.Append(" ORDER BY COMP_CD ");
 
         sbMst.Append(sbOrderBy.ToString());

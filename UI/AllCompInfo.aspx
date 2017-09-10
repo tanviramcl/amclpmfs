@@ -62,7 +62,7 @@
                          <%
                              string userType = Session["UserType"].ToString();
 
-                             if (userType == "SA")
+                             if (userType == "A")
                              {
 
                         %>
@@ -96,12 +96,12 @@
                          <%
                            
 
-                            if (userType == "SA")
+                            if (userType == "A")
                             {
 
                         %>
-                           <td><%   Response.Write(dtCompInfo.Rows[i]["ISADD_BUYSLCHARGE_APPLDSE"].ToString());   %> </td>
-                        <td><%   Response.Write(dtCompInfo.Rows[i]["ADD_BUYSLCHARGE_AMTDSE"].ToString());   %> </td>
+                           <td><%   Response.Write(dtCompInfo.Rows[i]["ISADD_HOWLACHARGE_DSE"].ToString());   %> </td>
+                        <td><%   Response.Write(dtCompInfo.Rows[i]["ADD_HOWLACHARGE_AMTDSE"].ToString());   %> </td>
                           <%
                             }
                         %>
