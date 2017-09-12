@@ -182,8 +182,16 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
                 merginTextBox.Text = compInfo.MARGIN;
                 TextBoxAuthorizedcapital.Text = compInfo.ATHO_CAP;
                 txtIsBuySellChargeApplicable.Text = compInfo.ISADD_HOWLACHARGE_DSE;
-                txtTexAdditionalbuysellcharge.Text = compInfo.ADD_HOWLACHARGE_AMTDSE;
-                txtEXCEP_BUYSL_COMPCT_APPLDSE.Text = compInfo.EXCEP_BUYSL_COMPCT_DSE;
+
+                if (txtIsBuySellChargeApplicable.Text == "y" || txtIsBuySellChargeApplicable.Text == "Y")
+                {
+                    lblEXCEP_BUYSL_COMPCT_APPLDSE.Visible = true;
+                    lblTexAdditionalbuysellcharge.Visible = true;
+                    txtTexAdditionalbuysellcharge.Visible = true;
+                    txtEXCEP_BUYSL_COMPCT_APPLDSE.Visible = true;
+                    txtTexAdditionalbuysellcharge.Text = compInfo.ADD_HOWLACHARGE_AMTDSE;
+                    txtEXCEP_BUYSL_COMPCT_APPLDSE.Text = compInfo.EXCEP_BUYSL_COMPCT_DSE;
+                }
             }
         }
         else
@@ -277,8 +285,19 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
                 merginTextBox.Text = compInfo.MARGIN;
                 TextBoxAuthorizedcapital.Text = compInfo.ATHO_CAP;
                 txtIsBuySellChargeApplicable.Text = compInfo.ISADD_HOWLACHARGE_DSE;
-                txtTexAdditionalbuysellcharge.Text = compInfo.ADD_HOWLACHARGE_AMTDSE;
-                txtEXCEP_BUYSL_COMPCT_APPLDSE.Text = compInfo.EXCEP_BUYSL_COMPCT_DSE;
+               
+
+                if (txtIsBuySellChargeApplicable.Text == "y" || txtIsBuySellChargeApplicable.Text == "Y")
+                {
+                    lblEXCEP_BUYSL_COMPCT_APPLDSE.Visible = true;
+                    lblTexAdditionalbuysellcharge.Visible = true;
+                    txtTexAdditionalbuysellcharge.Visible = true;
+                    txtEXCEP_BUYSL_COMPCT_APPLDSE.Visible = true;
+                    txtTexAdditionalbuysellcharge.Text = compInfo.ADD_HOWLACHARGE_AMTDSE;
+                    txtEXCEP_BUYSL_COMPCT_APPLDSE.Text = compInfo.EXCEP_BUYSL_COMPCT_DSE;
+                }
+
+                
             }
         }
         else
@@ -297,7 +316,7 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
 
         txtEXCEP_BUYSL_COMPCT_APPLDSE.Visible = false;
 
-        if (txtIsBuySellChargeApplicable.Text == "y")
+        if (txtIsBuySellChargeApplicable.Text == "y" || txtIsBuySellChargeApplicable.Text == "Y")
         {
             lblEXCEP_BUYSL_COMPCT_APPLDSE.Visible = true;
             lblTexAdditionalbuysellcharge.Visible = true;

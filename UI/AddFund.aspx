@@ -105,7 +105,7 @@
                     <%
                         string userType = Session["UserType"].ToString();
 
-                        if (userType == "SA")
+                        if (userType == "A")
                         {
 
                     %>
