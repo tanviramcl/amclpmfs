@@ -72,7 +72,7 @@
                          <%
                              }
                         %>
-                        <th>Action</th>
+                      <%--  <th>Action</th>--%>
                     </tr>
                 </thead>
                 <tbody>
@@ -107,8 +107,8 @@
                         %>
 
                         <%--  <td><asp:Button ID="UpdateButton" runat="server" Text="Update"  CssClass="buttoncommon" TabIndex="48" OnClick="UpdateButton_Click" /> </td> --%>
-                        <td align="center"><a  href="CompanyInformation.aspx?ID=<% Response.Write(dtCompInfo.Rows[i]["COMP_CD"].ToString());%>" 
-                            class="custUpdBtn">Update</a></td>
+                        <%--<td align="center"><a  href="CompanyInformation.aspx?ID=<% Response.Write(dtCompInfo.Rows[i]["COMP_CD"].ToString());%>" 
+                            class="custUpdBtn">Update</a></td>--%>
                     </tr>
                     <%
 
