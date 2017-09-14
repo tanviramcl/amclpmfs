@@ -11,7 +11,7 @@ using System.Web.UI.WebControls;
 public partial class UI_CompanyInformation : System.Web.UI.Page
 {
     CommonGateway commonGatewayObj = new CommonGateway();
-  
+
 
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -32,7 +32,7 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
     protected void saveButton_Click(object sender, EventArgs e)
     {
 
-      
+
 
     }
 

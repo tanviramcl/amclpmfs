@@ -21,6 +21,19 @@
             WIDTH: 100%;
             HEIGHT: 24px;
         }
+
+         .buttonaddOrupdateCompany {
+            BORDER-TOP: #CCCCCC 1px solid;
+            BORDER-BOTTOM: #000000 1px solid;
+            BORDER-LEFT: #CCCCCC 1px solid;
+            BORDER-RIGHT: #000000 1px solid;
+            COLOR: #FFFFFF;
+            FONT-WEIGHT: bold;
+            FONT-SIZE: 11px;
+            BACKGROUND-COLOR: #547AC6;
+            WIDTH: 144px;
+            HEIGHT: 24px;
+        }
     </style>
 }
 
@@ -36,8 +49,8 @@
     <div align="center">
         <h2>Company Information</h2>
         <div style="float: left; margin-top: -34px; margin-left: -12px;">
-            <asp:Button ID="AddButton" runat="server" Text="Add Company"
-                CssClass="buttoncommon" TabIndex="48"
+            <asp:Button ID="AddButton" runat="server"   Text="Add/Update Company"
+                CssClass="buttonaddOrupdateCompany" TabIndex="48"
                 OnClick="AddButton_Click" />
         </div>
         <%--<div style="float: right;margin-top: -2%;">
@@ -72,7 +85,7 @@
                          <%
                              }
                         %>
-                     <%--   <th>Action</th>--%>
+                       <%-- <th>Action</th>--%>
                     </tr>
                 </thead>
                 <tbody>
@@ -101,12 +114,23 @@
 
                         %>
                            <td><%   Response.Write(dtCompInfo.Rows[i]["ISADD_HOWLACHARGE_DSE"].ToString());   %> </td>
-                        <td><%   Response.Write(dtCompInfo.Rows[i]["ADD_HOWLACHARGE_AMTDSE"].ToString());   %> </td>
+                        <td><%  
+
+                                if (dtCompInfo.Rows[i]["ADD_HOWLACHARGE_AMTDSE"].ToString() == "0")
+                                {
+                                     Response.Write("");
+                                }
+                                else
+                                {
+                                    Response.Write(dtCompInfo.Rows[i]["ADD_HOWLACHARGE_AMTDSE"].ToString());
+                                }
+
+                                   %> </td>
                           <%
                             }
                         %>
 
-                        <%--  <td><asp:Button ID="UpdateButton" runat="server" Text="Update"  CssClass="buttoncommon" TabIndex="48" OnClick="UpdateButton_Click" /> </td> --%>
+                         <%--<td><asp:Button ID="UpdateButton" runat="server" Text="Update"  CssClass="buttoncommon" TabIndex="48" OnClick="UpdateButton_Click" /> </td>--%>
                         <%--<td align="center"><a  href="CompanyInformation.aspx?ID=<% Response.Write(dtCompInfo.Rows[i]["COMP_CD"].ToString());%>" 
                             class="custUpdBtn">Update</a></td>--%>
                     </tr>

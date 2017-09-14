@@ -312,7 +312,12 @@
                          {
 
                          %>
-                    <asp:TextBox ID="txtIsBuySellChargeApplicable" runat="server" Width="100px" OnTextChanged="txtIsBuySellChargeApplicable_TextChanged"  AutoPostBack="true"></asp:TextBox>
+                    <%--<asp:TextBox ID="txtIsBuySellChargeApplicable" runat="server" Width="100px" OnTextChanged="txtIsBuySellChargeApplicable_TextChanged"  AutoPostBack="true"></asp:TextBox>--%>
+                     <asp:DropDownList ID="ddltxtIsBuySellChargeApplicable" Width="100px" runat="server"  AutoPostBack="true"  OnSelectedIndexChanged="ddlSellBuyCharge_SelectedIndexChanged"
+                        TabIndex="3">
+                        <asp:ListItem Text="No" Value="N"></asp:ListItem>
+                        <asp:ListItem Text="Yes" Value="Y"></asp:ListItem>
+                    </asp:DropDownList>
                      <% } %>
                 </td>
                  
@@ -392,8 +397,17 @@
                 return false;  
             else  
                 return true;  
+        },"Please select a Category."); 
+        
+        $.validator.addMethod("CheckDropDownList", function (value, element, param) {  
+            if (value == 'N')  
+                return false;  
+            else  
+                return true;  
         },"Please select a Category.");   
 
+
+      
   
 
         $("#aspnetForm").validate({
@@ -453,6 +467,15 @@
                         number:true
                         
                       
+                    },<%=ddltxtIsBuySellChargeApplicable.UniqueID %>: {
+                        required: true
+                    },<%=txtTexAdditionalbuysellcharge.UniqueID %>: {
+                        required: true,
+                        number:true,
+                        maxlength: 4
+                    },<%=txtEXCEP_BUYSL_COMPCT_APPLDSE.UniqueID %>: {
+                        required: true,
+                        number:true
                     }
               
                 }, messages: {
@@ -492,6 +515,13 @@
                         required: "*Base rate is required*",
                         number: "Please Enter an Numeric Value"
                        
+                    },<%=ddltxtIsBuySellChargeApplicable.UniqueID %>: {
+                        required: "* Is required*"
+                       
+                    },<%=txtEXCEP_BUYSL_COMPCT_APPLDSE.UniqueID %>: {
+                        required: "* Is required*"
+                      
+                       
                     }
               
                 
@@ -505,7 +535,7 @@
               url: "CompanyInformation.aspx/InsertandUpdateCompany",
               
            //   flugTextBox.Text.ToString() + "','" + addressTextBox1.Value.ToString() + "','" + addressTextBox2.Value.ToString() + "','" + regofficeTextBox2.Text.ToString() + "','" + phnNoTextBox.Text.ToString() + "','" + openingdateTextBox.Text.ToString() + "','" + premiumTextBox.Text.ToString() + "','" + RIssuefromTextBox.Text.ToString() + "','" + RIssuetoTextBox.Text.ToString() + "','" + merginTextBox.Text.ToString() + "')";
-              data: '{CompanyCode: "' + $("#<%=companyCodeTextBox.ClientID%>").val() + '" ,companyName: "' + $("#<%=companyNameTextBox.ClientID%>").val() + '",dsecode: "' + $("#<%=dsecodeTextBox.ClientID%>").val() + '",PaidUpCapital: "' + $("#<%=TextBoxPaidUpCapital.ClientID%>").val() + '",atho_cap: "' + $("#<%=TextBoxAuthorizedcapital.ClientID%>").val() + '",totalshare: "' + $("#<%=totalshareTextBox.ClientID%>").val() + '" ,faceValue: "' + $("#<%=faceValueTextBox.ClientID%>").val() + '",MarketLot: "' + $("#<%=MarketLotTextBox.ClientID%>").val() + '",sector: "' + $("#<%=sectorTextBox.ClientID%>").val() + '",category: "' + $("#<%=categoryDropDownList.ClientID%>").val() + '",avarageMarketRate: "' + $("#<%=avarageMarketRateTextBox.ClientID%>").val() + '",baserate: "' + $("#<%=baserateTextBox.ClientID%>").val() + '",baseupdateDate: "' + $("#<%=baseupdateDateTextBox.ClientID%>").val() + '",lasttradingdate: "' + $("#<%=lasttradingdateTextBox.ClientID%>").val() + '",sector: "' + $("#<%=sectorTextBox.ClientID%>").val() + '",category: "' + $("#<%=categoryDropDownList.ClientID%>").val() + '" ,flug: "' + $("#<%=flugTextBox.ClientID%>").val() + '",group: "' + $("#<%=groupDropDownList.ClientID%>").val() + '",floatdatefrom: "' + $("#<%=floatdatefromTextBox.ClientID%>").val() + '",floatdateto: "' + $("#<%=floatdatetoTextBox.ClientID%>").val() + '",csecode: "' + $("#<%=csecodeTextBox.ClientID%>").val() + '",address1: "' + $("#<%=addressTextBox1.ClientID%>").val() + '",address2: "' + $("#<%=addressTextBox2.ClientID%>").val() + '",regoffice: "' + $("#<%=regofficeTextBox2.ClientID%>").val() + '",phnNo: "' + $("#<%=phnNoTextBox.ClientID%>").val() + '",openingdate: "' + $("#<%=openingdateTextBox.ClientID%>").val() + '",premium: "' + $("#<%=premiumTextBox.ClientID%>").val() + '",RIssuefrom: "' + $("#<%=RIssuefromTextBox.ClientID%>").val() + '",RIssueto: "' + $("#<%=RIssuetoTextBox.ClientID%>").val() + '",mergin: "' + $("#<%=merginTextBox.ClientID%>").val() + '",IsBuySellChargeApplicable: "' + $("#<%=txtIsBuySellChargeApplicable.ClientID%>").val() + '" ,Additionalbuysellcharge: "' + $("#<%=txtTexAdditionalbuysellcharge.ClientID%>").val() + '",AdditionalbuysellCommision: "' + $("#<%=txtEXCEP_BUYSL_COMPCT_APPLDSE.ClientID%>").val() + '" }',
+              data: '{CompanyCode: "' + $("#<%=companyCodeTextBox.ClientID%>").val() + '" ,companyName: "' + $("#<%=companyNameTextBox.ClientID%>").val() + '",dsecode: "' + $("#<%=dsecodeTextBox.ClientID%>").val() + '",PaidUpCapital: "' + $("#<%=TextBoxPaidUpCapital.ClientID%>").val() + '",atho_cap: "' + $("#<%=TextBoxAuthorizedcapital.ClientID%>").val() + '",totalshare: "' + $("#<%=totalshareTextBox.ClientID%>").val() + '" ,faceValue: "' + $("#<%=faceValueTextBox.ClientID%>").val() + '",MarketLot: "' + $("#<%=MarketLotTextBox.ClientID%>").val() + '",sector: "' + $("#<%=sectorTextBox.ClientID%>").val() + '",category: "' + $("#<%=categoryDropDownList.ClientID%>").val() + '",avarageMarketRate: "' + $("#<%=avarageMarketRateTextBox.ClientID%>").val() + '",baserate: "' + $("#<%=baserateTextBox.ClientID%>").val() + '",baseupdateDate: "' + $("#<%=baseupdateDateTextBox.ClientID%>").val() + '",lasttradingdate: "' + $("#<%=lasttradingdateTextBox.ClientID%>").val() + '",sector: "' + $("#<%=sectorTextBox.ClientID%>").val() + '",category: "' + $("#<%=categoryDropDownList.ClientID%>").val() + '" ,flug: "' + $("#<%=flugTextBox.ClientID%>").val() + '",group: "' + $("#<%=groupDropDownList.ClientID%>").val() + '",floatdatefrom: "' + $("#<%=floatdatefromTextBox.ClientID%>").val() + '",floatdateto: "' + $("#<%=floatdatetoTextBox.ClientID%>").val() + '",csecode: "' + $("#<%=csecodeTextBox.ClientID%>").val() + '",address1: "' + $("#<%=addressTextBox1.ClientID%>").val() + '",address2: "' + $("#<%=addressTextBox2.ClientID%>").val() + '",regoffice: "' + $("#<%=regofficeTextBox2.ClientID%>").val() + '",phnNo: "' + $("#<%=phnNoTextBox.ClientID%>").val() + '",openingdate: "' + $("#<%=openingdateTextBox.ClientID%>").val() + '",premium: "' + $("#<%=premiumTextBox.ClientID%>").val() + '",RIssuefrom: "' + $("#<%=RIssuefromTextBox.ClientID%>").val() + '",RIssueto: "' + $("#<%=RIssuetoTextBox.ClientID%>").val() + '",mergin: "' + $("#<%=merginTextBox.ClientID%>").val() + '",IsBuySellChargeApplicable: "' + $("#<%=ddltxtIsBuySellChargeApplicable.ClientID%>").val() + '" ,Additionalbuysellcharge: "' + $("#<%=txtTexAdditionalbuysellcharge.ClientID%>").val() + '",AdditionalbuysellCommision: "' + $("#<%=txtEXCEP_BUYSL_COMPCT_APPLDSE.ClientID%>").val() + '" }',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (response) {
