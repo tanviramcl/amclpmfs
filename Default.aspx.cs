@@ -33,6 +33,8 @@ public partial class _Default : System.Web.UI.Page
             string loginId = EncodePasswordToBase64(loginIDTextBox.Text.Trim());
             if (IsUesrCheck(loginIDTextBox.Text.Trim().ToString(), loginPasswardTextBox.Text.Trim().ToString()))
             {
+
+
                 Response.Redirect("UI/Home.aspx");
             }
             else
