@@ -118,30 +118,6 @@ public partial class UI_MarketValuationWithProfitLoss : System.Web.UI.Page
             Response.Redirect("ReportViewer/MarketValuationWithProfitLossReportViewer.aspx");
         }
     }
-    //private string SelectFundCode()
-    //{
-    //    DataTable dtFundName = (DataTable)Session["dtFundName"];
-    //    string fundCode = "";
-    //    int loop = 0;
-
-    //    foreach (DataGridItem growFund in grdShowFund.Items)
-    //    {
-    //        CheckBox chkFundItem = (CheckBox)growFund.FindControl("chkFund");
-    //        if (chkFundItem.Checked)
-    //        {
-    //            if (fundCode.ToString() == "")
-    //            {
-    //                fundCode = dtFundName.Rows[loop]["F_CD"].ToString();
-    //            }
-    //            else
-    //            {
-    //                fundCode = fundCode + "," + dtFundName.Rows[loop]["F_CD"].ToString();
-    //            }
-    //        }
-    //        loop++;
-    //    }
-    //    return fundCode;
-    //}
 
     private string SelectFundCode()
     {
@@ -165,23 +141,6 @@ public partial class UI_MarketValuationWithProfitLoss : System.Web.UI.Page
             loop++;
         }
         return fundCode;
-
-
-
-        //string k = "";
-        //for (int i = 0; i < CheckBoxList1.Items.Count; i++)
-        //{
-        //    if (CheckBoxList1.Items[i].Selected)
-        //    {
-
-        //        k = k + CheckBoxList1.Items[i].Text + "</br>";
-        //    }
-
-        //}
-        //lbmsg.Text = k;
-        //lbmsg.ForeColor = System.Drawing.Color.ForestGreen;
-
-
 
     }
     protected void CloseButton_Click(object sender, EventArgs e)

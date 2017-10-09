@@ -12,6 +12,7 @@ using System.Web.UI.WebControls;
 public partial class UI_CompanyInformation : System.Web.UI.Page
 {
     CommonGateway commonGatewayObj = new CommonGateway();
+    DropDownList dropDownListObj = new DropDownList();
 
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -20,153 +21,130 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
             Session.RemoveAll();
             Response.Redirect("../Default.aspx");
         }
-
-        if (string.IsNullOrEmpty(Request.QueryString["ID"]))
+        DataTable dtUserDropDownList = dropDownListObj.UserDropDownList();
+        if (!IsPostBack)
         {
-            // not there!
-            Session["funds"] = GetFundName();
+            userDropDownList.DataSource = dtUserDropDownList;
+            userDropDownList.DataTextField = "User_ID";
+            userDropDownList.DataValueField = "ID";
+            userDropDownList.DataBind();
 
-            DataTable dtNoOfFunds = (DataTable)Session["funds"];
-            Button1.Visible = true;
-            Button1.Text = "Save";
+            DataTable dtMenuList = GetMENU();
+            if (dtMenuList.Rows.Count > 0)
+            {
+                chkFunds.DataSource = dtMenuList;
+                chkFunds.DataValueField = "CHILD_OF_SUBMENU_ID";
+                chkFunds.DataTextField = "CHILD_OF_SUBMENU_NAME";
+
+                chkFunds.DataBind();
+
+                //int fundSerial = 1;
+                dvGridFund.Visible = true;
+            }
         }
         else
         {
-            string fundID = Convert.ToString(Request.QueryString["ID"]).Trim();
-            Session["fundsbyID"] = GetFundName_ByID(fundID);
-            DataTable dtFundsbyID = (DataTable)Session["fundsbyID"];
-
-            if (dtFundsbyID.Rows.Count > 0)
-            {
-                fundcodeTextBox.Text = dtFundsbyID.Rows[0]["F_CD"].ToString();
-                txtfundName.Value = dtFundsbyID.Rows[0]["F_NAME"].ToString();
-                FundTypeDropDownList.SelectedValue = dtFundsbyID.Rows[0]["F_TYPE"].ToString();
-                customerCode.Text = dtFundsbyID.Rows[0]["CUSTOMER"].ToString();
-                boIdTextBox.Text = dtFundsbyID.Rows[0]["BOID"].ToString();
-                txtCompanyCode.Text = dtFundsbyID.Rows[0]["COMP_CD"].ToString();
-                txtfundClose.Text = dtFundsbyID.Rows[0]["IS_F_CLOSE"].ToString();
-                txtsellbuycommision.Text = dtFundsbyID.Rows[0]["SL_BUY_COM_PCT"].ToString();
-
-                Button1.Visible = true;
-                Button1.Text = "Update";
-                //saveButton.Text = "Update";
-            }
-        }
-
-
-
-
-        //  companyNameTextBox.Text = "sss";
-    }
-
-
-    protected void fundCodeTextBox_TextChanged(object sender, EventArgs e)
-    {
-        DataTable dtgetfund;
-        if (fundcodeTextBox.Text.ToString() != "")
-        {
-            string strfundcode = "SELECT  *  FROM    FUND WHERE    BOID IS NOT NULL  and f_cd = " + fundcodeTextBox.Text.ToString() + "";
-            dtgetfund = commonGatewayObj.Select(strfundcode);
-            if (dtgetfund != null && dtgetfund.Rows.Count > 0)
-            {
-                txtfundName.Value = dtgetfund.Rows[0]["F_NAME"].ToString();
-                ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('This fund is already available !');", true);
-
-            }
+            dvGridFund.Visible = false;
         }
 
 
     }
 
-    private DataTable GetFundName()
+
+    private DataTable GetMENU()
     {
-        DataTable dtFundName = new DataTable();
+        DataTable dtMenUList = new DataTable();
 
         StringBuilder sbMst = new StringBuilder();
         StringBuilder sbOrderBy = new StringBuilder();
         sbOrderBy.Append("");
-        sbMst.Append(" SELECT     *     FROM         FUND  ");
-        sbMst.Append(" WHERE    BOID IS NOT NULL ");
-        sbOrderBy.Append(" ORDER BY FUND.F_CD ");
+
+        sbMst.Append(" select * from (select sm.MENU_ID,menu.MENU_NAME,sm.SUBMENU_ID,sm.SUBMENU_NAME  from  (select * from Menu ) menu inner join SUBMENU sm on MENU.MENU_ID=SM.MENU_ID) msm inner join ");
+        sbMst.Append(" CHILD_OF_SUBMENU cosm on msm.SUBMENU_ID=COSM.SUBMENU_ID  ");
+        sbOrderBy.Append(" where CHILD_OF_SUBMENU_ID != '73' order by CHILD_OF_SUBMENU_ID asc ");
 
         sbMst.Append(sbOrderBy.ToString());
-        dtFundName = commonGatewayObj.Select(sbMst.ToString());
+        dtMenUList = commonGatewayObj.Select(sbMst.ToString());
 
-        Session["dtFundName"] = dtFundName;
-        return dtFundName;
+        Session["dtMenUList"] = dtMenUList;
+
+        return dtMenUList;
     }
-
-    private DataTable GetFundName_ByID(string ID)
-    {
-        DataTable dtFundName = new DataTable();
-
-        StringBuilder sbMst = new StringBuilder();
-        StringBuilder sbOrderBy = new StringBuilder();
-        sbOrderBy.Append("");
-        sbMst.Append(" SELECT     *     FROM         FUND  ");
-        sbMst.Append(" WHERE    BOID IS NOT NULL and F_CD=" + ID + " ");
-
-        sbMst.Append(sbOrderBy.ToString());
-        dtFundName = commonGatewayObj.Select(sbMst.ToString());
-
-        Session["dtFundName"] = dtFundName;
-        return dtFundName;
-    }
-    private void ClearField()
+    protected void saveButton_Click(object sender, EventArgs e)
     {
 
-    }
+        Session["dtMenUList"] = SelectUser();
+        Session["UserId"] = userDropDownList.SelectedValue.ToString();
+        string menuIDs = "";
+        string UserId = "";
+        string strInsQuery;
+        DataTable dtmenuExist;
+        menuIDs = (string)Session["dtMenuIds"];
+        UserId = (string)Session["UserId"];
 
-    public class Fund
-    {
-        public int F_CD { get; set; }
-        public string F_NAME { get; set; }
-        public int COMP_CD { get; set; }
-        public string F_TYPE { get; set; }
-        public string IS_F_CLOSE { get; set; }
-        public string CUSTOMER { get; set; }
-        public string BOID { get; set; }
-        public double SL_BUY_COM_PCT { get; set; }
-
-    }
-    protected void Button1_Click(object sender, EventArgs e)
-    {
-        System.Threading.Thread.Sleep(5000);
-    }
-
-
-
-    [System.Web.Services.WebMethod]
-
-    public static bool InsertandUpdateFund(string FundId, string FundName, string FundType, string customerCode, string boId, string sellbuycommision, string CompanyCode, string fundClose)
-    {
-        CommonGateway commonGatewayObj = new CommonGateway();
-        DataTable dtgetfund;
-        if (FundId != "")
+        if (string.IsNullOrEmpty(Session["dtMenUList"] as string))
         {
-            string strfundcode = "SELECT  *  FROM    FUND WHERE    BOID IS NOT NULL  and f_cd = " + FundId + "";
-            dtgetfund = commonGatewayObj.Select(strfundcode);
-            if (dtgetfund != null && dtgetfund.Rows.Count > 0)
+            ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Please check mark at least one Menu');", true);
+            dvGridFund.Visible = true;
+        }
+        else
+        {
+            
+
+            List<string> menuList = menuIDs.Split(new char[] { ',' }).ToList();
+
+            foreach (var menuid in menuList)
             {
-                string strUPQuery = "update FUND set F_NAME='" + FundName + "',COMP_CD ='" + CompanyCode + "',F_TYPE ='" + FundType + "',IS_F_CLOSE='" + fundClose + "',CUSTOMER ='" + customerCode + "',BOID ='" + boId + "',SL_BUY_COM_PCT ='" + sellbuycommision + "' where F_CD =" + FundId + "";
 
-                int NumOfRows = commonGatewayObj.ExecuteNonQuery(strUPQuery);
-                
+                string strMenuExits = "SELECT  *  FROM    MENUPERMISSIONS WHERE    MENU_ID= " + menuid + "   and USER_ID = " + UserId + "";
+                dtmenuExist = commonGatewayObj.Select(strMenuExits);
+                if (dtmenuExist != null && dtmenuExist.Rows.Count > 0)
+                {
+                    string strUPQuery = "update MENUPERMISSIONS set MENU_ID='" + menuid + "' where USER_ID =" + UserId + "";
+
+                    int upNumOfRows = commonGatewayObj.ExecuteNonQuery(strUPQuery);
+
+                }
+                else
+                {
+                    strInsQuery = "insert into MENUPERMISSIONS(MENU_ID,USER_ID)values('" + menuid + "','" + UserId + "')";
+
+                    int inNumOfRows = commonGatewayObj.ExecuteNonQuery(strInsQuery);
+                }
+
+
             }
-            else
-            {
-              
-                string strInsQuery;
 
-                strInsQuery = "insert into Fund(F_CD,F_NAME,COMP_CD,F_TYPE,IS_F_CLOSE,CUSTOMER,BOID,SL_BUY_COM_PCT)values('" + FundId + "','" + FundName + "','" + CompanyCode + "','" + FundType + "','" + fundClose + "','" + customerCode + "','" + boId + "','" + sellbuycommision + "')";
+            Response.Redirect("MenuPermission.aspx");
 
-                int NumOfRows = commonGatewayObj.ExecuteNonQuery(strInsQuery);
-
-            }
         }
 
-        return true;
 
     }
 
+    private string SelectUser()
+    {
+        DataTable dtmenuId = (DataTable)Session["dtMenUList"];
+
+
+        string MenuId = "";
+        int loop = 0;
+
+        for (int i = 0; i < chkFunds.Items.Count; i++)
+        {
+            if (chkFunds.Items[i].Selected)
+            {
+                if (MenuId.ToString() == "")
+                {
+                    MenuId = dtmenuId.Rows[loop]["CHILD_OF_SUBMENU_ID"].ToString();
+                }
+                else
+                {
+                    MenuId = MenuId + "," + dtmenuId.Rows[loop]["CHILD_OF_SUBMENU_ID"].ToString();
+                }
+            }
+            loop++;
+        }
+        return MenuId;
+    }
 }

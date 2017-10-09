@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/UI/AMCLCommon.master" AutoEventWireup="true" CodeFile="AssignMenuByUser.aspx.cs" Inherits="UI_CompanyInformation" Title="Company Information" %>
+﻿<%@ Page Language="C#" MasterPageFile="~/UI/AMCLCommon.master" AutoEventWireup="true" CodeFile="AssignMenuByUser.aspx.cs" Inherits="UI_CompanyInformation" Title="Assign Menu By User" %>
 
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
 
@@ -22,7 +22,7 @@
         <table id="Table1" width="600" align="center" cellpadding="0" cellspacing="0" runat="server">
             <tr>
                 <td align="center" class="style3">
-                    <b><u>Fund Entry</u></b>
+                    <b><u>Assign Menu By User</u></b>
                 </td>
             </tr>
         </table>
@@ -34,114 +34,69 @@
         <table class="table table-hover" id="bootstrap-table">
 
             <tbody>
-                <tr>
-                    <td align="left">
-                        <b>Fund code </b>
-                    </td>
-                    <td align="left">
-                        <asp:TextBox ID="fundcodeTextBox" runat="server" Width="100px" OnTextChanged="fundCodeTextBox_TextChanged" AutoPostBack="true"></asp:TextBox>
-                    </td>
-
-                </tr>
-
-                <tr>
-                    <td align="left">
-                        <b>Fund Name </b>
-                    </td>
-                    <td align="left">
-                        <textarea id="txtfundName" cols="20" rows="2" runat="server"></textarea>
-                    </td>
-
-                </tr>
-
-                <tr>
-
-                    <td align="left">
-                        <b>Fund type</b>
-                    </td>
-                    <td>
-                        <asp:DropDownList ID="FundTypeDropDownList" Width="100px" runat="server"
-                            TabIndex="3">
-                            <asp:ListItem Text="--Select--" Value="0"></asp:ListItem>
-                            <asp:ListItem Text="OPEN END" Value="OPEN END"></asp:ListItem>
-                            <asp:ListItem Text="CLOSE END" Value="CLOSE END"></asp:ListItem>
-                        </asp:DropDownList>
-                    </td>
-                    <td align="left">
-                        <b>Customer Code</b>
-                    </td>
-                    <td align="left">
-                        <asp:TextBox ID="customerCode" runat="server" Width="100px"></asp:TextBox>
-                    </td>
-
-
-                </tr>
-
-                <tr>
-                    <td align="left">
-                        <b>BO ID</b>
-                    </td>
-                    <td align="left">
-                        <asp:TextBox ID="boIdTextBox" runat="server" Width="100px"></asp:TextBox>
-                    </td>
-
-                    <td align="left">
-                        <b>Sell buy Commission</b>
-                    </td>
-                    <td align="left">
-
-                        <asp:TextBox ID="txtsellbuycommision" runat="server" Width="100px"></asp:TextBox>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td align="left">
-                        <b>Company Code</b>
-                    </td>
-                    <td align="left">
-                        <asp:TextBox ID="txtCompanyCode" runat="server" Width="100px"></asp:TextBox>
-                    </td>
-
-                    <%
-                        string userType = Session["UserType"].ToString();
-
-                        if (userType == "A")
-                        {
-
-                    %>
-                    <td align="left">
-                        <b>IS Fund Close ?</b>
-                    </td>
-                    <td align="left">
-                        <asp:TextBox ID="txtfundClose" runat="server" Width="100px"></asp:TextBox>
-                    </td>
-                    <%
-                        }
-
-                    %>
-                </tr>
 
 
                 <tr>
 
-                    <%-- <td align="center" colspan="6">
-                    <asp:Button ID="saveButton" runat="server" Text="Save" Visible="false"
-                        CssClass="buttoncommon" TabIndex="48"
-                        OnClick="saveButton_Click" />
+                    <td >
 
+                        <div style="height: 300px; width: 400px; overflow: auto;" id="dvGridFund" runat="server">
+                            <!--- Following code renders the checkboxes and a label control on browser --->
 
-                </td>--%>
-                    <td align="center" colspan="6">
-                        <asp:Button ID="Button1" Visible="false" Text="Save" CssClass="buttoncommon" runat="server" OnClick="Button1_Click" />
+                            <asp:CheckBox ID="chkAll" Text="Select All" runat="server" />
+                            <asp:CheckBoxList ID="chkFunds" runat="server">
+                            </asp:CheckBoxList>
+
+                        </div>
                     </td>
 
+
                 </tr>
-
-
+              
             </tbody>
         </table>
+        <table width="600" align="center" cellpadding="0" cellspacing="0" >
+              <tr>
+                    <td align="left">
+                        <b>User Name </b>
+                    </td>
+                    <td align="left">
+                        <asp:DropDownList ID="userDropDownList" Style="" runat="server" TabIndex="4"></asp:DropDownList>
+                    </td>
 
+                </tr>
+                <tr>
+                   
+                        <td align="center" colspan="6">
+                        <asp:Button ID="saveButton" runat="server" Text="Save"
+                            CssClass="buttoncommon" TabIndex="48"
+                            OnClick="saveButton_Click" />
+                    </td>
+                </tr>
 
+         </table>
+
+        <br />
+        <br />
+
+        <script type="text/javascript">
+            $(function () {
+                $("[id*=chkAll]").bind("click", function () {
+                    if ($(this).is(":checked")) {
+                        $("[id*=chkFunds] input").prop("checked", "checked");
+                    } else {
+                        $("[id*=chkFunds] input").removeAttr("checked");
+                    }
+                });
+                $("[id*=chkFunds] input").bind("click", function () {
+                    if ($("[id*=chkFunds] input:checked").length == $("[id*=chkFunds] input").length) {
+                        $("[id*=chkAll]").prop("checked", "checked");
+                    } else {
+                        $("[id*=chkAll]").removeAttr("checked");
+                    }
+                });
+            });
+        </script>
         <script type="text/javascript">
      
 
@@ -155,93 +110,25 @@
 
        
 
-            $.validator.addMethod("CheckFundOpenorClose", function (value, element, param) { 
-                // alert(value);
-                if (value == 'Y')  
-                    return true;  
-                else if(value == 'N') 
-                    return true;  
-                else if(value == '')
-                    return true;
-                else
-                    return false;  
-            },"Please select 'Y' for fund Open and 'N' for fund close.");
-
+            
 
             $("#aspnetForm").validate({
-                submitHandler: function () {
-                    test();
-                },
-                rules: {
-                    <%=fundcodeTextBox.UniqueID %>: {
-                        
-                    required: true,
-                    number:true,
-                    minlength: 1,
-                    maxlength: 3
-                },<%=txtfundName.UniqueID %>: {
-                      required: true 
-                  },<%=FundTypeDropDownList.UniqueID %>: {
-                        CheckDropDownList: true 
-                    },<%=customerCode.UniqueID %>: {
-                        required: true 
-                    },<%=boIdTextBox.UniqueID %>: {
-                        required: true,
-                        maxlength:16,
-                    },<%=txtsellbuycommision.UniqueID %>: {
-                        required: true,
-                        maxlength:4,
-                        number:true
-                    },<%=txtCompanyCode.UniqueID %>: {
-                        
-                        number:true
-                    },<%=txtfundClose.UniqueID %>: {
-                        
-                        CheckFundOpenorClose:true
-                    }
-                    
-            }, messages: {
-                <%=fundcodeTextBox.UniqueID %>:{  
-                  required: "*Fund Code is required*",
-                  maxlength: "* Please enter maximum 3 characters *"
-              }, <%=txtfundName.UniqueID %>:{  
-                        required: "*Fund name is required*",
-                    }, <%=txtfundName.UniqueID %>:{  
-                        required: "*Fund name is required*",
-                    }, <%=customerCode.UniqueID %>:{  
-                        required: "*Customer Code is required*",
-                    }, <%=boIdTextBox.UniqueID %>:{  
-                        required: "*BO ID is required*",
-                    }, <%=txtsellbuycommision.UniqueID %>:{  
-                        required: "*Sell buy commision is required*",
-                        maxlength: "*Sell buy commision  must be less than 4 digit*"
-                    }
-                    
-          }
-        });
-      function test() {   
-          $.ajax({
-              type: "POST",
-              url: "Addfund.aspx/InsertandUpdateFund",
-              data: '{FundId: "' + $("#<%=fundcodeTextBox.ClientID%>").val() + '",FundName: "' + $("#<%=txtfundName.ClientID%>").val() + '",FundType: "' + $("#<%=FundTypeDropDownList.ClientID%>").val() + '",customerCode: "' + $("#<%=customerCode.ClientID%>").val() + '",boId: "' + $("#<%=boIdTextBox.ClientID%>").val() + '",sellbuycommision: "' + $("#<%=txtsellbuycommision.ClientID%>").val() + '",CompanyCode: "' + $("#<%=txtCompanyCode.ClientID%>").val() + '",fundClose: "' + $("#<%=txtfundClose.ClientID%>").val() + '" }',
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (response) {
-                    if (response.d) {
-                        alert('data saved successfully');
-
-
-                        window.location = 'FundEntry.aspx';
-                    }
                 
-                },
-                failure: function (response) {
-                  
+                rules: {
+                    <%=userDropDownList.UniqueID %>: {
+                        
+                        CheckDropDownList: true
+                    }
+                    
                 }
-             });
+            });
+            function test() {   
+                alert("s");
 
-        }
+            }
         </script>
+
+
     </div>
 
 </asp:Content>
