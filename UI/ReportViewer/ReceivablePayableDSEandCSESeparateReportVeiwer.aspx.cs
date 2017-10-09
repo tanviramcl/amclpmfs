@@ -39,7 +39,7 @@ public partial class UI_ReportViewer_NonDemateSharesCheckReportViwer : System.We
        
             sbMst.Append("select t.f_cd,vch_dt,f.f_name fund_name,stock_ex,sum(decode(TRAN_TP,'C',AMT_AFT_COM,0)) buy,sum(decode(TRAN_TP,'S',AMT_AFT_COM,0)) Sale, ");
             sbMst.Append(" sum(decode(TRAN_TP,'C', -AMT_AFT_COM,'S',AMT_AFT_COM,0)) Receivable from  fund_trans_hb t ,fund f where vch_dt between '"+Fromdate+"' and '"+Todate+"' ");
-            sbMst.Append(" and tran_tp<>'B' and no_share>=1 and stock_ex in ('C','D') and f.f_cd=t.f_cd group by t.f_cd,f.f_name,  vch_dt,stock_ex order by  t.vch_dt,f.f_name ");
+            sbMst.Append(" and tran_tp<>'B' and no_share>=1 and stock_ex in ('C','D') and f.f_cd=t.f_cd group by t.f_cd,f.f_name,  vch_dt,stock_ex order by  t.vch_dt,f_cd ");
             sbMst.Append(sbfilter.ToString());
             dtReprtSource = commonGatewayObj.Select(sbMst.ToString());
             dtReprtSource.TableName = "ReceivablePayableDSEandCSESeparate";
