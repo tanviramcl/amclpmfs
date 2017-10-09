@@ -210,4 +210,25 @@ public class DropDownList
         }
         return pdateDropDownList;
     }
+
+    public DataTable UserDropDownList()//For All Funds
+    {
+        DataTable dtUserList = commonGatewayObj.Select("select ID,User_ID,password,Name,Designation,Role_name from (select * from  user_table) u inner join user_role ur on U.ROLE_ID=UR.ROLE_ID order by Id");
+        DataTable dtUserListeDropDownList = new DataTable();
+        dtUserListeDropDownList.Columns.Add("User_ID", typeof(string));
+        dtUserListeDropDownList.Columns.Add("ID", typeof(string));
+        DataRow dr = dtUserListeDropDownList.NewRow();
+        dr["User_ID"] = "--Click Here to Select--";
+        dr["ID"] = "0";
+        dtUserListeDropDownList.Rows.Add(dr);
+        for (int loop = 0; loop < dtUserList.Rows.Count; loop++)
+        {
+            dr = dtUserListeDropDownList.NewRow();
+            dr["User_ID"] = dtUserList.Rows[loop]["User_ID"].ToString();
+            dr["ID"] = Convert.ToInt32(dtUserList.Rows[loop]["ID"]);
+            dtUserListeDropDownList.Rows.Add(dr);
+        }
+        return dtUserListeDropDownList;
+    }
+
 }

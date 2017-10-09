@@ -11,7 +11,7 @@ using System.Web.UI.WebControls;
 public partial class UI_CompanyInformation : System.Web.UI.Page
 {
     CommonGateway commonGatewayObj = new CommonGateway();
-
+  
 
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -20,9 +20,9 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
             Session.RemoveAll();
             Response.Redirect("../Default.aspx");
         }
-        Session["CompInfo"] = GetAllCompInfo();
+        Session["menus"] = GetMENU();
 
-        DataTable dtCompInfo = (DataTable)Session["CompInfo"];
+        DataTable dtmenUList = (DataTable)Session["menus"];
 
 
 
@@ -32,37 +32,34 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
     protected void saveButton_Click(object sender, EventArgs e)
     {
 
-
+      
 
     }
 
-    private DataTable GetAllCompInfo()
+    private DataTable GetMENU()
     {
-        DataTable dtCompInfo = new DataTable();
+        DataTable dtMenUList = new DataTable();
 
         StringBuilder sbMst = new StringBuilder();
         StringBuilder sbOrderBy = new StringBuilder();
         sbOrderBy.Append("");
 
-        sbMst.Append(" SELECT COMP_CD, COMP_NM, SECT_MAJ_CD,INSTR_CD, CAT_TP, ATHO_CAP, PAID_CAP, NO_SHRS, ");
-        sbMst.Append(" FC_VAL, ISADD_HOWLACHARGE_DSE,ADD_HOWLACHARGE_AMTDSE,EXCEP_BUYSL_COMPCT_DSE FROM COMP ");
-        sbOrderBy.Append(" ORDER BY COMP_CD ");
+        sbMst.Append(" select * from (select sm.MENU_ID,menu.MENU_NAME,sm.SUBMENU_ID,sm.SUBMENU_NAME  from  (select * from Menu ) menu inner join SUBMENU sm on MENU.MENU_ID=SM.MENU_ID) msm inner join ");
+        sbMst.Append(" CHILD_OF_SUBMENU cosm on msm.SUBMENU_ID=COSM.SUBMENU_ID  ");
+        sbOrderBy.Append(" order by CHILD_OF_SUBMENU_ID asc ");
 
         sbMst.Append(sbOrderBy.ToString());
+        dtMenUList = commonGatewayObj.Select(sbMst.ToString());
 
-        dtCompInfo = commonGatewayObj.Select(sbMst.ToString());
-
-        Session["CompInfo"] = dtCompInfo;
-        return dtCompInfo;
+        Session["dtMenUList"] = dtMenUList;
+        return dtMenUList;
     }
 
-    protected void AddButton_Click(object sender, EventArgs e)
+    protected void AssignMenu_Click(object sender, EventArgs e)
     {
-        Response.Redirect("CompanyInformation.aspx");
+        Response.Redirect("AssignMenuByUser.aspx");
     }
 
-    protected void UpdateButton_Click(object sender, EventArgs e)
-    {
-        Response.Redirect("AddFund.aspx");
-    }
+
+   
 }

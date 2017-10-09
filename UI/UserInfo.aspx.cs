@@ -11,7 +11,7 @@ using System.Web.UI.WebControls;
 public partial class UI_CompanyInformation : System.Web.UI.Page
 {
     CommonGateway commonGatewayObj = new CommonGateway();
-
+  
 
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -20,9 +20,9 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
             Session.RemoveAll();
             Response.Redirect("../Default.aspx");
         }
-        Session["CompInfo"] = GetAllCompInfo();
+        Session["funds"] = GetFundName();
 
-        DataTable dtCompInfo = (DataTable)Session["CompInfo"];
+        DataTable dtNoOfFunds = (DataTable)Session["funds"];
 
 
 
@@ -32,33 +32,32 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
     protected void saveButton_Click(object sender, EventArgs e)
     {
 
-
+      
 
     }
 
-    private DataTable GetAllCompInfo()
+    private DataTable GetFundName()
     {
-        DataTable dtCompInfo = new DataTable();
+        DataTable dtFundName = new DataTable();
 
         StringBuilder sbMst = new StringBuilder();
         StringBuilder sbOrderBy = new StringBuilder();
         sbOrderBy.Append("");
 
-        sbMst.Append(" SELECT COMP_CD, COMP_NM, SECT_MAJ_CD,INSTR_CD, CAT_TP, ATHO_CAP, PAID_CAP, NO_SHRS, ");
-        sbMst.Append(" FC_VAL, ISADD_HOWLACHARGE_DSE,ADD_HOWLACHARGE_AMTDSE,EXCEP_BUYSL_COMPCT_DSE FROM COMP ");
-        sbOrderBy.Append(" ORDER BY COMP_CD ");
+        sbMst.Append(" SELECT     *     FROM         FUND  ");
+        sbMst.Append(" WHERE    BOID IS NOT NULL ");
+        sbOrderBy.Append(" ORDER BY FUND.F_CD ");
 
         sbMst.Append(sbOrderBy.ToString());
+        dtFundName = commonGatewayObj.Select(sbMst.ToString());
 
-        dtCompInfo = commonGatewayObj.Select(sbMst.ToString());
-
-        Session["CompInfo"] = dtCompInfo;
-        return dtCompInfo;
+        Session["dtFundName"] = dtFundName;
+        return dtFundName;
     }
 
     protected void AddButton_Click(object sender, EventArgs e)
     {
-        Response.Redirect("CompanyInformation.aspx");
+        Response.Redirect("AddFund.aspx");
     }
 
     protected void UpdateButton_Click(object sender, EventArgs e)

@@ -541,11 +541,7 @@ public partial class DateWiseTransaction : System.Web.UI.Page
                         "' and '" + strHowlaDateTo + "' and f_cd =" + tblAllfundInfo.Rows[l]["F_CD"].ToString() + " group by sp_date, f_cd, comp_cd, in_out, substr(bk_cd,1, 1) order by sp_date,f_cd,comp_cd";
                         dtFromHowla = commonGatewayObj.Select(strSleFromHowlaQuery);
                     }
-                    //else // For new stock exchange
-                    //{
-                    //    strSleFromHowlaQuery = ""; // SQL Query must be added here
-                    //    ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('This stock exchange is not added yet.');", true);
-                    //}
+                  
 
 
 
@@ -921,9 +917,10 @@ public partial class DateWiseTransaction : System.Web.UI.Page
                         //...................for bond.............update fundtrans_hb........................
 
 
-                        DataTable dtSourcefundtranshbbybond;
-                        string currentdate, strUPdQueryforBond;
 
+                        DataTable dtExcepChargableBondFromHowla;
+                        string currentdate, strUPdQueryforBond;
+                        Double NumExcepChargableRowsFromHowla, AddBuySlChargeAmtDSE, ExcepBuySlCompctApplDSE;
                         DateTime dtimeCurrentDate = DateTime.Now;
 
 
@@ -937,29 +934,59 @@ public partial class DateWiseTransaction : System.Web.UI.Page
                             currentdate = "";
                         }
 
-                        string strCompnaybond = "SELECT  VCH_DT, F_CD, COMP_CD, TRAN_TP, VCH_NO, NO_SHARE, RATE, COST_RATE, CRT_AFT_COM,AMOUNT, AMT_AFT_COM, STOCK_EX,OP_NAME FROM FUND_TRANS_HB where comp_cd in(950,954) and VCH_DT='" + currentdate + "'";
-                        dtSourcefundtranshbbybond = commonGatewayObj.Select(strCompnaybond);
 
-                        if (dtSourcefundtranshbbybond != null && dtSourcefundtranshbbybond.Rows.Count > 0)
+                        string strQExcepChargableBondFromHowla = " select comp_cd,in_out,count(*)NumofExcepChargableHowla from howla  where " +
+                                                                  " comp_cd in (select comp_cd from comp where ISADD_HOWLACHARGE_DSE='Y' and ADD_HOWLACHARGE_AMTDSE " +
+                                                                  " is not null and EXCEP_BUYSL_COMPCT_DSE is not null) and sp_date = '" + currentdate + "'" +
+                                                                   " group by comp_cd,in_out";
+                        dtExcepChargableBondFromHowla = commonGatewayObj.Select(strQExcepChargableBondFromHowla);
+
+
+
+
+                        // Double NumExcepChargableRowsFromHowla = Convert.ToDouble(dtExcepChargableBondFromHowla.Rows[0]["NumofExcepChargableHowla"].ToString());
+
+
+                        // string strCompnaybond = "select comp_cd,in_out from howla where comp_cd in(select comp_cd from comp where ISADD_BUYSLCHARGE_APPLDSE='Y' and ADD_BUYSLCHARGE_AMTDSE is not null and EXCEP_BUYSL_COMPCT_APPLDSE is not null) and sp_date= '" + currentdate + "'";
+                        //  dtSourcefundtranshbbybond = commonGatewayObj.Select(strCompnaybond);
+
+                        if (dtExcepChargableBondFromHowla != null && dtExcepChargableBondFromHowla.Rows.Count > 0)
                         {
 
-                            for (int k = 0; k < dtSourcefundtranshbbybond.Rows.Count; k++)
+                            for (int k = 0; k < dtExcepChargableBondFromHowla.Rows.Count; k++)
                             {
-                                if (dtSourcefundtranshbbybond.Rows[k]["TRAN_TP"].ToString() == "C")
+                                NumExcepChargableRowsFromHowla = Convert.ToDouble(dtExcepChargableBondFromHowla.Rows[k]["NumofExcepChargableHowla"].ToString());
+
+
+                                if (dtExcepChargableBondFromHowla.Rows[k]["IN_OUT"].ToString() == "I")
                                 {
-                                    strUPdQueryforBond = "UPDATE FUND_TRANS_HB SET AMT_AFT_COM = AMOUNT + 50 + AMOUNT * 0.002  WHERE  comp_cd =" + dtSourcefundtranshbbybond.Rows[k]["COMP_CD"].ToString() + " and VCH_DT='" + currentdate + "' and TRAN_TP = 'C' ";
+
+                                    string strQSelExtCharge = "select ADD_HOWLACHARGE_AMTDSE,EXCEP_BUYSL_COMPCT_DSE from comp where comp_cd=" + dtExcepChargableBondFromHowla.Rows[k]["COMP_CD"].ToString();
+                                    DataTable dtSelExtCharge = commonGatewayObj.Select(strQSelExtCharge);
+                                    AddBuySlChargeAmtDSE = Convert.ToDouble(dtSelExtCharge.Rows[0]["ADD_HOWLACHARGE_AMTDSE"].ToString());
+                                    ExcepBuySlCompctApplDSE = Convert.ToDouble(dtSelExtCharge.Rows[0]["EXCEP_BUYSL_COMPCT_DSE"].ToString());
+
+                                    strUPdQueryforBond = "UPDATE FUND_TRANS_HB SET AMT_AFT_COM = AMOUNT +" + AddBuySlChargeAmtDSE * NumExcepChargableRowsFromHowla + " + AMOUNT * " + (ExcepBuySlCompctApplDSE / 100) + "  WHERE  comp_cd =" + dtExcepChargableBondFromHowla.Rows[k]["COMP_CD"].ToString() + " and VCH_DT='" + currentdate + "' and TRAN_TP = 'C' ";
 
                                     int NumOfRows = commonGatewayObj.ExecuteNonQuery(strUPdQueryforBond);
                                 }
-                                else if (dtSourcefundtranshbbybond.Rows[k]["TRAN_TP"].ToString() == "S")
+                                else if (dtExcepChargableBondFromHowla.Rows[k]["in_out"].ToString() == "O")
                                 {
-                                    strUPdQueryforBond = "UPDATE FUND_TRANS_HB SET AMT_AFT_COM = AMOUNT-50 - AMOUNT * 0.002 WHERE  comp_cd =" + dtSourcefundtranshbbybond.Rows[k]["COMP_CD"].ToString() + " and VCH_DT='" + currentdate + "' and TRAN_TP = 'S' ";
+
+                                    string strQSelExtCharge = "select ADD_HOWLACHARGE_AMTDSE,EXCEP_BUYSL_COMPCT_DSE from comp where comp_cd=" + dtExcepChargableBondFromHowla.Rows[k]["COMP_CD"].ToString();
+                                    DataTable dtSelExtCharge = commonGatewayObj.Select(strQSelExtCharge);
+                                    AddBuySlChargeAmtDSE = Convert.ToDouble(dtSelExtCharge.Rows[0]["ADD_HOWLACHARGE_AMTDSE"].ToString());
+                                    ExcepBuySlCompctApplDSE = Convert.ToDouble(dtSelExtCharge.Rows[0]["EXCEP_BUYSL_COMPCT_DSE"].ToString());
+
+                                    strUPdQueryforBond = "UPDATE FUND_TRANS_HB SET AMT_AFT_COM = AMOUNT -" + AddBuySlChargeAmtDSE * NumExcepChargableRowsFromHowla + " - AMOUNT * " + (ExcepBuySlCompctApplDSE / 100) + "  WHERE  comp_cd =" + dtExcepChargableBondFromHowla.Rows[k]["COMP_CD"].ToString() + " and VCH_DT='" + currentdate + "' and TRAN_TP = 'S' ";
+
 
                                     int NumOfRows = commonGatewayObj.ExecuteNonQuery(strUPdQueryforBond);
                                 }
 
                             }
                         }
+
                       strProcessing = "Processing completed!!!!";
 
                         if (!string.IsNullOrEmpty(strProcessing))
