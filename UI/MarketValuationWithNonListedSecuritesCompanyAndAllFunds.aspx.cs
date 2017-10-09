@@ -40,36 +40,11 @@ public partial class UI_MarketValuationWithNonListedSecuritesCompanyAndAllFunds 
             if (dtNoOfFunds.Rows.Count > 0)
             {
 
-
-                //foreach (DataRow dr in dtNoOfFunds.Rows)
-                //{
-                //    ListItem newItem = new ListItem(dr["F_CD"].ToString()+ dr["F_NAME"].ToString());
-                //    chkFruits.Items.Add(newItem);
-                //}
-
                 chkFunds.DataSource = dtNoOfFunds;
                 chkFunds.DataValueField = "F_CD";
-                chkFunds.DataTextField = "F_NAME";
-                
+                chkFunds.DataTextField = "F_NAME";                
                 chkFunds.DataBind();
-
-                //int fundSerial = 1;
                 dvGridFund.Visible = true;
-                //DataRow drdtGridFund;
-                //for (int looper = 0; looper < dtNoOfFunds.Rows.Count; looper++)
-                //{
-                //    drdtGridFund = dtFund.NewRow();
-                //    drdtGridFund["SI"] = fundSerial;
-                //    drdtGridFund["FUND_CODE"] = dtNoOfFunds.Rows[looper]["F_CD"].ToString().ToUpper();
-                //    drdtGridFund["FUND_NAME"] = dtNoOfFunds.Rows[looper]["F_NAME"].ToString().ToUpper();
-                //    dtFund.Rows.Add(drdtGridFund);
-                //    fundSerial++;
-
-
-                //chkFruits.DataSource = dtNoOfFunds;
-                //chkFruits.DataBind();
-
-
             }
 
             

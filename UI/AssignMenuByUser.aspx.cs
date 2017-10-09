@@ -73,13 +73,13 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
     protected void saveButton_Click(object sender, EventArgs e)
     {
 
-        Session["dtMenUList"] = SelectUser();
+        Session["MenUList"] = SelectUser();
         Session["UserId"] = userDropDownList.SelectedValue.ToString();
         string menuIDs = "";
         string UserId = "";
         string strInsQuery;
         DataTable dtmenuExist;
-        menuIDs = (string)Session["dtMenuIds"];
+        menuIDs = (string)Session["MenUList"];
         UserId = (string)Session["UserId"];
 
         if (string.IsNullOrEmpty(Session["dtMenUList"] as string))
