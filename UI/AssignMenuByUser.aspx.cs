@@ -61,7 +61,7 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
 
         sbMst.Append(" select * from (select sm.MENU_ID,menu.MENU_NAME,sm.SUBMENU_ID,sm.SUBMENU_NAME  from  (select * from Menu ) menu inner join SUBMENU sm on MENU.MENU_ID=SM.MENU_ID) msm inner join ");
         sbMst.Append(" CHILD_OF_SUBMENU cosm on msm.SUBMENU_ID=COSM.SUBMENU_ID  ");
-        sbOrderBy.Append(" where CHILD_OF_SUBMENU_ID != '73' order by CHILD_OF_SUBMENU_ID asc ");
+        sbOrderBy.Append("  order by CHILD_OF_SUBMENU_ID asc ");
 
         sbMst.Append(sbOrderBy.ToString());
         dtMenUList = commonGatewayObj.Select(sbMst.ToString());
@@ -74,7 +74,7 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
     {
 
         Session["MenUList"] = SelectUser();
-        Session["UserId"] = userDropDownList.SelectedValue.ToString();
+        Session["UserId"] = userDropDownList.SelectedItem.Text.ToString();
         string menuIDs = "";
         string UserId = "";
         string strInsQuery;
@@ -82,7 +82,7 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
         menuIDs = (string)Session["MenUList"];
         UserId = (string)Session["UserId"];
 
-        if (string.IsNullOrEmpty(Session["dtMenUList"] as string))
+        if (string.IsNullOrEmpty(Session["MenUList"] as string))
         {
             ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Please check mark at least one Menu');", true);
             dvGridFund.Visible = true;
@@ -96,8 +96,12 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
             foreach (var menuid in menuList)
             {
 
-                string strMenuExits = "SELECT  *  FROM    MENUPERMISSIONS WHERE    MENU_ID= " + menuid + "   and USER_ID = " + UserId + "";
+                string strMenuExits = "SELECT  *  FROM    MENUPERMISSIONS WHERE    MENU_ID= " + menuid + "   and USER_ID = '" + UserId + "'";
                 dtmenuExist = commonGatewayObj.Select(strMenuExits);
+
+
+
+
                 if (dtmenuExist != null && dtmenuExist.Rows.Count > 0)
                 {
                     string strUPQuery = "update MENUPERMISSIONS set MENU_ID='" + menuid + "' where USER_ID =" + UserId + "";
@@ -115,7 +119,7 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
 
             }
 
-            Response.Redirect("MenuPermission.aspx");
+            Response.Redirect("MenuPermissionForUser.aspx");
 
         }
 

@@ -150,172 +150,133 @@
                 <td style="background-color: #776BA6;">
                     <ul id="ldd_menu" class="ldd_menu">
                         <%
-                            string userType = Session["UserType"].ToString();
 
-                            if (userType == "SA" || userType == "A")
+                            System.Data.DataTable dtchildodsubMenuList = (System.Data.DataTable)Session["Child_of_submenu"];
+                            if (dtchildodsubMenuList.Rows.Count > 0)
                             {
+                                string menuList = "";
+                                string subMenuList = "";
+                                for (int i = 0; i < dtchildodsubMenuList.Rows.Count; i++)
+                                {
 
-                        %>
-                        <li>
-                            <span>Entry</span>
-                            <div class="ldd_submenu">
-                                <ul>
-                                    <li class="ldd_heading">From</li>
-                                    <li><a href="FundEntry.aspx">Fund Information</a></li>
-                                    <li><a href="FundTransactionEntry.aspx">Fund Transaction Entry</a></li>
-                                    <li><a href="BookCloserEntry.aspx">Book Closer Entry</a></li>
-                                    <li><a href="NonListedSecuritiesInvestmentEntryForm.aspx">Non Listed Securities Entry</a></li>
-                                    <li><a href="HowlaDSEentryForm.aspx">DSE Howla Entry</a></li>
-                                    <li><a href="HowlaDSEentryForm.aspx">CSE Howla Entry</a></li>
-                                  <%--  <li><a href="CompanyInformation.aspx">Company Information Entry</a></li>--%>
-                                     <li><a href="AllCompInfo.aspx">Company Information</a></li>
-                                </ul>
-                                <ul>
-                                    <li class="ldd_heading">Matching</li>
-                                    <li><a href="PortfolioFileUpload.aspx">Upload File</a></li>
-                                    <li><a href="PortfolioMPUpdate.aspx">Update Market Price</a></li>
-                                    <%--   <li><a href="#">Science &amp; Education</a></li>--%>
-                                    <li><a href="PortfolioHowlaUpdate.aspx">Howla Update</a></li>
-                                    <li><a href="DateWiseTransaction.aspx">Date Wise Transaction</a></li>
-                                    <li><a href="BalanceUpdateProcess.aspx">Balance Update Process</a></li>
-                                    <li><a href="AdvancedDateWiseTransaction.aspx">Advanced Date Wise Transaction</a></li>
-                                    <li><a href="AdvancedBalanceUpdateProcess.aspx">Advanced Balance Update Process</a></li>
-                                    <li><a href="FinalProcessing.aspx">Final Processing</a></li>
-                                </ul>
-                                <ul>
-                                    <li class="ldd_heading">MOMS</li>
-                                    <li><a href="CompanyInformationForCDS.aspx">Company Information For CDS</a></li>
-                                    <li><a href="DematComp.aspx">Demat Comp</a></li>
-                                    <li><a href="DematList.aspx">Demat List</a></li>
-                                    <li><a href="SingleDemat.aspx">Single Demat(Fund)</a></li>
-                                    <li><a href="GroupDemat.aspx">Group Demat(Fund)</a></li>
+                                    if (menuList == "")
+                                    {
+                                        menuList = "0";
+                                    }
+                                    menuList = menuList + "," + dtchildodsubMenuList.Rows[i]["MENU_ID"].ToString();
+                                    if (subMenuList == "")
+                                    {
+                                        subMenuList = "0";
+                                    }
 
-                                </ul>
-                                <%--<a class="ldd_subfoot" href="#">+ New Deals</a>--%>
-                            </div>
-                        </li>
+                                    subMenuList = subMenuList + "," + dtchildodsubMenuList.Rows[i]["SUBMENU_ID"].ToString();
 
-                        <li>
-                            <span>Reports</span>
-                            <div class="ldd_submenu">
-                                <ul>
-                                    <li class="ldd_heading"></li>
-                                    <li><a href="SalePurchaseReportForm.aspx">Sale-Purchase Report</a></li>
-                                    <li><a href="SalePurchaseSummaryReopot.aspx">Sale-Purchase Summary Report</a></li>
-                                    <li><a href="FundTransactionReport.aspx">Fund Transaction Report</a></li>
-                                    <li><a href="BookCloserReport.aspx">Book Closer Report</a></li>
-                                    <li><a href="CompanyWiseSecuritiesTransaction.aspx">Company Wise Securites Transaction Report</a></li>
-                                    <li><a href="CompanyWiseAllPortfoliosReportDSEonly.aspx">Company Wise All Portfolios Report(DSE Only)</a></li>
-                                    <li><a href="PortfolioWithNonListedSecurities.aspx">Portfolio With NonListed Securities</a></li>
-                                    <li><a href="PortfolioStatementWithProfitLoss.aspx">Portfolio With Profit/Loss</a></li>
-                                    <%--   <li><a href="#">Science &amp; Education</a></li>--%>
-                                    <li><a href="MarketValuationWithProfitLoss.aspx">Market Valiation With Profit/Loss</a></li>
-                                    <li><a href="MarketValuationWithNonListedSecuritesCompanyAndAllFunds.aspx">Market Valiation With Non Listed Securites Company/All Funds</a></li>
-                                    <li><a href="AssetPercentageNAVSummaryAndPortfolio.aspx">Asset Percentage NAV/Summary/Portfolio</a></li>
-                                    <li><a href="PortfolioSummaryForm.aspx">Portfolio Summary (Sector Wise)</a></li>
-                                    <li><a href="PortFolioSummaryInPieChart.aspx">Portfolio Summary In Pie Chart (Sector Wise)</a></li>
-                                    <li><a href="AssetPercentageCheck.aspx">Total Asset Percetage Check</a></li>
-                                    <li><a href="MaxMinClosingPriceOfFundsReport.aspx">Max and Min Closing Price of ALL Funds</a></li>
-                                    <li><a href="CapitalGainSummeryDateWise.aspx">Capital Gain Summary DateWise</a></li>
-                                    <li><a href="CapitalGainCompanyWiseNew.aspx">Capital Gain Individual Fund (Company Wise)</a></li>
+                                }
 
-                                    <li><a href="CapitalGainCompanyWise.aspx">Capital Gain (Company Wise)</a></li>
-                                    <li><a href="CapitalGainSummeryCompanyWiseDsc.aspx">Company Wise Capital Gain Summary Descending</a></li>
-                                    <li><a href="SellBuyCheck.aspx">Sell Buy Check</a></li>
-                                    <li><a href="PortfilioDematShare.aspx">Portfilio Demat Share</a></li>
+                                Session["menu_list"] = menu_list(menuList);
+                                Session["submenu_list"] = Sub_menu_list(subMenuList);
 
-                                </ul>
-
-                                <%--<a class="ldd_subfoot" href="#">+ New Deals</a>--%>
-                            </div>
-                        </li>
-                        <li>
-                            <span>Analytical Reports</span>
-                            <div class="ldd_submenu">
-                                <ul>
-                                    <li class="ldd_heading"></li>
-                                    <li><a href="BalanceCheckReport.aspx">Balance Check</a></li>
-                                    <li><a href="NonDemateSharesCheckReport.aspx">Non Demate Shares Check</a></li>
-                                    <li><a href="NegativeBalanceCheckReport.aspx">Negative Balance Check</a></li>
-                                    <li><a href="StockDeclarationBeforePostedReport.aspx">Stock Declaration Before Posted</a></li>
-                                    <li><a href="StockDeclarationAfterPostedReport.aspx">Stock Declaration After Posted</a></li>
-                                    <li><a href="CapitalGainAllFundsReport.aspx">Capital Gain of Funds</a></li>
-                                    <li><a href="PortFolioCategoryWise.aspx">PortFolio CategoryWise</a></li>
-                                    <li><a href="PortfilioDematShare.aspx">Portfilio Demat Share</a></li>
-                                    <%--   <li><a href="#">Science &amp; Education</a></li>--%>
-                                    <li><a href="PortfilioNonDematShare.aspx">Portfilio NonDemat Share</a></li>
-                                    <li><a href="CapitalGainAllFundsReport.aspx">Capital Gain of Funds</a></li>
-                                    <li><a href="PortFolioCategoryWise.aspx">PortFolio CategoryWise</a></li>
-                                    <li><a href="PortfilioDematShare.aspx">Portfilio Demat Share</a></li>
-                                    <li><a href="PortfilioNonDematShare.aspx">Portfilio NonDemat Share</a></li>
-
-                                </ul>
-                                <ul>
-                                    <li class="ldd_heading">SEC Report</li>
-                                    <li><a href="DailyReportToSEC.aspx">Daily</a></li>
-                                    <li><a href="WeeklyReportToSEC.aspx">Weekly</a></li>
-                                    <li><a href="QuarterlyReportToSEC.aspx">Quarterly</a></li>
-                                    <li><a href="InvestmentByMFasPerSECrulesReportForm.aspx">Investment by the MF as per SEC Rules</a></li>
-                                    <li><a href="StatementOfProfitOnSaleOfInvestment.aspx">Statement Of Profit On Sale Of Investment</a></li>
-                                    <li><a href="PortFolioQuaterWise.aspx">Quarterly Portfolio Report With Previous Quarter</a></li>
-                                </ul>
-
-                                <%--<a class="ldd_subfoot" href="#">+ New Deals</a>--%>
-                            </div>
-                        </li>
-                        <li>
-                            <span>Reports(Accounts)</span>
-                            <div class="ldd_submenu">
-                                <ul>
-                                    <li class="ldd_heading">Accounts</li>
-                                    <li><a href="ReceivablePayableDSEandCSESeparate.aspx">Receivable/Payable(DSE and CSE Separate)</a></li>
-                                    <li><a href="ReceivablePayableFundWise.aspx">Sell Buy Fundwise Reconcilation</a></li>
-                                    <li><a href="ReconcilationDrandCR.aspx">Reconcilation DR/CR</a></li>
-                                    <li><a href="CapitalGainSummaryStockWise.aspx">Capital Gain Summary Stock Wise</a></li>
-                                    <li><a href="StatementOfProfitOnSaleOfInvestment.aspx">Statement Of Profit On Sale Of Investment</a></li>
-
-                                </ul>
-
-                                <ul>
-                                    <li class="ldd_heading">NAV</li>
-                                    <li><a href="CloseEndNAVLetterReport.aspx">Close End NAV Letter</a></li>
-                                    <li><a href="CloseEndNAVpaperCutting.aspx">Paper Cutting of Close End MF</a></li>
-
-
-                                </ul>
-                                <ul>
-                                    <li class="ldd_heading">Salary</li>
-                                    <li><a href="BankAdvice.aspx">Monthly Bank Advice(Salary)</a></li>
-                                    <li><a href="MonthlyDeductionOfIAMCLemployeesReportForm.aspx">Monthly Deduction of IAMCL Employees Report</a></li>
-                                    <li><a href="ReportViewer/SelectionScaleCalculation.aspx">Selection Scale 2009-2010</a></li>
-
-
-                                </ul>
-
-                                <%--<a class="ldd_subfoot" href="#">+ New Deals</a>--%>
-                            </div>
-                        </li>
-                        <li>
-                            <span><a href="../Default.aspx" style="color: #fff; font-size: 13px; font-weight: normal;">Logout</a></span>
-                            <%-- <span>Logout</span>
-                     <div class="ldd_submenu">
-                         <ul>
-                             <li><a href="../Default.aspx">Logout</a></li>
-                         </ul>
-                     </div>--%>
-                        </li>
-                        <%
                             }
-                            else
-                            {
-                                Response.Write("You are not admin user");
                         %>
-
 
                         <%
-                            }
+
+                            System.Data.DataTable dtMenuList = (System.Data.DataTable)Session["dtMenuName"];
+                            if (dtMenuList.Rows.Count > 0)
+                            {
+                                for (int j = 0; j < dtMenuList.Rows.Count; j++)
+                                {
 
                         %>
+
+                        <li>
+
+                            <span><%   Response.Write(dtMenuList.Rows[j]["MENU_NAME"].ToString());   %></span>
+                            <div class="ldd_submenu">
+                                <ul>
+                                    <%
+                                        System.Data.DataTable dtdsubMenuList = (System.Data.DataTable)Session["Child_of_submenu"];
+                                        string SubMenuList = "";
+                                        if (dtdsubMenuList.Rows.Count > 0)
+                                        {
+
+
+                                            for (int i = 0; i < dtdsubMenuList.Rows.Count; i++)
+                                            {
+
+                                                if (SubMenuList == "")
+                                                {
+                                                    SubMenuList = "0";
+                                                }
+                                                SubMenuList = SubMenuList + "," + dtdsubMenuList.Rows[i]["SUBMENU_ID"].ToString();
+                                            }
+                                        }
+
+                                        System.Data.DataTable dtGetSubMenubyID = GetSub_menu_byMenuId(SubMenuList, dtMenuList.Rows[j]["MENU_ID"].ToString());
+
+                                        if (dtGetSubMenubyID.Rows.Count > 0)
+                                        {
+                                            for (int k = 0; k < dtGetSubMenubyID.Rows.Count; k++)
+                                            {
+
+                                                if (!string.IsNullOrEmpty(dtGetSubMenubyID.Rows[k]["SUBMENU_NAME"].ToString()))
+                                                {
+                                    %>
+                                    <li class="ldd_heading"><%   Response.Write(dtGetSubMenubyID.Rows[k]["SUBMENU_NAME"].ToString());   %></li>
+
+                                    <%
+                                        }
+
+
+                                        System.Data.DataTable dtchildOfSubMenuList = (System.Data.DataTable)Session["Child_of_submenu"];
+                                        string childOfSubMenuList = "";
+                                        if (dtchildOfSubMenuList.Rows.Count > 0)
+                                        {
+
+
+                                            for (int m = 0; m < dtchildOfSubMenuList.Rows.Count; m++)
+                                            {
+
+                                                if (childOfSubMenuList == "")
+                                                {
+                                                    childOfSubMenuList = "0";
+                                                }
+                                                childOfSubMenuList = childOfSubMenuList + "," + dtchildOfSubMenuList.Rows[m]["CHILD_OF_SUBMENU_ID"].ToString();
+                                            }
+                                        }
+
+
+
+                                        Session["child_of_sub_menu_list"] = Childof_Sub_menu_list(childOfSubMenuList, dtMenuList.Rows[j]["MENU_ID"].ToString(), dtGetSubMenubyID.Rows[k]["SUBMENU_ID"].ToString());
+                                        System.Data.DataTable dtChildSuBMenuList = (System.Data.DataTable)Session["child_of_sub_menu_list"];
+
+                                        if (dtChildSuBMenuList.Rows.Count > 0)
+                                        {
+                                            for (int l = 0; l < dtChildSuBMenuList.Rows.Count; l++)
+                                            {
+                                    %>
+
+                                    <li><a href="<%   Response.Write(dtChildSuBMenuList.Rows[l]["URL"].ToString());   %>"><%   Response.Write(dtChildSuBMenuList.Rows[l]["CHILD_OF_SUBMENU_NAME"].ToString());   %></a></li>
+                                    <%
+                                                    }
+                                                }
+
+                                            }
+                                        }
+                                    %>
+                                </ul>
+
+
+                            </div>
+                        </li>
+                        <% 
+
+
+
+                                }
+                            }
+                        %>
+                        <li><span><a href="../Default.aspx" style="color: #fff; font-size: 13px; font-weight: normal;">Logout</a></span></li>
                     </ul>
 
                 </td>
@@ -350,13 +311,6 @@
         </table>
 
 
-        <%--   <p class="copyright">Design & Developed by ICBAMCL Computer Department.
-            Copyright&copy; ICBAMCL </p>
-        --%>
-
-        <%-- <div>
-        <MARQUEE  id="mark">hi hi</MARQUEE>
-        </div>--%>
     </form>
 
     <script type="text/javascript">

@@ -20,9 +20,9 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
             Session.RemoveAll();
             Response.Redirect("../Default.aspx");
         }
-        Session["user_list"] = GetUserInfo();
+        Session["menus"] = GetMENU();
 
-        DataTable dtuserlist = (DataTable)Session["user_list"];
+        DataTable dtmenUList = (DataTable)Session["menus"];
 
 
 
@@ -36,32 +36,30 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
 
     }
 
-    private DataTable GetUserInfo()
+    private DataTable GetMENU()
     {
-        DataTable dtUserList = new DataTable();
+        DataTable dtMenUList = new DataTable();
 
         StringBuilder sbMst = new StringBuilder();
         StringBuilder sbOrderBy = new StringBuilder();
         sbOrderBy.Append("");
 
-        sbMst.Append(" Select user_table.ID,user_table.USER_ID,user_table.NAME,user_table.DESIGNATION,USER_ROLE.ROLE_NAME from user_table  INNER JOIN user_role ");
-        sbMst.Append("ON user_table.ROLE_ID = user_role.ROLE_ID   ");
-        sbOrderBy.Append(" order by user_table.ID  ");
+        sbMst.Append(" select * from (select sm.MENU_ID,menu.MENU_NAME,sm.SUBMENU_ID,sm.SUBMENU_NAME  from  (select * from Menu ) menu inner join SUBMENU sm on MENU.MENU_ID=SM.MENU_ID) msm inner join ");
+        sbMst.Append(" CHILD_OF_SUBMENU cosm on msm.SUBMENU_ID=COSM.SUBMENU_ID  ");
+        sbOrderBy.Append(" order by CHILD_OF_SUBMENU_ID asc ");
 
         sbMst.Append(sbOrderBy.ToString());
-        dtUserList = commonGatewayObj.Select(sbMst.ToString());
+        dtMenUList = commonGatewayObj.Select(sbMst.ToString());
 
-        Session["dtUserInfo"] = dtUserList;
-        return dtUserList;
+        Session["dtMenUList"] = dtMenUList;
+        return dtMenUList;
     }
 
-    protected void AddButton_Click(object sender, EventArgs e)
+    protected void AssignMenu_Click(object sender, EventArgs e)
     {
-      //  Response.Redirect("AddFund.aspx");
+        Response.Redirect("AssignMenuByUser.aspx");
     }
 
-    protected void UpdateButton_Click(object sender, EventArgs e)
-    {
-        //Response.Redirect("AddFund.aspx");
-    }
+
+   
 }

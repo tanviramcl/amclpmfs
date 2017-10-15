@@ -32,11 +32,56 @@ public partial class UI_AMCLCommon : System.Web.UI.MasterPage
         string userType = Session["UserType"].ToString();
 
         lblLoginName.Text = "Welcome" + "  " + "to" + " " + LoginName.ToString();
+        string childOfsubmenu="";
 
+     //   Session["menu_list"] = menu_list();
 
-        Session["menu_list"] = menu_list();
+        DataTable dtUserPermmitedMenu = Usermenu_Permission(loginId);
 
-        
+        for (int i = 0; i < dtUserPermmitedMenu.Rows.Count; i++)
+        {
+            if (childOfsubmenu == "")
+            {
+                childOfsubmenu = "0";
+            }
+            childOfsubmenu = childOfsubmenu +","+ dtUserPermmitedMenu.Rows[i]["MENU_ID"].ToString();
+        }
+        Session["Child_of_submenu"] = Get_Child_of_submenu(childOfsubmenu);
+
+    }
+
+    public DataTable Usermenu_Permission(string loginId)
+    {
+        DataTable dtMenUName = new DataTable();
+
+        StringBuilder sbMst = new StringBuilder();
+        StringBuilder sbOrderBy = new StringBuilder();
+        sbOrderBy.Append("");
+
+        sbMst.Append(" select * from MENUPERMISSIONS where USER_ID = '" + loginId + "'");
+
+        sbMst.Append(sbOrderBy.ToString());
+        dtMenUName = commonGatewayObj.Select(sbMst.ToString());
+
+        Session["dtMenuName"] = dtMenUName;
+        return dtMenUName;
+    }
+
+    public DataTable Get_Child_of_submenu(string childOfsubmenu)
+    {
+        DataTable dtChild_of_submenu = new DataTable();
+
+        StringBuilder sbMst = new StringBuilder();
+        StringBuilder sbOrderBy = new StringBuilder();
+        sbOrderBy.Append("");
+
+        sbMst.Append(" SELECT * FROM CHILD_OF_SUBMENU WHERE CHILD_OF_SUBMENU_ID  IN(" + childOfsubmenu + ") order by CHILD_OF_SUBMENU_ID; ");
+
+        sbMst.Append(sbOrderBy.ToString());
+        dtChild_of_submenu = commonGatewayObj.Select(sbMst.ToString());
+
+        Session["dtChild_of_submenu"] = dtChild_of_submenu;
+        return dtChild_of_submenu;
     }
 
     public DataTable  menu_list()
@@ -47,7 +92,7 @@ public partial class UI_AMCLCommon : System.Web.UI.MasterPage
         StringBuilder sbOrderBy = new StringBuilder();
         sbOrderBy.Append("");
 
-        sbMst.Append(" select * from Menu  ");
+        sbMst.Append(" select * from Menu order by MENU_ID ");
        
         sbMst.Append(sbOrderBy.ToString());
         dtMenUName = commonGatewayObj.Select(sbMst.ToString());

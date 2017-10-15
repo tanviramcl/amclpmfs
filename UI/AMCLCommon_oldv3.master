@@ -1,4 +1,4 @@
-﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="AMCLCommon_new.master.cs" Inherits="UI_AMCLCommon" %>
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="AMCLCommon_oldv3.master.cs" Inherits="UI_AMCLCommon" %>
 
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
 <%@ Register Assembly="skmMenu" Namespace="skmMenu" TagPrefix="cc2" %>
@@ -153,7 +153,7 @@
 
                         <%
 
-                            System.Data.DataTable dtMenuList = (System.Data.DataTable)Session["menu_list"];
+                            System.Data.DataTable dtMenuList = (System.Data.DataTable)Session["Child_of_submenu"];
                             if (dtMenuList.Rows.Count > 0)
                             {
                                 for (int i = 0; i < dtMenuList.Rows.Count; i++)
@@ -198,6 +198,8 @@
 
                                     <%
                                         }
+
+
 
 
                                         Session["child_sub_menu_list"] = Childof_Sub_menu_list(dtMenuList.Rows[i]["MENU_ID"].ToString(), dtSuBMenuList.Rows[j]["SUBMENU_ID"].ToString());

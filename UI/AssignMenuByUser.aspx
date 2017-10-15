@@ -106,7 +106,7 @@
                     return false;  
                 else  
                     return true;  
-            },"Please select a Fund Type."); 
+            },"Please select a  user"); 
 
        
 
