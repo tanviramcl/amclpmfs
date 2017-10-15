@@ -16,7 +16,7 @@ public partial class UI_ReportViewer_CapitalGainAllFundsReportViewer : System.We
         string strFromdate = "";
         string strTodate = "";
         string fundCodes = "";
-        string strSQL;
+        string strSQLForMainReport, strSQLForSubReport;
         //string companyCodes = "";
         //string percentageCheck = "";
 
@@ -33,65 +33,83 @@ public partial class UI_ReportViewer_CapitalGainAllFundsReportViewer : System.We
 
         }
          CommonGateway commonGatewayObj = new CommonGateway();
-        DataTable dtReprtSource = new DataTable();
+      //  DataTable dtReprtSource = new DataTable();
+        DataTable dtRptSrcMainReport = new DataTable();
+        DataTable dtRptSrcSubReport = new DataTable();
         StringBuilder sbMst = new StringBuilder();
         StringBuilder sbfilter = new StringBuilder();
 
-           strSQL = "SELECT p.f_cd1,q.f_cd2,p.fund_name1,q.fund_name2,p.COST1,q.COST2,q.SALE2,p.No_Of_Share1,q.No_Of_Share2,q.profit2 from " +                                 
-              "(SELECT  t.F_CD f_cd1, f.f_name fund_name1,SUM(AMT_AFT_COM) as COST1, sum(no_share) as No_Of_Share1 FROM FUND_TRANS_HB  t, fund f " +
-            " WHERE t.TRAN_TP = 'C' AND VCH_DT BETWEEN '" + strFromdate + "' AND '" + strTodate + "' and t.F_CD IN(" + fundCodes + ") and t.f_cd = f.f_cd and t.f_cd <> 3" +
-            " GROUP BY t.F_CD, f.f_name ORDER BY t.F_CD, f.f_name)p, (SELECT t.F_CD f_cd2, f.f_name fund_name2,SUM(AMT_AFT_COM) as SALE2," +
-            "sum(no_share) as No_Of_Share2,sum(crt_aft_com * no_share) as COST2,SUM(AMT_AFT_COM) - sum(crt_aft_com * no_share) as profit2" +
-             " FROM FUND_TRANS_HB t, fund f WHERE t.TRAN_TP = 'S' AND VCH_DT BETWEEN '" + strFromdate + "' AND '" + strTodate + "' and t.F_CD IN(" + fundCodes + ") and f.f_cd = t.f_cd and t.f_cd <> 3" +
-              " GROUP BY t.F_CD, f.f_name)q where p.f_cd1=q.f_cd2 order by p.f_cd1";
+           //strSQLForMainReport = "SELECT p.f_cd1,q.f_cd2,p.fund_name1,q.fund_name2,p.COST1,q.COST2,q.SALE2,p.No_Of_Share1,q.No_Of_Share2,q.profit2 from " +                                 
+           //   "(SELECT  t.F_CD f_cd1, f.f_name fund_name1,SUM(AMT_AFT_COM) as COST1, sum(no_share) as No_Of_Share1 FROM FUND_TRANS_HB  t, fund f " +
+           // " WHERE t.TRAN_TP = 'C' AND VCH_DT BETWEEN '" + strFromdate + "' AND '" + strTodate + "' and t.F_CD IN(" + fundCodes + ") and t.f_cd = f.f_cd and t.f_cd <> 3" +
+           // " GROUP BY t.F_CD, f.f_name ORDER BY t.F_CD, f.f_name)p, (SELECT t.F_CD f_cd2, f.f_name fund_name2,SUM(AMT_AFT_COM) as SALE2," +
+           // "sum(no_share) as No_Of_Share2,sum(crt_aft_com * no_share) as COST2,SUM(AMT_AFT_COM) - sum(crt_aft_com * no_share) as profit2" +
+           //  " FROM FUND_TRANS_HB t, fund f WHERE t.TRAN_TP = 'S' AND VCH_DT BETWEEN '" + strFromdate + "' AND '" + strTodate + "' and t.F_CD IN(" + fundCodes + ") and f.f_cd = t.f_cd and t.f_cd <> 3" +
+           //   " GROUP BY t.F_CD, f.f_name)q where p.f_cd1=q.f_cd2 order by p.f_cd1";
+
+        strSQLForMainReport = "SELECT  t.F_CD f_cd1, f.f_name fund_name1,SUM(AMT_AFT_COM) as COST1, sum(no_share) as No_Of_Share1 FROM FUND_TRANS_HB  t, fund f " +
+           " WHERE t.TRAN_TP = 'C' AND VCH_DT BETWEEN '" + strFromdate + "' AND '" + strTodate + "' and t.F_CD IN(" + fundCodes + ") and t.f_cd = f.f_cd and t.f_cd <> 3" +
+           " GROUP BY t.F_CD, f.f_name ORDER BY t.F_CD, f.f_name";
+
+        dtRptSrcMainReport = commonGatewayObj.Select(strSQLForMainReport);
+
+        strSQLForSubReport = "SELECT t.F_CD f_cd2, f.f_name fund_name2,SUM(AMT_AFT_COM) as SALE2," +
+          "sum(no_share) as No_Of_Share2,sum(crt_aft_com * no_share) as COST2,SUM(AMT_AFT_COM) - sum(crt_aft_com * no_share) as profit2" +
+           " FROM FUND_TRANS_HB t, fund f WHERE t.TRAN_TP = 'S' AND VCH_DT BETWEEN '" + strFromdate + "' AND '" + strTodate + "' and t.F_CD IN(" + fundCodes + ") and f.f_cd = t.f_cd and t.f_cd <> 3" +
+            " GROUP BY t.F_CD, f.f_name";
+        dtRptSrcSubReport = commonGatewayObj.Select(strSQLForSubReport);
+
+        DataSet ds = new DataSet();
+        //ds.Tables.Add(dtRptSrcMainReport);
+        //ds.Tables.Add(dtRptSrcSubReport);
 
 
-        dtReprtSource = commonGatewayObj.Select(strSQL);
-        dtReprtSource.TableName = "CapitalGainAllFundsdatasetnew";
-        //dtReprtSource.WriteXmlSchema(@"E:\amclpmfs\UI\ReportViewer\Report\xsdCapitalGainAllFundsdatasetnew.xsd");
-        // dtReprtSource.WriteXmlSchema(@"D:\officialProject\2-13-2017\amclpmfs\UI\ReportViewer\Report\crtCapitalGainAllFundsdataset1.xsd");
 
-        //DataTable dtReprtSource1 = new DataTable();
-        //strsql2 = "SELECT  t.F_CD, f.f_name fund_name,SUM(AMT_AFT_COM) as SALE, sum(no_share) as No_Of_Share,sum(crt_aft_com * no_share) as COST,"+
-        //    " SUM(AMT_AFT_COM) - sum(crt_aft_com * no_share) as profit FROM FUND_TRANS_HB t, fund f WHERE t.TRAN_TP = 'S' AND VCH_DT BETWEEN '"+strFromdate+"' AND '"+strTodate+ "' and f.f_cd = t.f_cd and t.f_cd <> 3 GROUP BY t.F_CD, f.f_name order by t.F_CD";
-        //dtReprtSource1 = commonGatewayObj.Select(strsql2);
-        //dtReprtSource1.TableName = "CapitalGainAllFundsdataset4";
-        // dtReprtSource1.WriteXmlSchema(@"D:\officialProject\2-13-2017\amclpmfs\UI\ReportViewer\Report\crtCapitalGainAllFundsdataset2.xsd");
+        //        Dim dt1 As DataTable
+        //        Dim dt2 As DataTable
 
-        //DataSet ds = new DataSet();
-        //ds.Tables.Add(dtReprtSource);
-        //ds.Tables.Add(dtReprtSource1);
-        //rpt.SetDataSource(ds);
+        //        dt1 = UnityDataRow()
+        //        dt2 = UnityDataRow()
 
-        if (dtReprtSource.Rows.Count > 0 )
+        //dt1.TableName = "Level1"
+        //dtRptSrcMainReport.TableName = "dtCopyForMainRpt";
+        //dtRptSrcSubReport.TableName = "dtCopyForSubRpt";
+        //dt2.TableName = "Level2"
+
+        //HierDS.Tables.Add(dt1) '' no need to write copy method
+        //       HierDS.Tables.Add(dt2)
+
+        DataTable dtCopyForMainRpt = new DataTable();
+        DataTable dtCopyForSubRpt = new DataTable();
+        dtRptSrcMainReport.TableName = "dtCopyForMainRpt";
+        dtRptSrcSubReport.TableName = "dtCopyForSubRpt";
+
+        ds.Tables.Add(dtRptSrcMainReport.Copy());
+        ds.Tables.Add(dtRptSrcSubReport.Copy());
+
+        //   E:\iamclpfmsnew\amclpmfs\UI\ReportViewer\Report
+        // dtReprtSource.WriteXmlSchema(@"E:\amclpmfs\UI\ReportViewer\Report\xsdMarketValuationWithProfitLoss.xsd");
+        // dtReprtSource.WriteXmlSchema(@"E:\iamclpfmsnew\amclpmfs\UI\ReportViewer\Report\xsdMarketValuationWithProfitLoss.xsd");
+
+       // ds.WriteXmlSchema(@"E:\iamclpfmsnew\amclpmfs\UI\ReportViewer\Report\xsdCapitalGainAllFunds.xsd");
+      
+        if (dtRptSrcMainReport.Rows.Count>0  && dtRptSrcSubReport.Rows.Count > 0 )
         {
             string Path = Server.MapPath("Report/crptCapitalGainAllFundsReport.rpt");
             rdoc.Load(Path);
-            rdoc.SetDataSource(dtReprtSource);
-         
+            //ds.Tables[0].Merge(dtRptSrcMainReport);
+            //ds.Tables[0].Merge(dtRptSrcSubReport);
+            // rdoc.SetDataSource(dtReprtSource);
+            rdoc.SetDataSource(ds);
+           
+
+
+
+
             CRV_CapitalGainAllFundsReportViewer.ReportSource = rdoc;
             rdoc.SetParameterValue("prmFromdate", strFromdate);
             rdoc.SetParameterValue("prmTodate", strTodate);
             rdoc = ReportFactory.GetReport(rdoc.GetType());
-
-
-
-
-
-
-
-            //rdoc.Load(Path);
-            //rdoc.SetDataSource(dtReprtSource);
-            //CRV_PfolioWithProfitLoss.ReportSource = rdoc;
-            //CRV_PfolioWithProfitLoss.DisplayToolbar = true;
-            //CRV_PfolioWithProfitLoss.HasExportButton = true;
-            //CRV_PfolioWithProfitLoss.HasPrintButton = true;
-            //rdoc.SetParameterValue("prmbalDate", balDate);
-            //rdoc.SetParameterValue("prmStatementType", statementType);
-            //rdoc.SetParameterValue("prmappOrEro", appOrEro);
-            //rdoc = ReportFactory.GetReport(rdoc.GetType());
-
-
 
 
         }

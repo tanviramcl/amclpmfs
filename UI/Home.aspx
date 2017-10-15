@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/UI/AMCLCommon_new.master" AutoEventWireup="true" CodeFile="Home.aspx.cs" Inherits="UI_Home" Title=" ICB ASSET MANAGEMENT COMPANY LIMITED" %>
+﻿<%@ Page Language="C#" MasterPageFile="~/UI/AMCLCommon.master" AutoEventWireup="true" CodeFile="Home.aspx.cs" Inherits="UI_Home" Title=" ICB ASSET MANAGEMENT COMPANY LIMITED" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
 
 </asp:Content>
