@@ -59,6 +59,8 @@
                         {
                             for (int i = 0; i < dtmenUList.Rows.Count; i++)
                             {
+                                if(dtmenUList.Rows[i]["user_id"].ToString() !="admin")
+                                {
                     %>
                     <tr>
                         <td><%   Response.Write(dtmenUList.Rows[i]["user_id"].ToString());   %> </td>
@@ -69,6 +71,8 @@
                             class="custUpdBtn">Details</a></td>
                     </tr>
                     <%
+                                
+                                }
 
                             }
                         }
