@@ -29,7 +29,7 @@
     <ajaxToolkit:ToolkitScriptManager runat="Server" EnableScriptGlobalization="true" EnableScriptLocalization="true" ID="ScriptManager1" />
 
     <div align="center">
-        <h2>Menu Information</h2>
+        <h2>Assign Menu By User</h2>
          <div style="float: left; margin-top: -34px; margin-left: -12px;">
             <asp:Button ID="AddButton" runat="server"   Text="Assign Menu"
                 CssClass="buttonAssignMenu" TabIndex="48"
@@ -40,11 +40,11 @@
             <table class="table table-hover" id="bootstrap-table">
                 <thead>
                     <tr>
-                        <th>Menu Id</th>
-                        <th>Menu Name</th>
-                        <th>SUBMENU NAME</th>
-                        <th>CHILD OF SUBMENU NAME</th>
-                        <th>URL</th>
+                        <th>User Id</th>
+                        <th>Name</th>
+                        <th>Designation</th>
+                        <th>Permitted Menu</th>
+                         <th></th>
 
 
                     </tr>
@@ -53,20 +53,20 @@
                     <%
 
 
-                        System.Data.DataTable dtmenUList = (System.Data.DataTable)Session["menus"];
+                        System.Data.DataTable dtmenUList = (System.Data.DataTable)Session["PermittedUser"];
+
                         if (dtmenUList.Rows.Count > 0)
                         {
                             for (int i = 0; i < dtmenUList.Rows.Count; i++)
                             {
                     %>
                     <tr>
-                        <td><%   Response.Write(dtmenUList.Rows[i]["MENU_ID"].ToString());   %> </td>
-                        <td><%   Response.Write(dtmenUList.Rows[i]["MENU_NAME"].ToString());   %> </td>
-                         <td><%   Response.Write(dtmenUList.Rows[i]["SUBMENU_NAME"].ToString());   %> </td>
-                         <td><%   Response.Write(dtmenUList.Rows[i]["CHILD_OF_SUBMENU_NAME"].ToString());   %> </td>
-                         <td><%   Response.Write(dtmenUList.Rows[i]["URL"].ToString());   %> </td>
-
-
+                        <td><%   Response.Write(dtmenUList.Rows[i]["user_id"].ToString());   %> </td>
+                        <td><%   Response.Write(dtmenUList.Rows[i]["name"].ToString());   %> </td>
+                         <td><%   Response.Write(dtmenUList.Rows[i]["designation"].ToString());   %> </td>
+                         <td><%   Response.Write(dtmenUList.Rows[i]["permittedmenu"].ToString());   %> </td>
+                          <td><a href="MenuPermittedbyUser.aspx?ID=<%   Response.Write(dtmenUList.Rows[i]["user_id"].ToString());   %>" 
+                            class="custUpdBtn">Details</a></td>
                     </tr>
                     <%
 
@@ -87,6 +87,10 @@
             $('#bootstrap-table').bdt({
 
             });
+        });
+
+        $('a[href="#sign_up"]').click(function () {
+            alert('Sign new href executed.');
         });
     </script>
 
