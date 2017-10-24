@@ -104,7 +104,7 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
 
                 if (dtmenuExist != null && dtmenuExist.Rows.Count > 0)
                 {
-                    string strUPQuery = "update MENUPERMISSIONS set MENU_ID='" + menuid + "' where USER_ID ='" + UserId + "'";
+                    string strUPQuery = "update MENUPERMISSIONS set MENU_ID='" + menuid + "' where USER_ID ='" + UserId + "' and MENU_ID='" + menuid + "'";
 
                     int upNumOfRows = commonGatewayObj.ExecuteNonQuery(strUPQuery);
 
