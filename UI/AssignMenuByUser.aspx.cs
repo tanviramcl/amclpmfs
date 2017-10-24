@@ -74,13 +74,13 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
     {
 
         Session["MenUList"] = SelectUser();
-        Session["UserId"] = userDropDownList.SelectedItem.Text.ToString();
+        Session["UserIdSelected"] = userDropDownList.SelectedItem.Text.ToString();
         string menuIDs = "";
         string UserId = "";
         string strInsQuery;
         DataTable dtmenuExist;
         menuIDs = (string)Session["MenUList"];
-        UserId = (string)Session["UserId"];
+        UserId = (string)Session["UserIdSelected"];
 
         if (string.IsNullOrEmpty(Session["MenUList"] as string))
         {
@@ -104,7 +104,7 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
 
                 if (dtmenuExist != null && dtmenuExist.Rows.Count > 0)
                 {
-                    string strUPQuery = "update MENUPERMISSIONS set MENU_ID='" + menuid + "' where USER_ID =" + UserId + "";
+                    string strUPQuery = "update MENUPERMISSIONS set MENU_ID='" + menuid + "' where USER_ID ='" + UserId + "'";
 
                     int upNumOfRows = commonGatewayObj.ExecuteNonQuery(strUPQuery);
 
