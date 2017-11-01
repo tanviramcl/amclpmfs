@@ -14,8 +14,8 @@
 
     <div align="center">
         <h2>User Information</h2>
-        <div style="float: left; margin-top: -34px; margin-left: -12px;">
-            <asp:Button ID="AddButton" runat="server" Text="Add User"
+        <div style="float: left; margin-top: -34px;  margin-left: -12px;">
+            <asp:Button ID="AddButton" runat="server" width="200px" Text="Add/Update User"
                 CssClass="buttoncommon" TabIndex="48"
                 OnClick="AddButton_Click" />
         </div>

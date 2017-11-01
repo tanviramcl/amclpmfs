@@ -39,7 +39,7 @@
                         <b>User Id </b>
                     </td>
                     <td align="left">
-                        <asp:TextBox ID="userIdTextBox" runat="server" Width="100px" AutoPostBack="true"></asp:TextBox>
+                        <asp:TextBox ID="userIdTextBox" runat="server" Width="100px"  OnTextChanged="UserIDTextBox_TextChanged"  AutoPostBack="true"></asp:TextBox>
                     </td>
 
                 </tr>
@@ -65,6 +65,16 @@
 
                 </tr>
                 <tr>
+                    <td align="right">
+                        <asp:Label ID="userRoleDropDownListlabel" Style="font-weight: 700" runat="server" Text="User Type:"></asp:Label>
+                    </td>
+                    <td align="left" width="200px">
+                        <asp:DropDownList ID="userRoleDropDownList" runat="server" TabIndex="6"
+                            AutoPostBack="True">
+                        </asp:DropDownList>
+                    </td>
+                </tr>
+                <tr>
                     <td align="left">
                         <b>Password</b>
                     </td>
@@ -80,16 +90,7 @@
                         <asp:TextBox ID="txtconfirmPassword" TextMode="Password" runat="server" Width="100px"></asp:TextBox>
                     </td>
                 </tr>
-                <tr>
-                    <td align="right">
-                        <asp:Label ID="userRoleDropDownListlabel" Style="font-weight: 700" runat="server" Text="User Type:"></asp:Label>
-                    </td>
-                    <td align="left" width="200px">
-                        <asp:DropDownList ID="userRoleDropDownList" runat="server" TabIndex="6"
-                            AutoPostBack="True">
-                        </asp:DropDownList>
-                    </td>
-                </tr>
+                
 
 
                 <tr>
@@ -125,9 +126,22 @@
                     return true;  
             },"Please select a  User Type."); 
 
-       
+            $.validator.addMethod("PASSWORD",function(value,element){
+                return this.optional(element) || /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,16}$/i.test(value);
+            },"Passwords are 8-16 characters with uppercase letters, lowercase letters and at least one number.");
 
-  
+            $.validator.addMethod("CheckConfirmUserPassword", function (value, element, param) {  
+                
+                var txtpass = $('#<%=txtPassword.ClientID %>').val();
+                var txtConPass=$('#<%=txtconfirmPassword.ClientID %>').val();
+               // alert(txtConPass,txtpass);
+ 
+                if (txtpass != txtConPass)  
+                    return false;  
+                else  
+                    return true;  
+            },"* Pasword does not match ");
+
 
 
             $("#aspnetForm").validate({
@@ -148,12 +162,15 @@
                         required: true 
                     },<%=txtPassword.UniqueID %>: {
                         required: true,
-                        minlength: 6,
-                        maxlength: 10
+                        minlength: 8,
+                        maxlength: 16,
+                        PASSWORD:true
                     },<%=txtconfirmPassword.UniqueID %>: {
                         required:true,
-                        minlength: 6,
-                        maxlength: 10
+                       CheckConfirmUserPassword:true,
+                        minlength: 8,
+                        maxlength: 16,
+                        PASSWORD:true
                     },<%=userRoleDropDownList.UniqueID %>: {
                         
                         CheckUserTypeDropDownList: true
@@ -183,10 +200,10 @@
           }
         });
       function test() {   
-         <%-- $.ajax({
+          $.ajax({
               type: "POST",
-              url: "Addfund.aspx/InsertandUpdateFund",
-              data: '{FundId: "' + $("#<%=fundcodeTextBox.ClientID%>").val() + '",FundName: "' + $("#<%=txtfundName.ClientID%>").val() + '",FundType: "' + $("#<%=FundTypeDropDownList.ClientID%>").val() + '",customerCode: "' + $("#<%=customerCode.ClientID%>").val() + '",boId: "' + $("#<%=boIdTextBox.ClientID%>").val() + '",sellbuycommision: "' + $("#<%=txtsellbuycommision.ClientID%>").val() + '",CompanyCode: "' + $("#<%=txtCompanyCode.ClientID%>").val() + '",fundClose: "' + $("#<%=txtfundClose.ClientID%>").val() + '" }',
+              url: "AddUser.aspx/InsertandUpdateUser",
+              data: '{userId: "' + $("#<%=userIdTextBox.ClientID%>").val() + '",useName: "' + $("#<%=useNameDropDownList.ClientID%>").text() + '",UserDesignation: "' + $("#<%=userDesignationTextBox.ClientID%>").val() + '",Password: "' + $("#<%=txtPassword.ClientID%>").val() + '",confirmPassword: "' + $("#<%=txtconfirmPassword.ClientID%>").val() + '",userRole: "' + $("#<%=userRoleDropDownList.ClientID%>").val() + '" }',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (response) {
@@ -194,14 +211,14 @@
                         alert('data saved successfully');
 
 
-                        window.location = 'FundEntry.aspx';
+                        window.location = 'UserInfo.aspx';
                     }
                 
                 },
                 failure: function (response) {
                   
                 }
-             });--%>
+             });
 
         }
         </script>

@@ -75,37 +75,37 @@ public partial class UI_PORTFOLIO_PortfolioMPUpdate : System.Web.UI.Page
 
 
                 DataRow drMP;
-                StreamReader srFileReader;                
+                StreamReader srFileReader;
                 string line;
                 srFileReader = new StreamReader(dseMPFile);
                 string[] lineContent;
                 int count = 0;
                 int serial = 0;
-                
+
                 while (srFileReader.Peek() != -1)
                 {
                     line = srFileReader.ReadLine();
                     char[] delimiters = new char[] { ' ' };
                     lineContent = line.Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
-                     if (lineContent.Length > 0)
+                    if (lineContent.Length > 0)
+                    {
+                        int companyCode = pfolioBLObj.getCompanyCodeByDSECode(lineContent[0].ToString().ToUpper());
+                        if (companyCode == 0)
                         {
-                         int companyCode=pfolioBLObj.getCompanyCodeByDSECode( lineContent[0].ToString().ToUpper());
-                         if (companyCode == 0)
-                         {
-                             zeroCompanyCode++;
-                         }
-                            drMP = dtMP.NewRow();
-                            serial = serial + 1;
-                            drMP["ID"] = serial;
-                            drMP["TRADE_CODE"] = lineContent[0].ToString().ToUpper();
-                            drMP["COMP_CD"] = companyCode;
-                            drMP["OPEN"] = lineContent[1].ToString();
-                            drMP["HIGH"] = lineContent[2].ToString();
-                            drMP["LOW"] = lineContent[3].ToString();
-                            drMP["CLOSE"] = lineContent[4].ToString();
-                            dtMP.Rows.Add(drMP);    
-                         }
-                                                
+                            zeroCompanyCode++;
+                        }
+                        drMP = dtMP.NewRow();
+                        serial = serial + 1;
+                        drMP["ID"] = serial;
+                        drMP["TRADE_CODE"] = lineContent[0].ToString().ToUpper();
+                        drMP["COMP_CD"] = companyCode;
+                        drMP["OPEN"] = lineContent[1].ToString();
+                        drMP["HIGH"] = lineContent[2].ToString();
+                        drMP["LOW"] = lineContent[3].ToString();
+                        drMP["CLOSE"] = lineContent[4].ToString();
+                        dtMP.Rows.Add(drMP);
+                    }
+
                     count++;
 
                 }
@@ -133,7 +133,7 @@ public partial class UI_PORTFOLIO_PortfolioMPUpdate : System.Web.UI.Page
                     dsePriceLabel.Style.Add("color", "red");
                 }
             }
-         
+
 
         }
         catch (Exception ex)
@@ -150,7 +150,7 @@ public partial class UI_PORTFOLIO_PortfolioMPUpdate : System.Web.UI.Page
             commonGatewayObj.BeginTransaction();
 
             DataTable dtMPDSE = (DataTable)Session["dtMPDSE"];
-           // Hashtable htInsertMP = new Hashtable();
+            // Hashtable htInsertMP = new Hashtable();
             Hashtable htUpdateMP = new Hashtable();
             if (!pfolioBLObj.getMPUpdateStatus(marketPriceDateTextBox.Text.ToString(), "DSE"))
             {
@@ -176,11 +176,11 @@ public partial class UI_PORTFOLIO_PortfolioMPUpdate : System.Web.UI.Page
                 dsePriceLabel.Text = "Price Already Saved On That Date";
                 dsePriceLabel.Style.Add("color", "red");
             }
-          
+
         }
         catch (Exception ex)
         {
-           // dvGridDSEMPInfo.Visible = false;
+            // dvGridDSEMPInfo.Visible = false;
             commonGatewayObj.RollbackTransaction();
             dsePriceLabel.Text = "Price  Save failed Error:" + ex.Message.ToString();
             dsePriceLabel.Style.Add("color", "red");
@@ -190,9 +190,11 @@ public partial class UI_PORTFOLIO_PortfolioMPUpdate : System.Web.UI.Page
     {
         try
         {
+            int intexpCount = 0;
             int zeroCompanyCode = 0;
             string cseMPFile = ConfigReader._TRADE_FILE_LOCATION.ToString();
             cseMPFile = cseMPFile + "\\CSE_PRICE" + "\\" + marketPriceDateTextBox.Text.ToString().ToUpper() + "-CSE-MARKET-PRICE.txt";
+            // cseMPFile = "F:\\Fdrive\\tradeSummary_ts_2017101633.txt";
             if (File.Exists(cseMPFile))
             {
 
@@ -200,45 +202,68 @@ public partial class UI_PORTFOLIO_PortfolioMPUpdate : System.Web.UI.Page
                 dtMP.Columns.Add("ID", typeof(int));
                 dtMP.Columns.Add("TRADE_CODE", typeof(string));
                 dtMP.Columns.Add("COMP_CD", typeof(int));
-                dtMP.Columns.Add("COMP_NAME", typeof(string));              
+                dtMP.Columns.Add("COMP_NAME", typeof(string));
                 dtMP.Columns.Add("CLOSE", typeof(string));
 
 
                 DataRow drMP;
                 StreamReader srFileReader;
                 string line;
-                srFileReader = new StreamReader(cseMPFile);               
+                srFileReader = new StreamReader(cseMPFile);
                 int count = 0;
-                //int serial = 0;
-
                 while (srFileReader.Peek() != -1)
                 {
-                      line = srFileReader.ReadLine();                   
-                      string[] lineContent = new string[]{
-                      line.ToString().Substring(0, 12),
-                      line.ToString().Substring(12, 6),
-                      line.ToString().Substring(18, 14),
-                      line.ToString().Substring(31,27),
-                      line.ToString().Substring(58)
+
+                    line = srFileReader.ReadLine();
+
+                    string[] lineContent = new string[]{
+                      line.ToString().Substring(0, 19),
+                      line.ToString().Substring(19, 39),
+                      line.ToString().Substring(128, 14),
                     };
                     if (lineContent.Length > 0)
                     {
-                        int companyCode = pfolioBLObj.getCompanyCodeByCSECode(lineContent[2].Trim().ToString().ToUpper());
+                        int companyCode = pfolioBLObj.getCompanyCodeByCSECode(lineContent[0].Trim().ToString().ToUpper());
                         if (companyCode == 0)
                         {
                             zeroCompanyCode++;
                         }
                         drMP = dtMP.NewRow();
-                       // serial = serial + 1;
-                        drMP["ID"] =Convert.ToInt32( lineContent[0]);
-                        drMP["TRADE_CODE"] = lineContent[2].ToString().ToUpper();
+
+                        drMP["ID"] = count + 1;
+                        drMP["TRADE_CODE"] = lineContent[0].ToString().Trim().ToUpper();
                         drMP["COMP_CD"] = companyCode;
-                        drMP["COMP_NAME"] = lineContent[3].ToString();                     
-                        drMP["CLOSE"] = lineContent[4].ToString();
+                        drMP["COMP_NAME"] = lineContent[1].ToString().Trim().ToUpper();
+                        drMP["CLOSE"] = lineContent[2].Trim().ToUpper();
                         dtMP.Rows.Add(drMP);
+
+                        //  line = srFileReader.ReadLine();                   
+                        //  string[] lineContent = new string[]{
+                        //  line.ToString().Substring(0, 12),
+                        //  line.ToString().Substring(12, 6),
+                        //  line.ToString().Substring(18, 14),
+                        //  line.ToString().Substring(31,27),
+                        //  line.ToString().Substring(58)
+                        //};
+                        //if (lineContent.Length > 0)
+                        //{
+                        //    int companyCode = pfolioBLObj.getCompanyCodeByCSECode(lineContent[2].Trim().ToString().ToUpper());
+                        //    if (companyCode == 0)
+                        //    {
+                        //        zeroCompanyCode++;
+                        //    }
+                        //    drMP = dtMP.NewRow();
+                        //   // serial = serial + 1;
+                        //    drMP["ID"] =Convert.ToInt32( lineContent[0]);
+                        //    drMP["TRADE_CODE"] = lineContent[2].ToString().ToUpper();
+                        //    drMP["COMP_CD"] = companyCode;
+                        //    drMP["COMP_NAME"] = lineContent[3].ToString();                     
+                        //    drMP["CLOSE"] = lineContent[4].ToString();
+                        //    dtMP.Rows.Add(drMP);
                     }
 
                     count++;
+                    intexpCount++;
 
                 }
                 if (dtMP.Rows.Count > 0)
@@ -271,6 +296,7 @@ public partial class UI_PORTFOLIO_PortfolioMPUpdate : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+
             dvGridCSEMPInfo.Visible = false;
             csePriceLabel.Text = "File Read failed Error:" + ex.Message.ToString();
             csePriceLabel.Style.Add("color", "red");
@@ -284,7 +310,7 @@ public partial class UI_PORTFOLIO_PortfolioMPUpdate : System.Web.UI.Page
             commonGatewayObj.BeginTransaction();
 
             DataTable dtMPCSE = (DataTable)Session["dtMPCSE"];
-          
+
             Hashtable htUpdateMP = new Hashtable();
 
             if (!pfolioBLObj.getMPUpdateStatus(marketPriceDateTextBox.Text.ToString(), "CSE"))
@@ -307,12 +333,12 @@ public partial class UI_PORTFOLIO_PortfolioMPUpdate : System.Web.UI.Page
                 csePriceLabel.Text = "Price Already Saved On That Date";
                 csePriceLabel.Style.Add("color", "red");
             }
-           
-           
+
+
         }
         catch (Exception ex)
         {
-            commonGatewayObj.RollbackTransaction();            
+            commonGatewayObj.RollbackTransaction();
             csePriceLabel.Text = "Price  Save failed Error:" + ex.Message.ToString();
             csePriceLabel.Style.Add("color", "red");
         }
@@ -322,7 +348,7 @@ public partial class UI_PORTFOLIO_PortfolioMPUpdate : System.Web.UI.Page
 
         try
         {
-            StringBuilder sbQueryInsert=new StringBuilder();
+            StringBuilder sbQueryInsert = new StringBuilder();
             commonGatewayObj.BeginTransaction();
 
             if (!pfolioBLObj.getMPUpdateStatus(marketPriceDateTextBox.Text.ToString(), "AVERAGE"))
@@ -342,7 +368,7 @@ public partial class UI_PORTFOLIO_PortfolioMPUpdate : System.Web.UI.Page
                 avegLabel.Text = "Price Already Avaraged On That Date";
                 avegLabel.Style.Add("color", "red");
             }
-           
+
         }
         catch (Exception ex)
         {

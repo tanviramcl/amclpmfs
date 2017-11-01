@@ -2,7 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Web;
 using System.Web.Services;
@@ -41,7 +43,23 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
 
 
     }
+    protected void UserIDTextBox_TextChanged(object sender, EventArgs e)
+    {
+        DataTable dtgetuser;
+        if (userIdTextBox.Text.ToString() != "")
+        {
+            string strfundcode = "select * from user_table where user_id='"+ userIdTextBox.Text.ToString() + "'";
+            dtgetuser = commonGatewayObj.Select(strfundcode);
+            if (dtgetuser != null && dtgetuser.Rows.Count > 0)
+            {
+              
+                ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('This User is already available !');", true);
 
+            }
+        }
+
+
+    }
 
     protected void UserNameDropDownList_SelectedIndexChanged(object sender, EventArgs e)
     {
@@ -59,4 +77,103 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
     {
        // System.Threading.Thread.Sleep(5000);
     }
+
+    [System.Web.Services.WebMethod]
+
+    public static bool InsertandUpdateUser(string userId,string useName,string UserDesignation,string Password,string confirmPassword,string userRole)
+    {
+        CommonGateway commonGatewayObj = new CommonGateway();
+        DataTable dtgetUser;
+        string passWord = "";
+
+        if (userId != "")
+        {
+           string strUserID = "select * from user_table where user_id='" +userId+ "'";
+            dtgetUser = commonGatewayObj.Select(strUserID);
+            if (dtgetUser != null && dtgetUser.Rows.Count > 0)
+            {
+                
+                string EncryptionKey = "MAKV2SPBNI99212";
+                byte[] clearBytes = Encoding.Unicode.GetBytes(Password);
+                using (Aes encryptor = Aes.Create())
+                {
+                    Rfc2898DeriveBytes pdb = new Rfc2898DeriveBytes(EncryptionKey, new byte[] { 0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76 });
+                    encryptor.Key = pdb.GetBytes(32);
+                    encryptor.IV = pdb.GetBytes(16);
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        using (CryptoStream cs = new CryptoStream(ms, encryptor.CreateEncryptor(), CryptoStreamMode.Write))
+                        {
+                            cs.Write(clearBytes, 0, clearBytes.Length);
+                            cs.Close();
+                        }
+                        passWord = Convert.ToBase64String(ms.ToArray());
+                    }
+                }
+
+                string strUPQuery = "update USER_TABLE set PASSWORD ='" + passWord + "',NAME ='" + useName + "',DESIGNATION='" + UserDesignation + "',ROLE_ID ='" + userRole + "' where USER_ID ='" + userId + "'";
+
+              int NumOfRows = commonGatewayObj.ExecuteNonQuery(strUPQuery);
+
+             }
+            else
+            {
+
+                string strInsQuery;
+                DataTable dtID;
+
+                string EncryptionKey = "MAKV2SPBNI99212";
+                byte[] clearBytes = Encoding.Unicode.GetBytes(Password);
+                using (Aes encryptor = Aes.Create())
+                {
+                    Rfc2898DeriveBytes pdb = new Rfc2898DeriveBytes(EncryptionKey, new byte[] { 0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76 });
+                    encryptor.Key = pdb.GetBytes(32);
+                    encryptor.IV = pdb.GetBytes(16);
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        using (CryptoStream cs = new CryptoStream(ms, encryptor.CreateEncryptor(), CryptoStreamMode.Write))
+                        {
+                            cs.Write(clearBytes, 0, clearBytes.Length);
+                            cs.Close();
+                        }
+                        passWord = Convert.ToBase64String(ms.ToArray());
+                    }
+                }
+                string strQuery = "select max(ID)+1 as ID from  USER_TABLE";
+                dtID = commonGatewayObj.Select(strQuery);
+
+                strInsQuery = "insert into USER_TABLE(ID,USER_ID,PASSWORD,NAME,DESIGNATION,ROLE_ID)values("+dtID.Rows[0]["ID"].ToString()+",'" + userId + "','" + passWord + "','" + useName + "','" + UserDesignation + "','" + userRole + "')";
+
+                int NumOfRows = commonGatewayObj.ExecuteNonQuery(strInsQuery);
+
+            }
+        }
+
+        return true;
+
+    }
+
+    public string Encrypt(string clearText)
+    {
+        string EncryptionKey = "MAKV2SPBNI99212";
+        byte[] clearBytes = Encoding.Unicode.GetBytes(clearText);
+        using (Aes encryptor = Aes.Create())
+        {
+            Rfc2898DeriveBytes pdb = new Rfc2898DeriveBytes(EncryptionKey, new byte[] { 0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76 });
+            encryptor.Key = pdb.GetBytes(32);
+            encryptor.IV = pdb.GetBytes(16);
+            using (MemoryStream ms = new MemoryStream())
+            {
+                using (CryptoStream cs = new CryptoStream(ms, encryptor.CreateEncryptor(), CryptoStreamMode.Write))
+                {
+                    cs.Write(clearBytes, 0, clearBytes.Length);
+                    cs.Close();
+                }
+                clearText = Convert.ToBase64String(ms.ToArray());
+            }
+        }
+        return clearText;
+    }
+
+ 
 }
