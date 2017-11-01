@@ -23,9 +23,14 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
         Session["user_list"] = GetUserInfo();
 
         DataTable dtuserlist = (DataTable)Session["user_list"];
-
-
-
+       
+            Panel1.Visible = false;
+            LabelUserRole.Visible = false;
+            UserRoleTextBox.Visible = false;
+            ButtonRoleAddTextBox.Visible = false;
+            lblProcessing.Visible = true;   
+       
+        
         //  companyNameTextBox.Text = "sss";
     }
 
@@ -57,9 +62,54 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
 
     protected void AddButton_Click(object sender, EventArgs e)
     {
-      //  Response.Redirect("AddFund.aspx");
+        Response.Redirect("AddUser.aspx");
     }
+    protected void ButtonRoleAddTextBox_Click(object sender, EventArgs e)
+    {
+        string roleName = UserRoleTextBox.Text.ToString();
+        DataTable dtRoleList = new DataTable();
 
+        StringBuilder sbMst = new StringBuilder();
+        StringBuilder sbOrderBy = new StringBuilder();
+        sbOrderBy.Append("");
+
+        sbMst.Append(" select * from USER_ROLE where ROLE_NAME='"+roleName+"' ");
+        sbOrderBy.Append(" order by USER_ROLE.ROLE_ID  ");
+        sbMst.Append(sbOrderBy.ToString());
+
+        dtRoleList = commonGatewayObj.Select(sbMst.ToString());
+
+        if (dtRoleList.Rows.Count > 0)
+        {
+            lblProcessing.Text = "This role already assigned";
+        }
+        else
+        {
+            DataTable dtRoleId=new DataTable();
+            string strInsQuery;
+
+            string strQuery = "select max(ROLE_ID)+1 as ROLE_ID from  USER_ROLE";
+            dtRoleId = commonGatewayObj.Select(strQuery);
+
+            if (dtRoleId.Rows.Count > 0)
+            {
+                strInsQuery = "insert into USER_ROLE(ROLE_ID,ROLE_NAME)values("+dtRoleId.Rows[0]["ROLE_ID"].ToString() +",'" + roleName + "')";
+                int NumOfRows = commonGatewayObj.ExecuteNonQuery(strInsQuery);
+                lblProcessing.Text = "This role sucessfully inserted";
+            }
+
+        }
+
+          
+        }
+    protected void ManageRole_Click(object sender, EventArgs e)
+    {
+        Panel1.Visible = true;
+        LabelUserRole.Visible = true;
+        UserRoleTextBox.Visible = true;
+        ButtonRoleAddTextBox.Visible = true;
+        lblProcessing.Visible = false;
+    }
     protected void UpdateButton_Click(object sender, EventArgs e)
     {
         //Response.Redirect("AddFund.aspx");
