@@ -81,6 +81,53 @@ public class DropDownList
         }
         return dtFundNameDropDownList;
     }
+    public DataTable UserNameDropDownList()//For All Funds
+    {
+        DataTable dtuserList = commonGatewayObj.Select("select a.ID,a.Name,B.ID as DesignationID,B.NAME as DesignationName from(select * from emp_info where valid = 'Y' order by Id asc) a inner join EMP_DESIGNATION  b  on a.DESIG_ID = B.ID");
+        DataTable dtuserDropDownList = new DataTable();
+        dtuserDropDownList.Columns.Add("DesignationName", typeof(string));
+        dtuserDropDownList.Columns.Add("DesignationID", typeof(string));
+        dtuserDropDownList.Columns.Add("Name", typeof(string));
+        dtuserDropDownList.Columns.Add("ID", typeof(string));
+        DataRow dr = dtuserDropDownList.NewRow();
+        dr["DesignationName"] = "0";
+        dr["DesignationID"] = "0";
+        dr["Name"] = "--Click Here to Select--";
+        dr["ID"] = "0";
+        dtuserDropDownList.Rows.Add(dr);
+        for (int loop = 0; loop < dtuserList.Rows.Count; loop++)
+        {
+            dr = dtuserDropDownList.NewRow();
+            dr["DesignationName"] = dtuserList.Rows[loop]["DesignationName"].ToString();
+            dr["DesignationID"] = dtuserList.Rows[loop]["DesignationID"].ToString();
+            dr["Name"] = dtuserList.Rows[loop]["Name"].ToString();
+            dr["ID"] =dtuserList.Rows[loop]["ID"].ToString();
+            dtuserDropDownList.Rows.Add(dr);
+        }
+        return dtuserDropDownList;
+    }
+
+    public DataTable UserTypeDropDownList()//For All Funds
+    {
+        DataTable dtuserTypeList = commonGatewayObj.Select("select ROLE_ID,ROLE_NAME from user_role");
+        DataTable dtuserTypeDropDownList = new DataTable();
+
+        dtuserTypeDropDownList.Columns.Add("ROLE_NAME", typeof(string));
+        dtuserTypeDropDownList.Columns.Add("ROLE_ID", typeof(string));
+        DataRow dr = dtuserTypeDropDownList.NewRow();
+       
+        dr["ROLE_NAME"] = "--Click Here to Select--";
+        dr["ROLE_ID"] = "0";
+        dtuserTypeDropDownList.Rows.Add(dr);
+        for (int loop = 0; loop < dtuserTypeList.Rows.Count; loop++)
+        {
+            dr = dtuserTypeDropDownList.NewRow();
+            dr["ROLE_NAME"] = dtuserTypeList.Rows[loop]["ROLE_NAME"].ToString();
+            dr["ROLE_ID"] = dtuserTypeList.Rows[loop]["ROLE_ID"].ToString();
+            dtuserTypeDropDownList.Rows.Add(dr);
+        }
+        return dtuserTypeDropDownList;
+    }
     public DataTable CloseEndFundNameDropDownList()//For Close End MF
     {
         DataTable dtCloseEndFundName = commonGatewayObj.Select("SELECT F_NAME, F_CD FROM FUND WHERE (F_CD between 3 and 26) AND F_CD NOT IN(4) ORDER BY F_CD");
@@ -213,7 +260,7 @@ public class DropDownList
 
     public DataTable UserDropDownList()//For All Funds
     {
-        DataTable dtUserList = commonGatewayObj.Select("select ID,User_ID,password,Name,Designation,Role_name from (select * from  user_table) u inner join user_role ur on U.ROLE_ID=UR.ROLE_ID order by Id");
+        DataTable dtUserList = commonGatewayObj.Select("select ID,User_ID,password,Name,Designation,Role_name from (select * from  user_table) u inner join user_role ur on U.ROLE_ID=UR.ROLE_ID order by Id ");
         DataTable dtUserListeDropDownList = new DataTable();
         dtUserListeDropDownList.Columns.Add("User_ID", typeof(string));
         dtUserListeDropDownList.Columns.Add("ID", typeof(string));
