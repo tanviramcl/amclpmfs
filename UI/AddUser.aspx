@@ -34,6 +34,17 @@
         <table class="table table-hover" id="bootstrap-table">
 
             <tbody>
+                  <%--<tr>
+                    <td align="right">
+                        <asp:Label ID="txtUserIdLabel" Style="font-weight: 700" runat="server" Text="User ID:"></asp:Label>
+                    </td>
+                    <td align="left" width="200px">
+                        <asp:DropDownList ID="ddlUserDropDownList" OnSelectedIndexChanged="UserNameDropDownList_SelectedIndexChanged" runat="server" TabIndex="6"
+                            AutoPostBack="True">
+                        </asp:DropDownList>
+                    </td>
+
+                </tr>--%>
                 <tr>
                     <td align="left">
                         <b>User Id </b>
@@ -126,9 +137,26 @@
                     return true;  
             },"Please select a  User Type."); 
 
-            $.validator.addMethod("PASSWORD",function(value,element){
-                return this.optional(element) || /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,16}$/i.test(value);
-            },"Passwords are 8-16 characters with uppercase letters, lowercase letters and at least one number.");
+            //$.validator.addMethod("PASSWORD",function(value,element){
+            //    return this.optional(element) || /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,16}$/i.test(value);
+            //},"Passwords are 8-16 characters with uppercase letters, lowercase letters and at least one number.");
+
+            jQuery.validator.addMethod("passwordCheck",
+        function(value, element, param) {
+            if (this.optional(element)) {
+                return true;
+            } else if (!/[A-Z]/.test(value)) {
+                return false;
+            } else if (!/[a-z]/.test(value)) {
+                return false;
+            } else if (!/[0-9]/.test(value)) {
+                return false;
+            }
+
+            return true;
+        },
+        "Passwords are 8-16 characters with uppercase letters, lowercase letters and at least one number.");
+
 
             $.validator.addMethod("CheckConfirmUserPassword", function (value, element, param) {  
                 
@@ -164,13 +192,13 @@
                         required: true,
                         minlength: 8,
                         maxlength: 16,
-                        PASSWORD:true
+                        passwordCheck:true
                     },<%=txtconfirmPassword.UniqueID %>: {
                         required:true,
                        CheckConfirmUserPassword:true,
                         minlength: 8,
                         maxlength: 16,
-                        PASSWORD:true
+                        passwordCheck:true
                     },<%=userRoleDropDownList.UniqueID %>: {
                         
                         CheckUserTypeDropDownList: true
@@ -203,7 +231,7 @@
           $.ajax({
               type: "POST",
               url: "AddUser.aspx/InsertandUpdateUser",
-              data: '{userId: "' + $("#<%=userIdTextBox.ClientID%>").val() + '",useName: "' + $("#<%=useNameDropDownList.ClientID%>").text() + '",UserDesignation: "' + $("#<%=userDesignationTextBox.ClientID%>").val() + '",Password: "' + $("#<%=txtPassword.ClientID%>").val() + '",confirmPassword: "' + $("#<%=txtconfirmPassword.ClientID%>").val() + '",userRole: "' + $("#<%=userRoleDropDownList.ClientID%>").val() + '" }',
+              data: '{userId: "' + $("#<%=userIdTextBox.ClientID%>").val() + '",useName: "' + $("#<%=useNameDropDownList.ClientID%> option:selected ").text() + '",UserDesignation: "' + $("#<%=userDesignationTextBox.ClientID%>").val() + '",Password: "' + $("#<%=txtPassword.ClientID%>").val() + '",confirmPassword: "' + $("#<%=txtconfirmPassword.ClientID%>").val() + '",userRole: "' + $("#<%=userRoleDropDownList.ClientID%>").val() + '" }',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (response) {

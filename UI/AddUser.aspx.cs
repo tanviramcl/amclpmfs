@@ -50,10 +50,17 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
         {
             string strfundcode = "select * from user_table where user_id='"+ userIdTextBox.Text.ToString() + "'";
             dtgetuser = commonGatewayObj.Select(strfundcode);
+
+            DataTable dtFromUserList = new DataTable();
+            
+          
+
             if (dtgetuser != null && dtgetuser.Rows.Count > 0)
             {
               
                 ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('This User is already available !');", true);
+                userIdTextBox.Text = dtgetuser.Rows[0]["USER_ID"].ToString();
+                userRoleDropDownList.SelectedValue = dtgetuser.Rows[0]["ROLE_ID"].ToString();
 
             }
         }
