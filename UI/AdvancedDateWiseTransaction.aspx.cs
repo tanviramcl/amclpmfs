@@ -33,7 +33,7 @@ public partial class DateWiseTransaction : System.Web.UI.Page
         lblProcessing.Text = "";
 
          DataTable tblAllfundInforDSE = getTblAllFundFromHowlaInfo();
-        DataTable tblAllfundInfoCSE = getTblAllFundFromHowla_CSEInfo();
+         DataTable tblAllfundInfoCSE = getTblAllFundFromHowla_CSEInfo();
         List<TblFundInfo> tblAllfundInfolistDSE = new List<TblFundInfo>();
 
 
@@ -94,18 +94,24 @@ public partial class DateWiseTransaction : System.Web.UI.Page
 
     protected void btnProcess_Click(object sender, EventArgs e)
     {
-        //DataTable tblAllfundInfo = getTblAllFundInfo();
         string strProcessing;
+        DataTable dtDseabdCseFundINfo = new DataTable();
         DataTable tblAllfundInforDSE = getTblAllFundFromHowlaInfo();
         DataTable tblAllfundInfoCSE = getTblAllFundFromHowla_CSEInfo();
 
         if (tblAllfundInforDSE != null && tblAllfundInforDSE.Rows.Count > 0)
         {
-            Save(tblAllfundInforDSE);
+            dtDseabdCseFundINfo.Merge(tblAllfundInforDSE);
         }
-        else if (tblAllfundInfoCSE != null && tblAllfundInfoCSE.Rows.Count > 0)
+        if (tblAllfundInfoCSE != null && tblAllfundInfoCSE.Rows.Count > 0)
         {
-            Save(tblAllfundInfoCSE);
+            dtDseabdCseFundINfo.Merge(tblAllfundInfoCSE);
+        }
+
+
+        if (dtDseabdCseFundINfo != null && dtDseabdCseFundINfo.Rows.Count > 0)
+        {
+            Save(dtDseabdCseFundINfo);
         }
         else
         {
@@ -120,8 +126,42 @@ public partial class DateWiseTransaction : System.Web.UI.Page
             {
                 lblProcessing.Text = "";
             }
-         
+
         }
+
+        ////DataTable tblAllfundInfo = getTblAllFundInfo();
+        //string strProcessing;
+        //DataTable tblAllfundInforDSE = getTblAllFundFromHowlaInfo();
+        //DataTable tblAllfundInfoCSE = getTblAllFundFromHowla_CSEInfo();
+
+
+
+        //if (tblAllfundInforDSE != null && tblAllfundInforDSE.Rows.Count > 0)
+        //{
+        //    Save(tblAllfundInforDSE);
+        //}
+        //else if (tblAllfundInfoCSE != null && tblAllfundInfoCSE.Rows.Count > 0)
+        //{
+        //    Save(tblAllfundInfoCSE);
+        //}
+        //else
+        //{
+
+        //    strProcessing = "No data found!!!!";
+
+        //    if (!string.IsNullOrEmpty(strProcessing))
+        //    {
+        //        lblProcessing.Text = strProcessing;
+        //    }
+        //    else
+        //    {
+        //        lblProcessing.Text = "";
+        //    }
+
+        //}
+
+
+
     }
 
 
@@ -935,10 +975,10 @@ public partial class DateWiseTransaction : System.Web.UI.Page
                         }
 
 
-                        string strQExcepChargableBondFromHowla = " select comp_cd,in_out,count(*)NumofExcepChargableHowla from howla  where " +
+                        string strQExcepChargableBondFromHowla = " select f_cd,comp_cd,in_out,count(*)NumofExcepChargableHowla from howla  where " +
                                                                   " comp_cd in (select comp_cd from comp where ISADD_HOWLACHARGE_DSE='Y' and ADD_HOWLACHARGE_AMTDSE " +
                                                                   " is not null and EXCEP_BUYSL_COMPCT_DSE is not null) and sp_date = '" + currentdate + "'" +
-                                                                   " group by comp_cd,in_out";
+                                                                   " and f_cd=" + tblAllfundInfo.Rows[l]["F_CD"].ToString() + " group by f_cd,comp_cd,in_out";
                         dtExcepChargableBondFromHowla = commonGatewayObj.Select(strQExcepChargableBondFromHowla);
 
 
@@ -966,7 +1006,8 @@ public partial class DateWiseTransaction : System.Web.UI.Page
                                     AddBuySlChargeAmtDSE = Convert.ToDouble(dtSelExtCharge.Rows[0]["ADD_HOWLACHARGE_AMTDSE"].ToString());
                                     ExcepBuySlCompctApplDSE = Convert.ToDouble(dtSelExtCharge.Rows[0]["EXCEP_BUYSL_COMPCT_DSE"].ToString());
 
-                                    strUPdQueryforBond = "UPDATE FUND_TRANS_HB SET AMT_AFT_COM = AMOUNT +" + AddBuySlChargeAmtDSE * NumExcepChargableRowsFromHowla + " + AMOUNT * " + (ExcepBuySlCompctApplDSE / 100) + "  WHERE  comp_cd =" + dtExcepChargableBondFromHowla.Rows[k]["COMP_CD"].ToString() + " and VCH_DT='" + currentdate + "' and TRAN_TP = 'C' ";
+                                    strUPdQueryforBond = "UPDATE FUND_TRANS_HB SET AMT_AFT_COM = AMOUNT +" + AddBuySlChargeAmtDSE * NumExcepChargableRowsFromHowla + " + AMOUNT * " + (ExcepBuySlCompctApplDSE / 100) + 
+                                        "  WHERE  comp_cd =" + dtExcepChargableBondFromHowla.Rows[k]["COMP_CD"].ToString() + " and VCH_DT='" + currentdate + "' and TRAN_TP = 'C'  and f_cd=" + tblAllfundInfo.Rows[l]["F_CD"].ToString();
 
                                     int NumOfRows = commonGatewayObj.ExecuteNonQuery(strUPdQueryforBond);
                                 }
@@ -978,7 +1019,8 @@ public partial class DateWiseTransaction : System.Web.UI.Page
                                     AddBuySlChargeAmtDSE = Convert.ToDouble(dtSelExtCharge.Rows[0]["ADD_HOWLACHARGE_AMTDSE"].ToString());
                                     ExcepBuySlCompctApplDSE = Convert.ToDouble(dtSelExtCharge.Rows[0]["EXCEP_BUYSL_COMPCT_DSE"].ToString());
 
-                                    strUPdQueryforBond = "UPDATE FUND_TRANS_HB SET AMT_AFT_COM = AMOUNT -" + AddBuySlChargeAmtDSE * NumExcepChargableRowsFromHowla + " - AMOUNT * " + (ExcepBuySlCompctApplDSE / 100) + "  WHERE  comp_cd =" + dtExcepChargableBondFromHowla.Rows[k]["COMP_CD"].ToString() + " and VCH_DT='" + currentdate + "' and TRAN_TP = 'S' ";
+                                    strUPdQueryforBond = "UPDATE FUND_TRANS_HB SET AMT_AFT_COM = AMOUNT -" + AddBuySlChargeAmtDSE * NumExcepChargableRowsFromHowla + " - AMOUNT * " + (ExcepBuySlCompctApplDSE / 100) + 
+                                        " WHERE  comp_cd =" + dtExcepChargableBondFromHowla.Rows[k]["COMP_CD"].ToString() + " and VCH_DT='" + currentdate + "' and TRAN_TP = 'S' and f_cd=" + tblAllfundInfo.Rows[l]["F_CD"].ToString();
 
 
                                     int NumOfRows = commonGatewayObj.ExecuteNonQuery(strUPdQueryforBond);
