@@ -60,9 +60,10 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
               
              //   ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('This User is already available !');", true);
                 userIdTextBox.Text = dtgetuser.Rows[0]["USER_ID"].ToString();
-
-    
+                useNameDropDownList.SelectedValue = dtgetuser.Rows[0]["EMP_ID"].ToString();
+                userDesignationTextBox.Text = dtgetuser.Rows[0]["DESIGNATION"].ToString();
                 userRoleDropDownList.SelectedValue = dtgetuser.Rows[0]["ROLE_ID"].ToString();
+                ButtonSave.Text = "Update";
 
             }
         }
@@ -89,7 +90,7 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
 
     [System.Web.Services.WebMethod]
 
-    public static bool InsertandUpdateUser(string userId,string useName,string UserDesignation,string Password,string confirmPassword,string userRole)
+    public static bool InsertandUpdateUser(string userId,string useName,string UserDesignation,string Password,string confirmPassword,string userRole,string EMPID)
     {
         CommonGateway commonGatewayObj = new CommonGateway();
         DataTable dtgetUser;
@@ -120,7 +121,7 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
                     }
                 }
 
-                string strUPQuery = "update USER_TABLE set PASSWORD ='" + passWord + "',NAME ='" + useName + "',DESIGNATION='" + UserDesignation + "',ROLE_ID ='" + userRole + "' where USER_ID ='" + userId + "'";
+                string strUPQuery = "update USER_TABLE set PASSWORD ='" + passWord + "',NAME ='" + useName + "',DESIGNATION='" + UserDesignation + "',ROLE_ID ='" + userRole + "',EMP_ID='"+ EMPID + "' where USER_ID ='" + userId + "'";
 
               int NumOfRows = commonGatewayObj.ExecuteNonQuery(strUPQuery);
 
@@ -151,7 +152,7 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
                 string strQuery = "select max(ID)+1 as ID from  USER_TABLE";
                 dtID = commonGatewayObj.Select(strQuery);
 
-                strInsQuery = "insert into USER_TABLE(ID,USER_ID,PASSWORD,NAME,DESIGNATION,ROLE_ID)values("+dtID.Rows[0]["ID"].ToString()+",'" + userId + "','" + passWord + "','" + useName + "','" + UserDesignation + "','" + userRole + "')";
+                strInsQuery = "insert into USER_TABLE(ID,USER_ID,PASSWORD,NAME,DESIGNATION,ROLE_ID,EMP_ID)values(" + dtID.Rows[0]["ID"].ToString()+",'" + userId + "','" + passWord + "','" + useName + "','" + UserDesignation + "','" + userRole + "','"+ EMPID + "')";
 
                 int NumOfRows = commonGatewayObj.ExecuteNonQuery(strInsQuery);
 

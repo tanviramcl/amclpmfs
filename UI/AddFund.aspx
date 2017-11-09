@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/UI/AMCLCommon.master" AutoEventWireup="true" CodeFile="AddFund.aspx.cs" Inherits="UI_CompanyInformation" Title="Company Information" %>
+﻿<%@ Page Language="C#" MasterPageFile="~/UI/AMCLCommon.master" AutoEventWireup="true" CodeFile="AddFund.aspx.cs" Inherits="UI_CompanyInformation" Title="Add Fund" %>
 
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
 

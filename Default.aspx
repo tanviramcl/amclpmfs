@@ -87,7 +87,7 @@
     <table width="400" align="center" cellpadding="0" cellspacing="0">    
         <tr>
             <td class="style3">
-             Login ID:
+             User ID:
             </td>
             <td class="style3">
             <asp:TextBox ID="loginIDTextBox" runat="server" CssClass="textInputStyle" TabIndex="1" ></asp:TextBox>
