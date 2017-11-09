@@ -610,7 +610,7 @@ public partial class DateWiseTransaction : System.Web.UI.Page
 
 
 
-                   // Double NumExcepChargableRowsFromHowla = Convert.ToDouble(dtExcepChargableBondFromHowla.Rows[0]["NumofExcepChargableHowla"].ToString());
+                  
 
 
                     // string strCompnaybond = "select comp_cd,in_out from howla where comp_cd in(select comp_cd from comp where ISADD_BUYSLCHARGE_APPLDSE='Y' and ADD_BUYSLCHARGE_AMTDSE is not null and EXCEP_BUYSL_COMPCT_APPLDSE is not null) and sp_date= '" + currentdate + "'";
