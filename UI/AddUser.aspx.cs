@@ -58,8 +58,10 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
             if (dtgetuser != null && dtgetuser.Rows.Count > 0)
             {
               
-                ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('This User is already available !');", true);
+             //   ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('This User is already available !');", true);
                 userIdTextBox.Text = dtgetuser.Rows[0]["USER_ID"].ToString();
+
+    
                 userRoleDropDownList.SelectedValue = dtgetuser.Rows[0]["ROLE_ID"].ToString();
 
             }

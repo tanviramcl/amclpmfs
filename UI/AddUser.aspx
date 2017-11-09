@@ -34,17 +34,6 @@
         <table class="table table-hover" id="bootstrap-table">
 
             <tbody>
-                  <%--<tr>
-                    <td align="right">
-                        <asp:Label ID="txtUserIdLabel" Style="font-weight: 700" runat="server" Text="User ID:"></asp:Label>
-                    </td>
-                    <td align="left" width="200px">
-                        <asp:DropDownList ID="ddlUserDropDownList" OnSelectedIndexChanged="UserNameDropDownList_SelectedIndexChanged" runat="server" TabIndex="6"
-                            AutoPostBack="True">
-                        </asp:DropDownList>
-                    </td>
-
-                </tr>--%>
                 <tr>
                     <td align="left">
                         <b>User Id </b>
@@ -231,7 +220,7 @@
           $.ajax({
               type: "POST",
               url: "AddUser.aspx/InsertandUpdateUser",
-              data: '{userId: "' + $("#<%=userIdTextBox.ClientID%>").val() + '",useName: "' + $("#<%=useNameDropDownList.ClientID%> option:selected ").text() + '",UserDesignation: "' + $("#<%=userDesignationTextBox.ClientID%>").val() + '",Password: "' + $("#<%=txtPassword.ClientID%>").val() + '",confirmPassword: "' + $("#<%=txtconfirmPassword.ClientID%>").val() + '",userRole: "' + $("#<%=userRoleDropDownList.ClientID%>").val() + '" }',
+              data: '{userId: "' + $("#<%=userIdTextBox.ClientID%>").val() + '",useName: "' + $("#<%=useNameDropDownList.ClientID%> option:selected").text() + '",UserDesignation: "' + $("#<%=userDesignationTextBox.ClientID%>").val() + '",Password: "' + $("#<%=txtPassword.ClientID%>").val() + '",confirmPassword: "' + $("#<%=txtconfirmPassword.ClientID%>").val() + '",userRole: "' + $("#<%=userRoleDropDownList.ClientID%>").val() + '" }',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (response) {
