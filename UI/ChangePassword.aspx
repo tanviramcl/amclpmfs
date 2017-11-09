@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/UI/AMCLCommon.master" AutoEventWireup="true" CodeFile="AddUser.aspx.cs" Inherits="UI_CompanyInformation" Title="Add User" %>
+﻿<%@ Page Language="C#" MasterPageFile="~/UI/AMCLCommon.master" AutoEventWireup="true" CodeFile="ChangePassword.aspx.cs" Inherits="UI_CompanyInformation" Title="Change Password" %>
 
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
 
@@ -22,7 +22,7 @@
         <table id="Table1" width="600" align="center" cellpadding="0" cellspacing="0" runat="server">
             <tr>
                 <td align="center" class="style3">
-                    <b><u>User Entry</u></b>
+                    <b><u>Change Password</u></b>
                 </td>
             </tr>
         </table>
@@ -34,6 +34,7 @@
         <table class="table table-hover" id="bootstrap-table">
 
             <tbody>
+                
                 <tr>
                     <td align="left">
                         <b>User Id </b>
@@ -49,9 +50,7 @@
                         <asp:Label ID="LabelUserName" Style="font-weight: 700" runat="server" Text="User Name:"></asp:Label>
                     </td>
                     <td align="left" width="200px">
-                        <asp:DropDownList ID="useNameDropDownList" OnSelectedIndexChanged="UserNameDropDownList_SelectedIndexChanged" runat="server" TabIndex="6"
-                            AutoPostBack="True">
-                        </asp:DropDownList>
+                         <asp:TextBox ID="txtUserName" runat="server" ReadOnly="true" Width="220px" AutoPostBack="true"></asp:TextBox>
                     </td>
 
                 </tr>
@@ -64,16 +63,7 @@
                     </td>
 
                 </tr>
-                <tr>
-                    <td align="right">
-                        <asp:Label ID="userRoleDropDownListlabel" Style="font-weight: 700" runat="server" Text="User Type:"></asp:Label>
-                    </td>
-                    <td align="left" width="200px">
-                        <asp:DropDownList ID="userRoleDropDownList" runat="server" TabIndex="6"
-                            AutoPostBack="True">
-                        </asp:DropDownList>
-                    </td>
-                </tr>
+               
                 <tr>
                     <td align="left">
                         <b>Password</b>
@@ -101,12 +91,18 @@
                     </td>
 
                 </tr>
-
+                
 
             </tbody>
         </table>
 
-
+        <table id="Table3" width="600" align="center" cellpadding="0" cellspacing="0" runat="server">
+            <tr>
+                    <td align="center">
+                      <asp:Label ID="lblerror" runat="server" Text="" Style="font-size: 24px; color: red;"></asp:Label>
+                    </td>
+            </tr>
+        </table>
         <script type="text/javascript">
      
             jQuery.validator.addMethod("noSpace", function(value, element) { 
@@ -173,9 +169,7 @@
                     minlength: 1,
                     maxlength: 15
                     } 
-                    ,<%=useNameDropDownList.UniqueID %>: {
-                        CheckDropDownList: true 
-                     },<%=userDesignationTextBox.UniqueID %>: {
+                    ,<%=userDesignationTextBox.UniqueID %>: {
                         required: true 
                     },<%=txtPassword.UniqueID %>: {
                         required: true,
@@ -188,9 +182,6 @@
                         minlength: 8,
                         maxlength: 16,
                         passwordCheck:true
-                    },<%=userRoleDropDownList.UniqueID %>: {
-                        
-                        CheckUserTypeDropDownList: true
                     }
                    
                     
@@ -207,9 +198,6 @@
                             
                     required: "* Confirm Password is required*",
                     equalTo:"* Password Must be Same",
-                },
-                <%=userRoleDropDownList.UniqueID %>:{  
-                        required: "*User Type is required*",
                 }
                
 
@@ -219,13 +207,13 @@
       function test() {   
           $.ajax({
               type: "POST",
-              url: "AddUser.aspx/InsertandUpdateUser",
-              data: '{userId: "' + $("#<%=userIdTextBox.ClientID%>").val() + '",useName: "' + $("#<%=useNameDropDownList.ClientID%> option:selected").text() + '",UserDesignation: "' + $("#<%=userDesignationTextBox.ClientID%>").val() + '",Password: "' + $("#<%=txtPassword.ClientID%>").val() + '",confirmPassword: "' + $("#<%=txtconfirmPassword.ClientID%>").val() + '",userRole: "' + $("#<%=userRoleDropDownList.ClientID%>").val() + '",EMPID: "' + $("#<%=useNameDropDownList.ClientID%>").val() + '" }',
+              url: "ChangePassword.aspx/InsertandUpdateUser",
+              data: '{userId: "' + $("#<%=userIdTextBox.ClientID%>").val() + '",Password: "' + $("#<%=txtPassword.ClientID%>").val() + '",confirmPassword: "' + $("#<%=txtconfirmPassword.ClientID%>").val() + '" }',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (response) {
                     if (response.d) {
-                        alert('data saved successfully');
+                        alert('Password change successfully');
 
 
                         window.location = 'UserInfo.aspx';
