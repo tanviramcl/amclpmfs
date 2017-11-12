@@ -14,6 +14,7 @@ using System.Text;
 using System.Data.OracleClient;
 using System.IO;
 using System.Collections.Generic;
+using System.Globalization;
 //using AMCL.DL;
 //using AMCL.BL;
 //using AMCL.UTILITY;
@@ -394,7 +395,7 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
                         m_cost= mt_cost + m_amt;
                         m_cost_acm= mt_cst_aft_com + m_amt_acm;
 
-                        strInsIntoFundFolioHBForTrTypeNotS = "insert into fund_folio_hb(f_cd, comp_cd, i_no_shr, i_rate,irt_aft_com, bal_dt, tot_nos, tot_cost, tcst_aft_com)" +
+                        strInsIntoFundFolioHBForTrTypeNotS = "insert into fund_folio_hb(f_cd, comp_cd, i_no_shr, i_rate,irt_aft_com, bal_dt, tot_nos, tot_cost, op_name, tcst_aft_com)" +
                         " values(" +
                         dtFromFundTransHB.Rows[i]["f_cd"].ToString() + "," +
                         dtFromFundTransHB.Rows[i]["comp_cd"].ToString() + "," +
@@ -403,11 +404,12 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
                         dtFromFundTransHB.Rows[i]["amt_aft_com"].ToString() + "/nvl(" + dtFromFundTransHB.Rows[i]["no_share"].ToString() + ",1),'" +
                         dtFromFundTransHB.Rows[i]["vch_dt"].ToString() + "'," +
                         m_no + "," +
-                        m_cost + "," +
+                        m_cost + ",'" +
+                        LoginID + "'," +
                         m_cost_acm + ")";
 
                         int NumOfRows = commonGatewayObj.ExecuteNonQuery(strInsIntoFundFolioHBForTrTypeNotS);
-                       
+                        //'" + LoginID + "'" +
                     }
                     else
                     {
@@ -417,7 +419,7 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
                         m_cost= mt_cost - m_amt;
                         m_cost_acm= mt_cst_aft_com - m_amt_acm;
 
-                        strInsIntoFundFolioHBForTrTypeS = "insert into fund_folio_hb(f_cd, comp_cd, o_no_shr, o_rate,ort_aft_com, bal_dt, tot_nos, tot_cost, tcst_aft_com)" +
+                        strInsIntoFundFolioHBForTrTypeS = "insert into fund_folio_hb(f_cd, comp_cd, o_no_shr, o_rate,ort_aft_com, bal_dt, tot_nos, tot_cost, op_name, tcst_aft_com)" +
                        " values(" +
                        dtFromFundTransHB.Rows[i]["f_cd"].ToString() + "," +
                        dtFromFundTransHB.Rows[i]["comp_cd"].ToString() + "," +
@@ -426,8 +428,9 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
                        dtFromFundTransHB.Rows[i]["amt_aft_com"].ToString() + "/nvl(" + dtFromFundTransHB.Rows[i]["no_share"].ToString() + ",1),'" +
                        dtFromFundTransHB.Rows[i]["vch_dt"].ToString() + "'," +
                        m_no + "," +
-                       m_cost + "," +
-                       m_cost_acm+")";
+                       m_cost + ",'" +
+                       LoginID + "'," +
+                       m_cost_acm +")";
 
                        int NumOfRows = commonGatewayObj.ExecuteNonQuery(strInsIntoFundFolioHBForTrTypeS);
                        
@@ -616,13 +619,24 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
                 }
 
             }
-            string strupdateQueryfund_control = "update fund_control set bal_dt='" + strBalanceDate + "',mprice_dt='" + strMarketPriceDate + "' where f_cd =" + fundNameDropDownList.SelectedValue.ToString() + "";
+            string LoginID = Session["UserID"].ToString();
+            DateTime dtimeCurrentDateTimeForLog = DateTime.Now;
+            string strCurrentDateTimeForLog = dtimeCurrentDateTimeForLog.ToString("dd-MMM-yyyy HH:mm:ss tt", CultureInfo.InvariantCulture);
+
+            //string strupdateQueryfund_control = "update fund_control set bal_dt='" + strBalanceDate + "',mprice_dt='" + strMarketPriceDate + "' where f_cd =" + fundNameDropDownList.SelectedValue.ToString() + "";
+
+            string strupdateQueryfund_control = "update fund_control set op_name='" + LoginID + "',upd_date_time='" + strCurrentDateTimeForLog + "',bal_dt='" + strBalanceDate + "',mprice_dt='" + strMarketPriceDate + "' where f_cd =" + fundNameDropDownList.SelectedValue.ToString() + "";
             int updatefund_controlNumOfRows = commonGatewayObj.ExecuteNonQuery(strupdateQueryfund_control);
-            //ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Data Insert Successfully');", true);
+           
 
             // System.Threading.Thread.Sleep(3000);
 
-           // ClearFields();
+            // ClearFields();
+
+
+           
+            
+
         }
         catch (Exception ex)
         {
