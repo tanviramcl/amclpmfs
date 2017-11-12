@@ -22,14 +22,13 @@ public partial class UI_AMCLCommon : System.Web.UI.MasterPage
     protected string text = null;
     protected void Page_Load(object sender, EventArgs e)
     {
-        string path = Server.MapPath("~/ui/test.txt");
-        TextReader reader = File.OpenText(path);
-        text = reader.ReadToEnd();
-
-        if (Request.UserAgent.IndexOf("AppleWebKit") > 0)
+        string referer = Request.ServerVariables["HTTP_REFERER"];
+        if (string.IsNullOrEmpty(referer))
         {
-            Request.Browser.Adapters.Clear();
+            Session["UserID"] = null;
+            Response.Redirect("../Default.aspx");
         }
+
         string loginId = Session["UserID"].ToString();
         string LoginName = Session["UserName"].ToString();
         string userType = Session["UserType"].ToString();
