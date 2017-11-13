@@ -14,6 +14,7 @@ using System.Text;
 using System.Data.OracleClient;
 using System.IO;
 using System.Collections.Generic;
+using System.Globalization;
 //using AMCL.DL;
 //using AMCL.BL;
 //using AMCL.UTILITY;
@@ -108,8 +109,10 @@ public partial class DateWiseTransaction : System.Web.UI.Page
                 //    txtHowlaDateTo.Text = dt.Rows[0]["currentDate"].ToString();
 
                 //}
-                DateTime dtimeCurrentDate = DateTime.Now;
+               
 
+
+                DateTime dtimeCurrentDate = DateTime.Now;
                 string currentDate = Convert.ToDateTime(dtimeCurrentDate).ToString("dd-MMM-yyyy");
 
                 if (!string.IsNullOrEmpty(currentDate))
