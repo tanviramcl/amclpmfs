@@ -54,20 +54,21 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
         string ShareType = shareTypeTextBox.Text.ToString();
         string Howladate = Convert.ToDateTime(date2).ToString("dd-MMM-yyyy");
         string purchaseRate = PurchaseRateTextBox.Text.ToString();
+        DataTable dtsource2 = new DataTable();
+      
+        string Query2 = "";
 
+        Query2 = "select f_cd,no_shares,dis_no_fm,dis_no_to,sh_type from shr_dmat_fi where comp_cd = " + companyCodeTextBox.Text.ToString() + "  and cert_no = '" + certificateNoTextBox.Text.ToString() + "'";
+        dtsource2 = commonGatewayObj.Select(Query2.ToString());
 
-        Query = "select comp_cd,cert_no from psdr_fi where comp_cd = " + companyCodeTextBox.Text + " and cert_no = '" + certificateNoTextBox.Text + "'";
-        dtsource = commonGatewayObj.Select(Query.ToString());
-
-        if (dtsource.Rows.Count > 0)
+        if (dtsource2.Rows.Count > 0)
         {
-
-            ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Duplicate Certificate No. (Fund)');", true);
-           
+            ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Certificate No. is Already Demetarialized!", true);
+            
         }
         else
         {
-            Query1 = "select distinct  folio_no from psdr_fi where comp_cd = '" + companyCodeTextBox.Text.ToString() + "' and f_cd = " + fundcodeTextBox.Text.ToString() + "  and sh_type <> 'T' and folio_no is not null";
+            Query1 = "select folio_no from psdr_fi where comp_cd = '" + companyCodeTextBox.Text.ToString() + "' and f_cd = " + fundcodeTextBox.Text.ToString() + "  and sh_type <> 'T' and folio_no is not null";
             dtsourcepsdfi = commonGatewayObj.Select(Query1.ToString());
             if (dtsourcepsdfi.Rows.Count > 0)
             {
@@ -82,7 +83,18 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
                 {
                     if (folioNoTextBox.Text.ToString() == "")
                     {
-                        strInsQuery = " insert into shr_dmat_fi(comp_cd,dmat_no,dmat_dt,f_cd,no_shares,cert_no,allot_no,folio_no,op_name,dis_no_fm,dis_no_to,sh_type,sp_date,sp_rate,c_dt ) values('" + companycode + "','"+ dematsendingNo + "','"+ DemasendingDate + "','"+fundcode+"','"+ noofShare + "','"+certificateNo+"','"+AllotmentNo+"','"+ psdrfi.folio_no+ "','"+LoginName+"','"+Dictincttivefrom+"','"+Dictincttiveto+"','"+ ShareType + "','"+Howladate+"','"+purchaseRate+"','"+p1date+"') ";
+
+      //                  insert into invest.shr_dmat_fi(comp_cd, dmat_no, dmat_dt, f_cd,
+      //              no_shares, cert_no, allot_no, folio_no, op_name,
+      //         dis_no_fm, dis_no_to, sh_type, sp_date, sp_rate, c_dt)
+      //values(:nshdmt.comp_cd,:nshdmt.dmat_no,:nshdmt.dmat_dt,
+      //       :nshdmt.f_cd, :nshdmt.no_shares,
+      //       :nshdmt.cert_no,:nshdmt.allot_no, nvl(:nshdmt.folio_no, folio),:nshdmt.op_name,
+      //       :nshdmt.dis_no_fm, :nshdmt.dis_no_to, :nshdmt.sh_type,
+      //          :nshdmt.sp_date,:nshdmt.sp_rate, :nshdmt.c_dt);
+                        strInsQuery = " insert into shr_dmat_fi(comp_cd,dmat_no,dmat_dt,f_cd,no_shares,cert_no,allot_no,folio_no,op_name,"+
+                            "dis_no_fm,dis_no_to,sh_type,sp_date,sp_rate,c_dt )"+
+                            " values(" + companycode + ","+ dematsendingNo + ",'"+ DemasendingDate + "',"+fundcode+","+ noofShare + ",'"+certificateNo+"',"+AllotmentNo+",'"+ psdrfi.folio_no+ "','"+LoginName+"','"+Dictincttivefrom+"','"+Dictincttiveto+"','"+ ShareType + "','"+Howladate+"','"+purchaseRate+"','"+p1date+"') ";
                     }
 
                     int NumOfRows = commonGatewayObj.ExecuteNonQuery(strInsQuery);
@@ -90,11 +102,12 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
 
                     if (certificateNo != "")
                     {
-                        strUPQuery = "update psdr_fi set posted = 'D', op_name = '" + LoginName + "' where comp_cd = '" + companyCodeTextBox.Text.ToString() + "' and cert_no = '" + certificateNoTextBox.Text.ToString() + "' ";
+                        strUPQuery = "update psdr_fi set posted = 'D', op_name = '" + LoginName + "' where comp_cd = " +
+                            companyCodeTextBox.Text.ToString() + " and cert_no = '" + certificateNoTextBox.Text.ToString() + "'";
 
                         int NumOfRows1 = commonGatewayObj.ExecuteNonQuery(strUPQuery);
                     }
-                    if (certificateNo != "" && AllotmentNo != "")
+                    if (certificateNo == "" && AllotmentNo != "")
                     {
                         strUPQuery2 = "update psdr_fi set posted = 'D', op_name = '" + LoginName + "' where comp_cd = '" + companyCodeTextBox.Text.ToString() + "' and allot_no = '" + AllotmentNoTextBox.Text.ToString() + "' ";
 
@@ -120,50 +133,68 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
 
       string  strDelQuery = "delete from shr_dmat_fi where comp_cd="+companyCodeTextBox.Text.ToString()+" and cert_no= '"+certificateNoTextBox.Text.ToString()+"'   and sh_type = '"+shareTypeTextBox.Text.ToString()+"'  and   no_shares='"+SecuritiesTextBox.Text.ToString()+"' and f_cd="+fundcodeTextBox.Text.ToString()+" and posted is null ";
       int NumOfRows = commonGatewayObj.ExecuteNonQuery(strDelQuery);
-      frmclear();
+// Must be added below code
+      //  update invest.psdr_fi
+      // set posted = 'A'
+      //where comp_cd =:shdmt1.comp_cd
+      //    and cert_no = :shdmt1.cert_no
+      //  and sh_type = :nshdmt.sh_type
+      //   and   no_shares =:nshdmt.no_shares
+      //      and f_cd =:nshdmt.f_cd
+      //     and posted = 'D';
+
+
+        frmclear();
       ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Delete Data Successfully');", true);
 
     }
 
     protected void certificateNoTextBox_TextChanged(object sender, EventArgs e)
     {
+        //get_tosh
+
+
 
         DataTable dtsource = new DataTable();
         DataTable dtsource2 = new DataTable();
         DataTable dtsource3 = new DataTable();
-        List<Shr_dmat_fi> shr_dmat_filist = new List<Shr_dmat_fi>();
+      
+        string  Query3 = "";
 
-        string  Query2 = "", Query3 = "";
+        //string  Query2 = "", Query3 = "";
 
-        Query2 = "select f_cd,no_shares,dis_no_fm,dis_no_to,sh_type from shr_dmat_fi where comp_cd = " + companyCodeTextBox.Text.ToString() + "  and cert_no = '" + certificateNoTextBox.Text.ToString() + "'";
-        dtsource2 = commonGatewayObj.Select(Query2.ToString());
+        //Query2 = "select f_cd,no_shares,dis_no_fm,dis_no_to,sh_type from shr_dmat_fi where comp_cd = " + companyCodeTextBox.Text.ToString() + "  and cert_no = '" + certificateNoTextBox.Text.ToString() + "'";
+        //dtsource2 = commonGatewayObj.Select(Query2.ToString());
 
-        if (dtsource2.Rows.Count > 0)
-        {
-            shr_dmat_filist = (from DataRow dr in dtsource2.Rows
-                               select new Shr_dmat_fi()
-                               {
+        //if (dtsource2.Rows.Count > 0)
+        //{
+        //    shr_dmat_filist = (from DataRow dr in dtsource2.Rows
+        //                       select new Shr_dmat_fi()
+        //                       {
 
-                                   f_cd = dr["f_cd"].ToString(),
-                                   no_shares = dr["no_shares"].ToString(), 
-                                   dis_no_fm = dr["dis_no_fm"].ToString(),
-                                   dis_no_to = dr["dis_no_to"].ToString(),
-                                   sh_type = dr["sh_type"].ToString(),
-                                   
-                               }).ToList();
-            foreach (Shr_dmat_fi shr_dmat_fia in shr_dmat_filist)
-            {
-               
-                fundcodeTextBox.Text = shr_dmat_fia.f_cd;
-                SecuritiesTextBox.Text = shr_dmat_fia.no_shares;           
-                DictincttivefromTextBox.Text = shr_dmat_fia.dis_no_fm;
-                DictincttivetoTextBox.Text = shr_dmat_fia.dis_no_to;
-                shareTypeTextBox.Text = shr_dmat_fia.sh_type;
-            
+        //                           f_cd = dr["f_cd"].ToString(),
+        //                           no_shares = dr["no_shares"].ToString(), 
+        //                           dis_no_fm = dr["dis_no_fm"].ToString(),
+        //                           dis_no_to = dr["dis_no_to"].ToString(),
+        //                           sh_type = dr["sh_type"].ToString(),
 
-            }
-        }
-        Query3 = "select f_cd,no_shares,dis_no_fm,dis_no_to,sh_type,sp_date, sp_rate , folio_no from psdr_fi where comp_cd = '" + companyCodeTextBox.Text + "' and cert_no = '" + certificateNoTextBox.Text + "' and posted = 'A'";
+        //                       }).ToList();
+        //    foreach (Shr_dmat_fi shr_dmat_fia in shr_dmat_filist)
+        //    {
+
+        //        fundcodeTextBox.Text = shr_dmat_fia.f_cd;
+        //        SecuritiesTextBox.Text = shr_dmat_fia.no_shares;           
+        //        DictincttivefromTextBox.Text = shr_dmat_fia.dis_no_fm;
+        //        DictincttivetoTextBox.Text = shr_dmat_fia.dis_no_to;
+        //        shareTypeTextBox.Text = shr_dmat_fia.sh_type;
+
+
+        //    }
+        //}
+
+     
+
+        Query3 = "select f_cd,no_shares,dis_no_fm,dis_no_to,sh_type,sp_date, sp_rate , folio_no from psdr_fi where comp_cd = " + companyCodeTextBox.Text + " and cert_no = '" + certificateNoTextBox.Text + "' and posted = 'A'";
         dtsource3 = commonGatewayObj.Select(Query3.ToString());
 
         if (dtsource3.Rows.Count > 0)
@@ -189,7 +220,8 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
                 DictincttivetoTextBox.Text = psdrfi.dis_no_to;
                 shareTypeTextBox.Text = psdrfi.sh_type;
                 PurchaseRateTextBox.Text = psdrfi.sp_rate;
-                HowladateTextBox.Text = Convert.ToDateTime(psdrfi.sp_date).ToString("dd/MM/yyyy");
+                HowladateTextBox.Text = Convert.ToDateTime(psdrfi.sp_date).ToString("dd-MMM-yyyy");
+                //strLastBalDate = dtimeLastBalDate.Value.ToString("dd-MMM-yyyy");
 
 
 
@@ -207,9 +239,15 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
             }
             else if (shareTypeTextBox.Text.ToString() == "T")
             {
-                ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Third Party Certificate No. is not Demat.');", true);
+                ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Third Party Certificate No. cannot be demated.');", true);
             }
 
+            //get_fund, company name must be added here
+
+        }
+        else {
+            PurchaseRateTextBox.Text = "0";
+            ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Invalid Certificate No!');", true);
 
         }
 
