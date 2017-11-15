@@ -29,7 +29,7 @@
             </table>
 
             <table id="Table2" width="600" align="center" cellpadding="2" cellspacing="2" runat="server">
-               
+
                 <tr>
                     <td align="left">
                         <b>Company code 
@@ -37,24 +37,50 @@
                         </b>
                     </td>
                     <td align="left">
-                        <asp:TextBox ID="companyCodeTextBox" runat="server" Width="100px" AutoPostBack="true" OnChange="companycodeTextBox__TextChanged"></asp:TextBox>
+                       <%-- <asp:TextBox ID="companyCodeTextBox" runat="server" Width="100px" AutoPostBack="true" OnTextChange="companycodeTextBox__TextChanged"></asp:TextBox>--%>
+                         <asp:TextBox ID="companyCodeTextBox" runat="server" Width="100px" AutoPostBack="true" OnTextChanged="companycodeTextBox__TextChanged"></asp:TextBox>
+
+                    </td>
+                    <td align="left">
+                        <asp:Label ID="companyNameLabe"  Style="font-size: 10px; color: red; width:100px" runat="server" Text=""></asp:Label>
                     </td>
                 </tr>
                 <tr>
-
-
-                    <td align="left">
+                     <td align="left">
                         <b>Certificate No</b>
                     </td>
                     <td align="left">
                         <asp:TextBox ID="certificateNoTextBox" runat="server" Width="100px" AutoPostBack="true" OnTextChanged="certificateNoTextBox_TextChanged"></asp:TextBox>
                     </td>
+                 </tr>
+                <tr>
+                    <td align="left">
+                        <b>Fund Code</b>
+                    </td>
+                    <td align="left">
+                       <%-- <asp:TextBox ID="fundcodeTextBox" runat="server" Width="100px" AutoPostBack="true" OnTextChange="fundTextBox__TextChanged"></asp:TextBox>--%>
+                         <asp:TextBox ID="fundcodeTextBox" runat="server" Width="100px" AutoPostBack="true" OnTextChanged="fundTextBox__TextChanged"></asp:TextBox>
+                    </td>
+                    <td align="left">
+                        <asp:Label ID="fundLabel" Style="font-size: 10px; color: red; width:100px" runat="server" Text=""></asp:Label>
+                    </td>
+                </tr>
+                <tr>
+
+                    
+                    <td align="left">
+                        <b>Folio No</b>
+                    </td>
+                    <td align="left">
+                        <asp:TextBox ID="folioNoTextBox" ReadOnly="true" runat="server" Width="100px"></asp:TextBox>
+                    </td>
+                   
                     
                     <td align="left">
                         <b>Allotment No. </b>
                     </td>
                     <td align="left">
-                        <asp:TextBox ID="AllotmentNoTextBox" runat="server"  Width="100px" AutoPostBack="true" OnTextChanged="AllotmentNoTextBox_TextChanged"></asp:TextBox>
+                        <asp:TextBox ID="AllotmentNoTextBox" runat="server"  Width="100px" AutoPostBack="true"></asp:TextBox>
                     </td>
                 </tr>
                 <tr>
@@ -74,14 +100,14 @@
                 </tr>
                 <tr>
                     <td align="left">
-                        <b>Dictincttive No From</b>
+                        <b>Dictinctive No From</b>
                     </td>
                     <td align="left">
                         <asp:TextBox ID="DictincttivefromTextBox" runat="server" AutoPostBack="true" Width="100px"></asp:TextBox>
 
                     </td>
                     <td align="left">
-                        <b>Dictincttive No To</b>
+                        Distinctive<b> No To</b>
                     </td>
                     <td align="left">
                         <asp:TextBox ID="DictincttivetoTextBox" runat="server" Width="100px"></asp:TextBox>
@@ -90,18 +116,6 @@
                 </tr>
                 <tr>
 
-                    <td align="left">
-                        <b>Fund Code</b>
-                    </td>
-                    <td align="left">
-                        <asp:TextBox ID="fundcodeTextBox" runat="server"  Width="100px"></asp:TextBox>
-                    </td>
-                    <td align="left">
-                        <b>Folio No</b>
-                    </td>
-                    <td align="left">
-                        <asp:TextBox ID="folioNoTextBox" ReadOnly="true" runat="server" Width="100px"></asp:TextBox>
-                    </td>
 
                 </tr>
 
@@ -148,7 +162,7 @@
 
                     </td>
                      <td align="center" >
-                        <asp:Button ID="deleteButton" runat="server" Visible ="false" Text="Delete"
+                        <asp:Button ID="deleteButton" runat="server"  Text="Delete"
                             CssClass="buttoncommon" TabIndex="48"
                             OnClick="deleteButton_Click" />
                     </td>
@@ -219,11 +233,11 @@
                         
                         required: true,
                         maxlength: 12
-                    }<%--, <%=folioNoTextBox.UniqueID %>: {
+                    }, <%=folioNoTextBox.UniqueID %>: {
                         
                         required: true,
                         maxlength: 12
-                    }--%>, <%=DictincttivefromTextBox.UniqueID %>: {
+                    }, <%=DictincttivefromTextBox.UniqueID %>: {
                         
                         required: true,
                         maxlength: 12
@@ -258,10 +272,10 @@
                       }--%>,<%=certificateNoTextBox.UniqueID %>:{  
                           required: "*Certificate No is required*",
                          maxlength: "* Please enter maximum 12 characters *"
-                      }<%--,<%=folioNoTextBox.UniqueID %>:{  
+                      },<%=folioNoTextBox.UniqueID %>:{  
                           required: "*Folio  No is required*",
                          maxlength: "* Please enter maximum 12 characters *"
-                      }--%>,<%=DictincttivefromTextBox.UniqueID %>:{  
+                      },<%=DictincttivefromTextBox.UniqueID %>:{  
                           required: "*Dictincttive From  No is required*",
                          maxlength: "* Please enter maximum 12 characters *"
                       },<%=DictincttivetoTextBox.UniqueID %>:{  
