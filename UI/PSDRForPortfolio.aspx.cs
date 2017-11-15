@@ -87,16 +87,16 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
 
         string Query1 = "", Query2 = "";
 
-        if (companyCodeTextBox.Text == "")
-        {
-            Query1 = "select allot_no from psdr_fi where comp_cd = '" + companyCodeTextBox.Text + "' ";
-            Query2 = "select allot_no from psdr where comp_cd = '" + companyCodeTextBox.Text + "' ";
-        }
-        else
-        {
-            Query1 = "select allot_no from psdr_fi where comp_cd = '" + companyCodeTextBox.Text + "' and allot_no = '" + AllotmentNoTextBox.Text + "' ";
+        //if (companyCodeTextBox.Text == "")
+        //{
+        //    Query1 = "select allot_no from psdr_fi where comp_cd = " + companyCodeTextBox.Text + " ";
+        //    Query2 = "select allot_no from psdr where comp_cd = " + companyCodeTextBox.Text;
+        //}
+        //else
+        
+            Query1 = "select allot_no from psdr_fi where comp_cd = " + companyCodeTextBox.Text + " and allot_no = '" + AllotmentNoTextBox.Text + "' ";
             Query2 ="select allot_no from psdr where comp_cd = '" + companyCodeTextBox.Text + "' and allot_no = '" + AllotmentNoTextBox.Text + "' ";
-        }
+        
 
         
         dtsource = commonGatewayObj.Select(Query1.ToString());
