@@ -43,7 +43,7 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
         int noofShares = Convert.ToInt32(noofshareTextBox.Text);
         string loginId = Session["UserID"].ToString();
 
-        if ((alotmentNo != "" && securType == "P") || (certificateNo != "" &&  ditinctto != 0))
+        if ((alotmentNo != "" && securType == "P") || (certificateNo != "" &&  ditinctto.ToString() != ""))
         {
             if ((certificateNo != "" && DictincFrom != 0))
             {
@@ -85,18 +85,26 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
         List<PSDR> psdrlist = new List<PSDR>();
 
 
+    //    select allot_no into: psdr.allot_no
+    //from invest.psdr_fi
+    //where comp_cd = :psdr.comp_cd
+    //and allot_no = ltrim(rtrim(:psdr.allot_no))
+    // and: psdr.allot_no is not null
+    // and: psdr.cert_no is null;
+    //    message('Duplicate Allotment No. (Fund)');
+
         string Query1 = "", Query2 = "";
 
-        if (companyCodeTextBox.Text != "")
-        {
-            Query1 = "select allot_no from psdr_fi where comp_cd = '" + companyCodeTextBox.Text + "' ";
-            Query2 = "select allot_no from psdr where comp_cd = '" + companyCodeTextBox.Text + "' ";
-        }
-        else
-        {
-            Query1 = "select allot_no from psdr_fi where comp_cd = '" + companyCodeTextBox.Text + "' and allot_no = '" + AllotmentNoTextBox.Text + "' ";
+        //if (companyCodeTextBox.Text == "")
+        //{
+        //    Query1 = "select allot_no from psdr_fi where comp_cd = " + companyCodeTextBox.Text + " ";
+        //    Query2 = "select allot_no from psdr where comp_cd = " + companyCodeTextBox.Text;
+        //}
+        //else
+        
+            Query1 = "select allot_no from psdr_fi where comp_cd = " + companyCodeTextBox.Text + " and allot_no = '" + AllotmentNoTextBox.Text + "' ";
             Query2 ="select allot_no from psdr where comp_cd = '" + companyCodeTextBox.Text + "' and allot_no = '" + AllotmentNoTextBox.Text + "' ";
-        }
+        
 
         
         dtsource = commonGatewayObj.Select(Query1.ToString());
@@ -155,16 +163,35 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
         List<PSDR> psdrlist = new List<PSDR>();
         string Query1="",Query2="";
 
-        if (companyCodeTextBox.Text == "")
-        {
-            Query1 = "select cert_no  from psdr_fi where  cert_no = '" + certificateNoTextBox.Text + "' ";
-            Query2 = "select cert_no from psdr where  cert_no = '" + certificateNoTextBox.Text + "' ";
-        }
-        else
-        {
-            Query1 = "select cert_no  from psdr_fi where comp_cd = '" + companyCodeTextBox.Text + "' and cert_no = '" + certificateNoTextBox.Text + "' ";
+        //if (companyCodeTextBox.Text == "")
+        //{
+        //    Query1 = "select cert_no  from psdr_fi where  cert_no = '" + certificateNoTextBox.Text + "' ";
+        //    Query2 = "select cert_no from psdr where  cert_no = '" + certificateNoTextBox.Text + "' ";
+        //}
+        //else
+        //{
+
+  //      PROCEDURE check_ckp IS
+  //    nops  number:= 0;
+  //      BEGIN
+  //        select count(cert_no) into nops
+  //from invest.psdr_fi
+  // where comp_cd = :psdr.comp_cd
+  // and cert_no = ltrim(:psdr.cert_no);
+  //      if nops > 1 then
+  //   message('Duplicate Certificate No. (Fund)');
+  //      raise form_trigger_failure;
+  //      elsif nops is null then
+  //   message('Certificate Not Found');
+  //      raise form_trigger_failure;
+  //else
+  //   :system.message_level := 0;
+  //      end if;
+  //      END;
+
+        Query1 = "select cert_no  from psdr_fi where comp_cd = '" + companyCodeTextBox.Text + "' and cert_no = '" + certificateNoTextBox.Text + "' ";
             Query2 = "select cert_no from psdr where comp_cd = '" + companyCodeTextBox.Text + "' and cert_no = '" + certificateNoTextBox.Text + "' ";
-        }
+        
 
 
 
@@ -207,6 +234,29 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
 
     }
 
+    protected void FundCodeTextBox_TextChanged(object sender, EventArgs e)
+    {
+        // Fund name must be shown on label
+
+
+
+    }
+
+    protected void compCodeTextBox_TextChanged(object sender, EventArgs e)
+    {
+
+//        if :psdr.comp_cd = 150 then
+//   message('Invalid Company Code');
+//        raise form_trigger_failure;
+//else
+//  get_comp_cd(:psdr.comp_cd,:psdr.comp_name);
+//        select mlot into: psdr.mlot from invest.comp
+//                 where comp_cd =:psdr.comp_cd;
+//        end if;
+// Company name must be shown on label
+
+
+    }
 
 
 

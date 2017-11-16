@@ -28,20 +28,25 @@
             </table>
     
              <table id="Table2" width="600" align="center" cellpadding="2" cellspacing="2" runat="server">
+             <tr>
+                  <td align="left">
+                    <b>Fund Code</b>
+                </td>
+                <td align="left">
+                    <asp:TextBox ID="fundcodeTextBox" runat="server" Width="100px" AutoPostBack="true" OnTextChanged="FundCodeTextBox_TextChanged"></asp:TextBox>
+                </td>
+              </tr>
             <tr>
                
                 <td align="left">
                     <b>Company code </b>
                 </td>
                 <td align="left">
-                    <asp:TextBox ID="companyCodeTextBox" runat="server" Width="100px" AutoPostBack="true"></asp:TextBox>
+                    <asp:TextBox ID="companyCodeTextBox" runat="server" Width="100px" AutoPostBack="true" OnTextChanged="compCodeTextBox_TextChanged"></asp:TextBox>
                 </td>
-                 <td align="left">
-                    <b>Allotment No. </b>
-                </td>
-                <td align="left">
-                    <asp:TextBox ID="AllotmentNoTextBox" runat="server" Width="100px" AutoPostBack="true" OnTextChanged="allotmentTextBox_TextChanged"></asp:TextBox>
-                </td>
+             </tr>
+              <tr>
+                
                 <td align="left">
                     <b>Certificate No</b>
                 </td>
@@ -51,12 +56,7 @@
                 
             </tr>
             <tr>
-                 <td align="left">
-                    <b>Fund Code</b>
-                </td>
-                <td align="left">
-                    <asp:TextBox ID="fundcodeTextBox" runat="server" Width="100px"></asp:TextBox>
-                </td>
+                
                 <td align="left">
                     <b>PSDR No </b>
                 </td>
@@ -72,13 +72,19 @@
                         TabIndex="3">
                         <asp:ListItem Text="--Select--" Value="0"></asp:ListItem>
                         <asp:ListItem Text="Primary" Value="P"></asp:ListItem>
-                        <asp:ListItem Text="Bonous" Value="B"></asp:ListItem>
+                        <asp:ListItem Text="Bonus" Value="B"></asp:ListItem>
                         <asp:ListItem Text="Right" Value="R"></asp:ListItem>
                         <asp:ListItem Text="Convertible" Value="C"></asp:ListItem>
                         <asp:ListItem Text="Secondary" Value="S"></asp:ListItem>
                         <asp:ListItem Text="Placement" Value="L"></asp:ListItem>
 
                     </asp:DropDownList>
+                </td>
+                 <td align="left">
+                    <b>Allotment No. </b>
+                </td>
+                <td align="left">
+                    <asp:TextBox ID="AllotmentNoTextBox" runat="server" Width="100px" AutoPostBack="true" OnTextChanged="allotmentTextBox_TextChanged"></asp:TextBox>
                 </td>
             </tr>
             <tr>
@@ -105,6 +111,7 @@
                 <td align="left">
                     <asp:TextBox ID="noofshareTextBox" runat="server" Width="100px"></asp:TextBox>
                 </td>
+                
             </tr>
           
          
