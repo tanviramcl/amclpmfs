@@ -44,6 +44,7 @@
                     <td align="left">
                         <asp:Label ID="companyNameLabe"  Style="font-size: 10px; color: red; width:100px" runat="server" Text=""></asp:Label>
                     </td>
+
                 </tr>
                 <tr>
                      <td align="left">

@@ -158,7 +158,15 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
         string FundNameByFundId = "";
         FundNameByFundId = "select f_cd,F_NAME from fund where f_cd = " + fundcodeTextBox.Text.ToString() + " ";
         DataTable dtFundName = commonGatewayObj.Select(FundNameByFundId.ToString());
-        fundLabel.Text = dtFundName.Rows[0]["F_NAME"].ToString();
+     
+        if (dtFundName.Rows.Count > 0)
+        {
+            fundLabel.Text = dtFundName.Rows[0]["F_NAME"].ToString();
+        }
+        else
+        {
+            fundLabel.Text = "NO Fund Found ";
+        }
     }
 
     protected void certificateNoTextBox_TextChanged(object sender, EventArgs e)
@@ -259,8 +267,14 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
         {
             companyCodeByCompId = "select COMP_CD,COMP_NM from COMP where COMP_CD = " + companyCodeTextBox.Text.ToString() + " ";
             DataTable dtCompanyName = commonGatewayObj.Select(companyCodeByCompId.ToString());
-            companyNameLabe.Text = dtCompanyName.Rows[0]["COMP_NM"].ToString();
-          //  certificateNoTextBox.Text = "";
+            if (dtCompanyName.Rows.Count > 0)
+            {
+                companyNameLabe.Text = dtCompanyName.Rows[0]["COMP_NM"].ToString();
+            }
+            else
+            {
+                companyNameLabe.Text = "NO Company Found ";
+            }
         }
     }
     //protected void AllotmentNoTextBox_TextChanged(object sender, EventArgs e)

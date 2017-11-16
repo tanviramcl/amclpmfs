@@ -77,7 +77,22 @@ public partial class UI_ReportViewer_NonDemateSharesCheckReportViwer : System.We
         }
         else if (string.Compare(statementType, "CompanyWise", true) == 0)
         {
-            sbMst.Append("SELECT   COMP.COMP_NM,sum(NO_SHARE), SUM(decode(TRAN_TP,'S',AMT_AFT_COM,0)) AS SALE_PRICE, sum(decode(TRAN_TP,'S',CRT_AFT_COM*NO_SHARE,0)) as COST_PRICE, SUM(decode(TRAN_TP,'S', ");
+//            SELECT FUND.F_NAME, COMP.COMP_NM, SUM(FUND_TRANS_HB.NO_SHARE) AS NO_OF_SHARE_SOLD, SUM(FUND_TRANS_HB.AMT_AFT_COM)AS SALE_PRICE,
+//                  SUM(FUND_TRANS_HB.CRT_AFT_COM * FUND_TRANS_HB.NO_SHARE) AS COSTPRICE, SUM(FUND_TRANS_HB.AMT_AFT_COM)
+//                  - SUM(FUND_TRANS_HB.CRT_AFT_COM * FUND_TRANS_HB.NO_SHARE) AS PROFIT_LOSS
+//FROM            FUND_TRANS_HB INNER JOIN
+
+//                  COMP ON FUND_TRANS_HB.COMP_CD = COMP.COMP_CD INNER JOIN
+
+//                  FUND ON FUND_TRANS_HB.F_CD = FUND.F_CD
+//WHERE(FUND_TRANS_HB.F_CD = 1) AND(FUND_TRANS_HB.VCH_DT BETWEEN '01-Jul-2015' AND '30-Jun-2016') AND(FUND_TRANS_HB.TRAN_TP = 'S')
+//GROUP BY COMP.COMP_NM, FUND.F_NAME
+//ORDER BY COMP.COMP_NM
+
+
+
+
+     sbMst.Append("SELECT   COMP.COMP_NM,sum(NO_SHARE), SUM(decode(TRAN_TP,'S',AMT_AFT_COM,0)) AS SALE_PRICE, sum(decode(TRAN_TP,'S',CRT_AFT_COM*NO_SHARE,0)) as COST_PRICE, SUM(decode(TRAN_TP,'S', ");
             sbMst.Append(" AMT_AFT_COM,0))-sum(decode(TRAN_TP,'S',CRT_AFT_COM*NO_SHARE,0) )as capital_Gain FROM  FUND_TRANS_HB INNER JOIN COMP ON FUND_TRANS_HB.COMP_CD = COMP.COMP_CD");
             sbMst.Append(" WHERE (FUND_TRANS_HB.VCH_DT BETWEEN '"+Fromdate+"' AND '"+Todate+"') and f_Cd='"+fundCode+ "' and stock_ex in('D','C') GROUP BY COMP.COMP_NM order by COMP.COMP_NM");
             sbMst.Append(sbfilter.ToString());

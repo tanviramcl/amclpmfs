@@ -35,6 +35,9 @@
                 <td align="left">
                     <asp:TextBox ID="fundcodeTextBox" runat="server" Width="100px" AutoPostBack="true" OnTextChanged="FundCodeTextBox_TextChanged"></asp:TextBox>
                 </td>
+                 <td align="left">
+                        <asp:Label ID="fundLabel" Style="font-size: 10px; color: red; width:100px" runat="server" Text=""></asp:Label>
+                </td>
               </tr>
             <tr>
                
@@ -44,6 +47,16 @@
                 <td align="left">
                     <asp:TextBox ID="companyCodeTextBox" runat="server" Width="100px" AutoPostBack="true" OnTextChanged="compCodeTextBox_TextChanged"></asp:TextBox>
                 </td>
+                 <td align="left">
+                        <asp:Label ID="companyNameLabe"  Style="font-size: 10px; color: red; width:100px" runat="server" Text=""></asp:Label>
+                 </td>
+                 <td align="left">
+                        <asp:Label ID="MarketLotLabel"  Style="font-size: 15px;  width:100px" runat="server" Text="Market Lot:"></asp:Label>
+                    </td>
+                     <td align="left">
+                         <asp:Label ID="lblLabelMarketLotLabel"  Style="font-size: 15px;   width:100px" runat="server" Text=""></asp:Label>
+                    </td>
+                    
              </tr>
               <tr>
                 
@@ -292,4 +305,5 @@
      
     </script>
 </asp:Content>
+
 
