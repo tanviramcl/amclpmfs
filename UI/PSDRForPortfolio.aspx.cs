@@ -87,7 +87,7 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
 
         string Query1 = "", Query2 = "";
 
-        if (companyCodeTextBox.Text == "")
+        if (companyCodeTextBox.Text != "")
         {
             Query1 = "select allot_no from psdr_fi where comp_cd = '" + companyCodeTextBox.Text + "' ";
             Query2 = "select allot_no from psdr where comp_cd = '" + companyCodeTextBox.Text + "' ";
