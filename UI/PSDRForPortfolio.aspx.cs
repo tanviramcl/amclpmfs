@@ -35,8 +35,8 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
         string marketlot = oddormarketlotDropDownList.SelectedValue;
         string securType = securitiestypeDropDownList.SelectedValue;
         string sp_date = Convert.ToDateTime(date1).ToString("dd-MMM-yyyy");
-        string folioNo = folioNoTextBox.Text;
-        string alotmentNo = AllotmentNoTextBox.Text;
+        string folioNo = folioNoTextBox.Text.ToString();
+        string alotmentNo = AllotmentNoTextBox.Text.ToString();
         string certificateNo = certificateNoTextBox.Text;
         int ditinctto = Convert.ToInt32(DictincttivetoTextBox.Text);
         int DictincFrom = Convert.ToInt32(DictincttivefromTextBox.Text);
@@ -58,10 +58,19 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
             dtsource = commonGatewayObj.Select(Query1.ToString());
             if (dtsource.Rows.Count > 0)
             {
+                string strUPdQuery = "";
+                if (alotmentNo != "")
+                {
 
+                    strUPdQuery = "update psdr_fi set PSDR_NO ='" + Convert.ToInt32(psdrNo) + "',  SH_TYPE ='" + securType + "',OM_LOT ='" + marketlot + "', SP_DATE='" + sp_date + "'," +
+                                               " DIS_NO_FM ='" + DictincFrom + "',DIS_NO_TO ='" + ditinctto + "',  ALLOT_NO='" + alotmentNo + "' ,FOLIO_NO='" + folioNo + "' where COMP_CD= " + companyCodeTextBox.Text.ToString() + " and F_CD=" + fundcodeTextBox.Text.ToString() + " and CERT_NO='" + certificateNoTextBox.Text.ToString() + "'";
+                }
+                else
+                {
+                    strUPdQuery = "update psdr_fi set PSDR_NO ='" + Convert.ToInt32(psdrNo) + "',  SH_TYPE ='" + securType + "',OM_LOT ='" + marketlot + "', SP_DATE='" + sp_date + "'," +
+                                             " DIS_NO_FM ='" + DictincFrom + "',DIS_NO_TO ='" + ditinctto + "',  FOLIO_NO='" + folioNo + "' where COMP_CD= " + companyCodeTextBox.Text.ToString() + " and F_CD=" + fundcodeTextBox.Text.ToString() + " and CERT_NO='" + certificateNoTextBox.Text.ToString() + "'";
+                }
 
-                string strUPdQuery = "update psdr_fi set PSDR_NO ='" + Convert.ToInt32(psdrNo) + "',  SH_TYPE ='" + securType + "',OM_LOT ='" + marketlot + "', SP_DATE='" + sp_date + "'," +
-                                            " DIS_NO_FM ='" + DictincFrom + "',DIS_NO_TO ='" + ditinctto + "' where COMP_CD= " + companyCodeTextBox.Text.ToString() + " and F_CD=" + fundcodeTextBox.Text.ToString() + " and CERT_NO='" + certificateNoTextBox.Text.ToString() + "'";
 
                 int NumOfRows = commonGatewayObj.ExecuteNonQuery(strUPdQuery);
                 ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Update sucessfully !');", true);
