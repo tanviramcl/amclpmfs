@@ -27,7 +27,7 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
 
     protected void saveButton_Click(object sender, EventArgs e)
     {
-
+        DataTable dtsource = new DataTable();
         DateTime date1 = DateTime.ParseExact(RIssuefromTextBox.Text, "dd/MM/yyyy", null);
         string fundcode = fundcodeTextBox.Text;
         string companycode = companyCodeTextBox.Text;
@@ -35,8 +35,8 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
         string marketlot = oddormarketlotDropDownList.SelectedValue;
         string securType = securitiestypeDropDownList.SelectedValue;
         string sp_date = Convert.ToDateTime(date1).ToString("dd-MMM-yyyy");
-        string folioNo = folioNoTextBox.Text;
-        string alotmentNo = AllotmentNoTextBox.Text;
+        string folioNo = folioNoTextBox.Text.ToString();
+        string alotmentNo = AllotmentNoTextBox.Text.ToString();
         string certificateNo = certificateNoTextBox.Text;
         int ditinctto = Convert.ToInt32(DictincttivetoTextBox.Text);
         int DictincFrom = Convert.ToInt32(DictincttivefromTextBox.Text);
@@ -47,18 +47,47 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
         {
             ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Please Enter Alotment Number !');", true);
         }
-
-        if ((alotmentNo != "" && securType == "P") || (certificateNo != "" && ditinctto.ToString() != ""))
+        else 
         {
             if ((certificateNo != "" && DictincFrom != 0))
             {
                 ditinctto = (noofShares + DictincFrom) - 1;
             }
+           string  Query1 = "select COMP_CD,PSDR_NO,F_CD,ALLOT_NO,NO_SHARES,SH_TYPE,OM_LOT,SP_RATE,SP_DATE,HOWLA_NO,MV_DATE,REF_NO,DIS_NO_FM,DIS_NO_TO,FOLIO_NO,CERT_NO,BK_CD,POSTED,OP_NAME,C_DT,C_DATE from psdr_fi where COMP_CD= " + companyCodeTextBox.Text.ToString() + " and F_CD=" + fundcodeTextBox.Text.ToString() + " and CERT_NO='" + certificateNoTextBox.Text.ToString() + "'  ";
 
-            string strInsQuery = "insert into PSDR_FI(F_CD,comp_cd,PSDR_NO,NO_SHARES,SH_TYPE,OM_LOT,SP_DATE,DIS_NO_FM,DIS_NO_TO, FOLIO_NO,CERT_NO,POSTED,OP_NAME) values('" + Convert.ToUInt32(fundcode) + "','" + Convert.ToInt32(companycode) + "','" + Convert.ToInt32(psdrNo) + "','" + noofShares + "','" + securType + "','" + marketlot + "','" + sp_date + "','" + DictincFrom + "','" + ditinctto + "','" + folioNo + "','" + certificateNo + "','A','" + loginId + "')";
+            dtsource = commonGatewayObj.Select(Query1.ToString());
+            if (dtsource.Rows.Count > 0)
+            {
+                string strUPdQuery = "";
+                if (alotmentNo != "")
+                {
 
-            int NumOfRows = commonGatewayObj.ExecuteNonQuery(strInsQuery);
-            clearField();
+                    strUPdQuery = "update psdr_fi set PSDR_NO ='" + Convert.ToInt32(psdrNo) + "',  SH_TYPE ='" + securType + "',OM_LOT ='" + marketlot + "', SP_DATE='" + sp_date + "'," +
+                                               " DIS_NO_FM ='" + DictincFrom + "',DIS_NO_TO ='" + ditinctto + "',  ALLOT_NO='" + alotmentNo + "' ,FOLIO_NO='" + folioNo + "' where COMP_CD= " + companyCodeTextBox.Text.ToString() + " and F_CD=" + fundcodeTextBox.Text.ToString() + " and CERT_NO='" + certificateNoTextBox.Text.ToString() + "'";
+                }
+                else
+                {
+                    strUPdQuery = "update psdr_fi set PSDR_NO ='" + Convert.ToInt32(psdrNo) + "',  SH_TYPE ='" + securType + "',OM_LOT ='" + marketlot + "', SP_DATE='" + sp_date + "'," +
+                                             " DIS_NO_FM ='" + DictincFrom + "',DIS_NO_TO ='" + ditinctto + "',  FOLIO_NO='" + folioNo + "' where COMP_CD= " + companyCodeTextBox.Text.ToString() + " and F_CD=" + fundcodeTextBox.Text.ToString() + " and CERT_NO='" + certificateNoTextBox.Text.ToString() + "'";
+                }
+
+
+                int NumOfRows = commonGatewayObj.ExecuteNonQuery(strUPdQuery);
+                ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Update sucessfully !');", true);
+
+            }
+            else
+            {
+                string strInsQuery = "insert into PSDR_FI(F_CD,comp_cd,PSDR_NO,NO_SHARES,SH_TYPE,OM_LOT,SP_DATE,DIS_NO_FM,DIS_NO_TO, FOLIO_NO,CERT_NO,POSTED,OP_NAME) values('" + Convert.ToUInt32(fundcode) + "','" + Convert.ToInt32(companycode) + "','" + Convert.ToInt32(psdrNo) + "','" + noofShares + "','" + securType + "','" + marketlot + "','" + sp_date + "','" + DictincFrom + "','" + ditinctto + "','" + folioNo + "','" + certificateNo + "','A','" + loginId + "')";
+
+                int NumOfRows = commonGatewayObj.ExecuteNonQuery(strInsQuery);
+                ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Insert sucessfully !');", true);
+
+                clearField();
+
+            }
+
+
 
         }
     }

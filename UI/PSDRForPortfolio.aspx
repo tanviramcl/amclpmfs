@@ -244,10 +244,6 @@
                         noofshareTextBox:true,
                         maxlength: 18
                         
-                    }, <%=AllotmentNoTextBox.UniqueID %>: {
-                        
-                        required: true,
-                        maxlength: 12
                     }, <%=certificateNoTextBox.UniqueID %>: {
                         
                         required: true,
@@ -283,9 +279,6 @@
                      }, <%=noofshareTextBox.UniqueID %>:{  
                          required: "*No of Share is required*",
                          maxlength: "* Please enter maximum 18 characters *"
-                      },<%=AllotmentNoTextBox.UniqueID %>:{  
-                         required: "*Allotment No is required*",
-                         maxlength: "* Please enter maximum 12 characters *"
                       },<%=certificateNoTextBox.UniqueID %>:{  
                           required: "*Certificate No is required*",
                          maxlength: "* Please enter maximum 12 characters *"
