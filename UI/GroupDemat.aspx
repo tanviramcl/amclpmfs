@@ -104,7 +104,7 @@
 
                 <tr>
                     <td align="left">
-                        <b>Latter No</b>
+                        <b>Letter No</b>
                     </td>
                     <td align="left">
                         <asp:TextBox ID="LatterNoTextBox" runat="server"  Width="100px"></asp:TextBox>
@@ -125,7 +125,7 @@
 
                    
                     <td align="left">
-                        <b>Latter Date</b>
+                        <b>Letter Date</b>
                     </td>
                     <td align="left">
                         <asp:TextBox ID="LatterDateTextBox"  runat="server" Width="100px"></asp:TextBox>
