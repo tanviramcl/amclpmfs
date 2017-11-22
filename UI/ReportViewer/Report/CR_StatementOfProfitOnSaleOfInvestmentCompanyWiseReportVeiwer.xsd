@@ -6,11 +6,12 @@
         <xs:element name="StatementOfProfitOnSaleOfInvestmentCompanyWise">
           <xs:complexType>
             <xs:sequence>
+              <xs:element name="F_NAME" type="xs:string" minOccurs="0" />
               <xs:element name="COMP_NM" type="xs:string" minOccurs="0" />
-              <xs:element name="SUM_x0028_NO_SHARE_x0029_" type="xs:decimal" minOccurs="0" />
+              <xs:element name="NO_OF_SHARE_SOLD" type="xs:decimal" minOccurs="0" />
               <xs:element name="SALE_PRICE" type="xs:decimal" minOccurs="0" />
-              <xs:element name="COST_PRICE" type="xs:decimal" minOccurs="0" />
-              <xs:element name="CAPITAL_GAIN" type="xs:decimal" minOccurs="0" />
+              <xs:element name="COSTPRICE" type="xs:decimal" minOccurs="0" />
+              <xs:element name="PROFIT_LOSS" type="xs:decimal" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
