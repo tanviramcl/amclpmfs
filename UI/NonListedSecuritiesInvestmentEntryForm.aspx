@@ -82,19 +82,26 @@
         
     </tr>
      <tr>
+
+        
+            
         <td align="right" style="font-weight: 700" class="style5"><b>Rate(BDT):&nbsp;</b></td>
         <td align="left" class="style5" >
-            <asp:TextBox ID="rateTextBox" runat="server"  AutoPostBack="true"  style="width:100px;" 
+           <div> 
+                <asp:UpdatePanel ID ="updt1" runat ="server" >
+              <ContentTemplate >
+            <asp:TextBox ID="rateTextBox" runat="server"  AutoPostBack="true"  style="width:100px" OnTextChanged=" rateChange_TextChanged"
                 CssClass="textInputStyle" TabIndex="2" 
-                ></asp:TextBox></td>   
-        
-    </tr>
-    <tr>
-        <td align="right" style="font-weight: 700" class="style5"><b>No of Shares:&nbsp;</b></td>
-        <td align="left" class="style5" >
-            <asp:TextBox ID="noOfShareTextBox" runat="server" ReadOnly="true" style="width:100px;" 
+                ></asp:TextBox>
+                   <asp:TextBox ID="TextBox1" runat="server"  style="width:100px;" AutoPostBack="true"
                 CssClass="textInputStyle" TabIndex="2" 
-                ></asp:TextBox></td>   
+                ></asp:TextBox>
+                   </ContentTemplate >
+                  
+                  
+                  </asp:UpdatePanel>
+            </div>
+                  </td>   
         
     </tr>
     
@@ -117,7 +124,7 @@
             
     </tr>
     <tr>
-           <td align="center" colspan="4" >
+           <td align="center" colspan="2" >
                 &nbsp;
            </td>
     </tr>
@@ -128,30 +135,7 @@
     <script type="text/javascript">
 
 
-        $('#<%=rateTextBox.ClientID%>').keyup(function() {
-            test();
-        });
-
-        function test() {   
-          $.ajax({
-              type: "POST",
-              url: "NonListedSecuritiesInvestmentEntryForm.aspx/RATEONCHANGE",
-                 data: '{Ammount: "' + $("#<%=amountTextBox.ClientID%>").val() + '",Rate: "' + $("#<%=rateTextBox.ClientID%>").val() + '" }',
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (response) {
-                    if (response.d) {
-                        alert(response.d);
-
-                    }
-                
-                },
-                failure: function (response) {
-                  
-                }
-             });
-
-        }
+       
    
        $.validator.addMethod("fundDropDownList", function (value, element, param) {  
            if (value == '0')  
