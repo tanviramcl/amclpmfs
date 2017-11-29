@@ -40,7 +40,7 @@
             <table class="table table-hover" id="bootstrap-table">
                 <thead>
                     <tr>
-                        <th>Menu Id</th>
+                       <%-- <th>Menu Id</th>--%>
                         <th>Menu Name</th>
                         <th>SUBMENU NAME</th>
                         <th>CHILD OF SUBMENU NAME</th>
@@ -60,7 +60,7 @@
                             {
                     %>
                     <tr>
-                        <td><%   Response.Write(dtmenUList.Rows[i]["MENU_ID"].ToString());   %> </td>
+                     <%--   <td><%   Response.Write(dtmenUList.Rows[i]["MENU_ID"].ToString());   %> </td>--%>
                         <td><%   Response.Write(dtmenUList.Rows[i]["MENU_NAME"].ToString());   %> </td>
                          <td><%   Response.Write(dtmenUList.Rows[i]["SUBMENU_NAME"].ToString());   %> </td>
                          <td><%   Response.Write(dtmenUList.Rows[i]["CHILD_OF_SUBMENU_NAME"].ToString());   %> </td>

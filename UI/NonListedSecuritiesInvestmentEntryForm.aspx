@@ -2,6 +2,7 @@
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
     <link rel="Stylesheet" type="text/css" href="../Scripts/jquery-ui.css"  />
+    <link href="../CSS/vendor/bootstrap.min.css" rel="stylesheet" />
     <script  type="text/javascript" src="../Scripts/jquery-ui.js"></script>
     <style type="text/css">
         label.error {
@@ -17,6 +18,14 @@
             height: 14px;
         }
     </style>
+     <style type="text/css">
+         .Gridview {
+             font-family: Verdana;
+             font-size: 10pt;
+             font-weight: normal;
+             color: black;
+         }
+     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
 <ajaxToolkit:ToolkitScriptManager runat="Server" EnableScriptGlobalization="true" EnableScriptLocalization="true" ID="ScriptManager1" />
@@ -41,18 +50,49 @@
             <asp:DropDownList ID="fundNameDropDownList" runat="server" TabIndex="1" ></asp:DropDownList>
             </td>
     </tr>
+     <tr>
+        <td align="right" style="font-weight: 700" class="style5"><b>Company Name:&nbsp; </b></td>
+        <td align="left" class="style5" >
+            <asp:DropDownList ID="nonlistedCompanyDropDownList" runat="server" TabIndex="1" ></asp:DropDownList>
+            </td>
+    </tr>
     <tr>
        
         <td align="right" style="font-weight: 700" class="style5"><b>Investment Date:</b></td>
         <td align="left">
-            <asp:DropDownList ID="PortfolioAsOnDropDownList" runat="server" TabIndex="8"></asp:DropDownList>
+            <asp:TextBox ID="InvestMentDateTextBox" runat="server" Width="100px"></asp:TextBox>
             <span class="style6">*</span>
+        </td>
+    </tr>
+    <tr>
+
+       
+       <%-- <td align="right" style="font-weight: 700" class="style5"><b>Nonlisted Category:</b></td>--%>
+         <td align="right" style="font-weight: 700" class="style5"><asp:Label ID="Label2" runat="server" Text="Nonlisted Category:"></asp:Label></td>
+        <td align="left">
+            <asp:DropDownList ID="nonlistedCategoryDropDownList" runat="server" TabIndex="8"></asp:DropDownList>
         </td>
     </tr>
     <tr>
         <td align="right" style="font-weight: 700" class="style5"><b>Amount(BDT):&nbsp;</b></td>
         <td align="left" class="style5" >
-            <asp:TextBox ID="amountTextBox" runat="server" style="width:100px;" 
+            <asp:TextBox ID="amountTextBox" runat="server"  style="width:100px;" 
+                CssClass="textInputStyleammount" TabIndex="2" 
+                ></asp:TextBox></td>   
+        
+    </tr>
+     <tr>
+        <td align="right" style="font-weight: 700" class="style5"><b>Rate(BDT):&nbsp;</b></td>
+        <td align="left" class="style5" >
+            <asp:TextBox ID="rateTextBox" runat="server"  AutoPostBack="true"  style="width:100px;" 
+                CssClass="textInputStyle" TabIndex="2" 
+                ></asp:TextBox></td>   
+        
+    </tr>
+    <tr>
+        <td align="right" style="font-weight: 700" class="style5"><b>No of Shares:&nbsp;</b></td>
+        <td align="left" class="style5" >
+            <asp:TextBox ID="noOfShareTextBox" runat="server" ReadOnly="true" style="width:100px;" 
                 CssClass="textInputStyle" TabIndex="2" 
                 ></asp:TextBox></td>   
         
@@ -66,7 +106,7 @@
     </tr>
     <tr>
             <td align="center" colspan="2" >
-            <asp:Button ID="saveButton" runat="server" Text="Save" 
+            <asp:Button ID="saveButton" runat="server" Text="Add" 
                 CssClass="buttoncommon" TabIndex="5" 
                      AccessKey="s" onclick="saveButton_Click"  OnClientClick="return Confirm();"
                     />
@@ -81,23 +121,38 @@
                 &nbsp;
            </td>
     </tr>
-</table> 
-<!-- for Diaglogbox-->    
-<table style="text-align: center ; display:none">
-<tr>
-            
-    <td>
-        <div id="dialog-confirm" title="" >
-            <p><span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 5px 0;"></span>Do you want to Update. Are you sure?</p>
-        </div>
-      
-    </td>
-</tr>
-
-</table>  
+</table>
 
 
-   <script type="text/javascript">
+
+    <script type="text/javascript">
+
+
+        $('#<%=rateTextBox.ClientID%>').keyup(function() {
+            test();
+        });
+
+        function test() {   
+          $.ajax({
+              type: "POST",
+              url: "NonListedSecuritiesInvestmentEntryForm.aspx/RATEONCHANGE",
+                 data: '{Ammount: "' + $("#<%=amountTextBox.ClientID%>").val() + '",Rate: "' + $("#<%=rateTextBox.ClientID%>").val() + '" }',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    if (response.d) {
+                        alert(response.d);
+
+                    }
+                
+                },
+                failure: function (response) {
+                  
+                }
+             });
+
+        }
+   
        $.validator.addMethod("fundDropDownList", function (value, element, param) {  
            if (value == '0')  
                return false;  
@@ -113,6 +168,33 @@
                return true;  
        },"* Please select a Date");
  
+       $.validator.addMethod("companycheck", function (value, element, param) {  
+           if (value == '0')  
+               return false;  
+           else  
+               return true;  
+       },"* Please select a Company");
+
+       $.validator.addMethod("CategoryCheck", function (value, element, param) {  
+           if (value == '0')  
+               return false;  
+           else  
+               return true;  
+       },"* Please select a Category");
+
+       $(function () {
+
+           $('#<%=InvestMentDateTextBox.ClientID%>').datepicker({
+                  changeMonth: true,
+                  changeYear: true,
+                  dateFormat: "dd/mm/yy",
+                  maxdate: 'today',
+                  onSelect: function(selected) {
+                   
+                  }
+              });
+      
+          });
     
        $("#aspnetForm").validate({
            rules: {
@@ -126,11 +208,22 @@
                    required:true ,
                    number:true              
                         
-               },<%=PortfolioAsOnDropDownList.UniqueID %>: {
+               }
+               ,<%=nonlistedCategoryDropDownList.UniqueID %>: {
                         
-                     pfoliodatecheck:true 
+                   CategoryCheck:true 
                         
-                 }
+               }, <%=rateTextBox.UniqueID %>: {
+                        
+                     required:true ,
+                     number:true              
+                        
+                 }, <%=noOfShareTextBox.UniqueID %>: {
+                        
+                   required:true ,
+                   number:true              
+                        
+               }
               
            }
        });

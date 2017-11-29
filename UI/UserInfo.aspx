@@ -84,8 +84,7 @@
                         <td><%   Response.Write(dtuserlist.Rows[i]["DESIGNATION"].ToString());   %> </td>
                         <td><%   Response.Write(dtuserlist.Rows[i]["ROLE_NAME"].ToString());   %> </td>
                        
-                 <%--       <td><a href="AddFund.aspx?ID=<%   Response.Write(dtNoOfFunds.Rows[i]["F_CD"].ToString());   %>" 
-                            class="custUpdBtn">Update</a></td>--%>
+                
                     </tr>
                     <%
 

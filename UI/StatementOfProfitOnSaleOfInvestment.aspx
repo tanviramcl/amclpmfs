@@ -120,7 +120,7 @@
                         greaterThan: '#<%=RIssueToTextBox.ClientID%>'                      
                     },<%=fundNameDropDownList.UniqueID %>: {
                         
-                        //required:true 
+                        required:true ,
                         fundDropDownList:true
                         
                     }

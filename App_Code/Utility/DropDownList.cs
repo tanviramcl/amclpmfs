@@ -81,6 +81,44 @@ public class DropDownList
         }
         return dtFundNameDropDownList;
     }
+    public DataTable NolistedCompanyCodeNameDropDownList()//For All Funds
+    {
+        DataTable dtnonListedCompanyName = commonGatewayObj.Select("Select COMP_CD,COMP_NM,SECT_MAJ_CD,ADD1,ADD2,TEL,EMAIL,AUTH_CAP,PAID_CAP,CAT_TP from COMP_NONLISTED");
+        DataTable dtnonListedCompanyNameList = new DataTable();
+        dtnonListedCompanyNameList.Columns.Add("COMP_NM", typeof(string));
+        dtnonListedCompanyNameList.Columns.Add("COMP_CD", typeof(string));
+        DataRow dr = dtnonListedCompanyNameList.NewRow();
+        dr["COMP_NM"] = "--Click Here to Select--";
+        dr["COMP_CD"] = "0";
+        dtnonListedCompanyNameList.Rows.Add(dr);
+        for (int loop = 0; loop < dtnonListedCompanyName.Rows.Count; loop++)
+        {
+            dr = dtnonListedCompanyNameList.NewRow();
+            dr["COMP_NM"] = dtnonListedCompanyName.Rows[loop]["COMP_NM"].ToString();
+            dr["COMP_CD"] = Convert.ToInt32(dtnonListedCompanyName.Rows[loop]["COMP_CD"]);
+            dtnonListedCompanyNameList.Rows.Add(dr);
+        }
+        return dtnonListedCompanyNameList;
+    }
+    public DataTable NolistedCategoryTypeDropDownList()//For All Funds
+    {
+        DataTable dtnonListedCategoryName = commonGatewayObj.Select("Select CAT_ID,CAT_NM from NONLISTED_CATEGORY");
+        DataTable dtnonListedCategoryNameList = new DataTable();
+        dtnonListedCategoryNameList.Columns.Add("CAT_NM", typeof(string));
+        dtnonListedCategoryNameList.Columns.Add("CAT_ID", typeof(string));
+        DataRow dr = dtnonListedCategoryNameList.NewRow();
+        dr["CAT_NM"] = "--Click Here to Select--";
+        dr["CAT_ID"] = "0";
+        dtnonListedCategoryNameList.Rows.Add(dr);
+        for (int loop = 0; loop < dtnonListedCategoryName.Rows.Count; loop++)
+        {
+            dr = dtnonListedCategoryNameList.NewRow();
+            dr["CAT_NM"] = dtnonListedCategoryName.Rows[loop]["CAT_NM"].ToString();
+            dr["CAT_ID"] = Convert.ToInt32(dtnonListedCategoryName.Rows[loop]["CAT_ID"]);
+            dtnonListedCategoryNameList.Rows.Add(dr);
+        }
+        return dtnonListedCategoryNameList;
+    }
     public DataTable UserNameDropDownList()//For All Funds
     {
         DataTable dtuserList = commonGatewayObj.Select("select a.ID,a.Name,B.ID as DesignationID,B.NAME as DesignationName from(select * from emp_info where valid = 'Y' order by Id asc) a inner join EMP_DESIGNATION  b  on a.DESIG_ID = B.ID");
