@@ -50,7 +50,7 @@ public partial class UI_NonListedSecuritiesInvestmentEntryForm : System.Web.UI.P
                 nonlistedCategoryDropDownList.Visible = false;
                 amountTextBox.Text = dtNonlistedSecuritiesByCOMPCODE.Rows[0]["AMOUNT"].ToString();
                 rateTextBox.Text = dtNonlistedSecuritiesByCOMPCODE.Rows[0]["RATE"].ToString();
-                TextBox1.Text= dtNonlistedSecuritiesByCOMPCODE.Rows[0]["NO_SHARES"].ToString();
+                noOfShareTextBox.Text= dtNonlistedSecuritiesByCOMPCODE.Rows[0]["NO_SHARES"].ToString();
 
                 saveButton.Text = "Update";
                 //saveButton.Text = "Update";
@@ -126,7 +126,7 @@ public partial class UI_NonListedSecuritiesInvestmentEntryForm : System.Web.UI.P
             dtnonListedDetails = commonGatewayObj.Select(strQuery);
             if (dtnonListedDetails != null && dtnonListedDetails.Rows.Count > 0)
             {
-                string strUPQuery = "update NON_LISTED_SECURITIES_DETAILS SET COMP_CD ='" + nonlistedCompanyDropDownList.SelectedValue.ToString() + "',AMOUNT =" + amountTextBox.Text.ToString() + ",RATE=" + rateTextBox.Text.ToString() + ",NO_SHARES =" + TextBox1.Text.ToString() + ",ENTRY_BY ='" + loginId + "',ENTRY_DATE ='" + DateTime.Now.ToString("dd-MMM-yyyy") + "' where F_CD='" + fundNameDropDownList.SelectedValue.ToString() + "' and  INV_DATE='" + dtINVDATE.ToString("dd-MMM-yyyy") + "'";
+                string strUPQuery = "update NON_LISTED_SECURITIES_DETAILS SET COMP_CD ='" + nonlistedCompanyDropDownList.SelectedValue.ToString() + "',AMOUNT =" + amountTextBox.Text.ToString() + ",RATE=" + rateTextBox.Text.ToString() + ",NO_SHARES =" + noOfShareTextBox.Text.ToString() + ",ENTRY_BY ='" + loginId + "',ENTRY_DATE ='" + DateTime.Now.ToString("dd-MMM-yyyy") + "' where F_CD='" + fundNameDropDownList.SelectedValue.ToString() + "' and  INV_DATE='" + dtINVDATE.ToString("dd-MMM-yyyy") + "'";
 
                 int NumOfRows = commonGatewayObj.ExecuteNonQuery(strUPQuery);
 
@@ -136,7 +136,7 @@ public partial class UI_NonListedSecuritiesInvestmentEntryForm : System.Web.UI.P
             {
                 string strInsQuery;
 
-                strInsQuery = "insert into NON_LISTED_SECURITIES_DETAILS(F_CD,COMP_CD,AMOUNT,RATE,NO_SHARES,INV_DATE,ENTRY_BY,ENTRY_DATE)values('" + fundNameDropDownList.SelectedValue.ToString() + "','" + nonlistedCompanyDropDownList.SelectedValue.ToString() + "','" + amountTextBox.Text.ToString() + "','" + rateTextBox.Text.ToString() + "','" + TextBox1.Text.ToString() + "','" + dtINVDATE.ToString("dd-MMM-yyyy") + "','" + loginId + "','" + DateTime.Now.ToString("dd-MMM-yyyy") + "')";
+                strInsQuery = "insert into NON_LISTED_SECURITIES_DETAILS(F_CD,COMP_CD,AMOUNT,RATE,NO_SHARES,INV_DATE,ENTRY_BY,ENTRY_DATE)values('" + fundNameDropDownList.SelectedValue.ToString() + "','" + nonlistedCompanyDropDownList.SelectedValue.ToString() + "','" + amountTextBox.Text.ToString() + "','" + rateTextBox.Text.ToString() + "','" + noOfShareTextBox.Text.ToString() + "','" + dtINVDATE.ToString("dd-MMM-yyyy") + "','" + loginId + "','" + DateTime.Now.ToString("dd-MMM-yyyy") + "')";
 
                 int NumOfRows = commonGatewayObj.ExecuteNonQuery(strInsQuery);
                 ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Insert Sucessfully')", true);
@@ -178,7 +178,7 @@ public partial class UI_NonListedSecuritiesInvestmentEntryForm : System.Web.UI.P
             double rate = Convert.ToDouble(rateTextBox.Text);
             double noOfShare = (ammount / rate);
             int share = Convert.ToInt32(noOfShare);
-            TextBox1.Text = share.ToString();
+            noOfShareTextBox.Text = share.ToString();
           //  ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Ammount" + noOfShareTextBox.Text.ToString() + "');", true);
         }
         else

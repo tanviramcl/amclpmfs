@@ -93,7 +93,7 @@
             <asp:TextBox ID="rateTextBox" runat="server"  AutoPostBack="true"  style="width:100px" OnTextChanged=" rateChange_TextChanged"
                 CssClass="textInputStyle" TabIndex="2" 
                 ></asp:TextBox>
-                   <asp:TextBox ID="TextBox1" runat="server"  style="width:100px;" AutoPostBack="true"
+                   <asp:TextBox ID="noOfShareTextBox" runat="server"  style="width:100px;" AutoPostBack="true"
                 CssClass="textInputStyle" TabIndex="2" 
                 ></asp:TextBox>
                    </ContentTemplate >
