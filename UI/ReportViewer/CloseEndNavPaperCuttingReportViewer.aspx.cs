@@ -17,6 +17,7 @@ public partial class UI_ReportViewer_CloseEndNavPaperCuttingReportViewer : Syste
 {
     CommonGateway commonGatewayObj = new CommonGateway();
     Pf1s1DAO pf1s1DAOObj = new Pf1s1DAO();
+    ReportDocument rdoc = new ReportDocument();
     protected void Page_Load(object sender, EventArgs e)
     {
         if (Session["UserID"] == null)
@@ -103,7 +104,7 @@ public partial class UI_ReportViewer_CloseEndNavPaperCuttingReportViewer : Syste
                 {
                     string Path = "";
                     //dtReprtSource1.WriteXmlSchema(@"F:\PortfolioManagementSystem\UI\ReportViewer\Report\CloseEndNAVpaperCuttingReport.xsd");
-                    ReportDocument rdoc = new ReportDocument();
+                   
                     Path = Server.MapPath("Report/CloseEndNAVpaperCuttingReport.rpt");
                     rdoc.Load(Path);
                     rdoc.SetDataSource(dtReprtSource1);
@@ -133,5 +134,15 @@ public partial class UI_ReportViewer_CloseEndNavPaperCuttingReportViewer : Syste
                 {
                     Response.Write("No Data Found");
                 }
+    }
+
+    protected void Page_Unload(object sender, EventArgs e)
+    {
+        CrystalReportViewerPaperCuttingNAV.Dispose();
+        CrystalReportViewerPaperCuttingNAV = null;
+        rdoc.Close();
+        rdoc.Dispose();
+        rdoc = null;
+        GC.Collect();
     }
 }

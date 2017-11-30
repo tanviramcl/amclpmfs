@@ -67,9 +67,17 @@ public partial class UI_ReportViewer_NonDemateSharesCheckReportViwer : System.We
        
         }
 
-       
 
-       
-      
-    
+
+    protected void Page_Unload(object sender, EventArgs e)
+    {
+        CR_ReceivablePayableDSEandCSESeparateReport.Dispose();
+        CR_ReceivablePayableDSEandCSESeparateReport = null;
+        rdoc.Close();
+        rdoc.Dispose();
+        rdoc = null;
+        GC.Collect();
+    }
+
+
 }

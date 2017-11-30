@@ -56,4 +56,13 @@ public partial class UI_ReportViewer_NegativeBalanceCheckReportViewer : System.W
         }
 
     }
+    protected void Page_Unload(object sender, EventArgs e)
+    {
+        CR_PortFolioCategoryWise.Dispose();
+        CR_PortFolioCategoryWise = null;
+        rdoc.Close();
+        rdoc.Dispose();
+        rdoc = null;
+        GC.Collect();
+    }
 }

@@ -114,9 +114,17 @@ public partial class UI_ReportViewer_NonDemateSharesCheckReportViwer : System.We
 
     }
 
-       
 
-       
-      
-    
+    protected void Page_Unload(object sender, EventArgs e)
+    {
+        CR_StatementOfProfitOnSaleOfInvestmentReportVeiwer.Dispose();
+        CR_StatementOfProfitOnSaleOfInvestmentReportVeiwer = null;
+        rdoc.Close();
+        rdoc.Dispose();
+        rdoc = null;
+        GC.Collect();
+    }
+
+
+
 }
