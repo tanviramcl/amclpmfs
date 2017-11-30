@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/UI/AMCLCommon.master" AutoEventWireup="true" CodeFile="NonListedSecuritiesInvestmentEntryForm.aspx.cs" Inherits="UI_NonListedSecuritiesInvestmentEntryForm" Title="Non Listed Securites (Investment) Entry Page" %>
+﻿<%@ Page Language="C#" MasterPageFile="~/UI/AMCLCommon.master" AutoEventWireup="true" CodeFile="NonListedSecuritiesInvestmentEntryForm.aspx.cs" Inherits="UI_NonListedSecuritiesInvestmentEntryForm" Title="Non Listed Securites (Investment) Entry Page" EnableEventValidation="false" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
     <link rel="Stylesheet" type="text/css" href="../Scripts/jquery-ui.css"  />
@@ -47,7 +47,9 @@
     <tr>
         <td align="right" style="font-weight: 700" class="style5"><b>Fund Name:&nbsp; </b></td>
         <td align="left" class="style5" >
-            <asp:DropDownList ID="fundNameDropDownList" runat="server" TabIndex="1" ></asp:DropDownList>
+            <asp:DropDownList ID="fundNameDropDownList" runat="server" TabIndex="1" OnSelectedIndexChanged="fundNameDropDownList_SelectedIndexChanged"
+                AutoPostBack="true"
+                 ></asp:DropDownList>
             </td>
     </tr>
      <tr>
@@ -56,14 +58,14 @@
             <asp:DropDownList ID="nonlistedCompanyDropDownList" runat="server" TabIndex="1" ></asp:DropDownList>
             </td>
     </tr>
-    <tr>
-       
-        <td align="right" style="font-weight: 700" class="style5"><b>Investment Date:</b></td>
-        <td align="left">
+   
+     <tr>
+        <td align="right" style="font-weight: 700" class="style5">Investment Date:</td>
+        <td align="left" class="style5" >
             <asp:TextBox ID="InvestMentDateTextBox" runat="server" Width="100px"></asp:TextBox>
-            <span class="style6">*</span>
-        </td>
+            </td>
     </tr>
+   
     <tr>
 
        
@@ -109,7 +111,7 @@
            <td align="left" class="style6" ></td>
     </tr>
     <tr>
-        <td align="center" colspan="2" class="style5" ></td>
+        <td align="center" colspan="2" class="style5" >&nbsp;</td>
     </tr>
     <tr>
             <td align="center" colspan="2" >
@@ -127,6 +129,25 @@
            <td align="center" colspan="2" >
                 &nbsp;
            </td>
+    </tr>
+    <tr>
+           <td align="center" colspan="2" >
+                
+               <asp:GridView ID="GridViewNonListedSecurities" runat="server"
+                   AllowPaging="True" onselectedindexchanged="GridViewNonListedSecurities_SelectedIndexChanged" 
+                OnPageIndexChanging="GridViewNonListedSecurities_PageIndexChanging"  
+                onrowdatabound ="GridViewNonListedSecurities_RowDataBound" BackColor="White" 
+                BorderColor="#CCCCCC" BorderStyle="None" BorderWidth="1px" CellPadding="3" 
+                   
+                   
+                   >
+               </asp:GridView>
+                
+           </td>
+    </tr>
+    <tr>
+           <td align="center" colspan="2" >
+                &nbsp;</td>
     </tr>
 </table>
 
