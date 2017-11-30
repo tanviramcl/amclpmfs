@@ -25,6 +25,20 @@
              font-weight: normal;
              color: black;
          }
+           .processBtn {
+            BORDER-TOP: #CCCCCC 1px solid;
+            BORDER-BOTTOM: #000000 1px solid;
+            BORDER-LEFT: #CCCCCC 1px solid;
+            BORDER-RIGHT: #000000 1px solid;
+            COLOR: #FFFFFF;
+            FONT-WEIGHT: bold;
+            FONT-SIZE: 11px;
+            BACKGROUND-COLOR: #547AC6;
+            WIDTH: 246px;
+            HEIGHT: 65px;
+            font-size: 21px;
+            border-radius: 25px;
+        }
      </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
@@ -34,7 +48,7 @@
 <table "text-align"="center">
     <tr>
         <td class="FormTitle" align="center">
-            NON LISTED SECURITIES (Investment) ENTRY FORM
+            NON LISTED SECURITIES (Investment) Details
         </td>           
         <td>
             <br />
@@ -115,7 +129,7 @@
     </tr>
     <tr>
             <td align="center" colspan="2" >
-            <asp:Button ID="saveButton" runat="server" Text="Add" 
+            <asp:Button ID="saveButton" runat="server" Text="Save" 
                 CssClass="buttoncommon" TabIndex="5" 
                      AccessKey="s" onclick="saveButton_Click"  OnClientClick="return Confirm();"
                     />
@@ -132,22 +146,62 @@
     </tr>
     <tr>
            <td align="center" colspan="2" >
-                
-               <asp:GridView ID="GridViewNonListedSecurities" runat="server"
+                <div id="dvGridDSETradeInfo" runat="server" 
+                    dir="ltr">
+               <asp:GridView ID="GridViewNonListedSecurities" runat="server" 
                    AllowPaging="True" onselectedindexchanged="GridViewNonListedSecurities_SelectedIndexChanged" 
                 OnPageIndexChanging="GridViewNonListedSecurities_PageIndexChanging"  
                 onrowdatabound ="GridViewNonListedSecurities_RowDataBound" BackColor="White" 
-                BorderColor="#CCCCCC" BorderStyle="None" BorderWidth="1px" CellPadding="3" 
-                   
-                   
-                   >
+                        BorderColor="#33D4FF" BorderStyle="None" BorderWidth="1px" CellPadding="3"
+                        CellSpacing="2">
+
+                    <Columns>
+                           
+
+                        </Columns>
+                <FooterStyle BackColor="#2874A6" ForeColor="#000000" />
+                        <PagerStyle ForeColor="#2874A6" HorizontalAlign="Center" />
+                        <SelectedRowStyle BackColor="#2874A6" Font-Bold="True" ForeColor="White" />
+                        <HeaderStyle BackColor="#2874A6" Font-Bold="true" ForeColor="White" />
+                        <RowStyle BackColor="#2874A6" ForeColor="#0000" />
                </asp:GridView>
+                    </div>
                 
            </td>
     </tr>
+        <tr>
+        <td align="right" style="font-weight: 700" class="style5"><asp:Label ID="lblTotalAmmont" runat="server" Text="Total Ammount:"></asp:Label></td>
+        <td align="left" class="style5" >
+           <asp:Label ID="lblTotalAmmount" runat="server" Text=""></asp:Label>
+            </td>
+    </tr>
     <tr>
-           <td align="center" colspan="2" >
-                &nbsp;</td>
+        <td align="right">&nbsp;</td>
+        <td align="left">
+            <div>
+
+                <asp:UpdateProgress ID="updProgress"
+                    AssociatedUpdatePanelID="UpdatePanel1"
+                    runat="server">
+                    <ProgressTemplate>
+                        <img src="../Image/Processing.gif" alt="processing" style="width: 186px; height: 128px; margin-left: 36px" />
+
+                    </ProgressTemplate>
+                </asp:UpdateProgress>
+
+                <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+                    <ContentTemplate>
+                        <asp:Label ID="lblProcessing" runat="server" Text="" Style="font-size: 24px; color: green;"></asp:Label>
+                        <br />
+
+
+                        <asp:Button ID="btnProcess" runat="server" Text="Process" Visible="false"
+                            CssClass="processBtn" OnClick="btnProcess_Click" />
+                    </ContentTemplate>
+                </asp:UpdatePanel>
+            </div>
+        </td>
+
     </tr>
 </table>
 
@@ -208,7 +262,22 @@
                    //required:true 
                    fundDropDownList:true
                         
-               }, <%=amountTextBox.UniqueID %>: {
+               }
+               ,
+                <%=nonlistedCompanyDropDownList.UniqueID %>: {
+                        
+                   //required:true 
+                    companycheck:true
+                        
+                }
+               ,
+                <%=InvestMentDateTextBox.UniqueID %>: {
+                        
+                   required:true 
+                   
+                        
+                }
+               , <%=amountTextBox.UniqueID %>: {
                         
                    required:true ,
                    number:true              

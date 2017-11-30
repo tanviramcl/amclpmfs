@@ -28,43 +28,6 @@ public partial class UI_NonListedSecuritiesInvestmentEntryForm : System.Web.UI.P
             }
 
 
-            if (string.IsNullOrEmpty(Request.QueryString["ID"]))
-            {
-                // not there!
-                Session["NonlistedDetails"] = NonlistedSecuritiesDetails();
-
-                DataTable dtNonlistedSecurities = (DataTable)Session["dtNonlistedSecurities"];
-
-
-                saveButton.Text = "Add";
-            }
-            else
-            {
-                string CompanyCode = Convert.ToString(Request.QueryString["ID"]).Trim();
-                Session["dtNonlistedSecuritiesByCOMPCODE"] = NonlistedSecuritiesDetailsByCOMPID(CompanyCode);
-                DataTable dtNonlistedSecuritiesByCOMPCODE = (DataTable)Session["dtNonlistedSecuritiesByCOMPCODE"];
-
-                if (dtNonlistedSecuritiesByCOMPCODE.Rows.Count > 0)
-                {
-                    fundNameDropDownList.SelectedValue = dtNonlistedSecuritiesByCOMPCODE.Rows[0]["F_CD"].ToString();
-                    nonlistedCompanyDropDownList.SelectedValue = dtNonlistedSecuritiesByCOMPCODE.Rows[0]["COMP_CD"].ToString();
-                    InvestMentDateTextBox.Text = dtNonlistedSecuritiesByCOMPCODE.Rows[0]["INV_DATE"].ToString();
-                    Label2.Visible = false;
-                    nonlistedCategoryDropDownList.Visible = false;
-                    amountTextBox.Text = dtNonlistedSecuritiesByCOMPCODE.Rows[0]["AMOUNT"].ToString();
-                    rateTextBox.Text = dtNonlistedSecuritiesByCOMPCODE.Rows[0]["RATE"].ToString();
-
-                    noOfShareTextBox.Text = dtNonlistedSecuritiesByCOMPCODE.Rows[0]["NO_SHARES"].ToString();
-
-                    saveButton.Text = "Update";
-                    //saveButton.Text = "Update";
-                }
-
-            }
-
-
-
-
             DataTable dtFundNameDropDownList = dropDownListObj.FundNameDropDownList();
             DataTable dtCompanyDropdownlist = dropDownListObj.NolistedCompanyCodeNameDropDownList();
             DataTable dtnonlistedCategoryDropdownlist = dropDownListObj.NolistedCategoryTypeDropDownList();
@@ -132,7 +95,7 @@ public partial class UI_NonListedSecuritiesInvestmentEntryForm : System.Web.UI.P
             dtnonListedDetails = commonGatewayObj.Select(strQuery);
             if (dtnonListedDetails != null && dtnonListedDetails.Rows.Count > 0)
             {
-                string strUPQuery = "update NON_LISTED_SECURITIES_DETAILS SET COMP_CD ='" + nonlistedCompanyDropDownList.SelectedValue.ToString() + "',AMOUNT =" + amountTextBox.Text.ToString() + ",RATE=" + rateTextBox.Text.ToString() + ",NO_SHARES =" + noOfShareTextBox.Text.ToString() + ",ENTRY_BY ='" + loginId + "',ENTRY_DATE ='" + DateTime.Now.ToString("dd-MMM-yyyy") + "' where F_CD='" + fundNameDropDownList.SelectedValue.ToString() + "' and  INV_DATE='" + dtINVDATE.ToString("dd-MMM-yyyy") + "'";
+                string strUPQuery = "update NON_LISTED_SECURITIES_DETAILS SET COMP_CD ='" + nonlistedCompanyDropDownList.SelectedValue.ToString() + "',AMOUNT =" + amountTextBox.Text.ToString() + ",RATE=" + rateTextBox.Text.ToString() + ",NO_SHARES =" + noOfShareTextBox.Text.ToString() + ",ENTRY_BY ='" + loginId + "',ENTRY_DATE ='" + DateTime.Now.ToString("dd-MMM-yyyy") + "', CAT_ID='" + nonlistedCategoryDropDownList.SelectedValue.ToString() + "' where F_CD='" + fundNameDropDownList.SelectedValue.ToString() + "' and  INV_DATE='" + dtINVDATE.ToString("dd-MMM-yyyy") + "' ";
 
                 int NumOfRows = commonGatewayObj.ExecuteNonQuery(strUPQuery);
 
@@ -142,13 +105,14 @@ public partial class UI_NonListedSecuritiesInvestmentEntryForm : System.Web.UI.P
             {
                 string strInsQuery;
 
-                strInsQuery = "insert into NON_LISTED_SECURITIES_DETAILS(F_CD,COMP_CD,AMOUNT,RATE,NO_SHARES,INV_DATE,ENTRY_BY,ENTRY_DATE)values('" + fundNameDropDownList.SelectedValue.ToString() + "','" + nonlistedCompanyDropDownList.SelectedValue.ToString() + "','" + amountTextBox.Text.ToString() + "','" + rateTextBox.Text.ToString() + "','" + noOfShareTextBox.Text.ToString() + "','" + dtINVDATE.ToString("dd-MMM-yyyy") + "','" + loginId + "','" + DateTime.Now.ToString("dd-MMM-yyyy") + "')";
+                strInsQuery = "insert into NON_LISTED_SECURITIES_DETAILS(F_CD,COMP_CD,AMOUNT,RATE,NO_SHARES,INV_DATE,ENTRY_BY,ENTRY_DATE,CAT_ID)values('" + fundNameDropDownList.SelectedValue.ToString() + "','" + nonlistedCompanyDropDownList.SelectedValue.ToString() + "','" + amountTextBox.Text.ToString() + "','" + rateTextBox.Text.ToString() + "','" + noOfShareTextBox.Text.ToString() + "','" + dtINVDATE.ToString("dd-MMM-yyyy") + "','" + loginId + "','" + DateTime.Now.ToString("dd-MMM-yyyy") + "',"+nonlistedCategoryDropDownList.SelectedValue.ToString()+")";
 
                 int NumOfRows = commonGatewayObj.ExecuteNonQuery(strInsQuery);
                 ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Insert Sucessfully')", true);
 
             }
-            Response.Redirect("NonListedSecurities.aspx");
+            //  Response.Redirect("NonListedSecurities.aspx");
+            FillNonListedSecuritiesGrid();
         }
 
        
@@ -179,13 +143,20 @@ public partial class UI_NonListedSecuritiesInvestmentEntryForm : System.Web.UI.P
 
         string strQuery, strQueryMaxinvDate, invDate;
         DataTable dt,dtMaxInvDate;
-      //  DateTime date1 = DateTime.ParseExact(InvestMentDateTextBox.Text, "dd/MM/yyyy", null);
+        string strQuery1, strQuery2, strQuery3;
+        DataTable dtNonListedDetailsMAXInV_DATE;
+        DataTable dtNonListedMAXInV_DATE;
+
+        DataTable dtNonListedTotalSumofAmmount;
 
 
-       // TO_CHAR(max(vch_dt), 'DD-MON-YYYY')last_tr_dt
+        //  DateTime date1 = DateTime.ParseExact(InvestMentDateTextBox.Text, "dd/MM/yyyy", null);
 
-         //   clsDataHandle selectData = new clsDataHandle();
-         strQueryMaxinvDate = "select TO_CHAR(max(INV_DATE), 'DD-MON-YYYY')inv_date from NON_LISTED_SECURITIES where f_cd=" + fundNameDropDownList.SelectedValue.ToString();
+
+        // TO_CHAR(max(vch_dt), 'DD-MON-YYYY')last_tr_dt
+
+        //   clsDataHandle selectData = new clsDataHandle();
+        strQueryMaxinvDate = "select TO_CHAR(max(INV_DATE), 'DD-MON-YYYY')inv_date from NON_LISTED_SECURITIES where f_cd=" + fundNameDropDownList.SelectedValue.ToString();
         dtMaxInvDate = commonGatewayObj.Select(strQueryMaxinvDate);
 
         if (!dtMaxInvDate.Rows[0].IsNull("inv_date"))
@@ -197,7 +168,7 @@ public partial class UI_NonListedSecuritiesInvestmentEntryForm : System.Web.UI.P
         {
             invDate = "01-Jan-1970";
         }
-            strQuery = "SELECT  F_CD,COMP_CD,AMOUNT,RATE,NO_SHARES,TO_CHAR(INV_DATE, 'DD-MON-YYYY') as  INV_DATE  FROM NON_LISTED_SECURITIES_DETAILS" +
+            strQuery = "SELECT  F_CD,COMP_CD,AMOUNT,RATE,NO_SHARES,TO_CHAR(INV_DATE, 'DD-MON-YYYY') as  INV_DATE , CAT_ID FROM NON_LISTED_SECURITIES_DETAILS" +
             " where F_CD=" + fundNameDropDownList.SelectedValue.ToString() + " and inv_date>='"+ dtMaxInvDate.Rows[0]["inv_date"].ToString()+"'";
 
 
@@ -205,10 +176,35 @@ public partial class UI_NonListedSecuritiesInvestmentEntryForm : System.Web.UI.P
         {
 
             dt = commonGatewayObj.Select(strQuery);
-            GridViewNonListedSecurities.DataSource = dt;
-            GridViewNonListedSecurities.DataBind();
+            if (dt != null && dt.Rows.Count > 0)
+            {
+                GridViewNonListedSecurities.Visible = true;
+                GridViewNonListedSecurities.DataSource = dt;
+                GridViewNonListedSecurities.DataBind();
+                btnProcess.Visible = true;
+            }
+            else
+            {
+                GridViewNonListedSecurities.Visible = false;
+                btnProcess.Visible = false;
+            }
 
 
+           
+
+
+            strQuery1 = "Select  MAX(INV_DATE) as INV_DATE from NON_LISTED_SECURITIES_DETAILS where F_CD=" + fundNameDropDownList.SelectedValue.ToString() + "";
+
+            dtNonListedDetailsMAXInV_DATE = commonGatewayObj.Select(strQuery1);
+
+            strQuery2 = "Select  MAX(PREV_MAX_INV_DATE) as PREV_MAX_INV_DATE  from NON_LISTED_SECURITIES where F_CD=" + fundNameDropDownList.SelectedValue.ToString() + "";
+
+            dtNonListedMAXInV_DATE = commonGatewayObj.Select(strQuery2);
+
+            strQuery3 = "Select  sum(AMOUNT) as Ammount  from NON_LISTED_SECURITIES_DETAILS where F_CD=" + fundNameDropDownList.SelectedValue.ToString() + " and INV_DATE BETWEEN  '" + Convert.ToDateTime(dtNonListedMAXInV_DATE.Rows[0]["PREV_MAX_INV_DATE"].ToString()).ToString("dd-MMM-yyyy") + "' AND '" + Convert.ToDateTime(dtNonListedDetailsMAXInV_DATE.Rows[0]["INV_DATE"].ToString()).ToString("dd-MMM-yyyy") + "'";
+
+            dtNonListedTotalSumofAmmount = commonGatewayObj.Select(strQuery3);
+            lblTotalAmmount.Text = dtNonListedTotalSumofAmmount.Rows[0]["Ammount"].ToString();
         }
 
         catch (Exception err)
@@ -307,113 +303,95 @@ public partial class UI_NonListedSecuritiesInvestmentEntryForm : System.Web.UI.P
 
     }
 
-    //protected void grdMemoInformation_SelectedIndexChanged(object sender, EventArgs e)
-    //{
 
-    //    string strQuery, strSumMemo, strDtlMemo, SummaryMemoPDFPath, DetailMemoPDFPath;
-    //    DataTable dt;
-    //    clsDataHandle selectData = new clsDataHandle();
-    //    txtMemoNo_Unicode.ReadOnly = true; //Added for AG
-    //    strQuery = "select a.meeting_type_id,b.meeting_type_name,a.meeting_no,a.agenda_no,a.br_div_dept_cd,a.br_div_dept_nm,a.subject_unicode,a.hints1,a.hints2,a.hints3,a.ShortSubject_Unicode,a.memo_no_unicode,a.sum_memo,a.dtl_memo" +
-    //        " from agrani_memo_inf a, agrani_met_type b where a.meeting_type_id=(select meeting_type_id from agrani_met_type where meeting_type_name='" +
-    //        grdMemoInformation.SelectedRow.Cells[0].Text.ToString() + "')" + " and a.meeting_no=" + grdMemoInformation.SelectedRow.Cells[1].Text.ToString() +
-    //        " and a.agenda_no=" + grdMemoInformation.SelectedRow.Cells[2].Text.ToString() +
-    //        " and a.meeting_type_id=b.meeting_type_id";
-
-    //    try
-    //    {
-
-    //        dt = selectData.SelectDataTable(strQuery);
-    //        drpDwnLstMeetingType.SelectedValue = dt.Rows[0]["meeting_type_id"].ToString();
-    //        drpDwnLstMeetingType.SelectedItem.Text = dt.Rows[0]["meeting_type_name"].ToString();
-
-    //        drpDwnLstMeetingNo.SelectedItem.Text = dt.Rows[0]["meeting_no"].ToString();
-
-
-    //        txtAgendaSL.Text = dt.Rows[0]["agenda_no"].ToString();
-    //        drpdwnlstDivOrDeptName.SelectedValue = dt.Rows[0]["br_div_dept_cd"].ToString();
-    //        drpdwnlstDivOrDeptName.SelectedItem.Text = dt.Rows[0]["br_div_dept_nm"].ToString();
-
-    //        txtSubject_Unicode.Text = dt.Rows[0]["subject_Unicode"].ToString();
-    //        drpDwnlstHints1.SelectedItem.Text = dt.Rows[0]["hints1"].ToString();
-    //        drpDwnlstHints2.SelectedItem.Text = dt.Rows[0]["hints2"].ToString();
-    //        drpDwnlstHints3.SelectedItem.Text = dt.Rows[0]["hints3"].ToString();
-    //        txtShortSubject_Unicode.Text = dt.Rows[0]["ShortSubject_Unicode"].ToString();
-    //        txtMemoNo_Unicode.Text = dt.Rows[0]["memo_no_Unicode"].ToString();
-
-
-
-    //        if (dt.Rows[0]["sum_memo"].ToString().Length == 19 || dt.Rows[0]["sum_memo"].ToString().Length == 0)// Since,if no file uploaded then default file name will be of 19 characters
-    //        {
-    //            HyperLinkSummaryMemoPDf.Enabled = false;
-    //            HyperLinkSummaryMemoPDf.Visible = false;
-    //        }
-
-    //        else
-    //        {
-    //            HyperLinkSummaryMemoPDf.Enabled = true;
-    //            HyperLinkSummaryMemoPDf.Visible = true;
-    //            SummaryMemoPDFPath = "~/UploadedSummaryMemo/" + dt.Rows[0]["sum_memo"].ToString();
-    //            HyperLinkSummaryMemoPDf.NavigateUrl = SummaryMemoPDFPath;
-    //        }
-
-    //        if (dt.Rows[0]["dtl_memo"].ToString().Length == 19 || dt.Rows[0]["dtl_memo"].ToString().Length == 0) // Since,if no file uploaded then default file name will be of 19 characters
-    //        {
-
-    //            HyperLinkDetailMemoPDf.Enabled = false;
-    //            HyperLinkDetailMemoPDf.Visible = false;
-
-    //        }
-    //        else
-    //        {
-    //            HyperLinkDetailMemoPDf.Enabled = true;
-    //            HyperLinkDetailMemoPDf.Visible = true;
-    //            DetailMemoPDFPath = "~/UploadedDetailMemo/" + dt.Rows[0]["dtl_memo"].ToString();
-
-    //            HyperLinkDetailMemoPDf.NavigateUrl = DetailMemoPDFPath;
-    //        }
-
-
-    //        drpDwnLstMeetingType.Enabled = false;
-    //        drpDwnLstMeetingNo.Enabled = false;
-    //        txtAgendaSL.Enabled = false;
-    //        InsFlag = false;
-    //    }
-
-    //    catch (Exception err)
-    //    {
-    //        ScriptManager.RegisterClientScriptBlock(this, typeof(Page), "TScript", "alert('No data found')" + err.ToString(), true);
-    //    }
-
-
-    //}
     protected void GridViewNonListedSecurities_SelectedIndexChanged(object sender, EventArgs e)
     {
         nonlistedCompanyDropDownList.SelectedIndex = -1;
         string strQuery;
         DataTable dtNonListedDetails;
-        //strQuery = "select a.meeting_type_id,b.meeting_type_name,a.meeting_no,a.agenda_no,a.br_div_dept_cd,a.br_div_dept_nm,a.subject_unicode,a.hints1,a.hints2,a.hints3,a.ShortSubject_Unicode,a.memo_no_unicode,a.sum_memo,a.dtl_memo" +
-        //    " from agrani_memo_inf a, agrani_met_type b where a.meeting_type_id=(select meeting_type_id from agrani_met_type where meeting_type_name='" +
-        //    grdMemoInformation.SelectedRow.Cells[0].Text.ToString() + "')" + " and a.meeting_no=" + grdMemoInformation.SelectedRow.Cells[1].Text.ToString() +
-        //    " and a.agenda_no=" + grdMemoInformation.SelectedRow.Cells[2].Text.ToString() +
-        //    " and a.meeting_type_id=b.meeting_type_id";
+      
 
-
-        //strQuery ="SELECT F_CD, COMP_CD, AMOUNT, RATE, NO_SHARES, TO_CHAR(INV_DATE, 'DD-MON-YYYY') as INV_DATE  FROM NON_LISTED_SECURITIES_DETAILS"+
-        //    " where F_CD=" + fundNameDropDownList.SelectedValue.ToString() + " and inv_date>='" + dtMaxInvDate.Rows[0]["inv_date"].ToString() + "'";
-
-        strQuery = "SELECT  F_CD,COMP_CD,AMOUNT,RATE,NO_SHARES,TO_CHAR(INV_DATE, 'DD-MON-YYYY') as  INV_DATE  FROM NON_LISTED_SECURITIES_DETAILS" +
+        strQuery = "SELECT  F_CD,COMP_CD,AMOUNT,RATE,NO_SHARES,TO_CHAR(INV_DATE, 'DD-MON-YYYY') as  INV_DATE,CAT_ID  FROM NON_LISTED_SECURITIES_DETAILS" +
            " where F_CD=" + GridViewNonListedSecurities.SelectedRow.Cells[0].Text.ToString() + " and inv_date='" + GridViewNonListedSecurities.SelectedRow.Cells[5].Text.ToString() +
            "' and comp_cd="+ GridViewNonListedSecurities.SelectedRow.Cells[1].Text.ToString();
-           
+
+    
         dtNonListedDetails = commonGatewayObj.Select(strQuery);
         fundNameDropDownList.SelectedValue= dtNonListedDetails.Rows[0]["F_CD"].ToString();
         nonlistedCompanyDropDownList.SelectedValue = dtNonListedDetails.Rows[0]["COMP_CD"].ToString();
+
+        nonlistedCategoryDropDownList.SelectedValue = dtNonListedDetails.Rows[0]["CAT_ID"].ToString();
         amountTextBox.Text = dtNonListedDetails.Rows[0]["AMOUNT"].ToString();
         rateTextBox.Text = dtNonListedDetails.Rows[0]["RATE"].ToString();
         noOfShareTextBox.Text=dtNonListedDetails.Rows[0]["NO_SHARES"].ToString();
 
     }
+
+    protected void btnProcess_Click(object sender, EventArgs e)
+    {
+
+
+        string strQuery1, strQuery2, strQuery3,strQuery4, strQuery5;
+        string loginId = Session["UserID"].ToString();
+        DataTable dtNonListedDetailsMAXInV_DATE;
+        DataTable dtNonListedMAXInV_DATE;
+        DataTable dtNonlistedSecuritiesMaxInvDate;
+
+        DataTable dtNonListedTotalSumofAmmount;
+
+        DataTable dtNonListedID;
+
+
+
+        strQuery1 = "Select  MAX(INV_DATE) as INV_DATE from NON_LISTED_SECURITIES_DETAILS where F_CD=" + fundNameDropDownList.SelectedValue.ToString() + "";
+
+        dtNonListedDetailsMAXInV_DATE = commonGatewayObj.Select(strQuery1);
+
+        strQuery2 = "Select  MAX(PREV_MAX_INV_DATE) as PREV_MAX_INV_DATE  from NON_LISTED_SECURITIES where F_CD=" + fundNameDropDownList.SelectedValue.ToString() + "";
+
+        dtNonListedMAXInV_DATE = commonGatewayObj.Select(strQuery2);
+
+        strQuery3 = "Select  sum(AMOUNT) as Ammount  from NON_LISTED_SECURITIES_DETAILS where F_CD=" + fundNameDropDownList.SelectedValue.ToString() + " and INV_DATE BETWEEN  '" + Convert.ToDateTime(dtNonListedMAXInV_DATE.Rows[0]["PREV_MAX_INV_DATE"].ToString()).ToString("dd-MMM-yyyy") + "' AND '" + Convert.ToDateTime(dtNonListedDetailsMAXInV_DATE.Rows[0]["INV_DATE"].ToString()).ToString("dd-MMM-yyyy") + "'";
+
+        dtNonListedTotalSumofAmmount = commonGatewayObj.Select(strQuery3);
+
+        strQuery4 = "Select  MAX(INV_DATE) as INV_DATE from NON_LISTED_SECURITIES where F_CD=" + fundNameDropDownList.SelectedValue.ToString() + "";
+
+        dtNonlistedSecuritiesMaxInvDate = commonGatewayObj.Select(strQuery4);
+
+        strQuery5 = "Select  MAX(ID)+1 as ID from NON_LISTED_SECURITIES";
+
+        dtNonListedID = commonGatewayObj.Select(strQuery5);
+
+        DateTime NonListedDetailsMAXINVDAte = Convert.ToDateTime(dtNonListedDetailsMAXInV_DATE.Rows[0]["INV_DATE"].ToString());
+        DateTime nonListedSecuritiesINVMaxDate = Convert.ToDateTime(dtNonlistedSecuritiesMaxInvDate.Rows[0]["INV_DATE"].ToString());
+
+         if (nonListedSecuritiesINVMaxDate < NonListedDetailsMAXINVDAte)
+        {
+            string strInsQuery;
+
+            strInsQuery = "insert into NON_LISTED_SECURITIES(ID,F_CD,INV_AMOUNT,INV_DATE,ENTRY_BY,ENTRY_DATE,PREV_MAX_INV_DATE)values('" + dtNonListedID.Rows[0]["ID"].ToString() + "','"+fundNameDropDownList.SelectedValue.ToString()+"','"+ dtNonListedTotalSumofAmmount.Rows[0]["Ammount"].ToString() + "','"+ Convert.ToDateTime(dtNonListedDetailsMAXInV_DATE.Rows[0]["INV_DATE"]).ToString("dd-MMM-yyyy") + "','"+ loginId + "','"+DateTime.Now.ToString("dd-MMM-yyyy") +"','"+ Convert.ToDateTime(dtNonListedMAXInV_DATE.Rows[0]["PREV_MAX_INV_DATE"].ToString()).ToString("dd-MMM-yyyy") + "')";
+
+            int NumOfRowsInsert = commonGatewayObj.ExecuteNonQuery(strInsQuery);
+            ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Insert Sucessfully')", true);
+        }
+        else
+        {
+            string strUpdateNonlisted = "UPDATE NON_LISTED_SECURITIES SET INV_AMOUNT = '" + Convert.ToDouble(dtNonListedTotalSumofAmmount.Rows[0]["Ammount"].ToString()) + "', PREV_MAX_INV_DATE ='" + Convert.ToDateTime(dtNonListedMAXInV_DATE.Rows[0]["PREV_MAX_INV_DATE"]).ToString("dd-MMM-yyyy") + "' WHERE F_CD = " + fundNameDropDownList.SelectedValue.ToString() + " ";
+
+            int NumOfRowsUpdate = commonGatewayObj.ExecuteNonQuery(strUpdateNonlisted);
+
+            ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Update Sucessfully')", true);
+
+        }
+
+
+
+
+    }
+
+
+
 
     protected void GridViewNonListedSecurities_RowDataBound(object sender, GridViewRowEventArgs e)
     {
