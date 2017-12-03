@@ -62,4 +62,13 @@ public partial class UI_ReportViewer_StockDeclarationBeforePostedReportViewer : 
 
 
     }
+    protected void Page_Unload(object sender, EventArgs e)
+    {
+        CR_CapitalGainCompanyWiseNewReport.Dispose();
+        CR_CapitalGainCompanyWiseNewReport = null;
+        rdoc.Close();
+        rdoc.Dispose();
+        rdoc = null;
+        GC.Collect();
+    }
 }

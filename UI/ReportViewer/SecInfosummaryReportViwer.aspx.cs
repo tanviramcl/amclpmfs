@@ -159,4 +159,16 @@ public partial class UI_ReportViewer_NonDemateSharesCheckReportViwer : System.We
        
       
     }
+
+    protected void Page_Unload(object sender, EventArgs e)
+    {
+        CR_SecInfosummary.Dispose();
+        CR_SecInfosummary = null;
+        CR_SecInfosummary.Dispose();
+        CR_SecInfosummary = null;
+        rdoc.Close();
+        rdoc.Dispose();
+        rdoc = null;
+        GC.Collect();
+    }
 }

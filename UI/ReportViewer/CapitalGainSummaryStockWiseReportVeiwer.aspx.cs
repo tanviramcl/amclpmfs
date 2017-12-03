@@ -67,9 +67,17 @@ public partial class UI_ReportViewer_NonDemateSharesCheckReportViwer : System.We
        
         }
 
-       
 
-       
-      
-    
+    protected void Page_Unload(object sender, EventArgs e)
+    {
+        CR_CapitalGainSummaryStockWiseReport.Dispose();
+        CR_CapitalGainSummaryStockWiseReport = null;
+        rdoc.Close();
+        rdoc.Dispose();
+        rdoc = null;
+        GC.Collect();
+    }
+
+
+
 }

@@ -107,6 +107,16 @@ public partial class UI_ReportViewer_NegativeBalanceCheckReportViewer : System.W
             Response.Write("No Data Found");
         }
     }
-
+    protected void Page_Unload(object sender, EventArgs e)
+    {
+        CR_Sec_Invesment_sectorwise_report.Dispose();
+        CR_Sec_Invesment_sectorwise_report = null;
+        CR_Sec_Invesment_sectorwise_report.Dispose();
+        CR_Sec_Invesment_sectorwise_report = null;
+        rdoc.Close();
+        rdoc.Dispose();
+        rdoc = null;
+        GC.Collect();
+    }
 
 }

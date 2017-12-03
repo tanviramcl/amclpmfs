@@ -172,4 +172,14 @@ public partial class UI_ReportViewer_StockDeclarationBeforePostedReportViewer : 
 
 
     }
+    protected void Page_Unload(object sender, EventArgs e)
+    {
+        CR_SellBuyCheckReport.Dispose();
+        CR_SellBuyCheckReport = null;
+        rdoc.Close();
+        rdoc.Dispose();
+        rdoc = null;
+        GC.Collect();
+    }
+
 }

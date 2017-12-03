@@ -76,4 +76,13 @@ public partial class UI_ReportViewer_StockDeclarationBeforePostedReportViewer : 
         }
 
     }
+    protected void Page_Unload(object sender, EventArgs e)
+    {
+        CR_DematComp.Dispose();
+        CR_DematComp = null;
+        rdoc.Close();
+        rdoc.Dispose();
+        rdoc = null;
+        GC.Collect();
+    }
 }

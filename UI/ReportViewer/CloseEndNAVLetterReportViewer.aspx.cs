@@ -18,6 +18,7 @@ public partial class UI_ReportViewer_CloseEndNAVLetterReportViewer : System.Web.
 {
     CommonGateway commonGatewayObj = new CommonGateway();
     Pf1s1DAO pf1s1DAOObj = new Pf1s1DAO();
+    ReportDocument rdoc = new ReportDocument();
     protected void Page_Load(object sender, EventArgs e)
     {
         if (Session["UserID"] == null)
@@ -160,7 +161,7 @@ public partial class UI_ReportViewer_CloseEndNAVLetterReportViewer : System.Web.
                     {
                         // dtReprtSource1.WriteXmlSchema(@"F:\PortfolioManagementSystem\UI\ReportViewer\Report\crtmCloseEndNAVpressRelease.xsd");
 
-                        ReportDocument rdoc = new ReportDocument();
+                       
                         string Path = Server.MapPath("Report/CloseEndNAVpressRelease.rpt");
                         rdoc.Load(Path);
                         rdoc.SetDataSource(dtReprtSource1);
@@ -190,5 +191,15 @@ public partial class UI_ReportViewer_CloseEndNAVLetterReportViewer : System.Web.
                     }
                 }//End of pressRelease
             //}//end of for loop
+    }
+
+    protected void Page_Unload(object sender, EventArgs e)
+    {
+        CrystalReportViewerNAVletter.Dispose();
+        CrystalReportViewerNAVletter = null;
+        rdoc.Close();
+        rdoc.Dispose();
+        rdoc = null;
+        GC.Collect();
     }
 }

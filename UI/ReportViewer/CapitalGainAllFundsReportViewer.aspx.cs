@@ -134,4 +134,14 @@ public partial class UI_ReportViewer_CapitalGainAllFundsReportViewer : System.We
         //}
 
     }
+
+    protected void Page_Unload(object sender, EventArgs e)
+    {
+        CRV_CapitalGainAllFundsReportViewer.Dispose();
+        CRV_CapitalGainAllFundsReportViewer = null;
+        rdoc.Close();
+        rdoc.Dispose();
+        rdoc = null;
+        GC.Collect();
+    }
 }

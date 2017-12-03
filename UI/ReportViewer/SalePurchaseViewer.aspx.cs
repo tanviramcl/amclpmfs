@@ -94,4 +94,5 @@ public partial class UI_ReportViewer_SalePurchaseViewer : System.Web.UI.Page
         decimal salePurchaseValue = Convert.ToDecimal(dtSalePurchase.Rows[0]["SP_VALUE"].ToString());
         return salePurchaseValue;
     }
+
 }

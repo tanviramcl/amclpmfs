@@ -61,4 +61,13 @@ public partial class UI_ReportViewer_NonDemateSharesCheckReportViwer : System.We
             Response.Write("No Data Found");
         }
     }
+    protected void Page_Unload(object sender, EventArgs e)
+    {
+        CRCapitalGainCompanyWiseReport.Dispose();
+        CRCapitalGainCompanyWiseReport = null;
+        rdoc.Close();
+        rdoc.Dispose();
+        rdoc = null;
+        GC.Collect();
+    }
 }
