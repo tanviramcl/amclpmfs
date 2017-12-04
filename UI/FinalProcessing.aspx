@@ -44,12 +44,30 @@
         <tr>
             <td align="right" style="font-weight: 700">Balance Date</td>
             <td align="left" width="300px">
-                <asp:TextBox ID="txtbalanceDate1" runat="server" Style="width: 195px;"
-                    CssClass="textInputStyle"  ReadOnly="true" TabIndex="7" AutoPostBack="True"></asp:TextBox>
+               <asp:TextBox ID="txtbalanceDate1" runat="server" 
+                      CssClass="textInputStyleDate" TabIndex="10" Width="125px" 
+                      AutoPostBack="True" ></asp:TextBox>
+                  <ajaxToolkit:CalendarExtender ID="balanceDate1calendarButtonExtender" 
+                      runat="server" Enabled="True" Format="dd-MMM-yyyy" 
+                      PopupButtonID="balanceDate1ImageButton" 
+                      TargetControlID="txtbalanceDate1" />
+                  <span class="star">
+                  <asp:ImageButton ID="balanceDate1ImageButton" runat="server" 
+                      AlternateText="Click Here" ImageUrl="~/Image/Calendar_scheduleHS.png" 
+                      TabIndex="11" />
            </td>
             <td align="left" width="300px">
-                <asp:TextBox ID="txtbalanceDate2" runat="server" Style="width: 195px;"
-                    CssClass="textInputStyle" TabIndex="7" AutoPostBack="True"></asp:TextBox>
+                <asp:TextBox ID="txtbalanceDate2" runat="server" 
+                      CssClass="textInputStyleDate" TabIndex="10" Width="125px" 
+                      AutoPostBack="True" ></asp:TextBox>
+                  <ajaxToolkit:CalendarExtender ID="balanceDate2CalendarExtender1" 
+                      runat="server" Enabled="True" Format="dd-MMM-yyyy" 
+                      PopupButtonID="balanceDate2ImageButton" 
+                      TargetControlID="txtbalanceDate2" />
+                  <span class="star">
+                  <asp:ImageButton ID="balanceDate2ImageButton" runat="server" 
+                      AlternateText="Click Here" ImageUrl="~/Image/Calendar_scheduleHS.png" 
+                      TabIndex="11" />
            </td>
         </tr>
         <tr>
@@ -97,17 +115,8 @@
     </table>
       <script type="text/javascript">
 
-    $(function () {
 
-        
-             $('#<%=txtbalanceDate2.ClientID%>').datepicker({ 
-                 changeMonth: true,
-                 changeYear: true,
-                 dateFormat: "dd/mm/yy",
-                 maxDate:"today"
-             
-             });  
-    });
+
       
     $("#aspnetForm").validate({
         rules: {
