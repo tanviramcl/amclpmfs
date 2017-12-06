@@ -56,7 +56,7 @@ public partial class UI_ReportViewer_CapitalGainAllFundsReportViewer : System.We
         strSQLForSubReport = "SELECT t.F_CD f_cd2, f.f_name fund_name2,SUM(AMT_AFT_COM) as SALE2," +
           "sum(no_share) as No_Of_Share2,sum(crt_aft_com * no_share) as COST2,SUM(AMT_AFT_COM) - sum(crt_aft_com * no_share) as profit2" +
            " FROM FUND_TRANS_HB t, fund f WHERE t.TRAN_TP = 'S' AND VCH_DT BETWEEN '" + strFromdate + "' AND '" + strTodate + "' and t.F_CD IN(" + fundCodes + ") and f.f_cd = t.f_cd and t.f_cd <> 3" +
-            " GROUP BY t.F_CD, f.f_name";
+            " GROUP BY t.F_CD, f.f_name ORDER BY t.F_CD, f.f_name";
         dtRptSrcSubReport = commonGatewayObj.Select(strSQLForSubReport);
 
         DataSet ds = new DataSet();
