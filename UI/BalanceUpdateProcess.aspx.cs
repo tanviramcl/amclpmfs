@@ -376,8 +376,8 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
 
 
                     }
-                   
-                }
+
+                } // End of if  dtFromFundFolioHB.Rows.Count > 0
 
 
                 else
@@ -389,9 +389,24 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
                      *  on 04 jul 2017
                      *    */
 
+
+                    /*
+                     single funf
+                     */
+
+
                     if (dtFromFundTransHB.Rows[i]["tran_tp"].ToString() != "S") 
                         {
-                        m_no= mt_shr + Convert.ToDouble(dtFromFundTransHB.Rows[i]["no_share"].ToString());
+                        // Added on 17122017
+                        m_no = 0;
+                        mt_shr = 0;
+                        m_cost = 0;
+                        mt_cost = 0;
+                        m_amt = 0;
+                        m_cost_acm = 0;
+                        mt_cst_aft_com = 0;
+                        // End of Added on 17122017
+                        m_no = mt_shr + Convert.ToDouble(dtFromFundTransHB.Rows[i]["no_share"].ToString());
                         m_cost= mt_cost + m_amt;
                         m_cost_acm= mt_cst_aft_com + m_amt_acm;
 
