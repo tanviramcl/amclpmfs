@@ -460,7 +460,7 @@ public partial class AdvancedBalanceUpdateProcess : System.Web.UI.Page
     {
 
         string strQuery, strSelFromFundFolioHBQuery, strUpdFundfolioHBForTrTypeS, strUpdFundfolioHBForTrTypeNotS, strInsIntoFundFolioHBForTrTypeNotS, strInsIntoFundFolioHBForTrTypeS, strUpdateFundTransHB, LoginID = Session["UserID"].ToString(), strRetVal;
-        Double cmp = 0, mt_shr = 0, mt_cost = 0, mt_cst_aft_com = 0, mcost_rt = 0, mcost_rt_acm = 0, m_amt, m_amt_acm, m_no = 0, m_cost = 0, m_cost_acm = 0;
+       
         DataTable dtFromFundTransHB = new DataTable();
         DataTable dtFromFundFolioHB = new DataTable();
 
@@ -477,6 +477,7 @@ public partial class AdvancedBalanceUpdateProcess : System.Web.UI.Page
             //lblProcessingRelatedMessage.Text = "process is running!!!!";
             for (int i = 0; i < dtFromFundTransHB.Rows.Count; i++)
             {
+                Double cmp = 0, mt_shr = 0, mt_cost = 0, mt_cst_aft_com = 0, mcost_rt = 0, mcost_rt_acm = 0, m_amt, m_amt_acm, m_no = 0, m_cost = 0, m_cost_acm = 0;
 
                 if (!string.IsNullOrEmpty(dtFromFundTransHB.Rows[i]["amount"].ToString()))
                 {
