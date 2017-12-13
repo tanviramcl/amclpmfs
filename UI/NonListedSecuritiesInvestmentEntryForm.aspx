@@ -247,7 +247,7 @@
                   changeMonth: true,
                   changeYear: true,
                   dateFormat: "dd/mm/yy",
-                  maxdate: 'today',
+                  maxDate: 'today',
                   onSelect: function(selected) {
                    
                   }

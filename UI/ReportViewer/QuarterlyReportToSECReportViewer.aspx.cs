@@ -55,11 +55,11 @@ public partial class UI_ReportViewer_QuarterlyReportToSECReportViewer : System.W
         string fundFilter = " 1=1 ";
         if (reportType.ToString().ToUpper() == "BSEC") 
         {
-            fundFilter =" (F_CD NOT IN (3,16,5, 18)) ";
+            fundFilter =" (F_CD NOT IN (3,6,5, 18)) ";
         }
         else if (reportType.ToString().ToUpper() == "ICBTRUSTEE") 
         {
-            fundFilter = " (F_CD NOT IN (1,3,16,5, 17,18)) ";
+            fundFilter = " (F_CD NOT IN (1,3,6,5, 17,18)) ";
         }
         else if (reportType.ToString().ToUpper() == "ICBCAPITALTRUSTEE")
         {

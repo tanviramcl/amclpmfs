@@ -38,12 +38,12 @@ public partial class UI_ReportViewer_WeeklyReportToSECreportViewer : System.Web.
         sbMst.Append("FROM         (SELECT     FUND.F_CD, FUND.F_NAME, SUM(PFOLIO_BK.TCST_AFT_COM) AS INVEST_EQUITY ");
         sbMst.Append("FROM          FUND INNER JOIN ");
         sbMst.Append("PFOLIO_BK ON FUND.F_CD = PFOLIO_BK.F_CD  ");
-        sbMst.Append("WHERE      (PFOLIO_BK.SECT_MAJ_CD <> 89) AND (PFOLIO_BK.BAL_DT_CTRL = '" + weekEndDate + "') AND (FUND.F_CD NOT IN (1,3,5,16,18))  ");
+        sbMst.Append("WHERE      (PFOLIO_BK.SECT_MAJ_CD <> 89) AND (PFOLIO_BK.BAL_DT_CTRL = '" + weekEndDate + "') AND (FUND.F_CD NOT IN (1,3,5,6,18))  ");
         sbMst.Append("GROUP BY FUND.F_NAME, FUND.F_CD) EQUITY LEFT OUTER JOIN ");
         sbMst.Append("(SELECT     FUND_1.F_CD, FUND_1.F_NAME, SUM(PFOLIO_BK_1.TCST_AFT_COM) AS INVEST_DEBT ");
         sbMst.Append("FROM          FUND FUND_1 INNER JOIN  ");
         sbMst.Append(" PFOLIO_BK PFOLIO_BK_1 ON FUND_1.F_CD = PFOLIO_BK_1.F_CD  ");
-        sbMst.Append("WHERE      (PFOLIO_BK_1.SECT_MAJ_CD = 89) AND (PFOLIO_BK_1.BAL_DT_CTRL = '" + weekEndDate + "') AND (FUND_1.F_CD NOT IN (1,3,5,16,18)) ");
+        sbMst.Append("WHERE      (PFOLIO_BK_1.SECT_MAJ_CD = 89) AND (PFOLIO_BK_1.BAL_DT_CTRL = '" + weekEndDate + "') AND (FUND_1.F_CD NOT IN (1,3,5,6,18)) ");
         sbMst.Append("GROUP BY FUND_1.F_NAME, FUND_1.F_CD) DEBT ON EQUITY.F_CD = DEBT.F_CD ");
         sbMst.Append("ORDER BY EQUITY.F_CD  ");
         sbMst.Append(sbfilter.ToString());

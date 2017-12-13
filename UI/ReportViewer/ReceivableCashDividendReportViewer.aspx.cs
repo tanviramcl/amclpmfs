@@ -78,7 +78,7 @@ public partial class UI_ReportViewer_ReceivableCashDividendReportViewer : System
 
         if (fundCode != "0")
         {
-            sbMst.Append(" AND (INVEST.FUND.F_CD = " + Convert.ToInt16(fundCode.ToString()) + ")");
+            sbMst.Append(" AND (FUND.F_CD = " + Convert.ToInt16(fundCode.ToString()) + ")");
         }
         sbMst.Append(" ORDER BY 2 ");
 

@@ -38,7 +38,9 @@ public partial class UI_ReceivableCashDividend : System.Web.UI.Page
         Session["agmDateFrom"] = agmDateFromTextBox.Text.ToString();
         Session["agmDateTo"] = agmDateToTextBox.Text.ToString();
         Session["fundCode"] = fundNameDropDownList.SelectedValue.ToString();
-        
-        ClientScript.RegisterStartupScript(this.GetType(), "ReceivableCashDividendReportViewer", "window.open('ReportViewer/ReceivableCashDividendReportViewer.aspx')", true);
+
+        //ClientScript.RegisterStartupScript(this.GetType(), "ReceivableCashDividendReportViewer", "window.open('ReportViewer/ReceivableCashDividendReportViewer.aspx')", true);
+
+        Response.Redirect("ReportViewer/ReceivableCashDividendReportViewer.aspx");
     }
 }
