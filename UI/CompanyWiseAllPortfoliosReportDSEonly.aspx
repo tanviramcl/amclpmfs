@@ -32,93 +32,19 @@
 			            event.returnValue=false;
 		            }
 	            }
-                 function CheckAllDataGridFundName(checkVal)
-                 {
-                        if(document.getElementById("<%=grdShowFund.ClientID%>"))
-                        {  
-                            
-                            var datagrid=document.getElementById("<%=grdShowFund.ClientID%>")
-                               
-                            var check = 0;                
-                            
-                            for( var rowCount = 0; rowCount < datagrid.rows.length; rowCount++)
-                            {
-                              var tr = datagrid.rows[rowCount];
-                              var td= tr.childNodes[0]; 
-                              var item = td.firstChild; 
-                              var strType=item.type;
-                              if(strType=="checkbox")
-                              {
-                                    item.checked = checkVal; 
-                              }
-                            }
-                        }
-                 }
+                 
               
-                 function CalculateNoOfCheck(datagrid)
-                 {
-                    var noOfcheck = 0;                
-                            
-                        for( var rowCount = 0; rowCount < datagrid.rows.length; rowCount++)
-                        {
-                          var tr = datagrid.rows[rowCount];
-                          var td= tr.childNodes[0]; 
-                          var item = td.firstChild; 
-                          var strType=item.type;
-                          if(strType=="checkbox")
-                          {
-                            if(item.checked)
-                            {
-                             noOfcheck = noOfcheck + 1; 
-                            }
-                          }
-                        }
-                        return noOfcheck;
-                 }
+            
                  
               
                  function fnConfirm()
                  {
-                        if(document.getElementById("<%=grdShowFund.ClientID%>"))
-                        {
-                            var datagridFund = document.getElementById("<%=grdShowFund.ClientID%>")
-                            var noOfcheckFund =   CalculateNoOfCheck(datagridFund);
-                        }
-                        
-                        if( noOfcheckFund > 0)
-                        {
-                            if(document.getElementById("<%=howlaDateDropDownList.ClientID%>").value =="0")
-                            {
-                                document.getElementById("<%=howlaDateDropDownList.ClientID%>").focus();
-                                alert("Please Select Howla Date.");
-                                return false; 
-                            }
-                            if(document.getElementById("<%=companyCodeTextBox.ClientID%>").value !="")
-                            {  
-                               var reg = /^\s*[\d]+(\,[\d]+)*\s*$/; 
-                               if(!reg.test(document.getElementById("<%=companyCodeTextBox.ClientID%>").value))
-                                {
-                                    document.getElementById("<%=companyCodeTextBox.ClientID%>").focus();
-                                    alert("Plese Insert Company Code(s) in Right Format.");
-                                    return false;
-                                }
-                            }
-                            var msg="Are You Sure to See The Selected Funds Report?";
-                            var  conformMsg=confirm(msg);       
-                            if(conformMsg)
-                            {
-                                return true;
-                            }
-                            else
-                            {
-                                return false;
-                            }
-                        }
-                        else
-                        {
-                            alert("Please Check Mark at least One Fund.");
-                            return false;
-                        }
+                    if(document.getElementById("<%=howlaDateDropDownList.ClientID%>").value =="0")
+                    {
+                        document.getElementById("<%=howlaDateDropDownList.ClientID%>").focus();
+                        alert("Please Select Howla Date.");
+                        return false; 
+                    }      
                 }       
     </script>
         <style type="text/css">
@@ -157,37 +83,25 @@
     <br />
     <br />
     
-        <table align="center" >
-          <tr>
+
+
+       <table align="center" >
+        <tr>
                 
-                <td>
-                    <div style="height:310px; overflow:auto;" id="dvGridFund" runat="server" visible="false">
-                        <asp:DataGrid id="grdShowFund" runat="server"  style="border: #666666 1px solid;"  AutoGenerateColumns="False" CellPadding="4">                               
-                            <SelectedItemStyle HorizontalAlign="Center"></SelectedItemStyle>
-                            <ItemStyle CssClass="TableText"></ItemStyle>
-                            <HeaderStyle CssClass="DataGridHeader"></HeaderStyle>
-                            <AlternatingItemStyle CssClass="AlternatColor"></AlternatingItemStyle>
-                   
-                            <Columns>    
-                                 <asp:TemplateColumn>
-                                    <HeaderTemplate>
-                                        <input id="chkAllFund" type="checkbox" onclick="CheckAllDataGridFundName(this.checked)"> 
-                                    </HeaderTemplate>
-                                    <ItemTemplate> 
-                                         <asp:CheckBox ID="chkFund" runat="server"></asp:CheckBox> 
-                                    </ItemTemplate>
-                                    <HeaderStyle Width="20px" />
-                                </asp:TemplateColumn> 
-                                     
-                                <asp:BoundColumn HeaderText="ID" DataField="FUND_CODE" Visible="false"></asp:BoundColumn>
-                                <asp:BoundColumn HeaderText="SI#" DataField="SI"></asp:BoundColumn>
-                                <asp:BoundColumn HeaderText="Fund Name" DataField="FUND_NAME"></asp:BoundColumn>
-                            </Columns>          
-                           </asp:DataGrid>
-                       </div>
-                </td>
-            </tr>
-        </table> 
+            <td>
+                 
+                <div style="height:300px; width:400px; overflow:auto;" id="dvGridFund" runat="server">
+                        <!--- Following code renders the checkboxes and a label control on browser --->
+ 
+                <asp:CheckBox ID="chkAll" Text="Select All" runat="server" />
+                <asp:CheckBoxList ID="chkFruits" runat="server">
+                        
+                </asp:CheckBoxList>
+
+                    </div>
+            </td>
+        </tr>
+    </table> 
         <br />
         <br />
         <table width="600" align="center" cellpadding="0" cellspacing="0" >
@@ -232,8 +146,7 @@
                         OnClientClick="return fnConfirm();" Text="Show Report" Width="78px" onclick="showReportButton_Click" 
                         />&nbsp;&nbsp;<asp:Button ID="resetButton" runat="server" CssClass="buttoncommon" 
                         OnClientClick="return fnReset();" Text="Reset" TabIndex="10" />&nbsp;
-                    <asp:Button ID="CloseButton" runat="server" CssClass="buttoncommon" 
-                        Text="Close" TabIndex="11" onclick="CloseButton_Click" />
+                   
                 </td>
             </tr>
             <tr>
@@ -246,5 +159,24 @@
        
     <br />
     <br /> 
+
+        <script type="text/javascript">
+            $(function () {
+                $("[id*=chkAll]").bind("click", function () {
+                    if ($(this).is(":checked")) {
+                        $("[id*=chkFruits] input").prop("checked", "checked");
+                    } else {
+                        $("[id*=chkFruits] input").removeAttr("checked");
+                    }
+                });
+                $("[id*=chkFruits] input").bind("click", function () {
+                    if ($("[id*=chkFruits] input:checked").length == $("[id*=chkFruits] input").length) {
+                        $("[id*=chkAll]").prop("checked", "checked");
+                    } else {
+                        $("[id*=chkAll]").removeAttr("checked");
+                    }
+                });
+            });
+</script>   
 </asp:Content>
 

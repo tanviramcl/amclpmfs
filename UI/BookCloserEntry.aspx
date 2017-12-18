@@ -146,10 +146,6 @@
         <asp:DropDownList ID="companyNameDropDownList" runat="server" AutoPostBack="True" 
                 onselectedindexchanged="companyNameDropDownList_SelectedIndexChanged" 
                 TabIndex="1"></asp:DropDownList>
-        <ajaxToolkit:ListSearchExtender ID="ListSearchExtender1" runat="server"
-                TargetControlID="companyNameDropDownList" 
-                QueryPattern="Contains" QueryTimeout="2000">
-            </ajaxToolkit:ListSearchExtender>
         </td>
     </tr>
      <tr>

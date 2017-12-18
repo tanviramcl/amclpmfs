@@ -30,6 +30,7 @@ public partial class UI_BalancechekReport : System.Web.UI.Page
         //ClientScript.RegisterStartupScript(this.GetType(), "ReportViwer", sb.ToString(), true);
         Response.Redirect("ReportViewer/StockDeclarationAfterPostedReportViewer.aspx");
 
+
     }
 
   

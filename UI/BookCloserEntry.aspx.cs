@@ -31,6 +31,7 @@ public partial class UI_BookCloserEntry : System.Web.UI.Page
             companyNameDropDownList.DataValueField = "COMP_CD";
             companyNameDropDownList.DataBind();
         }
+       
     }
     protected void addNewButton_Click(object sender, EventArgs e)
     {
@@ -39,7 +40,8 @@ public partial class UI_BookCloserEntry : System.Web.UI.Page
 
     protected void searchButton_Click(object sender, EventArgs e)
     {
-        DataTable dtFind = commonGatewayObj.Select("SELECT * FROM BOOK_CL WHERE COMP_CD=" + companyCodeTextBox.Text + " AND fy='" + financialYearTextBox.Text.ToString() + "' ORDER BY RECORD_DT DESC ");
+        string comp_cd = companyNameDropDownList.SelectedValue.ToString();
+        DataTable dtFind = commonGatewayObj.Select("SELECT * FROM BOOK_CL WHERE COMP_CD=" + comp_cd + " AND fy='" + financialYearTextBox.Text.ToString() + "' ORDER BY RECORD_DT DESC ");
         if (dtFind.Rows.Count > 0)
         {
             addNewButton.Visible = false;
@@ -58,7 +60,7 @@ public partial class UI_BookCloserEntry : System.Web.UI.Page
         }
         else
         {
-            SearchClearFields();
+            searchClearFields();
             addNewButton.Visible = true;
             updateButton.Visible = false;
             //ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('No data find');", true);
@@ -122,7 +124,7 @@ public partial class UI_BookCloserEntry : System.Web.UI.Page
     }
     private void SearchClearFields()
     {
-
+      
         recordDateTextBox.Text = "";
         bookToTextBox.Text = "";
         stockTextBox.Text = "";
@@ -135,6 +137,8 @@ public partial class UI_BookCloserEntry : System.Web.UI.Page
         postedDateTextBox.Text = "";
 
     }
+
+   
     private void ClearFields()
     {
         companyCodeTextBox.Text = "";
@@ -153,17 +157,42 @@ public partial class UI_BookCloserEntry : System.Web.UI.Page
 
     }
 
+    private void searchClearFields()
+    {
+       
+        financialYearTextBox.Text = "";
+        recordDateTextBox.Text = "";
+        bookToTextBox.Text = "";
+        stockTextBox.Text = "";
+        rightTextBox.Text = "";
+        rightApprovalDateTextBox.Text = "";
+        cashTextBox.Text = "";
+        agmDateTextBox.Text = "";
+        remarksTextBox.Text = "";
+        postedTextBox.Text = "";
+        postedDateTextBox.Text = "";
+
+    }
+
     protected void companyNameDropDownList_SelectedIndexChanged(object sender, EventArgs e)
     {
         updateButton.Visible = false;
         addNewButton.Visible = true;
-        financialYearTextBox.Text = "";
-        SearchClearFields();
-        
-        if (companyNameDropDownList.SelectedItem != null)
+        //companyCodeTextBox.Text = "";
+        searchClearFields();
+        string comp_cd = companyNameDropDownList.SelectedValue.ToString();
+
+        if (comp_cd != "")
         {
             companyCodeTextBox.Text = companyNameDropDownList.SelectedValue.ToString();
-            financialYearTextBox.Focus();
+            //financialYearTextBox.Text = "";
+            //SearchClearFields();
+
+            //financialYearTextBox.Focus();
+        }
+        else
+        {
+            companyCodeTextBox.Text = "";
         }
     }
     protected void clearButton_Click(object sender, EventArgs e)

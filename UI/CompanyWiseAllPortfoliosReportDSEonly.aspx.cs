@@ -33,32 +33,77 @@ public partial class UI_CompanyWiseAllPortfoliosReportDSEonly : System.Web.UI.Pa
             howlaDateDropDownList.DataTextField = "Howla_Date";
             howlaDateDropDownList.DataValueField = "VCH_DT";
             howlaDateDropDownList.DataBind();
-            
+
+            //  DataTable dtNoOfFunds = GetFundName();
+            // DataTable dtFund = obj.GetFundGridTable();
+
+            //if (dtNoOfFunds.Rows.Count > 0)
+            //{
+            //    int fundSerial = 1;
+            // //   dvGridFund.Visible = true;
+            //    DataRow drdtGridFund;
+            //    for (int looper = 0; looper < dtNoOfFunds.Rows.Count; looper++)
+            //    {
+            //        drdtGridFund = dtFund.NewRow();
+            //        drdtGridFund["SI"] = fundSerial;
+            //        drdtGridFund["FUND_CODE"] = dtNoOfFunds.Rows[looper]["F_CD"].ToString().ToUpper();
+            //        drdtGridFund["FUND_NAME"] = dtNoOfFunds.Rows[looper]["F_NAME"].ToString().ToUpper();
+            //        dtFund.Rows.Add(drdtGridFund);
+            //        fundSerial++;
+            //    }
+            //    grdShowFund.DataSource = dtFund;
+            //    grdShowFund.DataBind();
+            //}
+            //else
+            //{
+            //    dvGridFund.Visible = false;
+            //}
+
             DataTable dtNoOfFunds = GetFundName();
-            DataTable dtFund = obj.GetFundGridTable();
+            //  DataTable dtFund = obj.GetFundGridTable();
 
             if (dtNoOfFunds.Rows.Count > 0)
             {
-                int fundSerial = 1;
+
+
+                //foreach (DataRow dr in dtNoOfFunds.Rows)
+                //{
+                //    ListItem newItem = new ListItem(dr["F_CD"].ToString()+ dr["F_NAME"].ToString());
+                //    chkFruits.Items.Add(newItem);
+                //}
+
+                chkFruits.DataSource = dtNoOfFunds;
+                chkFruits.DataValueField = "F_CD";
+                chkFruits.DataTextField = "F_NAME";
+
+                chkFruits.DataBind();
+
+                //int fundSerial = 1;
                 dvGridFund.Visible = true;
-                DataRow drdtGridFund;
-                for (int looper = 0; looper < dtNoOfFunds.Rows.Count; looper++)
-                {
-                    drdtGridFund = dtFund.NewRow();
-                    drdtGridFund["SI"] = fundSerial;
-                    drdtGridFund["FUND_CODE"] = dtNoOfFunds.Rows[looper]["F_CD"].ToString().ToUpper();
-                    drdtGridFund["FUND_NAME"] = dtNoOfFunds.Rows[looper]["F_NAME"].ToString().ToUpper();
-                    dtFund.Rows.Add(drdtGridFund);
-                    fundSerial++;
-                }
-                grdShowFund.DataSource = dtFund;
-                grdShowFund.DataBind();
+                //DataRow drdtGridFund;
+                //for (int looper = 0; looper < dtNoOfFunds.Rows.Count; looper++)
+                //{
+                //    drdtGridFund = dtFund.NewRow();
+                //    drdtGridFund["SI"] = fundSerial;
+                //    drdtGridFund["FUND_CODE"] = dtNoOfFunds.Rows[looper]["F_CD"].ToString().ToUpper();
+                //    drdtGridFund["FUND_NAME"] = dtNoOfFunds.Rows[looper]["F_NAME"].ToString().ToUpper();
+                //    dtFund.Rows.Add(drdtGridFund);
+                //    fundSerial++;
+
+
+                //chkFruits.DataSource = dtNoOfFunds;
+                //chkFruits.DataBind();
+
+
             }
-            else
-            {
-                dvGridFund.Visible = false;
-            }
+
+
         }
+        else
+        {
+            dvGridFund.Visible = false;
+        }
+   
     }
     private DataTable GetFundName()
     {
@@ -94,10 +139,9 @@ public partial class UI_CompanyWiseAllPortfoliosReportDSEonly : System.Web.UI.Pa
         string fundCode = "";
         int loop = 0;
 
-        foreach (DataGridItem growFund in grdShowFund.Items)
+        for (int i = 0; i < chkFruits.Items.Count; i++)
         {
-            CheckBox chkFundItem = (CheckBox)growFund.FindControl("chkFund");
-            if (chkFundItem.Checked)
+            if (chkFruits.Items[i].Selected)
             {
                 if (fundCode.ToString() == "")
                 {
@@ -111,9 +155,7 @@ public partial class UI_CompanyWiseAllPortfoliosReportDSEonly : System.Web.UI.Pa
             loop++;
         }
         return fundCode;
+
     }
-    protected void CloseButton_Click(object sender, EventArgs e)
-    {
-        Response.Redirect("Home.aspx");
-    }
+
 }
