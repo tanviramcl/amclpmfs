@@ -34,8 +34,8 @@
             FONT-WEIGHT: bold;
             FONT-SIZE: 11px;
             BACKGROUND-COLOR: #547AC6;
-            WIDTH: 246px;
-            HEIGHT: 65px;
+            WIDTH: 146px;
+            HEIGHT: 35px;
             font-size: 21px;
             border-radius: 25px;
         }
@@ -55,6 +55,20 @@
         </td>
     </tr> 
 </table>
+&nbsp;&nbsp;&nbsp;
+<table "text-align"="center">
+    <tr>
+        <td class="" align="center">
+              <asp:Label ID="lblerror" runat="server" Text="" Style="font-size: 20px; color: red;"></asp:Label>
+        </td>           
+        <td>
+            <br />
+        </td>
+    </tr> 
+</table>
+
+
+                       
 <br />
 <table width="750" "text-align"="center" cellpadding="0" cellspacing="0" border="0">
     
@@ -69,10 +83,19 @@
      <tr>
         <td align="right" style="font-weight: 700" class="style5"><b>Company Name:&nbsp; </b></td>
         <td align="left" class="style5" >
-            <asp:DropDownList ID="nonlistedCompanyDropDownList" runat="server" TabIndex="1" ></asp:DropDownList>
+            <asp:DropDownList ID="nonlistedCompanyDropDownList" OnSelectedIndexChanged="nonlistedCompanyDropDownList_SelectedIndexChanged"  AutoPostBack="true" runat="server" TabIndex="1" ></asp:DropDownList>
             </td>
     </tr>
-   
+    <tr>
+
+       
+       <%-- <td align="right" style="font-weight: 700" class="style5"><b>Nonlisted Category:</b></td>--%>
+         <td align="right" style="font-weight: 700" class="style5"><asp:Label ID="Label2" runat="server" Text="Nonlisted Category:"></asp:Label></td>
+        <td align="left">
+            <asp:DropDownList ID="nonlistedCategoryDropDownList"  readonly="true" runat="server" TabIndex="8"></asp:DropDownList>
+
+        </td>
+    </tr>
      <tr>
         <td align="right" style="font-weight: 700" class="style5">Investment Date:</td>
         <td align="left" class="style5" >
@@ -80,15 +103,7 @@
             </td>
     </tr>
    
-    <tr>
-
-       
-       <%-- <td align="right" style="font-weight: 700" class="style5"><b>Nonlisted Category:</b></td>--%>
-         <td align="right" style="font-weight: 700" class="style5"><asp:Label ID="Label2" runat="server" Text="Nonlisted Category:"></asp:Label></td>
-        <td align="left">
-            <asp:DropDownList ID="nonlistedCategoryDropDownList" runat="server" TabIndex="8"></asp:DropDownList>
-        </td>
-    </tr>
+    
     <tr>
         <td align="right" style="font-weight: 700" class="style5"><b>Amount(BDT):&nbsp;</b></td>
         <td align="left" class="style5" >
@@ -139,70 +154,7 @@
             </td>
             
     </tr>
-    <tr>
-           <td align="center" colspan="2" >
-                &nbsp;
-           </td>
-    </tr>
-    <tr>
-           <td align="center" colspan="2" >
-                <div id="dvGridDSETradeInfo" runat="server" 
-                    dir="ltr">
-               <asp:GridView ID="GridViewNonListedSecurities" runat="server" 
-                   AllowPaging="True" onselectedindexchanged="GridViewNonListedSecurities_SelectedIndexChanged" 
-                OnPageIndexChanging="GridViewNonListedSecurities_PageIndexChanging"  
-                onrowdatabound ="GridViewNonListedSecurities_RowDataBound" BackColor="White" 
-                        BorderColor="#33D4FF" BorderStyle="None" BorderWidth="1px" CellPadding="3"
-                        CellSpacing="2">
-
-                    <Columns>
-                           
-
-                        </Columns>
-                <FooterStyle BackColor="#2874A6" ForeColor="#000000" />
-                        <PagerStyle ForeColor="#2874A6" HorizontalAlign="Center" />
-                        <SelectedRowStyle BackColor="#2874A6" Font-Bold="True" ForeColor="White" />
-                        <HeaderStyle BackColor="#2874A6" Font-Bold="true" ForeColor="White" />
-                        <RowStyle BackColor="#2874A6" ForeColor="#0000" />
-               </asp:GridView>
-                    </div>
-                
-           </td>
-    </tr>
-        <tr>
-        <td align="right" style="font-weight: 700" class="style5"><asp:Label ID="lblTotalAmmont" runat="server" Text="Total Ammount:"></asp:Label></td>
-        <td align="left" class="style5" >
-           <asp:Label ID="lblTotalAmmount" runat="server" Text=""></asp:Label>
-            </td>
-    </tr>
-    <tr>
-        <td align="right">&nbsp;</td>
-        <td align="left">
-            <div>
-
-                <asp:UpdateProgress ID="updProgress"
-                    AssociatedUpdatePanelID="UpdatePanel1"
-                    runat="server">
-                    <ProgressTemplate>
-                        <img src="../Image/Processing.gif" alt="processing" style="width: 186px; height: 128px; margin-left: 36px" />
-
-                    </ProgressTemplate>
-                </asp:UpdateProgress>
-
-                <asp:UpdatePanel ID="UpdatePanel1" runat="server">
-                    <ContentTemplate>
-                        <asp:Label ID="lblProcessing" runat="server" Text="" Style="font-size: 24px; color: green;"></asp:Label>
-                        <br />
-
-
-                        <asp:Button ID="btnProcess" runat="server" Text="Process" Visible="false"
-                            CssClass="processBtn" OnClick="btnProcess_Click" />
-                    </ContentTemplate>
-                </asp:UpdatePanel>
-            </div>
-        </td>
-
-    </tr>
+    
 </table>
 
 
@@ -306,4 +258,87 @@
     
                
 </asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+<table width="750" "text-align"="center" cellpadding="0" cellspacing="0" border="0">
+    
+        <tr>
+           <td align="center" colspan="2" >
+                &nbsp;
+           </td>
+    </tr>
+    <tr>
+           <td align="center" colspan="2" >
+                <div id="dvGridDSETradeInfo" runat="server" 
+                    dir="ltr">
+               <asp:GridView ID="GridViewNonListedSecurities" runat="server" AutoGenerateColumns="False"
+                   AllowPaging="True" onselectedindexchanged="GridViewNonListedSecurities_SelectedIndexChanged" 
+                OnPageIndexChanging="GridViewNonListedSecurities_PageIndexChanging"  
+                onrowdatabound ="GridViewNonListedSecurities_RowDataBound" BackColor="White" 
+                        BorderColor="#33D4FF" BorderStyle="None" BorderWidth="1px" CellPadding="3"
+                         Width="800px"
+                        CellSpacing="2">
+
+                    <Columns>
+                            <asp:BoundField DataField="F_CD" HeaderText="Fund Code" />
+                            <asp:BoundField DataField="COMP_CD" HeaderText="Company Code" />
+                            <asp:BoundField DataField="COMP_NM" HeaderText="Company Name" />
+                            <asp:BoundField DataField="AMOUNT" HeaderText="AMOUNT" />
+                            <asp:BoundField DataField="RATE" HeaderText="RATE" />
+                          <asp:BoundField DataField="NO_SHARES" HeaderText="No Shares" />
+                          <asp:BoundField DataField="INV_DATE" HeaderText="Investment Date" />
+                        <asp:BoundField Visible="false" DataField="CAT_ID" HeaderText="Category Id" />
+                        <asp:BoundField DataField="CAT_NM" HeaderText="Category Name" />
+
+                    </Columns>
+                <FooterStyle BackColor="#2874A6" ForeColor="#000000" />
+                        <PagerStyle ForeColor="#2874A6" HorizontalAlign="Center" />
+                        <SelectedRowStyle BackColor="#2874A6" Font-Bold="True" ForeColor="White" />
+                        <HeaderStyle BackColor="#2874A6" Font-Bold="true" ForeColor="White" />
+                        <RowStyle BackColor="#2874A6" ForeColor="#0000" />
+               </asp:GridView>
+                    </div>
+                
+           </td>
+    </tr>
+        <tr>
+        <td align="right" style="font-weight: 700" class="style5"><asp:Label ID="lblTotalAmmont" Visible="false" runat="server" Text="Total Ammount:"></asp:Label></td>
+        <td align="left" class="style5" >
+          <b> <asp:Label Visible="false" ID="lblTotalAmmount" runat="server" Text=""></asp:Label></b>
+            </td>
+    </tr>
+    <tr>
+        <td align="right">&nbsp;</td>
+        <td align="left">
+            <div>
+
+                <asp:UpdateProgress ID="updProgress"
+                    AssociatedUpdatePanelID="UpdatePanel1"
+                    runat="server">
+                    <ProgressTemplate>
+                        <img src="../Image/Processing.gif" alt="processing" style="width: 186px; height: 128px; margin-left: 36px" />
+
+                    </ProgressTemplate>
+                </asp:UpdateProgress>
+
+                <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+                    <ContentTemplate>
+                        <asp:Label ID="lblProcessing" runat="server" Text="" Style="font-size: 24px; color: green;"></asp:Label>
+                        <br />
+
+
+                        <asp:Button ID="btnProcess" runat="server" Text="Process" Visible="false"
+                            CssClass="processBtn" OnClick="btnProcess_Click" />
+                    </ContentTemplate>
+                </asp:UpdatePanel>
+            </div>
+        </td>
+
+    </tr>
+</table>
+
+
+
+               
+</asp:Content>
+
 

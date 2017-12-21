@@ -71,7 +71,7 @@
                     <asp:GridView ID="grdShowDSEMP" runat="server" AutoGenerateColumns="False"
                         BackColor="#000000"
                         BorderColor="#33D4FF" BorderStyle="None" BorderWidth="1px" CellPadding="3"
-                        CellSpacing="2" Width="920px">
+                        CellSpacing="2" Width="900px">
                         <FooterStyle BackColor="#33D4FF" ForeColor="#000000" />
                         <PagerStyle ForeColor="#33D4FF" HorizontalAlign="Center" />
                         <SelectedRowStyle BackColor="#33D4FF" Font-Bold="True" ForeColor="White" />
