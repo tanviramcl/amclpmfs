@@ -416,7 +416,7 @@ public partial class AdvancedBalanceUpdateProcess : System.Web.UI.Page
             int updatefund_controlNumOfRows = commonGatewayObj.ExecuteNonQuery(strupdateQueryfund_control);
 
 
-            if (temp.Trim() == "Processing Completed")
+            if (temp.Trim() == "Processing Completed" || temp.Trim() == "")
             {
                 lblProcessing.Text = "Processing completed!!!!";
                 // ClearFields();
@@ -682,7 +682,8 @@ public partial class AdvancedBalanceUpdateProcess : System.Web.UI.Page
         }
         else
         {
-            strRetVal = "No data found !";
+            // strRetVal = "No data found !";
+            strRetVal = "";
             return strRetVal;
             //ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('No data found !');", true);
             //lblProcessing.Text = "No data found !";
