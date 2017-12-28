@@ -33,8 +33,15 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
         strLastTradingdate = lasttradingdateTextBox.Text.ToString();
 
 
-        CDSStartDate = Convert.ToDateTime(CDSStartDateTextBox.Text.ToString());
-        LastTradingdate = Convert.ToDateTime(lasttradingdateTextBox.Text.ToString());
+        //CDSStartDate = Convert.ToDateTime(CDSStartDateTextBox.Text.ToString());
+        //LastTradingdate = Convert.ToDateTime(lasttradingdateTextBox.Text.ToString());
+
+        //strCDSStartDate = Convert.ToDateTime(CDSStartDate).ToString("dd-MMM-yyyy");
+        //strLastTradingdate = Convert.ToDateTime(LastTradingdate).ToString("dd-MMM-yyyy");
+
+        CDSStartDate = DateTime.ParseExact(CDSStartDateTextBox.Text, "dd/MM/yyyy", null);
+        LastTradingdate = DateTime.ParseExact(lasttradingdateTextBox.Text, "dd/MM/yyyy", null);
+
 
         strCDSStartDate = Convert.ToDateTime(CDSStartDate).ToString("dd-MMM-yyyy");
         strLastTradingdate = Convert.ToDateTime(LastTradingdate).ToString("dd-MMM-yyyy");

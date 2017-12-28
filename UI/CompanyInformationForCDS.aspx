@@ -167,13 +167,7 @@
 
            $(function () {
 
-          $('#<%=lasttradingdateTextBox.ClientID%>').datepicker({
-                 changeMonth: true,
-                 changeYear: true,
-                 dateFormat: "dd/mm/yy",
-                 maxDate:"today"
-               
-             });
+       
            
           $('#<%=CDSStartDateTextBox.ClientID%>').datepicker({
                  changeMonth: true,
@@ -183,7 +177,13 @@
                
              });
 
-
+               $('#<%=lasttradingdateTextBox.ClientID%>').datepicker({
+                 changeMonth: true,
+                 changeYear: true,
+                 dateFormat: "dd/mm/yy",
+                 maxDate:"today"
+               
+             });
 
     });
     
