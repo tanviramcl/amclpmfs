@@ -242,13 +242,16 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
         
         DataTable dtFromFundTransHB = new DataTable();
         DataTable dtFromFundFolioHB = new DataTable();
+
+        //strQuery = "select TO_CHAR(vch_dt,'DD-MON-YYYY')vch_dt, f_cd, comp_cd, no_share, rate, nvl(amount,0)amount,amt_aft_com, tran_tp, stock_ex from fund_trans_hb" +
+        //" where vch_dt between '" + vchDtFrom + "' and '" + vchDtTo + "' and f_cd=" + f_cd +
+        //" order by  comp_cd";
+
+        strQuery = "select vch_dt, f_cd, comp_cd, no_share, rate, nvl(amount,0)amount,amt_aft_com, tran_tp, stock_ex" +
+                    " from fund_trans_hb where vch_dt between '" + vchDtFrom + "' and '" + vchDtTo + "' and f_cd=" + f_cd +" order by vch_dt,comp_cd,tran_tp";
+
+            dtFromFundTransHB = commonGatewayObj.Select(strQuery);
      
-        strQuery = "select TO_CHAR(vch_dt,'DD-MON-YYYY')vch_dt, f_cd, comp_cd, no_share, rate, nvl(amount,0)amount,amt_aft_com, tran_tp, stock_ex from fund_trans_hb" +
-        " where vch_dt between '" + vchDtFrom + "' and '" + vchDtTo + "' and f_cd=" + f_cd +
-        " order by  comp_cd";
-
-        dtFromFundTransHB = commonGatewayObj.Select(strQuery);
-
         if (dtFromFundTransHB!=null && dtFromFundTransHB.Rows.Count > 0)
         {
 
@@ -259,7 +262,8 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
 
                 Double cmp = 0, mt_shr = 0, mt_cost = 0, mt_cst_aft_com = 0, mcost_rt = 0, mcost_rt_acm = 0, m_amt, m_amt_acm, m_no = 0, m_cost = 0, m_cost_acm = 0;
 
-                if (!string.IsNullOrEmpty(dtFromFundTransHB.Rows[i]["amount"].ToString()))
+            string vchdate = Convert.ToDateTime(dtFromFundTransHB.Rows[i]["vch_dt"]).ToString("dd-MMM-yyyy");
+            if (!string.IsNullOrEmpty(dtFromFundTransHB.Rows[i]["amount"].ToString()))
                 {
                     m_amt = Convert.ToDouble(dtFromFundTransHB.Rows[i]["amount"].ToString());
 
@@ -345,7 +349,8 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
                                                    "tot_nos =" + m_no +
                                                    ",tot_cost =" + m_cost +
                                                    ",tcst_aft_com =" + m_cost_acm +
-                                                   ", bal_dt = '" + dtFromFundTransHB.Rows[i]["vch_dt"].ToString() + "'" +
+                                                   // ", bal_dt = '" + dtFromFundTransHB.Rows[i]["vch_dt"].ToString() + "'" +
+                                                   ", bal_dt = '" + vchdate + "'" +
                                                    ", op_name = '" + LoginID + "'" +
                                                    " where f_cd = " + dtFromFundTransHB.Rows[i]["f_cd"].ToString() + " and comp_cd = " + dtFromFundTransHB.Rows[i]["comp_cd"].ToString();
 
@@ -368,7 +373,8 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
                                                     "tot_nos =" + m_no +
                                                     ",tot_cost =" + m_cost +
                                                     ",tcst_aft_com =" + m_cost_acm +
-                                                    ", bal_dt = '" + dtFromFundTransHB.Rows[i]["vch_dt"].ToString() + "'" +
+                                                     //", bal_dt = '" + dtFromFundTransHB.Rows[i]["vch_dt"].ToString() + "'" +
+                                                     ", bal_dt = '" + vchdate + "'" +
                                                     ", op_name = '" + LoginID + "'" +
                                                     " where f_cd = " + dtFromFundTransHB.Rows[i]["f_cd"].ToString() + " and comp_cd = " + dtFromFundTransHB.Rows[i]["comp_cd"].ToString();
 
@@ -411,7 +417,8 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
                         dtFromFundTransHB.Rows[i]["no_share"].ToString() + "," +
                         "nvl(" + dtFromFundTransHB.Rows[i]["amount"].ToString() + ", 0)/nvl(" + dtFromFundTransHB.Rows[i]["no_share"].ToString() + ",1)," +
                         dtFromFundTransHB.Rows[i]["amt_aft_com"].ToString() + "/nvl(" + dtFromFundTransHB.Rows[i]["no_share"].ToString() + ",1),'" +
-                        dtFromFundTransHB.Rows[i]["vch_dt"].ToString() + "'," +
+                        // dtFromFundTransHB.Rows[i]["vch_dt"].ToString() + "'," +
+                        vchdate + "'," +
                         m_no + "," +
                         m_cost + ",'" +
                         LoginID + "'," +
@@ -435,7 +442,8 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
                        dtFromFundTransHB.Rows[i]["no_share"].ToString() + "," +
                        "nvl(" + dtFromFundTransHB.Rows[i]["amount"].ToString() + ", 0)/nvl(" + dtFromFundTransHB.Rows[i]["no_share"].ToString() + ",1)," +
                        dtFromFundTransHB.Rows[i]["amt_aft_com"].ToString() + "/nvl(" + dtFromFundTransHB.Rows[i]["no_share"].ToString() + ",1),'" +
-                       dtFromFundTransHB.Rows[i]["vch_dt"].ToString() + "'," +
+                       //dtFromFundTransHB.Rows[i]["vch_dt"].ToString() + "'," +
+                       vchdate + "'," +
                        m_no + "," +
                        m_cost + ",'" +
                        LoginID + "'," +
@@ -454,7 +462,8 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
                         " cost_rate =" + mcost_rt +","+
                         " crt_aft_com=" + mcost_rt_acm +
                         " where f_cd =" + dtFromFundTransHB.Rows[i]["f_cd"].ToString() + " and comp_cd=" + dtFromFundTransHB.Rows[i]["comp_cd"].ToString() +
-                        " and vch_dt ='" + dtFromFundTransHB.Rows[i]["vch_dt"].ToString() + "' and tran_tp ='S' and stock_ex ='" + dtFromFundTransHB.Rows[i]["stock_ex"].ToString()+"'";
+                    //" and vch_dt ='" + dtFromFundTransHB.Rows[i]["vch_dt"].ToString() + "' and tran_tp ='S' and stock_ex ='" + dtFromFundTransHB.Rows[i]["stock_ex"].ToString()+"'";
+                    " and vch_dt ='" + vchdate + "' and tran_tp ='S' and stock_ex ='" + dtFromFundTransHB.Rows[i]["stock_ex"].ToString()+"'";
 
                     int NumOfRows = commonGatewayObj.ExecuteNonQuery(strUpdateFundTransHB);
                    
