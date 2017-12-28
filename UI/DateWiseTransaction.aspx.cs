@@ -180,6 +180,7 @@ public partial class DateWiseTransaction : System.Web.UI.Page
                 // ClearFields();
                 // ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('This Trading Date is already allocated.');", true);
                 lblProcessing.Text = "This Trading Date is already allocated !!";
+
             }
 
             else
@@ -659,27 +660,6 @@ public partial class DateWiseTransaction : System.Web.UI.Page
                     }
 
 
-
-                    //if (dtSourcefundtranshbbybond != null && dtSourcefundtranshbbybond.Rows.Count > 0)
-                    //{
-
-                    //    for (int k = 0; k < dtSourcefundtranshbbybond.Rows.Count; k++)
-                    //    {
-                    //        if (dtSourcefundtranshbbybond.Rows[k]["TRAN_TP"].ToString() == "C")
-                    //        {
-                    //             strUPdQueryforBond = "UPDATE FUND_TRANS_HB SET AMT_AFT_COM = AMOUNT + 50 + AMOUNT * 0.002  WHERE  comp_cd =" + dtSourcefundtranshbbybond.Rows[k]["COMP_CD"].ToString() + " and VCH_DT='" + currentdate + "' and TRAN_TP = 'C' ";
-
-                    //          int NumOfRows = commonGatewayObj.ExecuteNonQuery(strUPdQueryforBond);
-                    //        }
-                    //        else if (dtSourcefundtranshbbybond.Rows[k]["in_out"].ToString() == "O")
-                    //        {
-                    //             strUPdQueryforBond = "UPDATE FUND_TRANS_HB SET AMT_AFT_COM = AMOUNT-50 - AMOUNT * 0.002 WHERE  comp_cd =" + dtSourcefundtranshbbybond.Rows[k]["COMP_CD"].ToString() + " and VCH_DT='" + currentdate + "' and TRAN_TP = 'S' ";
-
-                    //            int NumOfRows = commonGatewayObj.ExecuteNonQuery(strUPdQueryforBond);
-                    //        }
-
-                    //    }
-                    //}
                     lblProcessing.Text = "Processing completed!!!!";
                     // ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Process completed!');", true);
                 }

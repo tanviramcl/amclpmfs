@@ -41,7 +41,7 @@ public partial class UI_ReportViewer_NegativeBalanceCheckReportViewer : System.W
         sbMst.Append(sbfilter.ToString());
         dtReprtSource = commonGatewayObj.Select(sbMst.ToString());
         dtReprtSource.TableName = "PortFolioNonDemateShare";
-      //  dtReprtSource.WriteXmlSchema(@"D:\officialProject\2-13-2017\amclpmfs\UI\ReportViewer\Report\crtPortFolioNonDemateShareReport.xsd");
+        dtReprtSource.WriteXmlSchema(@"D:\IAMCL_10-7-17\amclpmfs\UI\ReportViewer\Report\crtPortFolioNonDemateShareReport.xsd");
         if (dtReprtSource.Rows.Count > 0)
         {
             string Path = Server.MapPath("Report/CR_PortFolioNonDemateShare.rpt");

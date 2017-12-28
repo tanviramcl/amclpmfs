@@ -26,6 +26,16 @@
                 </td>
             </tr>
             </table>
+            <table "text-align"="center">
+                <tr>
+                    <td class="" align="center">
+                          <asp:Label ID="lblmessage" runat="server" Text="" Style="font-size: 20px; color: greenyellow;"></asp:Label>
+                    </td>           
+                    <td>
+                        <br />
+                    </td>
+                </tr> 
+            </table>
     
              <table id="Table2" width="600" align="center" cellpadding="2" cellspacing="2" runat="server">
             <tr>

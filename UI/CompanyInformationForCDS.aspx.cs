@@ -18,7 +18,7 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
             Session.RemoveAll();
             Response.Redirect("../Default.aspx");
         }
-
+        lblmessage.Text = "";
       //  companyNameTextBox.Text = "sss";
     }
 
@@ -29,23 +29,15 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
         string strCDSStartDate, strLastTradingdate;
         DateTime CDSStartDate, LastTradingdate;
 
-        strCDSStartDate = CDSStartDateTextBox.Text.ToString();
-        strLastTradingdate = lasttradingdateTextBox.Text.ToString();
+        //strCDSStartDate = CDSStartDateTextBox.Text.ToString();
+        //strLastTradingdate = lasttradingdateTextBox.Text.ToString();
 
 
-        //CDSStartDate = Convert.ToDateTime(CDSStartDateTextBox.Text.ToString());
-        //LastTradingdate = Convert.ToDateTime(lasttradingdateTextBox.Text.ToString());
-
-        //strCDSStartDate = Convert.ToDateTime(CDSStartDate).ToString("dd-MMM-yyyy");
-        //strLastTradingdate = Convert.ToDateTime(LastTradingdate).ToString("dd-MMM-yyyy");
-
-        CDSStartDate = DateTime.ParseExact(CDSStartDateTextBox.Text, "dd/MM/yyyy", null);
-        LastTradingdate = DateTime.ParseExact(lasttradingdateTextBox.Text, "dd/MM/yyyy", null);
-
+        CDSStartDate = DateTime.ParseExact(CDSStartDateTextBox.Text.ToString(), "dd/MM/yyyy", null);
+        LastTradingdate = DateTime.ParseExact(lasttradingdateTextBox.Text.ToString(), "dd/MM/yyyy", null);
 
         strCDSStartDate = Convert.ToDateTime(CDSStartDate).ToString("dd-MMM-yyyy");
         strLastTradingdate = Convert.ToDateTime(LastTradingdate).ToString("dd-MMM-yyyy");
-
 
 
 
@@ -94,7 +86,8 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
                         string strUPQuery2 = "update comp_cds  set  start_dt ='" + strCDSStartDate + "',isin_cd ='" + isinCode.Text.ToString() + "' where comp_cd =" + compInfo.COMP_CD + "";
 
                         int NumOfRows = commonGatewayObj.ExecuteNonQuery(strUPQuery2);
-                        ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Update Successfully');", true);
+                        //    ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Update Successfully');", true);
+                        lblmessage.Text = "No Data found";
                         ClearFields();
 
                     }
@@ -108,7 +101,8 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
                 }
                 else
                 {
-                    ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert(No Data found'');", true);
+                    lblmessage.Text = "No Data found";
+                  //  ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert(No Data found'');", true);
                 }
 
 
@@ -183,7 +177,7 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
 
                 faceValueTextBox.Text = compInfo.FC_VAL;
 
-                lasttradingdateTextBox.Text = Convert.ToDateTime(compInfo.RT_UPD_DT).ToString("dd - MMM - yyyy");
+                lasttradingdateTextBox.Text = Convert.ToDateTime(compInfo.RT_UPD_DT).ToString("dd/MM/yyyy");
 
                 dsecodeTextBox.Text = compInfo.INSTR_CD;
 
@@ -198,7 +192,7 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
         if (dtsourcecds.Rows.Count > 0)
         {
          
-            CDSStartDateTextBox.Text = Convert.ToDateTime(dtsourcecds.Rows[0]["start_dt"]).ToString("dd - MMM - yyyy");
+            CDSStartDateTextBox.Text = Convert.ToDateTime(dtsourcecds.Rows[0]["start_dt"]).ToString("dd/MM/yyyy");
             isinCode.Text = dtsourcecds.Rows[0]["isin_cd"].ToString();
 
         }
@@ -233,7 +227,9 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
         CDSStartDateTextBox.Text = "";
 
         IscdsTextBox.Text = "";
+
         isinCode.Text = "";
+      
 
 
 
@@ -249,6 +245,8 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
         string strUPQuery = "update comp set    instr_cd ='" + dsecodeTextBox.Text.ToString() + "',cseinstr_cd ='" + csecodeTextBox.Text.ToString() + "',cse_sid='" + cseScriptIdTextBox.Text.ToString() + "',trade_meth ='" + GROUPDropDownList.SelectedValue.ToString() + "',cds='" + IscdsTextBox.Text.ToString() + "' where comp_cd =" + companyCodeTextBox.Text.ToString() + "";
 
         int NumOfRows = commonGatewayObj.ExecuteNonQuery(strUPQuery);
+
+        lblmessage.Text = "Update Successfully";
        // ClearFields();
 
     }
@@ -282,7 +280,8 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
 
                 strInsQuery = "insert into comp_cds(comp_cd,comp_nm,start_dt,isin_cd) values(" + COMP_CD + ", '" + compInfo.COMP_NM + "', '" + strCDSStartDate + "','" + isinCode.Text.ToString() + "')";
                 int NumOfRows = commonGatewayObj.ExecuteNonQuery(strInsQuery);
-                ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Insert Data Successfully');", true);
+                lblmessage.Text = " Insert Data Successfully";
+              //  ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Insert Data Successfully');", true);
             }
         }
 

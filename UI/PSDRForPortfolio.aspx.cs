@@ -120,64 +120,6 @@ protected void allotmentTextBox_TextChanged(object sender, EventArgs e)
     List<PSDR> psdrlist = new List<PSDR>();
 
 
-    //    select allot_no into: psdr.allot_no
-    //from invest.psdr_fi
-    //where comp_cd = :psdr.comp_cd
-    //and allot_no = ltrim(rtrim(:psdr.allot_no))
-    // and: psdr.allot_no is not null
-    // and: psdr.cert_no is null;
-    //    message('Duplicate Allotment No. (Fund)');
-
-    string Query1 = "", Query2 = "";
-
-    //if (companyCodeTextBox.Text == "")
-    //{
-    //    Query1 = "select allot_no from psdr_fi where comp_cd = " + companyCodeTextBox.Text + " ";
-    //    Query2 = "select allot_no from psdr where comp_cd = " + companyCodeTextBox.Text;
-    //}
-    //else
-
-    //    Query1 = "select allot_no from psdr_fi where comp_cd = " + companyCodeTextBox.Text + " and allot_no = '" + AllotmentNoTextBox.Text + "' ";
-    //    Query2 ="select allot_no from psdr where comp_cd = '" + companyCodeTextBox.Text + "' and allot_no = '" + AllotmentNoTextBox.Text + "' ";
-
-
-
-    //dtsource = commonGatewayObj.Select(Query1.ToString());
-
-    //dtsource1 = commonGatewayObj.Select(Query2.ToString());
-
-    //if (dtsource.Rows.Count > 0)
-    //{
-    //    psdrfilist = (from DataRow dr in dtsource.Rows
-    //                  select new PSDR_FI()
-    //                  {
-    //                      allot_no = dr["allot_no"].ToString()
-    //                  }).ToList();
-    //    foreach (PSDR_FI phdrfi in psdrfilist)
-    //    {
-    //        // companyCodeTextBox.Text = ;
-    //        AllotmentNoTextBox.Text = phdrfi.allot_no;
-
-    //    }
-
-
-    //}
-    //else if (dtsource1.Rows.Count > 0)
-    //{
-    //    psdrlist = (from DataRow dr in dtsource.Rows
-    //                select new PSDR()
-    //                {
-    //                    allot_no = dr["allot_no"].ToString()
-    //                }).ToList();
-    //    foreach (PSDR phdr in psdrlist)
-    //    {
-    //        // companyCodeTextBox.Text = ;
-    //        AllotmentNoTextBox.Text = phdr.allot_no;
-
-    //    }
-    //}
-
-
 }
 
 protected void DictincttivefromTextBox__TextChanged(object sender, EventArgs e)
@@ -197,42 +139,10 @@ protected void certificateNoTextBox_TextChanged(object sender, EventArgs e)
     List<PSDR_FI> psdrfilist = new List<PSDR_FI>();
     List<PSDR> psdrlist = new List<PSDR>();
     string Query1 = "";
-
-    //if (companyCodeTextBox.Text == "")
-    //{
-    //    Query1 = "select cert_no  from psdr_fi where  cert_no = '" + certificateNoTextBox.Text + "' ";
-    //    Query2 = "select cert_no from psdr where  cert_no = '" + certificateNoTextBox.Text + "' ";
-    //}
-    //else
-    //{
-
-    //      PROCEDURE check_ckp IS
-    //    nops  number:= 0;
-    //      BEGIN
-    //        select count(cert_no) into nops
-    //from invest.psdr_fi
-    // where comp_cd = :psdr.comp_cd
-    // and cert_no = ltrim(:psdr.cert_no);
-    //      if nops > 1 then
-    //   message('Duplicate Certificate No. (Fund)');
-    //      raise form_trigger_failure;
-    //      elsif nops is null then
-    //   message('Certificate Not Found');
-    //      raise form_trigger_failure;
-    //else
-    //   :system.message_level := 0;
-    //      end if;
-    //      END;
-
+        
     Query1 = "select COMP_CD,PSDR_NO,F_CD,ALLOT_NO,NO_SHARES,SH_TYPE,OM_LOT,SP_RATE,SP_DATE,HOWLA_NO,MV_DATE,REF_NO,DIS_NO_FM,DIS_NO_TO,FOLIO_NO,CERT_NO,BK_CD,POSTED,OP_NAME,C_DT,C_DATE from psdr_fi where COMP_CD= " + companyCodeTextBox.Text.ToString() + " and F_CD=" + fundcodeTextBox.Text.ToString() + " and CERT_NO='" + certificateNoTextBox.Text.ToString() + "' ";
-
-
-
-
-
+    
     dtsource = commonGatewayObj.Select(Query1.ToString());
-
-
     if (dtsource.Rows.Count > 0)
     {
         psdrfilist = (from DataRow dr in dtsource.Rows
