@@ -400,7 +400,10 @@ public partial class UI_NonListedSecuritiesInvestmentEntryForm : System.Web.UI.P
             string strInsQuery;
             DateTime dtimeCurrentDateTimeForLog = DateTime.Now;
             string strCurrentDateTimeForLog = dtimeCurrentDateTimeForLog.ToString("dd-MMM-yyyy HH:mm:ss tt", CultureInfo.InvariantCulture);
-            strInsQuery = "insert into NON_LISTED_SECURITIES(ID,F_CD,INV_AMOUNT,INV_DATE,ENTRY_BY,ENTRY_DATE,PREV_MAX_INV_DATE)values('" + dtNonListedID.Rows[0]["ID"].ToString() + "','"+fundNameDropDownList.SelectedValue.ToString()+"','"+ dtNonListedTotalSumofAmmount.Rows[0]["Ammount"].ToString() + "','"+ Convert.ToDateTime(dtNonListedDetailsMAXInV_DATE.Rows[0]["INV_DATE"]).ToString("dd-MMM-yyyy") + "','"+ loginId + "','"+ dtimeCurrentDateTimeForLog + "','"+ Convert.ToDateTime(dtNonListedMAXInV_DATE.Rows[0]["PREV_MAX_INV_DATE"].ToString()).ToString("dd-MMM-yyyy") + "')";
+           // (TO_DATE('2003/05/03 21:02:44', 'yyyy/mm/dd hh24:mi:ss'));
+
+          //  strInsQuery = "insert into NON_LISTED_SECURITIES(ID,F_CD,INV_AMOUNT,INV_DATE,ENTRY_BY,ENTRY_DATE,PREV_MAX_INV_DATE)values('" + dtNonListedID.Rows[0]["ID"].ToString() + "','"+fundNameDropDownList.SelectedValue.ToString()+"','"+ dtNonListedTotalSumofAmmount.Rows[0]["Ammount"].ToString() + "','"+ Convert.ToDateTime(dtNonListedDetailsMAXInV_DATE.Rows[0]["INV_DATE"]).ToString("dd-MMM-yyyy") + "','"+ loginId + "','"+ strCurrentDateTimeForLog + "','"+ Convert.ToDateTime(dtNonListedMAXInV_DATE.Rows[0]["PREV_MAX_INV_DATE"].ToString()).ToString("dd-MMM-yyyy") + "')";
+            strInsQuery = "insert into NON_LISTED_SECURITIES(ID,F_CD,INV_AMOUNT,INV_DATE,ENTRY_BY,ENTRY_DATE,PREV_MAX_INV_DATE)values(" + dtNonListedID.Rows[0]["ID"].ToString() + "," + fundNameDropDownList.SelectedValue.ToString() + ",'" + dtNonListedTotalSumofAmmount.Rows[0]["Ammount"].ToString() + "','" + Convert.ToDateTime(dtNonListedDetailsMAXInV_DATE.Rows[0]["INV_DATE"]).ToString("dd-MMM-yyyy") + "','" + loginId + "', TO_DATE("+strCurrentDateTimeForLog+", 'yyyy/mm/dd hh24:mi:ss') ,'" + Convert.ToDateTime(dtNonListedMAXInV_DATE.Rows[0]["PREV_MAX_INV_DATE"].ToString()).ToString("dd-MMM-yyyy") + "')";
 
             int NumOfRowsInsert = commonGatewayObj.ExecuteNonQuery(strInsQuery);
 
