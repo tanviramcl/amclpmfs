@@ -118,7 +118,7 @@ public partial class UI_NonListedSecuritiesInvestmentEntryForm : System.Web.UI.P
                     }
                     else if (invDateNonlisted == dtINVDATE)
                     {
-                        string strUPQuery = "update NON_LISTED_SECURITIES_DETAILS SET COMP_CD ='" + nonlistedCompanyDropDownList.SelectedValue.ToString() + "',AMOUNT =" + amountTextBox.Text.ToString() + ",RATE=" + rateTextBox.Text.ToString() + ",NO_SHARES =" + noOfShareTextBox.Text.ToString() + ",ENTRY_BY ='" + loginId + "',ENTRY_DATE ='" + DateTime.Now.ToString("dd-MMM-yyyy") + "', CAT_ID='" + nonlistedCategoryDropDownList.SelectedValue.ToString() + "' where F_CD='" + fundNameDropDownList.SelectedValue.ToString() + "' and  INV_DATE='" + dtINVDATE.ToString("dd-MMM-yyyy") + "' ";
+                        string strUPQuery = "update NON_LISTED_SECURITIES_DETAILS SET COMP_CD ='" + nonlistedCompanyDropDownList.SelectedValue.ToString() + "',AMOUNT =" + amountTextBox.Text.ToString() + ",RATE=" + rateTextBox.Text.ToString() + ",NO_SHARES =" + noOfShareTextBox.Text.ToString() + ",ENTRY_BY ='" + loginId + "',ENTRY_DATE ='" + DateTime.Now.ToString("dd-MMM-yyyy") + "', CAT_ID='" + nonlistedCategoryDropDownList.SelectedValue.ToString() + "' where F_CD='" + fundNameDropDownList.SelectedValue.ToString() + "' and  INV_DATE='" + dtINVDATE.ToString("dd-MMM-yyyy") + "'  and comp_cd='"+ nonlistedCompanyDropDownList.SelectedValue.ToString() + "'";
                         int NumOfRows3 = commonGatewayObj.ExecuteNonQuery(strUPQuery);
                         lblProcessing.Text = "Update Sucessfully";
                         //ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Update Sucessfully')", true);
@@ -337,7 +337,7 @@ public partial class UI_NonListedSecuritiesInvestmentEntryForm : System.Web.UI.P
       
 
         strQuery = "select * from (SELECT  F_CD,COMP_CD,AMOUNT,RATE,NO_SHARES,TO_CHAR(INV_DATE, 'DD-MON-YYYY') as  INV_DATE,nlsd.CAT_ID,NLC.CAT_NM FROM NON_LISTED_SECURITIES_DETAILS nlsd inner join NONLISTED_CATEGORY nlc ON NLSD.CAT_ID =NLC.CAT_ID) " +
-           " where F_CD=" + GridViewNonListedSecurities.SelectedRow.Cells[0].Text.ToString() + " and inv_date='" + GridViewNonListedSecurities.SelectedRow.Cells[5].Text.ToString() +
+           " where F_CD=" + GridViewNonListedSecurities.SelectedRow.Cells[0].Text.ToString() + " and inv_date='" + GridViewNonListedSecurities.SelectedRow.Cells[6].Text.ToString() +
            "' and comp_cd="+ GridViewNonListedSecurities.SelectedRow.Cells[1].Text.ToString();
 
        

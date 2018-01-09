@@ -41,11 +41,17 @@ public partial class UI_ReportViewer_StockDeclarationBeforePostedReportViewer : 
         }
         else
         {
-            Fromdate = (string)Session["Fromdate"];
-            Todate = (string)Session["Todate"];
-            fundCode = (string)Session["fundCodes"];
-            companycode = (string)Session["companycode"];
-            transtype = (string)Session["transtype"];
+            //Fromdate = (string)Session["Fromdate"];
+            //Todate = (string)Session["Todate"];
+            //fundCode = (string)Session["fundCodes"];
+            //companycode = (string)Session["companycode"];
+            //transtype = (string)Session["transtype"];
+
+             Fromdate = Convert.ToString(Request.QueryString["p1date"]).Trim();
+             Todate = Convert.ToString(Request.QueryString["p2date"]).Trim();
+            fundCode = Convert.ToString(Request.QueryString["fundcode"]).Trim();
+            companycode = Convert.ToString(Request.QueryString["companycode"]).Trim();
+            transtype = Convert.ToString(Request.QueryString["transtype"]).Trim();
 
         }
 
@@ -108,7 +114,7 @@ public partial class UI_ReportViewer_StockDeclarationBeforePostedReportViewer : 
             }
 
         }
-        else if (fundCode == "0" && companycode != "0" && transtype == "0")
+        else if (fundCode == "0" || fundCode != "0" && companycode != "0" && transtype == "0")
         {
             sbMst.Append("select t.VCH_DT, t.F_CD  ,  f.f_name fund_name, t.COMP_CD , c.comp_nm, c.comp_nm  || '('|| t.COMP_CD|| ')',t.TRAN_TP , decode ( t.TRAN_TP, 'C', 'Cost','S','Sale','B','Bonus','I','IPO','R','Right','D','Split',' ') tran_type,");
             sbMst.Append(" t.VCH_NO, t.NO_SHARE, t.RATE ,t.COST_RATE, t.CRT_AFT_COM , t.AMOUNT , t.AMT_AFT_COM,ROUND(t.AMT_AFT_COM/t.NO_SHARE,2) as avg_rate,t.STOCK_EX ,decode(t.STOCK_EX,'D','DSE','C','CSE',' ') stock_name,t.OP_NAME ");

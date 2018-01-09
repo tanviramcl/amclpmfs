@@ -17,7 +17,8 @@ public partial class UI_BalancechekReport : System.Web.UI.Page
             Session.RemoveAll();
             Response.Redirect("../Default.aspx");
         }
-
+        
+        
         DataTable dtFundNameDropDownList = dropDownListObj.FundNameDropDownList();
         DataTable dtCompanyNameDropDownList = dropDownListObj.FillCompanyNameDropDownList();
 
@@ -48,6 +49,8 @@ public partial class UI_BalancechekReport : System.Web.UI.Page
             //RIssuefromTextBox.Text = string.Empty;
             //RIssueToTextBox.Text = string.Empty;
             fundNameDropDownList.SelectedValue = "0";
+            companyNameDropDownList.SelectedValue = "0";
+            transTypeDropDownList.SelectedValue = "0";
             fundNameDropDownListlabel.Visible = true;
             fundNameDropDownList.Visible = true;
             companyNameDropDownListlabel.Visible = false;
@@ -59,8 +62,13 @@ public partial class UI_BalancechekReport : System.Web.UI.Page
         {
             //RIssuefromTextBox.Text = string.Empty;
             //RIssueToTextBox.Text = string.Empty;
+            fundNameDropDownList.SelectedValue = "0";
+            companyNameDropDownList.SelectedValue = "0";
+            transTypeDropDownList.SelectedValue = "0";
+
             companyNameDropDownListlabel.Visible = true;
             companyNameDropDownList.Visible = true;
+            
             fundNameDropDownListlabel.Visible = false;
             fundNameDropDownList.Visible = false;
             transTypeDropDownListLabel.Visible = false;
@@ -71,6 +79,9 @@ public partial class UI_BalancechekReport : System.Web.UI.Page
             //RIssuefromTextBox.Text = string.Empty;
             //RIssueToTextBox.Text = string.Empty;
             fundNameDropDownList.SelectedValue = "0";
+            companyNameDropDownList.SelectedValue = "0";
+            transTypeDropDownList.SelectedValue = "0";
+
             fundNameDropDownListlabel.Visible = false;
             fundNameDropDownList.Visible = false;
             companyNameDropDownListlabel.Visible = false;
@@ -83,6 +94,9 @@ public partial class UI_BalancechekReport : System.Web.UI.Page
             //RIssuefromTextBox.Text = string.Empty;
             //RIssueToTextBox.Text = string.Empty;
             fundNameDropDownList.SelectedValue = "0";
+            companyNameDropDownList.SelectedValue = "0";
+            transTypeDropDownList.SelectedValue = "0";
+
             fundNameDropDownListlabel.Visible = true;
             fundNameDropDownList.Visible = true;
             companyNameDropDownListlabel.Visible = false;
@@ -103,15 +117,40 @@ public partial class UI_BalancechekReport : System.Web.UI.Page
 
         string p1date = Convert.ToDateTime(date1).ToString("dd-MMM-yyyy");
         string p2date = Convert.ToDateTime(date2).ToString("dd-MMM-yyyy");
-        Session["Fromdate"] = p1date;
-        Session["Todate"] = p2date;
-        Session["fundCodes"] = fundNameDropDownList.SelectedValue.ToString();
-        Session["companycode"] = companyNameDropDownList.SelectedValue.ToString();
-        Session["transtype"] = transTypeDropDownList.SelectedValue.ToString();
+      //  Session["Fromdate"] = p1date;
+      //  Session["Todate"] = p2date;
+        //Session["fundCodes"] = fundNameDropDownList.SelectedValue.ToString();
+        //Session["companycode"] = companyNameDropDownList.SelectedValue.ToString();
+        //Session["transtype"] = transTypeDropDownList.SelectedValue.ToString();
 
-        Response.Redirect("ReportViewer/SellBuyCheckReportViwer.aspx");
+        string fundcode = fundNameDropDownList.SelectedValue.ToString();
+        string companycode= companyNameDropDownList.SelectedValue.ToString();
+        string transtype = transTypeDropDownList.SelectedValue.ToString();
 
-       // ClientScript.RegisterStartupScript(this.GetType(), "SellBuyCheckReportViwer", "window.open('ReportViewer/SellBuyCheckReportViwer.aspx')", true);
+        //sb.Append("window.open('ReportViewer/NegativeBalanceCheckReportViewer.aspx?p1date=" + p1date + "&p2date= " + p2date + "');");
+      
+
+
+        if (fundcode == "0" && companycode == "0" && transtype == "0")
+        {
+            Response.Redirect("ReportViewer/SellBuyCheckReportViwer.aspx?p1date=" + p1date + "&p2date= " + p2date + "&fundcode= " + fundcode + "&companycode= " + companycode + "&transtype= " + transtype + "");
+        }
+        else if (fundcode != "0" && companycode == "0" && transtype == "0")
+        {
+            Response.Redirect("ReportViewer/SellBuyCheckReportViwer.aspx?p1date=" + p1date + "&p2date= " + p2date + "&fundcode= " + fundcode + "&companycode= " + companycode + "&transtype= " + transtype + "");
+
+        }
+        else if (fundcode == "0"  && companycode != "0" && transtype == "0")
+        {
+            Response.Redirect("ReportViewer/SellBuyCheckReportViwer.aspx?p1date=" + p1date + "&p2date= " + p2date + "&fundcode= " + fundcode + "&companycode= " + companycode + "&transtype= " + transtype + "");
+        }
+        else if (fundcode != "0" && companycode == "0" && transtype != "0")
+        {
+
+            Response.Redirect("ReportViewer/SellBuyCheckReportViwer.aspx?p1date=" + p1date + "&p2date= " + p2date + "&fundcode= " + fundcode + "&companycode= " + companycode + "&transtype= " + transtype + "");
+        }
+
+        // ClientScript.RegisterStartupScript(this.GetType(), "SellBuyCheckReportViwer", "window.open('ReportViewer/SellBuyCheckReportViwer.aspx')", true);
 
 
     }
