@@ -81,9 +81,9 @@ public partial class UI_ReportViewer_StockDeclarationBeforePostedReportViewer : 
         }
         else if (fundCode != "0" && companycode == "0" && transtype == "0")
         {
-            sbMst.Append("select t.VCH_DT, t.F_CD  , f.f_name fund_name,t.COMP_CD , c.comp_nm,c.comp_nm  || '('|| t.COMP_CD|| ')',t.TRAN_TP , decode ( t.TRAN_TP, 'C', 'Cost','S','Sell','B','Bonus',' ') tran_type,");
+            sbMst.Append("select t.VCH_DT, t.F_CD  , f.f_name fund_name,t.COMP_CD , c.comp_nm,c.comp_nm  || '('|| t.COMP_CD|| ')',t.TRAN_TP , decode ( t.TRAN_TP, 'C', 'Cost','S','Sell','B','Bonus','R','Right','I','IPO',' ') tran_type,");
             sbMst.Append(" t.VCH_NO, t.NO_SHARE, t.RATE ,t.COST_RATE, t.CRT_AFT_COM , t.AMOUNT , t.AMT_AFT_COM,ROUND(t.AMT_AFT_COM/t.NO_SHARE,2) as avg_rate,t.STOCK_EX ,");
-            sbMst.Append(" decode(t.STOCK_EX,'D','DSE','C','CSE',' ') stock_name, t.OP_NAME   from fund_trans_hb t,comp c , fund f where vch_dt between '" + Fromdate + "' and '" + Todate + "' and c.comp_cd=t.comp_cd and t.f_cd='" + fundCode + "' and t.f_cd=f.f_cd order by t.f_cd, tran_tp,t.VCH_DT");
+            sbMst.Append(" decode(t.STOCK_EX,'D','DSE','C','CSE','A','ALL',' ') stock_name, t.OP_NAME   from fund_trans_hb t,comp c , fund f where vch_dt between '" + Fromdate + "' and '" + Todate + "' and c.comp_cd=t.comp_cd and t.f_cd='" + fundCode + "' and t.f_cd=f.f_cd order by t.f_cd,t.VCH_DT");
             sbMst.Append(sbfilter.ToString());
             dtReprtSource = commonGatewayObj.Select(sbMst.ToString());
             dtReprtSource.TableName = "SellBuyCheckReportfundwise";
