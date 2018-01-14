@@ -81,7 +81,7 @@ public partial class UI_ReportViewer_NonDemateSharesCheckReportViwer : System.We
             sbMst.Append("    SUM(FUND_TRANS_HB.CRT_AFT_COM * FUND_TRANS_HB.NO_SHARE) AS COSTPRICE, SUM(FUND_TRANS_HB.AMT_AFT_COM) ");
             sbMst.Append("    - SUM(FUND_TRANS_HB.CRT_AFT_COM * FUND_TRANS_HB.NO_SHARE) AS PROFIT_LOSS FROM FUND_TRANS_HB INNER JOIN ");
             sbMst.Append("   COMP ON FUND_TRANS_HB.COMP_CD = COMP.COMP_CD INNER JOIN FUND ON FUND_TRANS_HB.F_CD = FUND.F_CD  ");
-            sbMst.Append("   WHERE        (FUND_TRANS_HB.F_CD = '" + fundCode + "') AND (FUND_TRANS_HB.VCH_DT BETWEEN '"+Fromdate+"' AND '"+Todate+"') AND (FUND_TRANS_HB.TRAN_TP = 'S') and  stock_ex in('D','C') ");
+            sbMst.Append("   WHERE        (FUND_TRANS_HB.F_CD = '" + fundCode + "') AND (FUND_TRANS_HB.VCH_DT BETWEEN '"+Fromdate+"' AND '"+Todate+"') AND (FUND_TRANS_HB.TRAN_TP = 'S') and  stock_ex in('D','C','A') ");
             sbMst.Append(" GROUP BY COMP.COMP_NM, FUND.F_NAME ORDER BY COMP.COMP_NM");
             sbMst.Append(sbfilter.ToString());
             dtReprtSource = commonGatewayObj.Select(sbMst.ToString());
