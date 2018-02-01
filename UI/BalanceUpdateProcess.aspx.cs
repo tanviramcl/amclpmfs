@@ -248,10 +248,13 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
         //" order by  comp_cd";
 
         //strQuery = "select vch_dt, f_cd, comp_cd, no_share, rate, nvl(amount,0)amount,amt_aft_com, tran_tp, stock_ex" +
-        //            " from fund_trans_hb where vch_dt between '" + vchDtFrom + "' and '" + vchDtTo + "' and f_cd=" + f_cd +" order by vch_dt,comp_cd";
+        //            " from fund_trans_hb where vch_dt between '" + vchDtFrom + "' and '" + vchDtTo + "' and f_cd=" + f_cd + " order by vch_dt,comp_cd";
 
-        strQuery = "select vch_dt, f_cd, comp_cd, no_share, rate, nvl(amount,0)amount,amt_aft_com, tran_tp, stock_ex" +
-                  " from fund_trans_hb where vch_dt between '" + vchDtFrom + "' and '" + vchDtTo + "' and f_cd=" + f_cd +" order by vch_dt,comp_cd";
+
+        strQuery = " select * from (select vch_dt, f_cd, comp_cd, no_share, rate, nvl(amount,0)amount,amt_aft_com, tran_tp, stock_ex" +
+                " from fund_trans_hb where vch_dt between '" + vchDtFrom + "' and '" + vchDtTo + "' and f_cd=" + f_cd + " order by vch_dt,comp_cd) where comp_cd=298";
+
+
         dtFromFundTransHB = commonGatewayObj.Select(strQuery);
      
         if (dtFromFundTransHB!=null && dtFromFundTransHB.Rows.Count > 0)
@@ -646,6 +649,12 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
             //string strupdateQueryfund_control = "update fund_control set bal_dt='" + strBalanceDate + "',mprice_dt='" + strMarketPriceDate + "' where f_cd =" + fundNameDropDownList.SelectedValue.ToString() + "";
 
             string strupdateQueryfund_control = "update fund_control set op_name='" + LoginID + "',upd_date_time='" + strCurrentDateTimeForLog + "',bal_dt='" + strBalanceDate + "',mprice_dt='" + strMarketPriceDate + "' where f_cd =" + fundNameDropDownList.SelectedValue.ToString() + "";
+
+
+
+
+
+
             int updatefund_controlNumOfRows = commonGatewayObj.ExecuteNonQuery(strupdateQueryfund_control);
            
 
