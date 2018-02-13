@@ -66,14 +66,14 @@
         <tr>
             <td align="right" style="font-weight: 700"><b>Balance Date:</b></td>
             <td align="left" width="300px">
-                <asp:TextBox ID="txtBalanceDate" runat="server" Style="width: 195px;"
-                    CssClass="textInputStyle" TabIndex="7" AutoPostBack="True" ReadOnly="true"></asp:TextBox>
-                <%--<ajaxToolkit:CalendarExtender ID="txtBalanceDate_CalendarExtender"
+                <asp:TextBox ID="txtBalanceDate" runat="server" Style="width: 195px;" OnTextChanged="balanceDate_SelectedIndexChanged"
+                    CssClass="textInputStyle" TabIndex="7" AutoPostBack="True" ReadOnly="false"></asp:TextBox>
+                <ajaxToolkit:CalendarExtender ID="txtBalanceDate_CalendarExtender"
                               runat="server" TargetControlID="txtBalanceDate"
                               PopupButtonID="ImageButton" Format="dd-MMM-yyyy" />
                           <asp:ImageButton ID="ImageButton" runat="server"
                               AlternateText="Click Here" ImageUrl="~/Image/Calendar_scheduleHS.png"
-                              TabIndex="24" />--%>
+                              TabIndex="24" />
                            
             </td>
             <td align="right" style="font-weight: 700"><b>Last Update Date</b></td>
