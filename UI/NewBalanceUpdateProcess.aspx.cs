@@ -71,7 +71,7 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
     }
     protected void fundNameDropDownList_SelectedIndexChanged(object sender, EventArgs e)
     {
-        string strQLastBalDtFrFundControl, strBalanceDate, strLastBalDate, strLastUpadateDate, strLastUpadatePlusOneDate, strQForSellShares, strQForPurchaseShares, strQForMrktPrice;
+        string strQfundTransHb,strQLastBalDtFrFundControl, strBalanceDate, strLastBalDate, strLastUpadateDate, strLastUpadatePlusOneDate, strQForSellShares, strQForPurchaseShares, strQForMrktPrice;
         DateTime?  dtimeBalanceDate, dtimeLastBalDate, dtimeLastUpadateDate, dtimeLastUpadatePlusOneDate;
 
        
@@ -80,6 +80,7 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
         DataTable dtFromMarketPrice = new DataTable();
         DataTable dtFromFundTrHBForSale = new DataTable();
         DataTable dtFromFundTrHBForBuy = new DataTable();
+        DataTable dtFromFundTransHb = new DataTable();
         lblProcessing.Text = "";
         //  ClearFields();
 
@@ -109,7 +110,7 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
                 txtBalanceDate.Text= currentDate;
             }
 
-                strQLastBalDtFrFundControl = "select TO_CHAR(bal_dt,'DD-MON-YYYY')lst_bal_dt from fund_control where f_cd =" + fundNameDropDownList.SelectedValue.ToString();
+             strQLastBalDtFrFundControl = "select TO_CHAR(bal_dt,'DD-MON-YYYY')lst_bal_dt from fund_control where f_cd =" + fundNameDropDownList.SelectedValue.ToString();
 
             dtFromFundControl = commonGatewayObj.Select(strQLastBalDtFrFundControl);
             if (dtFromFundControl!=null && dtFromFundControl.Rows.Count > 0)
@@ -181,51 +182,180 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
 
                 txtLastUpadateDate.Text = "01-JUL-2002";
                 ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Process will be started from July 2002.');", true);
-            }
-            // For sell of shares
+                btnSave.Visible = true;
 
-            strQForSellShares = "select  count(*)NoSaleRecord,sum(no_share)NoSaleShares from fund_trans_hb where f_cd =" + fundNameDropDownList.SelectedValue.ToString() +
-                " and tran_tp = 'S' and vch_dt between '" + strLastUpadatePlusOneDate + "' and '" + strBalanceDate + "'";
+                strQfundTransHb = "select  * from fund_trans_hb where f_cd =" + fundNameDropDownList.SelectedValue.ToString() +
+              " and vch_dt between '01-JUL-2002' and '" + strBalanceDate + "'";
 
-            dtFromFundTrHBForSale = commonGatewayObj.Select(strQForSellShares);
-            if (dtFromFundTrHBForSale != null && dtFromFundTrHBForSale.Rows.Count > 0)
-            {
-                txtNoSaleRecord.Text = dtFromFundTrHBForSale.Rows[0]["NoSaleRecord"].ToString();
-                txtNoOfSaleShare.Text = dtFromFundTrHBForSale.Rows[0]["NoSaleShares"].ToString();
+                dtFromFundTransHb = commonGatewayObj.Select(strQfundTransHb);
 
+                if (dtFromFundTransHb != null && dtFromFundTransHb.Rows.Count > 0)
+                {
+
+                    // For sell of shares
+
+                    strQForSellShares = "select  count(*)NoSaleRecord,sum(no_share)NoSaleShares from fund_trans_hb where f_cd =" + fundNameDropDownList.SelectedValue.ToString() +
+                        " and tran_tp = 'S' and vch_dt between '01-JUL-2002' and '" + strBalanceDate + "'";
+
+                    dtFromFundTrHBForSale = commonGatewayObj.Select(strQForSellShares);
+                    if (dtFromFundTrHBForSale != null && dtFromFundTrHBForSale.Rows.Count > 0)
+                    {
+                        txtNoSaleRecord.Text = dtFromFundTrHBForSale.Rows[0]["NoSaleRecord"].ToString();
+                        txtNoOfSaleShare.Text = dtFromFundTrHBForSale.Rows[0]["NoSaleShares"].ToString();
+
+                    }
+                    else
+                    {
+                        txtNoSaleRecord.Text = "0";
+                        txtNoOfSaleShare.Text = "0";
+
+                    }
+
+
+                    /* For converting balance update process:
+                  * Field(Developer): upto_dt -> txtBalanceDate
+                  * last_bal_dt  -> txtLastUpadateDate
+                  * lst_b_dt  -> txtLastBalDate
+
+                  */
+
+                    // For purchase of shares
+                    strQForPurchaseShares = "select  count(*)NoPurchaseRecord,sum(no_share)NoPurchaseShares from fund_trans_hb where f_cd =" + fundNameDropDownList.SelectedValue.ToString() +
+                        " and tran_tp = 'C' and vch_dt between '01-JUL-2002' and '" + strBalanceDate + "'";
+
+                    dtFromFundTrHBForBuy = commonGatewayObj.Select(strQForPurchaseShares);
+                    if (dtFromFundTrHBForBuy.Rows.Count > 0)
+                    {
+                        txtNoPurchaseRecord.Text = dtFromFundTrHBForBuy.Rows[0]["NoPurchaseRecord"].ToString();
+                        txtNoPurchaseShares.Text = dtFromFundTrHBForBuy.Rows[0]["NoPurchaseShares"].ToString();
+
+                    }
+                    else
+                    {
+                        txtNoPurchaseRecord.Text = "0";
+                        txtNoPurchaseShares.Text = "0";
+
+                    }
+
+                }
+                else
+                {
+
+
+                    btnSave.Visible = false;
+                }
             }
             else
             {
-                txtNoSaleRecord.Text = "0";
-                txtNoOfSaleShare.Text = "0";
+                strQfundTransHb = "select  * from fund_trans_hb where f_cd =" + fundNameDropDownList.SelectedValue.ToString() +
+                " and vch_dt between '" + strLastUpadatePlusOneDate + "' and '" + strBalanceDate + "'";
 
+                dtFromFundTransHb = commonGatewayObj.Select(strQfundTransHb);
+
+                if (dtFromFundTransHb != null && dtFromFundTransHb.Rows.Count > 0)
+                {
+
+                    // For sell of shares
+
+                    strQForSellShares = "select  count(*)NoSaleRecord,sum(no_share)NoSaleShares from fund_trans_hb where f_cd =" + fundNameDropDownList.SelectedValue.ToString() +
+                        " and tran_tp = 'S' and vch_dt between '" + strLastUpadatePlusOneDate + "' and '" + strBalanceDate + "'";
+
+                    dtFromFundTrHBForSale = commonGatewayObj.Select(strQForSellShares);
+                    if (dtFromFundTrHBForSale != null && dtFromFundTrHBForSale.Rows.Count > 0)
+                    {
+                        txtNoSaleRecord.Text = dtFromFundTrHBForSale.Rows[0]["NoSaleRecord"].ToString();
+                        txtNoOfSaleShare.Text = dtFromFundTrHBForSale.Rows[0]["NoSaleShares"].ToString();
+
+                    }
+                    else
+                    {
+                        txtNoSaleRecord.Text = "0";
+                        txtNoOfSaleShare.Text = "0";
+
+                    }
+
+
+                    /* For converting balance update process:
+                  * Field(Developer): upto_dt -> txtBalanceDate
+                  * last_bal_dt  -> txtLastUpadateDate
+                  * lst_b_dt  -> txtLastBalDate
+
+                  */
+
+                    // For purchase of shares
+                    strQForPurchaseShares = "select  count(*)NoPurchaseRecord,sum(no_share)NoPurchaseShares from fund_trans_hb where f_cd =" + fundNameDropDownList.SelectedValue.ToString() +
+                        " and tran_tp = 'C' and vch_dt between '" + strLastUpadatePlusOneDate + "' and '" + strBalanceDate + "'";
+
+                    dtFromFundTrHBForBuy = commonGatewayObj.Select(strQForPurchaseShares);
+                    if (dtFromFundTrHBForBuy.Rows.Count > 0)
+                    {
+                        txtNoPurchaseRecord.Text = dtFromFundTrHBForBuy.Rows[0]["NoPurchaseRecord"].ToString();
+                        txtNoPurchaseShares.Text = dtFromFundTrHBForBuy.Rows[0]["NoPurchaseShares"].ToString();
+
+                    }
+                    else
+                    {
+                        txtNoPurchaseRecord.Text = "0";
+                        txtNoPurchaseShares.Text = "0";
+
+                    }
+
+                }
+                else
+                {
+
+                    // For sell of shares
+
+                    strQForSellShares = "select  count(*)NoSaleRecord,sum(no_share)NoSaleShares from fund_trans_hb where f_cd =" + fundNameDropDownList.SelectedValue.ToString() +
+                        " and tran_tp = 'S' and vch_dt between '" + strLastUpadatePlusOneDate + "' and '" + strBalanceDate + "'";
+
+                    dtFromFundTrHBForSale = commonGatewayObj.Select(strQForSellShares);
+                    if (dtFromFundTrHBForSale != null && dtFromFundTrHBForSale.Rows.Count > 0)
+                    {
+                        txtNoSaleRecord.Text = dtFromFundTrHBForSale.Rows[0]["NoSaleRecord"].ToString();
+                        txtNoOfSaleShare.Text = dtFromFundTrHBForSale.Rows[0]["NoSaleShares"].ToString();
+
+                    }
+                    else
+                    {
+                        txtNoSaleRecord.Text = "0";
+                        txtNoOfSaleShare.Text = "0";
+
+                    }
+
+
+                    /* For converting balance update process:
+                  * Field(Developer): upto_dt -> txtBalanceDate
+                  * last_bal_dt  -> txtLastUpadateDate
+                  * lst_b_dt  -> txtLastBalDate
+
+                  */
+
+                    // For purchase of shares
+                    strQForPurchaseShares = "select  count(*)NoPurchaseRecord,sum(no_share)NoPurchaseShares from fund_trans_hb where f_cd =" + fundNameDropDownList.SelectedValue.ToString() +
+                        " and tran_tp = 'C' and vch_dt between '" + strLastUpadatePlusOneDate + "' and '" + strBalanceDate + "'";
+
+                    dtFromFundTrHBForBuy = commonGatewayObj.Select(strQForPurchaseShares);
+                    if (dtFromFundTrHBForBuy.Rows.Count > 0)
+                    {
+                        txtNoPurchaseRecord.Text = dtFromFundTrHBForBuy.Rows[0]["NoPurchaseRecord"].ToString();
+                        txtNoPurchaseShares.Text = dtFromFundTrHBForBuy.Rows[0]["NoPurchaseShares"].ToString();
+
+                    }
+                    else
+                    {
+                        txtNoPurchaseRecord.Text = "0";
+                        txtNoPurchaseShares.Text = "0";
+
+                    }
+                    btnSave.Visible = false;
+                }
             }
 
+           
 
-            /* For converting balance update process:
-          * Field(Developer): upto_dt -> txtBalanceDate
-          * last_bal_dt  -> txtLastUpadateDate
-          * lst_b_dt  -> txtLastBalDate
 
-          */
-
-            // For purchase of shares
-            strQForPurchaseShares = "select  count(*)NoPurchaseRecord,sum(no_share)NoPurchaseShares from fund_trans_hb where f_cd =" + fundNameDropDownList.SelectedValue.ToString() +
-                " and tran_tp = 'C' and vch_dt between '" + strLastUpadatePlusOneDate + "' and '" + strBalanceDate + "'";
-
-            dtFromFundTrHBForBuy = commonGatewayObj.Select(strQForPurchaseShares);
-            if (dtFromFundTrHBForBuy.Rows.Count > 0)
-            {
-                txtNoPurchaseRecord.Text = dtFromFundTrHBForBuy.Rows[0]["NoPurchaseRecord"].ToString();
-                txtNoPurchaseShares.Text = dtFromFundTrHBForBuy.Rows[0]["NoPurchaseShares"].ToString();
-
-            }
-            else
-            {
-                txtNoPurchaseRecord.Text = "0";
-                txtNoPurchaseShares.Text = "0";
-
-            }
+         
         }
         catch (Exception ex)
         {
@@ -235,24 +365,307 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
 
     }
 
+    protected void balanceDate_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        string strQfundTransHb, strQLastBalDtFrFundControl, strBalanceDate, strLastBalDate, strLastUpadateDate, strLastUpadatePlusOneDate, strQForSellShares, strQForPurchaseShares, strQForMrktPrice;
+        DateTime? dtimeBalanceDate, dtimeLastBalDate, dtimeLastUpadateDate, dtimeLastUpadatePlusOneDate;
+
+
+        DataTable dtFromDual = new DataTable();
+        DataTable dtFromFundControl = new DataTable();
+        DataTable dtFromMarketPrice = new DataTable();
+        DataTable dtFromFundTrHBForSale = new DataTable();
+        DataTable dtFromFundTrHBForBuy = new DataTable();
+        DataTable dtFromFundTransHb = new DataTable();
+        lblProcessing.Text = "";
+ 
+        try
+        {
+           
+
+            DateTime dtimeCurrentDate = DateTime.Now;
+
+            string currentDate = txtBalanceDate.Text;
+
+            if (!string.IsNullOrEmpty(currentDate))
+            {
+                txtBalanceDate.Text = currentDate;
+            }
+
+            strQLastBalDtFrFundControl = "select TO_CHAR(bal_dt,'DD-MON-YYYY')lst_bal_dt from fund_control where f_cd =" + fundNameDropDownList.SelectedValue.ToString();
+
+            dtFromFundControl = commonGatewayObj.Select(strQLastBalDtFrFundControl);
+            if (dtFromFundControl != null && dtFromFundControl.Rows.Count > 0)
+            {
+
+                txtLastUpadateDate.Text = dtFromFundControl.Rows[0]["lst_bal_dt"].ToString();
+                txtLastBalDate.Text = dtFromFundControl.Rows[0]["lst_bal_dt"].ToString();
+
+            }
+            else
+            {
+                txtLastUpadateDate.Text = "30-JUN-2005";
+            }
+
+
+            if (!string.IsNullOrEmpty(txtBalanceDate.Text.Trim()))
+            {
+                dtimeBalanceDate = Convert.ToDateTime(txtBalanceDate.Text.ToString());
+
+                strBalanceDate = dtimeBalanceDate.Value.ToString("dd-MMM-yyyy");
+            }
+            else
+            {
+                dtimeBalanceDate = null;
+                strBalanceDate = "";
+            }
+
+
+            if (!string.IsNullOrEmpty(txtLastBalDate.Text.Trim()))
+            {
+                dtimeLastBalDate = Convert.ToDateTime(txtLastBalDate.Text.ToString());
+                strLastBalDate = dtimeLastBalDate.Value.ToString("dd-MMM-yyyy");
+            }
+            else
+            {
+                dtimeLastBalDate = null;
+                strLastBalDate = "";
+            }
+
+
+            if (!string.IsNullOrEmpty(txtLastUpadateDate.Text.Trim()))
+            {
+                dtimeLastUpadateDate = Convert.ToDateTime(txtLastUpadateDate.Text.ToString());
+                strLastUpadateDate = dtimeLastUpadateDate.Value.ToString("dd-MMM-yyyy");
+                dtimeLastUpadatePlusOneDate = dtimeLastUpadateDate.Value.AddDays(1);
+                strLastUpadatePlusOneDate = dtimeLastUpadatePlusOneDate.Value.ToString("dd-MMM-yyyy");
+            }
+            else
+            {
+                dtimeLastUpadateDate = null;
+                strLastUpadateDate = "";
+                dtimeLastUpadatePlusOneDate = null;
+                strLastUpadatePlusOneDate = "";
+            }
+
+            strQForMrktPrice = "select TO_CHAR(max(Tran_date),'DD-MON-YYYY')mp_dt from market_price where tran_date <='" + strBalanceDate + "'";
+
+            dtFromMarketPrice = commonGatewayObj.Select(strQForMrktPrice);
+            if (dtFromMarketPrice != null && dtFromMarketPrice.Rows.Count > 0)
+            {
+
+                txtMarketPriceDate.Text = dtFromMarketPrice.Rows[0]["mp_dt"].ToString();
+
+
+            }
+
+            if (dtimeBalanceDate <= dtimeLastUpadateDate)
+            {
+
+                txtLastUpadateDate.Text = "01-JUL-2002";
+                ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Process will be started from July 2002.');", true);
+                btnSave.Visible = true;
+
+                strQfundTransHb = "select  * from fund_trans_hb where f_cd =" + fundNameDropDownList.SelectedValue.ToString() +
+              " and vch_dt between '01-JUL-2002' and '" + strBalanceDate + "'";
+
+                dtFromFundTransHb = commonGatewayObj.Select(strQfundTransHb);
+
+                if (dtFromFundTransHb != null && dtFromFundTransHb.Rows.Count > 0)
+                {
+
+                    // For sell of shares
+
+                    strQForSellShares = "select  count(*)NoSaleRecord,sum(no_share)NoSaleShares from fund_trans_hb where f_cd =" + fundNameDropDownList.SelectedValue.ToString() +
+                        " and tran_tp = 'S' and vch_dt between '01-JUL-2002' and '" + strBalanceDate + "'";
+
+                    dtFromFundTrHBForSale = commonGatewayObj.Select(strQForSellShares);
+                    if (dtFromFundTrHBForSale != null && dtFromFundTrHBForSale.Rows.Count > 0)
+                    {
+                        txtNoSaleRecord.Text = dtFromFundTrHBForSale.Rows[0]["NoSaleRecord"].ToString();
+                        txtNoOfSaleShare.Text = dtFromFundTrHBForSale.Rows[0]["NoSaleShares"].ToString();
+
+                    }
+                    else
+                    {
+                        txtNoSaleRecord.Text = "0";
+                        txtNoOfSaleShare.Text = "0";
+
+                    }
+
+
+                    /* For converting balance update process:
+                  * Field(Developer): upto_dt -> txtBalanceDate
+                  * last_bal_dt  -> txtLastUpadateDate
+                  * lst_b_dt  -> txtLastBalDate
+
+                  */
+
+                    // For purchase of shares
+                    strQForPurchaseShares = "select  count(*)NoPurchaseRecord,sum(no_share)NoPurchaseShares from fund_trans_hb where f_cd =" + fundNameDropDownList.SelectedValue.ToString() +
+                        " and tran_tp = 'C' and vch_dt between '01-JUL-2002' and '" + strBalanceDate + "'";
+
+                    dtFromFundTrHBForBuy = commonGatewayObj.Select(strQForPurchaseShares);
+                    if (dtFromFundTrHBForBuy.Rows.Count > 0)
+                    {
+                        txtNoPurchaseRecord.Text = dtFromFundTrHBForBuy.Rows[0]["NoPurchaseRecord"].ToString();
+                        txtNoPurchaseShares.Text = dtFromFundTrHBForBuy.Rows[0]["NoPurchaseShares"].ToString();
+
+                    }
+                    else
+                    {
+                        txtNoPurchaseRecord.Text = "0";
+                        txtNoPurchaseShares.Text = "0";
+
+                    }
+
+                }
+                else
+                {
+
+
+                    btnSave.Visible = false;
+                }
+            }
+            else
+            {
+                strQfundTransHb = "select  * from fund_trans_hb where f_cd =" + fundNameDropDownList.SelectedValue.ToString() +
+                " and vch_dt between '" + strLastUpadatePlusOneDate + "' and '" + strBalanceDate + "'";
+
+                dtFromFundTransHb = commonGatewayObj.Select(strQfundTransHb);
+
+                if (dtFromFundTransHb != null && dtFromFundTransHb.Rows.Count > 0)
+                {
+
+                    // For sell of shares
+
+                    strQForSellShares = "select  count(*)NoSaleRecord,sum(no_share)NoSaleShares from fund_trans_hb where f_cd =" + fundNameDropDownList.SelectedValue.ToString() +
+                        " and tran_tp = 'S' and vch_dt between '" + strLastUpadatePlusOneDate + "' and '" + strBalanceDate + "'";
+
+                    dtFromFundTrHBForSale = commonGatewayObj.Select(strQForSellShares);
+                    if (dtFromFundTrHBForSale != null && dtFromFundTrHBForSale.Rows.Count > 0)
+                    {
+                        txtNoSaleRecord.Text = dtFromFundTrHBForSale.Rows[0]["NoSaleRecord"].ToString();
+                        txtNoOfSaleShare.Text = dtFromFundTrHBForSale.Rows[0]["NoSaleShares"].ToString();
+
+                    }
+                    else
+                    {
+                        txtNoSaleRecord.Text = "0";
+                        txtNoOfSaleShare.Text = "0";
+
+                    }
+
+
+                    /* For converting balance update process:
+                  * Field(Developer): upto_dt -> txtBalanceDate
+                  * last_bal_dt  -> txtLastUpadateDate
+                  * lst_b_dt  -> txtLastBalDate
+
+                  */
+
+                    // For purchase of shares
+                    strQForPurchaseShares = "select  count(*)NoPurchaseRecord,sum(no_share)NoPurchaseShares from fund_trans_hb where f_cd =" + fundNameDropDownList.SelectedValue.ToString() +
+                        " and tran_tp = 'C' and vch_dt between '" + strLastUpadatePlusOneDate + "' and '" + strBalanceDate + "'";
+
+                    dtFromFundTrHBForBuy = commonGatewayObj.Select(strQForPurchaseShares);
+                    if (dtFromFundTrHBForBuy.Rows.Count > 0)
+                    {
+                        txtNoPurchaseRecord.Text = dtFromFundTrHBForBuy.Rows[0]["NoPurchaseRecord"].ToString();
+                        txtNoPurchaseShares.Text = dtFromFundTrHBForBuy.Rows[0]["NoPurchaseShares"].ToString();
+
+                    }
+                    else
+                    {
+                        txtNoPurchaseRecord.Text = "0";
+                        txtNoPurchaseShares.Text = "0";
+
+                    }
+
+                }
+                else
+                {
+
+                    // For sell of shares
+
+                    strQForSellShares = "select  count(*)NoSaleRecord,sum(no_share)NoSaleShares from fund_trans_hb where f_cd =" + fundNameDropDownList.SelectedValue.ToString() +
+                        " and tran_tp = 'S' and vch_dt between '" + strLastUpadatePlusOneDate + "' and '" + strBalanceDate + "'";
+
+                    dtFromFundTrHBForSale = commonGatewayObj.Select(strQForSellShares);
+                    if (dtFromFundTrHBForSale != null && dtFromFundTrHBForSale.Rows.Count > 0)
+                    {
+                        txtNoSaleRecord.Text = dtFromFundTrHBForSale.Rows[0]["NoSaleRecord"].ToString();
+                        txtNoOfSaleShare.Text = dtFromFundTrHBForSale.Rows[0]["NoSaleShares"].ToString();
+
+                    }
+                    else
+                    {
+                        txtNoSaleRecord.Text = "0";
+                        txtNoOfSaleShare.Text = "0";
+
+                    }
+
+
+                    /* For converting balance update process:
+                  * Field(Developer): upto_dt -> txtBalanceDate
+                  * last_bal_dt  -> txtLastUpadateDate
+                  * lst_b_dt  -> txtLastBalDate
+
+                  */
+
+                    // For purchase of shares
+                    strQForPurchaseShares = "select  count(*)NoPurchaseRecord,sum(no_share)NoPurchaseShares from fund_trans_hb where f_cd =" + fundNameDropDownList.SelectedValue.ToString() +
+                        " and tran_tp = 'C' and vch_dt between '" + strLastUpadatePlusOneDate + "' and '" + strBalanceDate + "'";
+
+                    dtFromFundTrHBForBuy = commonGatewayObj.Select(strQForPurchaseShares);
+                    if (dtFromFundTrHBForBuy.Rows.Count > 0)
+                    {
+                        txtNoPurchaseRecord.Text = dtFromFundTrHBForBuy.Rows[0]["NoPurchaseRecord"].ToString();
+                        txtNoPurchaseShares.Text = dtFromFundTrHBForBuy.Rows[0]["NoPurchaseShares"].ToString();
+
+                    }
+                    else
+                    {
+                        txtNoPurchaseRecord.Text = "0";
+                        txtNoPurchaseShares.Text = "0";
+
+                    }
+                    btnSave.Visible = false;
+                }
+            }
+
+
+
+
+
+        }
+        catch (Exception ex)
+        {
+
+            ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('" + ex.Message.ToString() + "');", true);
+        }
+
+    }
+
+
     private string adv_proc1(string vchDtFrom,string vchDtTo, string f_cd)
     {
 
-        string strQuery, strVchDtFromtFromFundTransHB, strCompCodeFromtFromFundTransHB, strSelFromFundFolioHBQuery, strQuery1, strUpdFundfolioHBForTrTypeS, strUpdFundfolioHBForTrTypeNotS, strInsIntoFundFolioHBForTrTypeNotS, strInsIntoFundFolioHBForTrTypeS, strUpdateFundTransHB, LoginID = Session["UserID"].ToString(), strRetVal;
+        string strQuery, strVchDtFromtFromFundTransHB, strCompCodeFromtFromFundTransHB, strSelFromFundFolioHBQuery, strUpdFundfolioHBForTrTypeS, strUpdFundfolioHBForTrTypeNotS, strInsIntoFundFolioHBForTrTypeNotS, strInsIntoFundFolioHBForTrTypeS, strUpdateFundTransHB, LoginID = Session["UserID"].ToString(), strRetVal;
         
         DataTable dtFromFundTransHB = new DataTable();
         DataTable dtFromFundFolioHB = new DataTable();
         DataTable dtVchDFromtFromFundTransHB = new DataTable();
         DataTable dtCompCodeFromFundTransHB = new DataTable();
-        DataTable dtFromFundTransHB1 = new DataTable();
+        DataTable dtFromFundTransHBbycomp_cd = new DataTable();
 
 
-        //strQuery = "select TO_CHAR(vch_dt,'DD-MON-YYYY')vch_dt, f_cd, comp_cd, no_share, rate, nvl(amount,0)amount,amt_aft_com, tran_tp, stock_ex from fund_trans_hb" +
-        //" where vch_dt between '" + vchDtFrom + "' and '" + vchDtTo + "' and f_cd=" + f_cd +
-        //" order by  comp_cd";
 
         strVchDtFromtFromFundTransHB = "select distinct(vch_dt)" +
                     " from fund_trans_hb where vch_dt between '" + vchDtFrom + "' and '" + vchDtTo + "' and f_cd=" + f_cd + " order by vch_dt";
+        //strVchDtFromtFromFundTransHB = "select distinct(vch_dt)" +
+        //          " from fund_trans_hb where vch_dt between '26-Dec-2017' and '26-Dec-2017' and f_cd=" + f_cd + " order by vch_dt";
+
 
         dtVchDFromtFromFundTransHB = commonGatewayObj.Select(strVchDtFromtFromFundTransHB);
 
@@ -266,42 +679,16 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
                         " from fund_trans_hb where vch_dt='" + vchdatefromFundTransHb + "'  and f_cd=" + f_cd + " order by comp_cd";
                 dtCompCodeFromFundTransHB = commonGatewayObj.Select(strCompCodeFromtFromFundTransHB);
 
+
                 for (int m = 0; m < dtCompCodeFromFundTransHB.Rows.Count; m++)
                 {
-                   
 
-
-                    strQuery1 = "select vch_dt, f_cd, comp_cd, no_share, rate, nvl(amount,0)amount,amt_aft_com, tran_tp, stock_ex" +
-               " from fund_trans_hb where vch_dt='" + vchdatefromFundTransHb + "' and f_cd=" + f_cd + " and comp_cd=" + dtCompCodeFromFundTransHB.Rows[m]["comp_cd"] + "";
-                    dtFromFundTransHB1 = commonGatewayObj.Select(strQuery1);
-
-
-                    DataTable dtTranjectionTypeFromFundTansHb = Tranjecton_type();
-                    for (int n = 0; n < dtTranjectionTypeFromFundTansHb.Rows.Count; n++)
-                    {
-                        string tran_tp = dtTranjectionTypeFromFundTansHb.Rows[n]["TRAN_TP"].ToString();
-                        DataRow[] result = dtFromFundTransHB1.Select("tran_tp = '" + tran_tp + "'");
-                        foreach (DataRow row in result)
-                        {
-                            //Console.WriteLine("{0}, {1}", row[0], row[1]);
-                            // dtFromFundTransHB.NewRow();
-                            //dtFromFundTransHB.Rows.Add(row);
-                            dtFromFundTransHB.ImportRow(row);
-                        }
-
-                    }
-
-                     
+                    strQuery = "select vch_dt, f_cd, comp_cd, no_share, rate, nvl(amount,0)amount,amt_aft_com, tran_tp, stock_ex" +
+               " from fund_trans_hb where  vch_dt='" + vchdatefromFundTransHb + "' and f_cd=" + f_cd + " and comp_cd=" + dtCompCodeFromFundTransHB.Rows[m]["comp_cd"] + " ";
+                    dtFromFundTransHB = commonGatewayObj.Select(strQuery);
 
 
 
-
-
-               //     strQuery = "select vch_dt, f_cd, comp_cd, no_share, rate, nvl(amount,0)amount,amt_aft_com, tran_tp, stock_ex" +
-               //" from fund_trans_hb where vch_dt='" + vchdatefromFundTransHb + "' and f_cd=" + f_cd + " and comp_cd=" + dtCompCodeFromFundTransHB.Rows[m]["comp_cd"] + "";
-               //     dtFromFundTransHB = commonGatewayObj.Select(strQuery);
-
-         
 
                     if (dtFromFundTransHB != null && dtFromFundTransHB.Rows.Count > 0)
                     {
@@ -527,7 +914,7 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
                     }
                 }
 
-                
+
             }
             strRetVal = "Processing Completed";
             return strRetVal;
@@ -537,17 +924,6 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
             strRetVal = "No data found !";
             return strRetVal;
         }
-
-
-
-
-        //strQuery = " select * from (select vch_dt, f_cd, comp_cd, no_share, rate, nvl(amount,0)amount,amt_aft_com, tran_tp, stock_ex" +
-        //    " from fund_trans_hb where vch_dt between '" + vchDtFrom + "' and '" + vchDtTo + "' and f_cd=" + f_cd + " order by vch_dt,comp_cd) where comp_cd=298";
-
-
-
-    
-
       
 
     }
@@ -630,10 +1006,9 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
                 //lblProcessing.Text = "Processing completed!!!!";
                 //ClearFields();
             }
-
             else
             {
-                commonGatewayObj.BeginTransaction();
+                 commonGatewayObj.BeginTransaction();
                 strDelFromFundFolioHB = "delete from fund_folio_hb where f_cd =" + fundNameDropDownList.SelectedValue.ToString();
                 int noDelRowsFromFundFolioHB = commonGatewayObj.ExecuteNonQuery(strDelFromFundFolioHB);
 
@@ -709,11 +1084,7 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
 
             string strupdateQueryfund_control = "update fund_control set op_name='" + LoginID + "',upd_date_time='" + strCurrentDateTimeForLog + "',bal_dt='" + strBalanceDate + "',mprice_dt='" + strMarketPriceDate + "' where f_cd =" + fundNameDropDownList.SelectedValue.ToString() + "";
 
-
-
-
-
-
+            
             int updatefund_controlNumOfRows = commonGatewayObj.ExecuteNonQuery(strupdateQueryfund_control);
            
 
@@ -732,42 +1103,7 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
             ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('" + ex.Message.ToString() + "');", true);
         }
     }
-    public DataTable Tranjecton_type()//Get Howla Date from invest.fund_trans_hb Table
-    {
-        DataTable dtTranjectionType = new DataTable();
-        dtTranjectionType.Columns.Add("SL", typeof(string));
-        dtTranjectionType.Columns.Add("TRAN_TP", typeof(string));
-        dtTranjectionType.Rows.Add("1","I");
-        dtTranjectionType.Rows.Add("2", "P");
-        dtTranjectionType.Rows.Add("3", "C");
-        dtTranjectionType.Rows.Add("4", "B");
-        dtTranjectionType.Rows.Add("5", "R");
-        dtTranjectionType.Rows.Add("6", "S");
-        //DataRow dr = dtTranjectionType.NewRow();
-        //dr["TRAN_TP"] = "I";
-        //dtTranjectionType.Rows.Add(dr);
-
-        //DataRow dr1 = dtTranjectionType.NewRow();
-        //dr["TRAN_TP"] = "P";
-        //dtTranjectionType.Rows.Add(dr1);
-
-        //DataRow dr2 = dtTranjectionType.NewRow();
-        //dr["TRAN_TP"] = "C";
-        //dtTranjectionType.Rows.Add(dr2);
-
-        //DataRow dr3 = dtTranjectionType.NewRow();
-        //dr["TRAN_TP"] = "B";
-        //dtTranjectionType.Rows.Add(dr3);
-
-        //DataRow dr4 = dtTranjectionType.NewRow();
-        //dr["TRAN_TP"] = "R";
-        //dtTranjectionType.Rows.Add(dr4);
-        //DataRow dr5 = dtTranjectionType.NewRow();
-        //dr["TRAN_TP"] = "S";
-        //dtTranjectionType.Rows.Add(dr5);
-
-        return dtTranjectionType;
-    }
+  
     public class CompanayTransdate
     {
         public string COMP_CD { get; set; }
@@ -778,5 +1114,17 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
         public string FUNDID { get; set; }
         public string COMP_CD { get; set; }
         public string AVG_RT { get; set; }
+    }
+    public class Fund_Trans_Hb
+    {
+        public string vch_dt { get; set; }
+        public string f_cd { get; set; }
+        public string comp_cd { get; set; }
+        public string no_share { get; set; }
+        public string rate { get; set; }
+        public string amount { get; set; }
+        public string amt_aft_com { get; set; }
+        public string tran_tp { get; set; }
+        public string stock_ex { get; set; }
     }
 }

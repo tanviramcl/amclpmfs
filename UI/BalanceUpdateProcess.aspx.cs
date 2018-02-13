@@ -247,12 +247,12 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
         //" where vch_dt between '" + vchDtFrom + "' and '" + vchDtTo + "' and f_cd=" + f_cd +
         //" order by  comp_cd";
 
-        //strQuery = "select vch_dt, f_cd, comp_cd, no_share, rate, nvl(amount,0)amount,amt_aft_com, tran_tp, stock_ex" +
-        //            " from fund_trans_hb where vch_dt between '" + vchDtFrom + "' and '" + vchDtTo + "' and f_cd=" + f_cd + " order by vch_dt,comp_cd";
+        strQuery = "select vch_dt, f_cd, comp_cd, no_share, rate, nvl(amount,0)amount,amt_aft_com, tran_tp, stock_ex" +
+                    " from fund_trans_hb where vch_dt between '" + vchDtFrom + "' and '" + vchDtTo + "' and f_cd=" + f_cd + " order by vch_dt,comp_cd";
 
 
-        strQuery = " select * from (select vch_dt, f_cd, comp_cd, no_share, rate, nvl(amount,0)amount,amt_aft_com, tran_tp, stock_ex" +
-                " from fund_trans_hb where vch_dt between '" + vchDtFrom + "' and '" + vchDtTo + "' and f_cd=" + f_cd + " order by vch_dt,comp_cd) where comp_cd=298";
+        //strQuery = " select * from (select vch_dt, f_cd, comp_cd, no_share, rate, nvl(amount,0)amount,amt_aft_com, tran_tp, stock_ex" +
+        //        " from fund_trans_hb where vch_dt between '" + vchDtFrom + "' and '" + vchDtTo + "' and f_cd=" + f_cd + " order by vch_dt,comp_cd) where comp_cd=768";
 
 
         dtFromFundTransHB = commonGatewayObj.Select(strQuery);
