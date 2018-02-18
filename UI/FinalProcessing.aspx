@@ -102,7 +102,7 @@
 
                         <asp:Button ID="btnProcessingforBackup" runat="server"  CssClass="buttoncommon" Style="width: 195px; height: 30px; font-size: 16px; margin-bottom: 20px;" Text="Processing for Backup" OnClick="btnProcessingforBackup_Click" />
                         <br />
-                        <asp:Button ID="btnDelete" runat="server" CssClass="buttoncommon" Style="width: 195px; height: 30px; font-size: 16px;" Text="Delete" OnClick="btnDelete_Click" /></td>
+                        <asp:Button ID="btnDelete" runat="server" CssClass="buttoncommon" Style="width: 195px; height: 30px; font-size: 16px;" Text="Delete" OnClick="btnDelete_Click"  OnClientClick="return Confirm();"/></td>
                     </ContentTemplate>
                 </asp:UpdatePanel>
             </td>
@@ -146,5 +146,31 @@
       });
 
     </script>
+
+     <script type = "text/javascript">
+
+        function Confirm()
+         {
+
+            var confirm_value = document.createElement("INPUT");
+            confirm_value.type = "hidden";
+            confirm_value.name = "confirm_value";
+          
+               
+            if (confirm("Do you realy want to delete data of date:  " + document.getElementById("<%=txtbalanceDate2.ClientID %>").value +"?"))
+            {
+                confirm_value.value = "Yes";
+
+            }
+            else
+
+             {
+                confirm_value.value = "No";
+            }
+
+            document.forms[0].appendChild(confirm_value);
+        }
+    </script>
+
 </asp:Content>
 

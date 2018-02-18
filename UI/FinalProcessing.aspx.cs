@@ -153,8 +153,12 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
     }
 
     protected void btnDelete_Click(object sender, EventArgs e)
-    {
+    { 
+        string confirmValue = Request.Form["confirm_value"];
 
+        if (confirmValue == "Yes")
+           {
+            
         //DateTime dtimeHowlaDateTo = Convert.ToDateTime(txtHowlaDateTo.Text.ToString());
         //strHowlaDateTo = dtimeHowlaDateTo.ToString("dd-MMM-yyyy");
        // dt.Rows[0]["vch_dt"].ToString();
@@ -183,14 +187,19 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
             txttotalRowCount.Text = row.ToString();
             ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Delete  Successfull');", true);
             ClearFields();
-            lblProcessing.Text = "Delete  Successfull";
-        }
+            lblProcessing.Text = "Delete  Successful";
+            Response.Redirect("../Home.aspx");
+            }
         else
         {
-            lblProcessing.Text = "Delete Unsuccessfull"; 
-        }
+            lblProcessing.Text = "Delete Unsuccessful";
+            Response.Redirect("../Home.aspx");
+            }
        // Response.Redirect("FinalProcessing.aspx");
         
+    }
+     
+       
     }
    
     public class PortFolioBk
