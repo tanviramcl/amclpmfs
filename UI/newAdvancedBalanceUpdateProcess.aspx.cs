@@ -95,6 +95,8 @@ public partial class AdvancedBalanceUpdateProcess : System.Web.UI.Page
         }
 
         string strQLastBalDtFrFundControl = "select max(BAL_DT) as BAL_DT from fund_control";
+        //select count(*)noofmaxbaldt  from fund_control where bal_dt = (select max(bal_dt) from fund_control)
+        //SELECT F_NAME, F_CD FROM FUND WHERE IS_F_CLOSE IS NULL AND BOID IS NOT NULL ORDER BY F_CD
 
         DataTable dtFromFundControl = commonGatewayObj.Select(strQLastBalDtFrFundControl);
         if (dtFromFundControl != null && dtFromFundControl.Rows.Count > 0)
@@ -154,12 +156,12 @@ public partial class AdvancedBalanceUpdateProcess : System.Web.UI.Page
         {
 
             btnProcess.Visible = false;
-            ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Balance Date Must be greater than " + strlastUpdt + "');", true);
+            ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Balance date must be greater than " + strlastUpdt + "');", true);
         }
         else if (strtxtBalanceDate == strlastUpdt)
         {
             //lblProcessing.Text = "Data Already Updated";
-            ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Data Already Updated');", true);
+            ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Data already updated!!');", true);
         }
         else
         {
