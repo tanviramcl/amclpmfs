@@ -1,6 +1,5 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/UI/AMCLCommon.master" AutoEventWireup="true" CodeFile="newAdvancedBalanceUpdateProcess.aspx.cs" Inherits="AdvancedBalanceUpdateProcess" Title="IAMCL Advanced Balance Update Process  " %>
+﻿  <%@ Page Language="C#" MasterPageFile="~/UI/AMCLCommon.master" AutoEventWireup="true" CodeFile="newAdvancedBalanceUpdateProcess.aspx.cs" Inherits="AdvancedBalanceUpdateProcess" Title="IAMCL Advanced Balance Update Process  " %>
 
-<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
     <style type="text/css">
@@ -45,24 +44,6 @@
             font-size: 21px;
             border-radius: 25px;
         }
-
-        .modalBackground
-        {
-            background-color: Black;
-            filter: alpha(opacity=90);
-            opacity: 0.8;
-        }
-        .modalPopup
-        {
-            background-color: #FFFFFF;
-            border-width: 3px;
-            border-style: solid;
-            border-color: black;
-            padding-top: 10px;
-            padding-left: 10px;
-            width: 400px;
-            height: 80px;
-        }
     </style>
 
 
@@ -79,7 +60,7 @@
             </td>
         </tr>
     </table>
-    <table width="350" cellpadding="0" cellspacing="0" border="0">
+     <table width="350" cellpadding="0" cellspacing="0" border="0">
          
         <tr>
              <td align="right"  style="font-weight: 700"><b>Balance Date:</b></td>
@@ -98,7 +79,7 @@
     </table>
     <table>
 
-        
+
         <tr>
 
             <td align="center" colspan="4">
@@ -118,8 +99,6 @@
                             <asp:BoundField DataField="F_NAME" HeaderText="Fund Name" />
                             <asp:BoundField DataField="BalanceDate" HeaderText="Balance Date" />
                             <asp:BoundField DataField="LastUpadateDate" HeaderText="Last Upadate Date" />
-                            <asp:BoundField DataField="PurchaseRecord" HeaderText="No Of Purchase Record" />
-                            <asp:BoundField DataField="NoSaleRecord" HeaderText="No of Sale Record" />
 
                         </Columns>
                     </asp:GridView>
@@ -146,37 +125,28 @@
                             <asp:Label ID="lblProcessing" runat="server" Text="" Style="font-size: 24px; color: green;"></asp:Label>
                             <br />
 
-
-<%--                            <asp:Button ID="btnProcess" runat="server" Text="Process"
-                                CssClass="processBtn" OnClick="btnProcess_Click" />--%>
+                            <asp:HiddenField ID="HiddenField1" runat="server" />
                             <asp:Button ID="btnProcess" runat="server" Text="Process"
-                                CssClass="processBtn" />
+                                CssClass="processBtn" OnClick="btnProcess_Click" OnClientClick="fnCloseModal();" />
 
-                        <!-- ModalPopupExtender -->
-                        <cc1:ModalPopupExtender ID="mp1" runat="server" PopupControlID="Panel1" TargetControlID="btnProcess"
-                            CancelControlID="btnClose" BackgroundCssClass="modalBackground">
-                        </cc1:ModalPopupExtender>
-                        <asp:Panel ID="Panel1" runat="server" CssClass="modalPopup" align="center" style = "display:none">
-                            
-                          <%
-                               string BalanceDate= (string)Session["BalanceDate"];
-                               %>            
-                             Proceed Date <b style="color:red"><% Response.Write(BalanceDate);%></b><br />
-                             Do you want to Proceed......???<br></br>
-                            <asp:Button ID="btnOk" runat="server" Text="Ok"
-                                CssClass="buttoncommon" OnClick="btnSave_Click" />
-                            <asp:Button ID="btnClose" CssClass="buttoncommon"   runat="server" Text="Close" />
-                        </asp:Panel>
-                        <!-- ModalPopupExtender -->
                         </ContentTemplate>
                     </asp:UpdatePanel>
                 </div>
             </td>
 
         </tr>
-        
     </table>
-
-
+       <script type="text/javascript">
+        function fnCloseModal() {
+        
+            if (confirm("Do you want to Proceed......!!!!")) {
+              //  $("#HiddenField1").val("Yes");
+                $("#<%=HiddenField1.ClientID%>").val("Yes");
+            } else {
+               // $("#HiddenField1").val("No");
+                $("#<%=HiddenField1.ClientID%>").val("No");
+            }
+        }
+    </script>
 </asp:Content>
 

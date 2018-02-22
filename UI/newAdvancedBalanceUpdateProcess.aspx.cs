@@ -34,45 +34,66 @@ public partial class AdvancedBalanceUpdateProcess : System.Web.UI.Page
             Session.RemoveAll();
             Response.Redirect("../Default.aspx");
         }
-        else
+        if (!IsPostBack)
         {
-            checkFundByBalanceDate();
-        }
+            //Place the code here
+            //  checkFundByBalanceDate();
+            string strtxtBalanceDate;
 
-        
-    }
-    
-    protected void btnSave_Click(object sender, EventArgs e)
-    {
+            DateTime dtimeCurrentDate = DateTime.Now;
 
-        string BalanceDate = txtBalanceDate.Text;
-        
-        if (!string.IsNullOrEmpty(BalanceDate))
-        {
+            string currentDate = Convert.ToDateTime(dtimeCurrentDate).ToString("dd-MMM-yyyy");
 
-            DataTable tblAllfundInfo = getTblAllFundInfo(BalanceDate);
-
-
-            if (tblAllfundInfo.Rows.Count > 0)
+            if (!string.IsNullOrEmpty(txtBalanceDate.Text))
             {
-                Save(tblAllfundInfo);
+                strtxtBalanceDate = txtBalanceDate.Text;
             }
             else
             {
-                ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('No Data Found');", true);
+                strtxtBalanceDate = currentDate;
+            }
+
+            if (!string.IsNullOrEmpty(strtxtBalanceDate))
+            {
+                txtBalanceDate.Text = strtxtBalanceDate;
+                Session["BalanceDate"] = strtxtBalanceDate;
+                DataTable tblAllfundInfo = getTblAllFundInfo(strtxtBalanceDate);
+                grdShowDSEMP.DataSource = tblAllfundInfo;
+                grdShowDSEMP.DataBind();
+
+
             }
         }
-              
+
+        //lblProcessing.Text = "";
+        //DataTable tblAllfundInfo = getTblAllFundInfo();
+        //grdShowDSEMP.DataSource = tblAllfundInfo;
+        //grdShowDSEMP.DataBind();
+
+
 
     }
 
+
+    //  ClearFields();
+
+    /*
+     * Advanced Process start
+
+     */
+
+    protected void balanceDate_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        checkFundByBalanceDate();
+
+    }
     public void checkFundByBalanceDate()
     {
         DateTime? dtimeBalanceDate, dtimeLastBalDate;
         DateTime? dtimeLastUpadateDate, dtimeLastUpadatePlusOneDate;
         lblProcessing.Text = "";
 
-        string strtxtBalanceDate, dtfundfolioMaxdate, strLastUpadateDate, strLastUpadatePlusOneDate; ;
+        string strtxtBalanceDate, strlastUpdt, dtfundfolioMaxdate = "", strLastUpadateDate, strLastUpadatePlusOneDate; ;
 
         DateTime dtimeCurrentDate = DateTime.Now;
 
@@ -94,15 +115,28 @@ public partial class AdvancedBalanceUpdateProcess : System.Web.UI.Page
 
         }
 
-        string strQLastBalDtFrFundControl = "select max(BAL_DT) as BAL_DT from fund_control";
-        //select count(*)noofmaxbaldt  from fund_control where bal_dt = (select max(bal_dt) from fund_control)
-        //SELECT F_NAME, F_CD FROM FUND WHERE IS_F_CLOSE IS NULL AND BOID IS NOT NULL ORDER BY F_CD
+        string strNoOfMaxBaLDt = "select count(*)noofmaxbaldt  from fund_control where bal_dt = (select max(bal_dt) from fund_control)";
+        DataTable dtnoOfMaxBaLDt = commonGatewayObj.Select(strNoOfMaxBaLDt);
 
-        DataTable dtFromFundControl = commonGatewayObj.Select(strQLastBalDtFrFundControl);
-        if (dtFromFundControl != null && dtFromFundControl.Rows.Count > 0)
+        string strNoOfFund = "SELECT count(*)NoofFund from  FUND WHERE IS_F_CLOSE IS NULL AND BOID IS NOT NULL ORDER BY F_CD";
+        DataTable dtStrNoofFund = commonGatewayObj.Select(strNoOfFund);
+
+        if (dtnoOfMaxBaLDt.Rows[0]["noofmaxbaldt"].ToString() == dtStrNoofFund.Rows[0]["NoofFund"].ToString())
         {
-            dtfundfolioMaxdate = dtFromFundControl.Rows[0]["BAL_DT"].ToString();
+            string strQLastBalDtFrFundControl = "select max(BAL_DT) as BAL_DT from fund_control";
+            //select count(*)noofmaxbaldt  from fund_control where bal_dt = (select max(bal_dt) from fund_control)
+            //SELECT F_NAME, F_CD FROM FUND WHERE IS_F_CLOSE IS NULL AND BOID IS NOT NULL ORDER BY F_CD
 
+            DataTable dtFromFundControl = commonGatewayObj.Select(strQLastBalDtFrFundControl);
+            if (dtFromFundControl != null && dtFromFundControl.Rows.Count > 0)
+            {
+                dtfundfolioMaxdate = dtFromFundControl.Rows[0]["BAL_DT"].ToString();
+
+            }
+            else
+            {
+                dtfundfolioMaxdate = "";
+            }
         }
         else
         {
@@ -135,7 +169,17 @@ public partial class AdvancedBalanceUpdateProcess : System.Web.UI.Page
 
         }
 
-        string strlastUpdt = Convert.ToDateTime(dtfundfolioMaxdate).ToString("dd-MMM-yyyy");
+        if (!string.IsNullOrEmpty(dtfundfolioMaxdate))
+        {
+            strlastUpdt = Convert.ToDateTime(dtfundfolioMaxdate).ToString("dd-MMM-yyyy");
+
+
+        }
+        else
+        {
+            strlastUpdt = "";
+        }
+       
 
         if (!string.IsNullOrEmpty(strlastUpdt))
         {
@@ -203,14 +247,194 @@ public partial class AdvancedBalanceUpdateProcess : System.Web.UI.Page
 
         }
     }
-    protected void balanceDate_SelectedIndexChanged(object sender, EventArgs e)
+    protected void btnProcess_Click(object sender, EventArgs e)
     {
-        checkFundByBalanceDate();
 
+
+        // string confirmValue = Request.Form["confirm_value"];
+        string confirmValue = HiddenField1.Value;
+        if (confirmValue == "Yes")
+        {
+           this.Page.ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('You clicked YES!')", true);
+            DateTime? dtimeBalanceDate, dtimeLastBalDate;
+            DateTime? dtimeLastUpadateDate, dtimeLastUpadatePlusOneDate;
+            lblProcessing.Text = "";
+
+            string strtxtBalanceDate, strlastUpdt, dtfundfolioMaxdate = "", strLastUpadateDate, strLastUpadatePlusOneDate; ;
+
+            DateTime dtimeCurrentDate = DateTime.Now;
+
+            string currentDate = Convert.ToDateTime(dtimeCurrentDate).ToString("dd-MMM-yyyy");
+
+            if (!string.IsNullOrEmpty(txtBalanceDate.Text))
+            {
+                strtxtBalanceDate = txtBalanceDate.Text;
+            }
+            else
+            {
+                strtxtBalanceDate = currentDate;
+            }
+
+            if (!string.IsNullOrEmpty(strtxtBalanceDate))
+            {
+                txtBalanceDate.Text = strtxtBalanceDate;
+                Session["BalanceDate"] = strtxtBalanceDate;
+
+            }
+
+            string strNoOfMaxBaLDt = "select count(*)noofmaxbaldt  from fund_control where bal_dt = (select max(bal_dt) from fund_control)";
+            DataTable dtnoOfMaxBaLDt = commonGatewayObj.Select(strNoOfMaxBaLDt);
+
+            string strNoOfFund = "SELECT count(*)NoofFund from  FUND WHERE IS_F_CLOSE IS NULL AND BOID IS NOT NULL ORDER BY F_CD";
+            DataTable dtStrNoofFund = commonGatewayObj.Select(strNoOfFund);
+
+            if (dtnoOfMaxBaLDt.Rows[0]["noofmaxbaldt"].ToString() == dtStrNoofFund.Rows[0]["NoofFund"].ToString())
+            {
+                string strQLastBalDtFrFundControl = "select max(BAL_DT) as BAL_DT from fund_control";
+                //select count(*)noofmaxbaldt  from fund_control where bal_dt = (select max(bal_dt) from fund_control)
+                //SELECT F_NAME, F_CD FROM FUND WHERE IS_F_CLOSE IS NULL AND BOID IS NOT NULL ORDER BY F_CD
+
+                DataTable dtFromFundControl = commonGatewayObj.Select(strQLastBalDtFrFundControl);
+                if (dtFromFundControl != null && dtFromFundControl.Rows.Count > 0)
+                {
+                    dtfundfolioMaxdate = dtFromFundControl.Rows[0]["BAL_DT"].ToString();
+
+                }
+                else
+                {
+                    dtfundfolioMaxdate = "";
+                }
+            }
+            else
+            {
+                dtfundfolioMaxdate = "";
+            }
+
+
+
+            if (!string.IsNullOrEmpty(dtfundfolioMaxdate))
+            {
+                dtimeLastBalDate = Convert.ToDateTime(dtfundfolioMaxdate);
+
+
+            }
+            else
+            {
+                dtimeLastBalDate = null;
+
+            }
+
+            if (!string.IsNullOrEmpty(strtxtBalanceDate))
+            {
+                dtimeBalanceDate = Convert.ToDateTime(strtxtBalanceDate);
+
+
+            }
+            else
+            {
+                dtimeBalanceDate = dtimeCurrentDate;
+
+            }
+
+            if (!string.IsNullOrEmpty(dtfundfolioMaxdate))
+            {
+                strlastUpdt = Convert.ToDateTime(dtfundfolioMaxdate).ToString("dd-MMM-yyyy");
+
+
+            }
+            else
+            {
+                strlastUpdt = "";
+            }
+
+
+            if (!string.IsNullOrEmpty(strlastUpdt))
+            {
+                dtimeLastUpadateDate = Convert.ToDateTime(strlastUpdt);
+                strLastUpadateDate = dtimeLastUpadateDate.Value.ToString("dd-MMM-yyyy");
+                dtimeLastUpadatePlusOneDate = dtimeLastUpadateDate.Value.AddDays(1);
+                strLastUpadatePlusOneDate = dtimeLastUpadatePlusOneDate.Value.ToString("dd-MMM-yyyy");
+            }
+            else
+            {
+                dtimeLastUpadateDate = null;
+                strLastUpadateDate = "";
+                dtimeLastUpadatePlusOneDate = null;
+                strLastUpadatePlusOneDate = "";
+            }
+
+            if (dtimeLastBalDate > dtimeBalanceDate)
+            {
+
+                btnProcess.Visible = false;
+                ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Balance date must be greater than " + strlastUpdt + "');", true);
+            }
+            else if (strtxtBalanceDate == strlastUpdt)
+            {
+                //lblProcessing.Text = "Data Already Updated";
+                ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Data already updated!!');", true);
+            }
+            else
+            {
+                string strQuery;
+
+                DataTable dtFromFundTransHB = new DataTable();
+
+
+                strQuery = "select TO_CHAR(vch_dt,'DD-MON-YYYY')vch_dt, f_cd, comp_cd, no_share, rate, nvl(amount,0)amount,amt_aft_com, tran_tp, stock_ex from fund_trans_hb" +
+                " where vch_dt between '" + strLastUpadatePlusOneDate + "' and '" + strtxtBalanceDate + "'" +
+                " order by  vch_dt,comp_cd";
+
+                dtFromFundTransHB = commonGatewayObj.Select(strQuery);
+
+                if (dtFromFundTransHB != null && dtFromFundTransHB.Rows.Count > 0)
+                {
+
+                    DataTable tblAllfundInfo = getTblAllFundInfo(strtxtBalanceDate);
+                    grdShowDSEMP.DataSource = tblAllfundInfo;
+                    grdShowDSEMP.DataBind();
+
+
+                    if (tblAllfundInfo.Rows.Count > 0)
+                    {
+                        btnProcess.Visible = true;
+                        if (tblAllfundInfo.Rows.Count > 0)
+                        {
+                            Save(tblAllfundInfo);
+                        }
+                        else
+                        {
+                            ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('No Data Found');", true);
+                        }
+                    }
+                    else
+                    {
+                        ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('No Data Found');", true);
+                    }
+                }
+                else
+                {
+                    btnProcess.Visible = false;
+                    ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('No Data Found');", true);
+
+                }
+
+
+            }
+         
+
+        }
+        else
+        {
+            this.Page.ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('You clicked NO!')", true);
+        }
+       
     }
+
+
     public DataTable getTblAllFundInfo(string balanceDate)
     {
-        string  strQLastBalDtFrFundControl, strBalanceDate, strLastBalDate, strLastUpadateDate, strMarketPriceDate, strLastUpadatePlusOneDate, strQForSellShares, strQForPurchaseShares, strQForMrktPrice;
+        string strQLastBalDtFrFundControl, strBalanceDate, strLastBalDate, strLastUpadateDate, strMarketPriceDate, strLastUpadatePlusOneDate, strQForSellShares, strQForPurchaseShares, strQForMrktPrice;
         DateTime? dtimeBalanceDate, dtimeLastBalDate, dtimeLastUpadateDate, dtMarketPriceDate, dtimeLastUpadatePlusOneDate;
 
         string strtxtBalanceDate, strtxtLastUpadateDate, strtxtLastBalDate, txtMarketPriceDate, strtxtNoSaleRecord, strtxtNoOfSaleShare, strtxtNoPurchaseRecord, strtxtNoPurchaseShares;
@@ -266,149 +490,149 @@ public partial class AdvancedBalanceUpdateProcess : System.Web.UI.Page
             {
                 //if (dtFromDual.Rows.Count > 0)
                 //{
-                    strQLastBalDtFrFundControl = "select TO_CHAR(bal_dt,'DD-MON-YYYY')lst_bal_dt from fund_control where f_cd =" + dtFundNameDropDownList.Rows[i]["F_CD"].ToString();
+                strQLastBalDtFrFundControl = "select TO_CHAR(bal_dt,'DD-MON-YYYY')lst_bal_dt from fund_control where f_cd =" + dtFundNameDropDownList.Rows[i]["F_CD"].ToString();
 
-                    dtFromFundControl = commonGatewayObj.Select(strQLastBalDtFrFundControl);
-                    if (dtFromFundControl != null && dtFromFundControl.Rows.Count > 0)
-                    {
+                dtFromFundControl = commonGatewayObj.Select(strQLastBalDtFrFundControl);
+                if (dtFromFundControl != null && dtFromFundControl.Rows.Count > 0)
+                {
 
-                        strtxtLastUpadateDate = dtFromFundControl.Rows[0]["lst_bal_dt"].ToString();
-                        strtxtLastBalDate = dtFromFundControl.Rows[0]["lst_bal_dt"].ToString();
+                    strtxtLastUpadateDate = dtFromFundControl.Rows[0]["lst_bal_dt"].ToString();
+                    strtxtLastBalDate = dtFromFundControl.Rows[0]["lst_bal_dt"].ToString();
 
-                    }
-                    else
-                    {
-                        strtxtLastUpadateDate = "30-JUN-2005";
-                        strtxtLastBalDate = "";
-                    }
-
-
-                    if (!string.IsNullOrEmpty(strtxtBalanceDate))
-                    {
-                        dtimeBalanceDate = Convert.ToDateTime(strtxtBalanceDate);
-
-                        strBalanceDate = dtimeBalanceDate.Value.ToString("dd-MMM-yyyy");
-                    }
-                    else
-                    {
-                        dtimeBalanceDate = null;
-                        strBalanceDate = "";
-                    }
+                }
+                else
+                {
+                    strtxtLastUpadateDate = "30-JUN-2005";
+                    strtxtLastBalDate = "";
+                }
 
 
-                    if (!string.IsNullOrEmpty(strtxtLastBalDate))
-                    {
-                        dtimeLastBalDate = Convert.ToDateTime(strtxtLastBalDate);
-                        strLastBalDate = dtimeLastBalDate.Value.ToString("dd-MMM-yyyy");
-                    }
-                    else
-                    {
-                        dtimeLastBalDate = null;
-                        strLastBalDate = "";
-                    }
+                if (!string.IsNullOrEmpty(strtxtBalanceDate))
+                {
+                    dtimeBalanceDate = Convert.ToDateTime(strtxtBalanceDate);
+
+                    strBalanceDate = dtimeBalanceDate.Value.ToString("dd-MMM-yyyy");
+                }
+                else
+                {
+                    dtimeBalanceDate = null;
+                    strBalanceDate = "";
+                }
 
 
-                    if (!string.IsNullOrEmpty(strtxtLastUpadateDate))
-                    {
-                        dtimeLastUpadateDate = Convert.ToDateTime(strtxtLastUpadateDate);
-                        strLastUpadateDate = dtimeLastUpadateDate.Value.ToString("dd-MMM-yyyy");
-                        dtimeLastUpadatePlusOneDate = dtimeLastUpadateDate.Value.AddDays(1);
-                        strLastUpadatePlusOneDate = dtimeLastUpadatePlusOneDate.Value.ToString("dd-MMM-yyyy");
-                    }
-                    else
-                    {
-                        dtimeLastUpadateDate = null;
-                        strLastUpadateDate = "";
-                        dtimeLastUpadatePlusOneDate = null;
-                        strLastUpadatePlusOneDate = "";
-                    }
+                if (!string.IsNullOrEmpty(strtxtLastBalDate))
+                {
+                    dtimeLastBalDate = Convert.ToDateTime(strtxtLastBalDate);
+                    strLastBalDate = dtimeLastBalDate.Value.ToString("dd-MMM-yyyy");
+                }
+                else
+                {
+                    dtimeLastBalDate = null;
+                    strLastBalDate = "";
+                }
 
 
-
-                    strQForMrktPrice = "select TO_CHAR(max(Tran_date),'DD-MON-YYYY')mp_dt from market_price where tran_date <='" + strBalanceDate + "'";
-
-                    dtFromMarketPrice = commonGatewayObj.Select(strQForMrktPrice);
-                    if (dtFromMarketPrice != null && dtFromMarketPrice.Rows.Count > 0)
-                    {
-
-                        txtMarketPriceDate = dtFromMarketPrice.Rows[0]["mp_dt"].ToString();
-
-
-                    }
-                    else
-                    {
-                        txtMarketPriceDate = "";
-                    }
-                    if (dtimeBalanceDate <= dtimeLastUpadateDate)
-                    {
-
-                        strtxtLastUpadateDate = "01-JUL-2002";
-                        //  ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Process will be started from July 2002.');", true);
-                    }
-
-
-                    if (!string.IsNullOrEmpty(txtMarketPriceDate))
-                    {
-                        dtMarketPriceDate = Convert.ToDateTime(txtMarketPriceDate);
-                        strMarketPriceDate = dtMarketPriceDate.Value.ToString("dd-MMM-yyyy");
-                    }
-                    else
-                    {
-                        dtMarketPriceDate = null;
-                        strMarketPriceDate = "";
-                    }
+                if (!string.IsNullOrEmpty(strtxtLastUpadateDate))
+                {
+                    dtimeLastUpadateDate = Convert.ToDateTime(strtxtLastUpadateDate);
+                    strLastUpadateDate = dtimeLastUpadateDate.Value.ToString("dd-MMM-yyyy");
+                    dtimeLastUpadatePlusOneDate = dtimeLastUpadateDate.Value.AddDays(1);
+                    strLastUpadatePlusOneDate = dtimeLastUpadatePlusOneDate.Value.ToString("dd-MMM-yyyy");
+                }
+                else
+                {
+                    dtimeLastUpadateDate = null;
+                    strLastUpadateDate = "";
+                    dtimeLastUpadatePlusOneDate = null;
+                    strLastUpadatePlusOneDate = "";
+                }
 
 
 
+                strQForMrktPrice = "select TO_CHAR(max(Tran_date),'DD-MON-YYYY')mp_dt from market_price where tran_date <='" + strBalanceDate + "'";
 
-                    strQForSellShares = "select  count(*)NoSaleRecord,sum(no_share)NoSaleShares from fund_trans_hb where f_cd =" + dtFundNameDropDownList.Rows[i]["F_CD"].ToString() +
-              " and tran_tp = 'S' and vch_dt between '" + strLastUpadatePlusOneDate + "' and '" + strBalanceDate + "'";
+                dtFromMarketPrice = commonGatewayObj.Select(strQForMrktPrice);
+                if (dtFromMarketPrice != null && dtFromMarketPrice.Rows.Count > 0)
+                {
 
-                    dtFromFundTrHBForSale = commonGatewayObj.Select(strQForSellShares);
-                    if (dtFromFundTrHBForSale != null && dtFromFundTrHBForSale.Rows.Count > 0)
-                    {
-                        strtxtNoSaleRecord = dtFromFundTrHBForSale.Rows[0]["NoSaleRecord"].ToString();
-                        strtxtNoOfSaleShare = dtFromFundTrHBForSale.Rows[0]["NoSaleShares"].ToString();
-
-                    }
-                    else
-                    {
-                        strtxtNoSaleRecord = "0";
-                        strtxtNoOfSaleShare = "0";
-
-                    }
-
-
-                     strQForPurchaseShares = "select  count(*)NoPurchaseRecord,sum(no_share)NoPurchaseShares from fund_trans_hb where f_cd =" + dtFundNameDropDownList.Rows[i]["F_CD"].ToString() +
-                " and tran_tp = 'C' and vch_dt between '" + strLastUpadatePlusOneDate + "' and '" + strBalanceDate + "'";
-
-                    dtFromFundTrHBForBuy = commonGatewayObj.Select(strQForPurchaseShares);
-                    if (dtFromFundTrHBForBuy.Rows.Count > 0)
-                    {
-                        strtxtNoPurchaseRecord = dtFromFundTrHBForBuy.Rows[0]["NoPurchaseRecord"].ToString();
-                        strtxtNoPurchaseShares = dtFromFundTrHBForBuy.Rows[0]["NoPurchaseShares"].ToString();
-
-                    }
-                    else
-                    {
-                        strtxtNoPurchaseRecord = "0";
-                        strtxtNoPurchaseShares = "0";
-
-                    }
-
-
-                    tblAllfundInfo.Rows.Add(Convert.ToInt32(dtFundNameDropDownList.Rows[i]["F_CD"].ToString()), dtFundNameDropDownList.Rows[i]["F_NAME"].ToString(), strBalanceDate, strLastUpadateDate, strLastBalDate, strMarketPriceDate, strtxtNoSaleRecord, strtxtNoOfSaleShare, strtxtNoPurchaseRecord, strtxtNoPurchaseShares);
-
+                    txtMarketPriceDate = dtFromMarketPrice.Rows[0]["mp_dt"].ToString();
 
 
                 }
+                else
+                {
+                    txtMarketPriceDate = "";
+                }
+                if (dtimeBalanceDate <= dtimeLastUpadateDate)
+                {
+
+                    strtxtLastUpadateDate = "01-JUL-2002";
+                    //  ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Process will be started from July 2002.');", true);
+                }
+
+
+                if (!string.IsNullOrEmpty(txtMarketPriceDate))
+                {
+                    dtMarketPriceDate = Convert.ToDateTime(txtMarketPriceDate);
+                    strMarketPriceDate = dtMarketPriceDate.Value.ToString("dd-MMM-yyyy");
+                }
+                else
+                {
+                    dtMarketPriceDate = null;
+                    strMarketPriceDate = "";
+                }
+
+
+
+
+                strQForSellShares = "select  count(*)NoSaleRecord,sum(no_share)NoSaleShares from fund_trans_hb where f_cd =" + dtFundNameDropDownList.Rows[i]["F_CD"].ToString() +
+          " and tran_tp = 'S' and vch_dt between '" + strLastUpadatePlusOneDate + "' and '" + strBalanceDate + "'";
+
+                dtFromFundTrHBForSale = commonGatewayObj.Select(strQForSellShares);
+                if (dtFromFundTrHBForSale != null && dtFromFundTrHBForSale.Rows.Count > 0)
+                {
+                    strtxtNoSaleRecord = dtFromFundTrHBForSale.Rows[0]["NoSaleRecord"].ToString();
+                    strtxtNoOfSaleShare = dtFromFundTrHBForSale.Rows[0]["NoSaleShares"].ToString();
+
+                }
+                else
+                {
+                    strtxtNoSaleRecord = "0";
+                    strtxtNoOfSaleShare = "0";
+
+                }
+
+
+                strQForPurchaseShares = "select  count(*)NoPurchaseRecord,sum(no_share)NoPurchaseShares from fund_trans_hb where f_cd =" + dtFundNameDropDownList.Rows[i]["F_CD"].ToString() +
+           " and tran_tp = 'C' and vch_dt between '" + strLastUpadatePlusOneDate + "' and '" + strBalanceDate + "'";
+
+                dtFromFundTrHBForBuy = commonGatewayObj.Select(strQForPurchaseShares);
+                if (dtFromFundTrHBForBuy.Rows.Count > 0)
+                {
+                    strtxtNoPurchaseRecord = dtFromFundTrHBForBuy.Rows[0]["NoPurchaseRecord"].ToString();
+                    strtxtNoPurchaseShares = dtFromFundTrHBForBuy.Rows[0]["NoPurchaseShares"].ToString();
+
+                }
+                else
+                {
+                    strtxtNoPurchaseRecord = "0";
+                    strtxtNoPurchaseShares = "0";
+
+                }
+
+
+                tblAllfundInfo.Rows.Add(Convert.ToInt32(dtFundNameDropDownList.Rows[i]["F_CD"].ToString()), dtFundNameDropDownList.Rows[i]["F_NAME"].ToString(), strBalanceDate, strLastUpadateDate, strLastBalDate, strMarketPriceDate, strtxtNoSaleRecord, strtxtNoOfSaleShare, strtxtNoPurchaseRecord, strtxtNoPurchaseShares);
+
+
+
+            }
 
             //}
 
         }
         return tblAllfundInfo;
     }
-    
+
 
     public void Save(DataTable dt)
     {
