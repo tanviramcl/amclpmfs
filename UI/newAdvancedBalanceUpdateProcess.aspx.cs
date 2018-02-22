@@ -368,11 +368,13 @@ public partial class AdvancedBalanceUpdateProcess : System.Web.UI.Page
 
                 btnProcess.Visible = false;
                 ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Balance date must be greater than " + strlastUpdt + "');", true);
+
             }
             else if (strtxtBalanceDate == strlastUpdt)
             {
                 //lblProcessing.Text = "Data Already Updated";
                 ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Data already updated!!');", true);
+                lblProcessing.Text = "Data already updated!!";
             }
             else
             {
@@ -404,18 +406,21 @@ public partial class AdvancedBalanceUpdateProcess : System.Web.UI.Page
                         }
                         else
                         {
-                            ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('No Data Found');", true);
+                           // ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('No Data Found');", true);
+                            lblProcessing.Text = "No Data Found";
                         }
                     }
                     else
                     {
-                        ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('No Data Found');", true);
+                        //ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('No Data Found');", true);
+                        lblProcessing.Text = "No Data Found";
                     }
                 }
                 else
                 {
                     btnProcess.Visible = false;
-                    ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('No Data Found');", true);
+                   // ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('No Data Found');", true);
+                    lblProcessing.Text = "No Data Found";
 
                 }
 
