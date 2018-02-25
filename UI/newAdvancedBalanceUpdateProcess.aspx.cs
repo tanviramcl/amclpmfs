@@ -90,10 +90,10 @@ public partial class AdvancedBalanceUpdateProcess : System.Web.UI.Page
     public void checkFundByBalanceDate()
     {
         DateTime? dtimeBalanceDate, dtimeLastBalDate;
-        DateTime? dtimeLastUpadateDate, dtimeLastUpadatePlusOneDate;
+        DateTime? dtimeLastUpadateDate;
         lblProcessing.Text = "";
 
-        string strtxtBalanceDate, strlastUpdt, dtfundfolioMaxdate = "", strLastUpadateDate, strLastUpadatePlusOneDate; ;
+        string strtxtBalanceDate, strlastUpdt, dtfundfolioMaxdate = "", strLastUpadateDate;
 
         DateTime dtimeCurrentDate = DateTime.Now;
 
@@ -185,15 +185,13 @@ public partial class AdvancedBalanceUpdateProcess : System.Web.UI.Page
         {
             dtimeLastUpadateDate = Convert.ToDateTime(strlastUpdt);
             strLastUpadateDate = dtimeLastUpadateDate.Value.ToString("dd-MMM-yyyy");
-            dtimeLastUpadatePlusOneDate = dtimeLastUpadateDate.Value.AddDays(1);
-            strLastUpadatePlusOneDate = dtimeLastUpadatePlusOneDate.Value.ToString("dd-MMM-yyyy");
+           
         }
         else
         {
             dtimeLastUpadateDate = null;
             strLastUpadateDate = "";
-            dtimeLastUpadatePlusOneDate = null;
-            strLastUpadatePlusOneDate = "";
+            
         }
 
         if (dtimeLastBalDate > dtimeBalanceDate)
@@ -215,7 +213,7 @@ public partial class AdvancedBalanceUpdateProcess : System.Web.UI.Page
 
 
             strQuery = "select TO_CHAR(vch_dt,'DD-MON-YYYY')vch_dt, f_cd, comp_cd, no_share, rate, nvl(amount,0)amount,amt_aft_com, tran_tp, stock_ex from fund_trans_hb" +
-            " where vch_dt between '" + strLastUpadatePlusOneDate + "' and '" + strtxtBalanceDate + "'" +
+            " where vch_dt='" + strtxtBalanceDate + "'" +
             " order by  vch_dt,comp_cd";
 
             dtFromFundTransHB = commonGatewayObj.Select(strQuery);
@@ -255,12 +253,12 @@ public partial class AdvancedBalanceUpdateProcess : System.Web.UI.Page
         string confirmValue = HiddenField1.Value;
         if (confirmValue == "Yes")
         {
-           this.Page.ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('You clicked YES!')", true);
+            this.Page.ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('You clicked YES!')", true);
             DateTime? dtimeBalanceDate, dtimeLastBalDate;
-            DateTime? dtimeLastUpadateDate, dtimeLastUpadatePlusOneDate;
+            DateTime? dtimeLastUpadateDate;
             lblProcessing.Text = "";
 
-            string strtxtBalanceDate, strlastUpdt, dtfundfolioMaxdate = "", strLastUpadateDate, strLastUpadatePlusOneDate; ;
+            string strtxtBalanceDate, strlastUpdt, dtfundControlMaxdate = "", strLastUpadateDate ;
 
             DateTime dtimeCurrentDate = DateTime.Now;
 
@@ -297,24 +295,24 @@ public partial class AdvancedBalanceUpdateProcess : System.Web.UI.Page
                 DataTable dtFromFundControl = commonGatewayObj.Select(strQLastBalDtFrFundControl);
                 if (dtFromFundControl != null && dtFromFundControl.Rows.Count > 0)
                 {
-                    dtfundfolioMaxdate = dtFromFundControl.Rows[0]["BAL_DT"].ToString();
+                    dtfundControlMaxdate = dtFromFundControl.Rows[0]["BAL_DT"].ToString();
 
                 }
                 else
                 {
-                    dtfundfolioMaxdate = "";
+                    dtfundControlMaxdate = "";
                 }
             }
             else
             {
-                dtfundfolioMaxdate = "";
+                dtfundControlMaxdate = "";
             }
 
 
 
-            if (!string.IsNullOrEmpty(dtfundfolioMaxdate))
+            if (!string.IsNullOrEmpty(dtfundControlMaxdate))
             {
-                dtimeLastBalDate = Convert.ToDateTime(dtfundfolioMaxdate);
+                dtimeLastBalDate = Convert.ToDateTime(dtfundControlMaxdate);
 
 
             }
@@ -336,9 +334,9 @@ public partial class AdvancedBalanceUpdateProcess : System.Web.UI.Page
 
             }
 
-            if (!string.IsNullOrEmpty(dtfundfolioMaxdate))
+            if (!string.IsNullOrEmpty(dtfundControlMaxdate))
             {
-                strlastUpdt = Convert.ToDateTime(dtfundfolioMaxdate).ToString("dd-MMM-yyyy");
+                strlastUpdt = Convert.ToDateTime(dtfundControlMaxdate).ToString("dd-MMM-yyyy");
 
 
             }
@@ -352,15 +350,15 @@ public partial class AdvancedBalanceUpdateProcess : System.Web.UI.Page
             {
                 dtimeLastUpadateDate = Convert.ToDateTime(strlastUpdt);
                 strLastUpadateDate = dtimeLastUpadateDate.Value.ToString("dd-MMM-yyyy");
-                dtimeLastUpadatePlusOneDate = dtimeLastUpadateDate.Value.AddDays(1);
-                strLastUpadatePlusOneDate = dtimeLastUpadatePlusOneDate.Value.ToString("dd-MMM-yyyy");
+                //dtimeLastUpadatePlusOneDate = dtimeLastUpadateDate.Value.AddDays(1);
+                //strLastUpadatePlusOneDate = dtimeLastUpadatePlusOneDate.Value.ToString("dd-MMM-yyyy");
             }
             else
             {
                 dtimeLastUpadateDate = null;
                 strLastUpadateDate = "";
-                dtimeLastUpadatePlusOneDate = null;
-                strLastUpadatePlusOneDate = "";
+                //dtimeLastUpadatePlusOneDate = null;
+                //strLastUpadatePlusOneDate = "";
             }
 
             if (dtimeLastBalDate > dtimeBalanceDate)
@@ -376,7 +374,7 @@ public partial class AdvancedBalanceUpdateProcess : System.Web.UI.Page
                 ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Data already updated!!');", true);
                 lblProcessing.Text = "Data already updated!!";
             }
-            else
+            else  // Normal case
             {
                 string strQuery;
 
@@ -384,7 +382,7 @@ public partial class AdvancedBalanceUpdateProcess : System.Web.UI.Page
 
 
                 strQuery = "select TO_CHAR(vch_dt,'DD-MON-YYYY')vch_dt, f_cd, comp_cd, no_share, rate, nvl(amount,0)amount,amt_aft_com, tran_tp, stock_ex from fund_trans_hb" +
-                " where vch_dt between '" + strLastUpadatePlusOneDate + "' and '" + strtxtBalanceDate + "'" +
+                " where vch_dt ='" + strtxtBalanceDate + "'" +
                 " order by  vch_dt,comp_cd";
 
                 dtFromFundTransHB = commonGatewayObj.Select(strQuery);
@@ -413,7 +411,9 @@ public partial class AdvancedBalanceUpdateProcess : System.Web.UI.Page
                     else
                     {
                         //ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('No Data Found');", true);
+                        btnProcess.Visible = false;
                         lblProcessing.Text = "No Data Found";
+
                     }
                 }
                 else

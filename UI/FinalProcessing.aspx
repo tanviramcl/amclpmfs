@@ -99,10 +99,11 @@
                     <ContentTemplate>
                         <asp:Label ID="lblProcessing" runat="server" Text="" Style="font-size: 20px; color: green; width:300px"></asp:Label>
                         <br />
-
-                        <asp:Button ID="btnProcessingforBackup" runat="server"  CssClass="buttoncommon" Style="width: 195px; height: 30px; font-size: 16px; margin-bottom: 20px;" Text="Processing for Backup" OnClick="btnProcessingforBackup_Click" />
+                        <asp:HiddenField ID="HiddenField1" runat="server" />
+                        <asp:Button ID="btnProcessingforBackup" runat="server"  CssClass="buttoncommon" Style="width: 195px; height: 30px; font-size: 16px; margin-bottom: 20px;" Text="Processing for Backup" OnClick="btnProcessingforBackup_Click" OnClientClick="fnCloseModal();" />
                         <br />
-                        <asp:Button ID="btnDelete" runat="server" CssClass="buttoncommon" Style="width: 195px; height: 30px; font-size: 16px;" Text="Delete" OnClick="btnDelete_Click"  OnClientClick="return Confirm();"/></td>
+                        <asp:HiddenField ID="HiddenField2" runat="server" />
+                        <asp:Button ID="btnDelete" runat="server" CssClass="buttoncommon" Style="width: 195px; height: 30px; font-size: 16px;" Text="Delete" OnClick="btnDelete_Click" OnClientClick="fnDeleteCloseModal();" /></td>
                     </ContentTemplate>
                 </asp:UpdatePanel>
             </td>
@@ -146,29 +147,26 @@
       });
 
     </script>
-
-     <script type = "text/javascript">
-
-        function Confirm()
-         {
-
-            var confirm_value = document.createElement("INPUT");
-            confirm_value.type = "hidden";
-            confirm_value.name = "confirm_value";
-          
-               
-            if (confirm("Do you realy want to delete data of date:  " + document.getElementById("<%=txtbalanceDate2.ClientID %>").value +"?"))
-            {
-                confirm_value.value = "Yes";
-
+         <script type="text/javascript">
+        function fnCloseModal() {
+        
+            if (confirm("Do you want to Proceed......!!!!")) {
+              //  $("#HiddenField1").val("Yes");
+                $("#<%=HiddenField1.ClientID%>").val("Yes");
+            } else {
+               // $("#HiddenField1").val("No");
+                $("#<%=HiddenField1.ClientID%>").val("No");
             }
-            else
-
-             {
-                confirm_value.value = "No";
+        }
+        function fnDeleteCloseModal() {
+        
+            if (confirm("Do you want to Delete......!!!!")) {
+              //  $("#HiddenField1").val("Yes");
+                $("#<%=HiddenField2.ClientID%>").val("Yes");
+            } else {
+               // $("#HiddenField1").val("No");
+                $("#<%=HiddenField2.ClientID%>").val("No");
             }
-
-            document.forms[0].appendChild(confirm_value);
         }
     </script>
 

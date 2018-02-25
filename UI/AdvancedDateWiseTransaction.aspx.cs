@@ -94,71 +94,50 @@ public partial class DateWiseTransaction : System.Web.UI.Page
 
     protected void btnProcess_Click(object sender, EventArgs e)
     {
-        string strProcessing;
-        DataTable dtDseabdCseFundINfo = new DataTable();
-        DataTable tblAllfundInforDSE = getTblAllFundFromHowlaInfo();
-        DataTable tblAllfundInfoCSE = getTblAllFundFromHowla_CSEInfo();
 
-        if (tblAllfundInforDSE != null && tblAllfundInforDSE.Rows.Count > 0)
+        string confirmValue = HiddenField1.Value;
+        if (confirmValue == "Yes")
         {
-            dtDseabdCseFundINfo.Merge(tblAllfundInforDSE);
-        }
-        if (tblAllfundInfoCSE != null && tblAllfundInfoCSE.Rows.Count > 0)
-        {
-            dtDseabdCseFundINfo.Merge(tblAllfundInfoCSE);
-        }
+            string strProcessing;
+            DataTable dtDseabdCseFundINfo = new DataTable();
+            DataTable tblAllfundInforDSE = getTblAllFundFromHowlaInfo();
+            DataTable tblAllfundInfoCSE = getTblAllFundFromHowla_CSEInfo();
 
-
-        if (dtDseabdCseFundINfo != null && dtDseabdCseFundINfo.Rows.Count > 0)
-        {
-            Save(dtDseabdCseFundINfo);
-        }
-        else
-        {
-
-            strProcessing = "No data found!!!!";
-
-            if (!string.IsNullOrEmpty(strProcessing))
+            if (tblAllfundInforDSE != null && tblAllfundInforDSE.Rows.Count > 0)
             {
-                lblProcessing.Text = strProcessing;
+                dtDseabdCseFundINfo.Merge(tblAllfundInforDSE);
+            }
+            if (tblAllfundInfoCSE != null && tblAllfundInfoCSE.Rows.Count > 0)
+            {
+                dtDseabdCseFundINfo.Merge(tblAllfundInfoCSE);
+            }
+
+
+            if (dtDseabdCseFundINfo != null && dtDseabdCseFundINfo.Rows.Count > 0)
+            {
+                Save(dtDseabdCseFundINfo);
             }
             else
             {
-                lblProcessing.Text = "";
+
+                strProcessing = "No data found!!!!";
+
+                if (!string.IsNullOrEmpty(strProcessing))
+                {
+                    lblProcessing.Text = strProcessing;
+                }
+                else
+                {
+                    lblProcessing.Text = "";
+                }
+
             }
-
         }
-
-        ////DataTable tblAllfundInfo = getTblAllFundInfo();
-        //string strProcessing;
-        //DataTable tblAllfundInforDSE = getTblAllFundFromHowlaInfo();
-        //DataTable tblAllfundInfoCSE = getTblAllFundFromHowla_CSEInfo();
-
-
-
-        //if (tblAllfundInforDSE != null && tblAllfundInforDSE.Rows.Count > 0)
-        //{
-        //    Save(tblAllfundInforDSE);
-        //}
-        //else if (tblAllfundInfoCSE != null && tblAllfundInfoCSE.Rows.Count > 0)
-        //{
-        //    Save(tblAllfundInfoCSE);
-        //}
-        //else
-        //{
-
-        //    strProcessing = "No data found!!!!";
-
-        //    if (!string.IsNullOrEmpty(strProcessing))
-        //    {
-        //        lblProcessing.Text = strProcessing;
-        //    }
-        //    else
-        //    {
-        //        lblProcessing.Text = "";
-        //    }
-
-        //}
+        else
+        {
+            this.Page.ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('You clicked NO!')", true);
+        }
+   
 
 
 
