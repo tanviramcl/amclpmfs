@@ -258,7 +258,7 @@ public partial class AdvancedBalanceUpdateProcess : System.Web.UI.Page
             DateTime? dtimeLastUpadateDate;
             lblProcessing.Text = "";
 
-            string strtxtBalanceDate, strlastUpdt, dtfundfolioMaxdate = "", strLastUpadateDate ;
+            string strtxtBalanceDate, strlastUpdt, dtfundControlMaxdate = "", strLastUpadateDate ;
 
             DateTime dtimeCurrentDate = DateTime.Now;
 
@@ -295,24 +295,24 @@ public partial class AdvancedBalanceUpdateProcess : System.Web.UI.Page
                 DataTable dtFromFundControl = commonGatewayObj.Select(strQLastBalDtFrFundControl);
                 if (dtFromFundControl != null && dtFromFundControl.Rows.Count > 0)
                 {
-                    dtfundfolioMaxdate = dtFromFundControl.Rows[0]["BAL_DT"].ToString();
+                    dtfundControlMaxdate = dtFromFundControl.Rows[0]["BAL_DT"].ToString();
 
                 }
                 else
                 {
-                    dtfundfolioMaxdate = "";
+                    dtfundControlMaxdate = "";
                 }
             }
             else
             {
-                dtfundfolioMaxdate = "";
+                dtfundControlMaxdate = "";
             }
 
 
 
-            if (!string.IsNullOrEmpty(dtfundfolioMaxdate))
+            if (!string.IsNullOrEmpty(dtfundControlMaxdate))
             {
-                dtimeLastBalDate = Convert.ToDateTime(dtfundfolioMaxdate);
+                dtimeLastBalDate = Convert.ToDateTime(dtfundControlMaxdate);
 
 
             }
@@ -334,9 +334,9 @@ public partial class AdvancedBalanceUpdateProcess : System.Web.UI.Page
 
             }
 
-            if (!string.IsNullOrEmpty(dtfundfolioMaxdate))
+            if (!string.IsNullOrEmpty(dtfundControlMaxdate))
             {
-                strlastUpdt = Convert.ToDateTime(dtfundfolioMaxdate).ToString("dd-MMM-yyyy");
+                strlastUpdt = Convert.ToDateTime(dtfundControlMaxdate).ToString("dd-MMM-yyyy");
 
 
             }
@@ -374,7 +374,7 @@ public partial class AdvancedBalanceUpdateProcess : System.Web.UI.Page
                 ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Data already updated!!');", true);
                 lblProcessing.Text = "Data already updated!!";
             }
-            else
+            else  // Normal case
             {
                 string strQuery;
 
