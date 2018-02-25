@@ -139,7 +139,7 @@
        <script type="text/javascript">
         function fnCloseModal() {
         
-            if (confirm("Do you want to Proceed......!!!!")) {
+            if (confirm("Do you want to proceed?")) {
               //  $("#HiddenField1").val("Yes");
                 $("#<%=HiddenField1.ClientID%>").val("Yes");
             } else {
