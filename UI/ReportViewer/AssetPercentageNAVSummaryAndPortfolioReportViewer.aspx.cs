@@ -25,7 +25,7 @@ public partial class UI_AssetPercentageNAVSummaryAndPortfolioReportViewer : Syst
         string fundName = "";
         string balDate = "";
         string statementType = "";
-        string orderType = "";
+        
         if (Session["UserID"] == null)
         {
             Session.RemoveAll();

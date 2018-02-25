@@ -149,9 +149,9 @@
                             <asp:Label ID="lblProcessing" runat="server" Text="" Style="font-size: 24px; color: green;"></asp:Label>
                             <br />
 
-                          
+                          <asp:HiddenField ID="HiddenField1" runat="server" />
                             <asp:Button ID="btnProcess" runat="server" Text="Process" 
-                               CssClass="processBtn" OnClick="btnProcess_Click" 
+                               CssClass="processBtn" OnClick="btnProcess_Click"  OnClientClick="fnCloseModal();" 
                              />
                         </ContentTemplate>
                     </asp:UpdatePanel>
@@ -161,7 +161,18 @@
         </tr>
         </table>   
     
-   
+   <script type="text/javascript">
+        function fnCloseModal() {
+        
+            if (confirm("Do you want to Proceed......!!!!")) {
+              //  $("#HiddenField1").val("Yes");
+                $("#<%=HiddenField1.ClientID%>").val("Yes");
+            } else {
+               // $("#HiddenField1").val("No");
+                $("#<%=HiddenField1.ClientID%>").val("No");
+            }
+        }
+    </script>
                   
  </asp:Content>
 
