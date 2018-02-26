@@ -196,7 +196,7 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
         }
         else
         {
-            this.Page.ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('You clicked NO!')", true);
+            this.Page.ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('No data deleted!')", true);
         }
 
 

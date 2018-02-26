@@ -150,7 +150,7 @@
          <script type="text/javascript">
         function fnCloseModal() {
         
-            if (confirm("Do you want to Proceed......!!!!")) {
+            if (confirm("Do you want to proceed....?")) {
               //  $("#HiddenField1").val("Yes");
                 $("#<%=HiddenField1.ClientID%>").val("Yes");
             } else {
@@ -160,7 +160,7 @@
         }
         function fnDeleteCloseModal() {
         
-            if (confirm("Do you want to Delete......!!!!")) {
+            if (confirm("Are you sure you really want to delete.....?")) {
               //  $("#HiddenField1").val("Yes");
                 $("#<%=HiddenField2.ClientID%>").val("Yes");
             } else {
