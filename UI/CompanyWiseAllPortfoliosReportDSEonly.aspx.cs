@@ -27,12 +27,18 @@ public partial class UI_CompanyWiseAllPortfoliosReportDSEonly : System.Web.UI.Pa
         }
         
         DataTable dtHowlaDateDropDownList = dropDownListObj.HowlaDateDropDownList();
+        DataTable dtCompanyNameDropDownList = dropDownListObj.FillCompanyNameDropDownList();
         if (!IsPostBack)
         {
             howlaDateDropDownList.DataSource = dtHowlaDateDropDownList;
             howlaDateDropDownList.DataTextField = "Howla_Date";
             howlaDateDropDownList.DataValueField = "VCH_DT";
             howlaDateDropDownList.DataBind();
+
+            companyNameDropDownList.DataSource = dtCompanyNameDropDownList;
+            companyNameDropDownList.DataTextField = "COMP_NM";
+            companyNameDropDownList.DataValueField = "COMP_CD";
+            companyNameDropDownList.DataBind();
 
             //  DataTable dtNoOfFunds = GetFundName();
             // DataTable dtFund = obj.GetFundGridTable();
@@ -128,8 +134,17 @@ public partial class UI_CompanyWiseAllPortfoliosReportDSEonly : System.Web.UI.Pa
         Session["fundCodes"] = SelectFundCode();
         Session["howlaDate"] = howlaDateDropDownList.SelectedValue.ToString();
         Session["percentageCheck"] = percentageTextBox.Text.ToString();
-        Session["companyCodes"] = companyCodeTextBox.Text.ToString();
+        string companyCode = companyNameDropDownList.SelectedValue;
+        if (companyCode == "0")
+        {
+            Session["companyCodes"] = "";
+        }
+        else
+        {
+            Session["companyCodes"] = companyCode;
+        }
 
+        //  Session["companyCodes"] = companyCodeTextBox.Text;
         // ClientScript.RegisterStartupScript(this.GetType(), "ReceivableCashDividendReportViewer", "window.open('ReportViewer/CompanyWiseAllPortfoliosReportDSEonlyReportViewer.aspx')", true);
         Response.Redirect("ReportViewer/CompanyWiseAllPortfoliosReportDSEonlyReportViewer.aspx");
     }
