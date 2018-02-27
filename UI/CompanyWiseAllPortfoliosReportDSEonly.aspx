@@ -10,7 +10,7 @@
                     {   CheckAllDataGridFundName(this.checked=false)       
                         document.getElementById("<%=howlaDateDropDownList.ClientID%>").value ="0";
                         document.getElementById("<%=percentageTextBox.ClientID%>").value ="";
-                        document.getElementById("<%=companyCodeTextBox.ClientID%>").value ="";
+                       
                         return false;
                     }
                     else
@@ -121,14 +121,15 @@
                 </td>
             </tr>
             <tr>
-                <td align="left" class="style5">Company Code(s):</td>
+                <td align="left" class="style5">Company Name:</td>
                 <td align="left">
-                    <asp:TextBox ID="companyCodeTextBox" runat ="server" TextMode="MultiLine" onkeypress= "fncInputCommaAndNumericValuesOnly()"
+<%--                    <asp:TextBox ID="companyCodeTextBox" runat ="server" TextMode="MultiLine" onkeypress= "fncInputCommaAndNumericValuesOnly()"
                         Width="450px" TabIndex="5"></asp:TextBox>
                          
                         <span>
                     <br />
-                    Example: 101 or 101,105,210</span>
+                    Example: 101 or 101,105,210</span>--%>
+                      <asp:DropDownList ID="companyNameDropDownList" runat="server" TabIndex="4"></asp:DropDownList>
                 </td>
             </tr>
             <tr>
