@@ -41,6 +41,7 @@
                 <td align="left">
                    
                     <asp:TextBox ID="companyNameTextBox" runat="server" Width="100px"></asp:TextBox>
+
                 </td>
             </tr>
             <tr>
@@ -48,7 +49,8 @@
                     <b>Sector </b>
                 </td>
                 <td align="left">
-                    <asp:TextBox ID="sectorTextBox" runat="server" Width="100px"></asp:TextBox>
+                   <%-- <asp:TextBox ID="sectorTextBox" runat="server" Width="100px"></asp:TextBox>--%>
+                     <asp:DropDownList ID="sectorDropDownList" runat="server" TabIndex="3"></asp:DropDownList>
                 </td>
 
                 <td align="left">
@@ -92,9 +94,10 @@
                 </td>
                 <td align="left">
                     <asp:TextBox ID="lasttradingdateTextBox" runat="server" Width="100px" ReadOnly="True"></asp:TextBox>
-                    <asp:ImageButton ID="lasttradingdateTextBoxImageButton" runat="server"
+                    <%--<asp:ImageButton ID="lasttradingdateTextBoxImageButton" runat="server"
                         ImageUrl="~/Image/Calendar_scheduleHS.png" TabIndex="7" />
                     <ajaxToolkit:CalendarExtender ID="lasttradingdateTextBoxCalendarExtender" runat="server" Format="dd-MMM-yyyy" PopupButtonID="lasttradingdateTextBoxImageButton" TargetControlID="lasttradingdateTextBox"></ajaxToolkit:CalendarExtender>
+                    <asp:TextBox ID="lastTradindDate" runat="server" Width="100px"></asp:TextBox>--%>
                 </td>
             </tr>
             <tr>
@@ -111,7 +114,7 @@
                     <b>CSE code</b>
                 </td>
                 <td align="left">
-                    <asp:TextBox ID="csecodeTextBox" runat="server" Width="100px" ReadOnly="True"></asp:TextBox>
+                    <asp:TextBox ID="csecodeTextBox" runat="server" Width="100px" ></asp:TextBox>
                 </td>
 
 
@@ -161,9 +164,9 @@
                 </td>
                 <td align="left">
                     <asp:TextBox ID="openingdateTextBox" runat="server" Width="100px"></asp:TextBox>
-                    <asp:ImageButton ID="openingdateTextBoxImageButton" runat="server"
+                  <%--  <asp:ImageButton ID="openingdateTextBoxImageButton" runat="server"
                         ImageUrl="~/Image/Calendar_scheduleHS.png" TabIndex="7" />
-                    <ajaxToolkit:CalendarExtender ID="openingdateTextBoxCalendarExtender" runat="server" Format="dd-MMM-yyyy" PopupButtonID="openingdateTextBoxImageButton" TargetControlID="openingdateTextBox"></ajaxToolkit:CalendarExtender>
+                    <ajaxToolkit:CalendarExtender ID="openingdateTextBoxCalendarExtender" runat="server" Format="dd-MMM-yyyy" PopupButtonID="openingdateTextBoxImageButton" TargetControlID="openingdateTextBox"></ajaxToolkit:CalendarExtender>--%>
                 </td>
                 <td align="left">
                     <b>Phone No</b>
@@ -212,9 +215,9 @@
                 </td>
                 <td align="left">
                     <asp:TextBox ID="baseupdateDateTextBox" runat="server" Width="100px"></asp:TextBox>
-                       <asp:ImageButton ID="baseupdateDateImageButton" runat="server"
+                    <%--   <asp:ImageButton ID="baseupdateDateImageButton" runat="server"
                         ImageUrl="~/Image/Calendar_scheduleHS.png" TabIndex="7" />
-                     <ajaxToolkit:CalendarExtender ID="baseupdateDateTextBoxCalendarExtender" runat="server" Format="dd-MMM-yyyy" PopupButtonID="baseupdateDateImageButton" TargetControlID="baseupdateDateTextBox"></ajaxToolkit:CalendarExtender>
+                     <ajaxToolkit:CalendarExtender ID="baseupdateDateTextBoxCalendarExtender" runat="server" Format="dd-MMM-yyyy" PopupButtonID="baseupdateDateImageButton" TargetControlID="baseupdateDateTextBox"></ajaxToolkit:CalendarExtender>--%>
 
                 </td>
                   <td align="left">
@@ -231,18 +234,18 @@
                 </td>
                 <td align="left">
                     <asp:TextBox ID="floatdatefromTextBox" runat="server" Width="100px"></asp:TextBox>
-                      <asp:ImageButton ID="floatdatefromTextBoxImageButton" runat="server"
+                      <%--<asp:ImageButton ID="floatdatefromTextBoxImageButton" runat="server"
                         ImageUrl="~/Image/Calendar_scheduleHS.png" TabIndex="7" />
-                     <ajaxToolkit:CalendarExtender ID="floatdatefromTextBoxCalendarExtender" runat="server" Format="dd-MMM-yyyy" PopupButtonID="floatdatefromTextBoxImageButton" TargetControlID="floatdatefromTextBox"></ajaxToolkit:CalendarExtender>
+                     <ajaxToolkit:CalendarExtender ID="floatdatefromTextBoxCalendarExtender" runat="server" Format="dd-MMM-yyyy" PopupButtonID="floatdatefromTextBoxImageButton" TargetControlID="floatdatefromTextBox"></ajaxToolkit:CalendarExtender>--%>
                 </td>
                 <td align="left">
                     <b>Float Date To</b>
                 </td>
                 <td align="left">
                     <asp:TextBox ID="floatdatetoTextBox" runat="server" Width="100px"></asp:TextBox>
-                    <asp:ImageButton ID="floatdatetoTextBoxImageButton" runat="server"
+                    <%--<asp:ImageButton ID="floatdatetoTextBoxImageButton" runat="server"
                         ImageUrl="~/Image/Calendar_scheduleHS.png" TabIndex="7" />
-                     <ajaxToolkit:CalendarExtender ID="floatdatetoTextBoxCalendarExtender" runat="server" Format="dd-MMM-yyyy" PopupButtonID="floatdatetoTextBoxImageButton" TargetControlID="floatdatetoTextBox"></ajaxToolkit:CalendarExtender>
+                     <ajaxToolkit:CalendarExtender ID="floatdatetoTextBoxCalendarExtender" runat="server" Format="dd-MMM-yyyy" PopupButtonID="floatdatetoTextBoxImageButton" TargetControlID="floatdatetoTextBox"></ajaxToolkit:CalendarExtender>--%>
                 </td>
 
               
@@ -253,18 +256,19 @@
                 </td>
                 <td align="left">
                     <asp:TextBox ID="RIssuefromTextBox" runat="server" Width="100px"></asp:TextBox>
-                      <asp:ImageButton ID="RIssuefromTextBoxImageButton" runat="server"
+                    <%--  <asp:ImageButton ID="RIssuefromTextBoxImageButton" runat="server"
                         ImageUrl="~/Image/Calendar_scheduleHS.png" TabIndex="7" />
-                     <ajaxToolkit:CalendarExtender ID="RIssuefromCalendarExtender" runat="server" Format="dd-MMM-yyyy" PopupButtonID="RIssuefromTextBoxImageButton" TargetControlID="RIssuefromTextBox"></ajaxToolkit:CalendarExtender>
+                     <ajaxToolkit:CalendarExtender ID="RIssuefromCalendarExtender" runat="server" Format="dd-MMM-yyyy" PopupButtonID="RIssuefromTextBoxImageButton" TargetControlID="RIssuefromTextBox"></ajaxToolkit:CalendarExtender>--%>
+
                 </td>
                 <td align="left">
                     <b>R Issue Date from To</b>
                 </td>
                 <td align="left">
                     <asp:TextBox ID="RIssuetoTextBox" runat="server" Width="100px"></asp:TextBox>
-                    <asp:ImageButton ID="RIssuetoTextBoxImageButton" runat="server"
+                   <%-- <asp:ImageButton ID="RIssuetoTextBoxImageButton" runat="server"
                         ImageUrl="~/Image/Calendar_scheduleHS.png" TabIndex="7" />
-                     <ajaxToolkit:CalendarExtender ID="RIssuetoTextBoxImageButtonCalendarExtender" runat="server" Format="dd-MMM-yyyy" PopupButtonID="RIssuetoTextBoxImageButton" TargetControlID="RIssuetoTextBox"></ajaxToolkit:CalendarExtender>
+                     <ajaxToolkit:CalendarExtender ID="RIssuetoTextBoxImageButtonCalendarExtender" runat="server" Format="dd-MMM-yyyy" PopupButtonID="RIssuetoTextBoxImageButton" TargetControlID="RIssuetoTextBox"></ajaxToolkit:CalendarExtender>--%>
                 </td>
 
               
@@ -280,7 +284,7 @@
                     <b>Paid Up capital</b>
                 </td>
                 <td align="left">
-                    <asp:TextBox ID="TextBoxPaidUpCapital" runat="server" Width="100px"></asp:TextBox>
+                    <asp:TextBox ID="TextBoxPaidUpCapital" runat="server"  Width="100px"></asp:TextBox>
                 </td>
                 
                  
@@ -290,7 +294,7 @@
                     <b>Authorized capital</b>
                 </td>
                 <td align="left">
-                    <asp:TextBox ID="TextBoxAuthorizedcapital" runat="server" Width="100px"></asp:TextBox>
+                    <asp:TextBox ID="TextBoxAuthorizedcapital" runat="server" type="number" Width="100px"></asp:TextBox>
                 </td>
                 
                 <td align="left">
@@ -392,21 +396,101 @@
          
     <script type="text/javascript">
     
+
+        $(function () {
+             $('#<%=lasttradingdateTextBox.ClientID%>').datepicker({
+                 changeMonth: true,
+                 changeYear: true,
+                //// dateFormat: "dd/mm/yy",
+                 //maxDate:"today",
+                 onSelect: function(selected) {
+                    
+                 }
+             });
+              $('#<%=openingdateTextBox.ClientID%>').datepicker({
+                 changeMonth: true,
+                 changeYear: true,
+                 //dateFormat: "dd/mm/yy",
+                 //maxDate:"today",
+                 onSelect: function(selected) {
+                    
+                 }
+             });
+
+          $('#<%=RIssuefromTextBox.ClientID%>').datepicker({
+                 changeMonth: true,
+                 changeYear: true,
+               //  dateFormat: "dd/mm/yy",
+                // maxDate:"today",
+                 onSelect: function(selected) {
+                    
+                 }
+             });
+             $('#<%=RIssuetoTextBox.ClientID%>').datepicker({ 
+                 changeMonth: true,
+                 changeYear: true,
+                 //dateFormat: "dd/mm/yy",
+                 //maxDate:"today",
+                 onSelect: function(selected) {
+
+                    
+
+                 }
+             });  
+               $('#<%=floatdatefromTextBox.ClientID%>').datepicker({
+                 changeMonth: true,
+                 changeYear: true,
+                 //dateFormat: "dd/mm/yy",
+                 //maxDate:"today",
+                 onSelect: function(selected) {
+                    
+                 }
+             });
+             $('#<%=floatdatetoTextBox.ClientID%>').datepicker({ 
+                 changeMonth: true,
+                 changeYear: true,
+                 //dateFormat: "dd/mm/yy",
+                 //maxDate:"today",
+                 onSelect: function(selected) {
+
+                    
+
+                 }
+             });  
+               $('#<%=baseupdateDateTextBox.ClientID%>').datepicker({ 
+                 changeMonth: true,
+                 changeYear: true,
+                 //dateFormat: "dd/mm/yy",
+                 //maxDate:"today",
+                 onSelect: function(selected) {
+
+                    
+
+                 }
+             }); 
+
+
+    });
+
+
         $.validator.addMethod("CheckDropDownList", function (value, element, param) {  
             if (value == '0')  
                 return false;  
             else  
                 return true;  
         },"Please select a Category."); 
-        
-        $.validator.addMethod("CheckDropDownList", function (value, element, param) {  
-            if (value == 'N')  
+
+        $.validator.addMethod("CheckSrcorDropDownList", function (value, element, param) {  
+            if (value == '0')  
                 return false;  
             else  
                 return true;  
-        },"Please select a Category.");   
-
-
+        },"Please select a Sector."); 
+        
+       <%-- $( "#<%=TextBoxAuthorizedcapital.ClientID%>" ).change(function() {
+            alert( "Handler for .change() called." );
+            $('#<%=TextBoxAuthorizedcapital.ClientID%>').prop('maxLength', 10);
+        });--%>
       
   
 
@@ -425,16 +509,22 @@
                         
                         required: true,
                         maxlength: 40
-                    }, <%=sectorTextBox.UniqueID %>: {
-                        
+                    }, <%=sectorDropDownList.UniqueID %>: {
                         required: true,
-                        maxlength: 4
+                        CheckSrcorDropDownList: true
                     },<%=categoryDropDownList.UniqueID %>: {
                         
-                        //required:true 
+                        required:true, 
                         CheckDropDownList:true
                         
-                    },<%=MarketLotTextBox.UniqueID %>: {
+                    }
+                    ,<%=TextBoxAuthorizedcapital.UniqueID %>: {
+                        
+                        //required: true,
+                        number:true,
+                        maxlength: 17
+                    }
+                   ,<%=MarketLotTextBox.UniqueID %>: {
                         
                         required: true,
                         number:true,
@@ -442,29 +532,74 @@
                     },<%=faceValueTextBox.UniqueID %>: {
                         
                         required: true,
-                        number:true
+                        number:true,
+                        maxlength:7
                       
                     },<%=dsecodeTextBox.UniqueID %>: {
                         
                         required: true,
                         maxlength:20
                       
-                    },<%=TextBoxPaidUpCapital.UniqueID %>: {
+                    },<%=csecodeTextBox.UniqueID %>: {
                         
                         required: true,
-                        number:true
+                        maxlength:20
+                      
+                    }
+                     ,<%=premiumTextBox.UniqueID %>: {
+                        
+                        number: true,
+                        maxlength:6
+                      
+                     }
+                     ,<%=merginTextBox.UniqueID %>: {
+                        
+                        number: true,
+                        maxlength:3
+                      
+                     }
+                    ,<%=productTextBox.UniqueID %>: {
+                        
+                        
+                        maxlength:50
+                      
+                    }
+                  ,<%=TextBoxPaidUpCapital.UniqueID %>: {
+                        
+                        required: true,
+                        number:true,
+                        maxlength:17
                        
                       
                     },<%=totalshareTextBox.UniqueID %>: {
                         
                         required: true,
-                        number:true
+                        number:true,
+                        maxlength:17
                       
                       
-                    },<%=baserateTextBox.UniqueID %>: {
+                    }
+                    ,<%=flugTextBox.UniqueID %>: {
                         
                         required: true,
-                        number:true
+                      
+                      
+                    } 
+                     ,<%=lasttradingdateTextBox.UniqueID %>: {
+                        
+                        required: true
+                      
+                     }
+                     ,<%=openingdateTextBox.UniqueID %>: {
+                        
+                        required: true
+                      
+                    }
+                    ,<%=baserateTextBox.UniqueID %>: {
+                        
+                        required: true,
+                        number:true,
+                        maxlength:12
                         
                       
                     },<%=ddltxtIsBuySellChargeApplicable.UniqueID %>: {
@@ -486,10 +621,6 @@
                         
                         required: "*Company name is required*",
                         maxlength:"* Please enter maximum 40 characters *"
-                    },<%=sectorTextBox.UniqueID %>: {
-                        
-                        required: "*Sector is required*",
-                        maxlength:"* Please enter maximum 4 characters *"
                     },<%=MarketLotTextBox.UniqueID %>: {
                         
                         required: "*Market Lot is required*",
@@ -503,7 +634,11 @@
                     },<%=dsecodeTextBox.UniqueID %>: {
                         required: "*Dse Code is required*",
                         maxlength:"* Please enter maximum 20 characters *"
-                    },<%=TextBoxPaidUpCapital.UniqueID %>: {
+                    },<%=csecodeTextBox.UniqueID %>: {
+                        required: "*Cse Code is required*",
+                        maxlength:"* Please enter maximum 20 characters *"
+                    }
+                    ,<%=TextBoxPaidUpCapital.UniqueID %>: {
                         required: "*Paid Up Capital is required*",
                         number: "Please Enter an Numeric Value",
                        
@@ -511,7 +646,18 @@
                         required: "*Total Share is required*",
                         number: "Please Enter an Numeric Value"
                       
-                    },<%=baserateTextBox.UniqueID %>: {
+                    },<%=flugTextBox.UniqueID %>: {
+                        required: "* Is required*",
+                      
+                    },
+                     <%=lasttradingdateTextBox.UniqueID %>:{  
+                       required: "*Last Trading Date  is required*",
+                       
+                   },<%=openingdateTextBox.UniqueID %>:{  
+                       required: "*Opening Date  is required*",
+                      
+                   }
+                    ,<%=baserateTextBox.UniqueID %>: {
                         required: "*Base rate is required*",
                         number: "Please Enter an Numeric Value"
                        
@@ -520,8 +666,7 @@
                        
                     },<%=txtEXCEP_BUYSL_COMPCT_APPLDSE.UniqueID %>: {
                         required: "* Is required*"
-                      
-                       
+                   
                     }
               
                 
@@ -530,12 +675,14 @@
 
       
           function test() {   
-          $.ajax({
+         
+
+               $.ajax({
               type: "POST",
               url: "CompanyInformation.aspx/InsertandUpdateCompany",
               
-           //   flugTextBox.Text.ToString() + "','" + addressTextBox1.Value.ToString() + "','" + addressTextBox2.Value.ToString() + "','" + regofficeTextBox2.Text.ToString() + "','" + phnNoTextBox.Text.ToString() + "','" + openingdateTextBox.Text.ToString() + "','" + premiumTextBox.Text.ToString() + "','" + RIssuefromTextBox.Text.ToString() + "','" + RIssuetoTextBox.Text.ToString() + "','" + merginTextBox.Text.ToString() + "')";
-              data: '{CompanyCode: "' + $("#<%=companyCodeTextBox.ClientID%>").val() + '" ,companyName: "' + $("#<%=companyNameTextBox.ClientID%>").val() + '",dsecode: "' + $("#<%=dsecodeTextBox.ClientID%>").val() + '",PaidUpCapital: "' + $("#<%=TextBoxPaidUpCapital.ClientID%>").val() + '",atho_cap: "' + $("#<%=TextBoxAuthorizedcapital.ClientID%>").val() + '",totalshare: "' + $("#<%=totalshareTextBox.ClientID%>").val() + '" ,faceValue: "' + $("#<%=faceValueTextBox.ClientID%>").val() + '",MarketLot: "' + $("#<%=MarketLotTextBox.ClientID%>").val() + '",sector: "' + $("#<%=sectorTextBox.ClientID%>").val() + '",category: "' + $("#<%=categoryDropDownList.ClientID%>").val() + '",avarageMarketRate: "' + $("#<%=avarageMarketRateTextBox.ClientID%>").val() + '",baserate: "' + $("#<%=baserateTextBox.ClientID%>").val() + '",baseupdateDate: "' + $("#<%=baseupdateDateTextBox.ClientID%>").val() + '",lasttradingdate: "' + $("#<%=lasttradingdateTextBox.ClientID%>").val() + '",sector: "' + $("#<%=sectorTextBox.ClientID%>").val() + '",category: "' + $("#<%=categoryDropDownList.ClientID%>").val() + '" ,flug: "' + $("#<%=flugTextBox.ClientID%>").val() + '",group: "' + $("#<%=groupDropDownList.ClientID%>").val() + '",floatdatefrom: "' + $("#<%=floatdatefromTextBox.ClientID%>").val() + '",floatdateto: "' + $("#<%=floatdatetoTextBox.ClientID%>").val() + '",csecode: "' + $("#<%=csecodeTextBox.ClientID%>").val() + '",address1: "' + $("#<%=addressTextBox1.ClientID%>").val() + '",address2: "' + $("#<%=addressTextBox2.ClientID%>").val() + '",regoffice: "' + $("#<%=regofficeTextBox2.ClientID%>").val() + '",phnNo: "' + $("#<%=phnNoTextBox.ClientID%>").val() + '",openingdate: "' + $("#<%=openingdateTextBox.ClientID%>").val() + '",premium: "' + $("#<%=premiumTextBox.ClientID%>").val() + '",RIssuefrom: "' + $("#<%=RIssuefromTextBox.ClientID%>").val() + '",RIssueto: "' + $("#<%=RIssuetoTextBox.ClientID%>").val() + '",mergin: "' + $("#<%=merginTextBox.ClientID%>").val() + '",IsBuySellChargeApplicable: "' + $("#<%=ddltxtIsBuySellChargeApplicable.ClientID%>").val() + '" ,Additionalbuysellcharge: "' + $("#<%=txtTexAdditionalbuysellcharge.ClientID%>").val() + '",AdditionalbuysellCommision: "' + $("#<%=txtEXCEP_BUYSL_COMPCT_APPLDSE.ClientID%>").val() + '" }',
+          
+              data: '{CompanyCode: "' + $("#<%=companyCodeTextBox.ClientID%>").val() + '" ,companyName: "' + $("#<%=companyNameTextBox.ClientID%>").val() + '",dsecode: "' + $("#<%=dsecodeTextBox.ClientID%>").val() + '",PaidUpCapital: "' + $("#<%=TextBoxPaidUpCapital.ClientID%>").val() + '",atho_cap: "' + $("#<%=TextBoxAuthorizedcapital.ClientID%>").val() + '",totalshare: "' + $("#<%=totalshareTextBox.ClientID%>").val() + '" ,faceValue: "' + $("#<%=faceValueTextBox.ClientID%>").val() + '",MarketLot: "' + $("#<%=MarketLotTextBox.ClientID%>").val() + '",sector: "' + $("#<%=sectorDropDownList.ClientID%>").val() + '",product: "' + $("#<%=productTextBox.ClientID%>").val() + '",category: "' + $("#<%=categoryDropDownList.ClientID%>").val() + '",avarageMarketRate: "' + $("#<%=avarageMarketRateTextBox.ClientID%>").val() + '",baserate: "' + $("#<%=baserateTextBox.ClientID%>").val() + '",baseupdateDate: "' + $("#<%=baseupdateDateTextBox.ClientID%>").val() + '",lasttradingdate: "' + $("#<%=lasttradingdateTextBox.ClientID%>").val() + '",sector: "' + $("#<%=sectorDropDownList.ClientID%>").val() + '",category: "' + $("#<%=categoryDropDownList.ClientID%>").val() + '" ,flug: "' + $("#<%=flugTextBox.ClientID%>").val() + '",group: "' + $("#<%=groupDropDownList.ClientID%>").val() + '",floatdatefrom: "' + $("#<%=floatdatefromTextBox.ClientID%>").val() + '",floatdateto: "' + $("#<%=floatdatetoTextBox.ClientID%>").val() + '",csecode: "' + $("#<%=csecodeTextBox.ClientID%>").val() + '",address1: "' + $("#<%=addressTextBox1.ClientID%>").val() + '",address2: "' + $("#<%=addressTextBox2.ClientID%>").val() + '",regoffice: "' + $("#<%=regofficeTextBox2.ClientID%>").val() + '",phnNo: "' + $("#<%=phnNoTextBox.ClientID%>").val() + '",openingdate: "' + $("#<%=openingdateTextBox.ClientID%>").val() + '",premium: "' + $("#<%=premiumTextBox.ClientID%>").val() + '",RIssuefrom: "' + $("#<%=RIssuefromTextBox.ClientID%>").val() + '",RIssueto: "' + $("#<%=RIssuetoTextBox.ClientID%>").val() + '",mergin: "' + $("#<%=merginTextBox.ClientID%>").val() + '",IsBuySellChargeApplicable: "' + $("#<%=ddltxtIsBuySellChargeApplicable.ClientID%>").val() + '" ,Additionalbuysellcharge: "' + $("#<%=txtTexAdditionalbuysellcharge.ClientID%>").val() + '",AdditionalbuysellCommision: "' + $("#<%=txtEXCEP_BUYSL_COMPCT_APPLDSE.ClientID%>").val() + '" }',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (response) {
@@ -552,6 +699,8 @@
              });
 
         }
+
+       
         
     </script>
 </asp:Content>

@@ -13,42 +13,20 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
+        DropDownList dropDownListObj = new DropDownList();
         if (Session["UserID"] == null)
         {
             Session.RemoveAll();
             Response.Redirect("../Default.aspx");
         }
-        //if (string.IsNullOrEmpty(Request.QueryString["ID"]))
-        //{
-
-        //    saveButton.Text = "Save";
-        //}
-        //else
-        //{
-        //    CompanyInfoByCompCode(Request.QueryString["ID"]);
-        //    saveButton.Text = "Update";
-        //}
-
-
-        //if (ddltxtIsBuySellChargeApplicable.DataValueField == "Y")
-        //{
-        //    lblEXCEP_BUYSL_COMPCT_APPLDSE.Visible = true;
-        //    lblTexAdditionalbuysellcharge.Visible = true;
-        //    txtTexAdditionalbuysellcharge.Visible = true;
-        //    txtEXCEP_BUYSL_COMPCT_APPLDSE.Visible = true;
-        //    ddltxtIsBuySellChargeApplicable.Text = "Y";
-
-        //}
-        //else
-        //{
-        //lblEXCEP_BUYSL_COMPCT_APPLDSE.Visible = false;
-        //lblTexAdditionalbuysellcharge.Visible = false;
-        //txtTexAdditionalbuysellcharge.Visible = false;
-        //txtEXCEP_BUYSL_COMPCT_APPLDSE.Visible = false;
-        //}
-
-
-        //  companyNameTextBox.Text = "sss";
+        DataTable dtSectorNameDropDownList = dropDownListObj.FillSectorDropDownList();
+        if (!IsPostBack)
+        {
+            sectorDropDownList.DataSource = dtSectorNameDropDownList;
+            sectorDropDownList.DataTextField = "SECT_MAJ_NM";
+            sectorDropDownList.DataValueField = "SECT_MAJ_CD";
+            sectorDropDownList.DataBind();
+        }
     }
 
     protected void saveButton_Click(object sender, EventArgs e)
@@ -61,10 +39,9 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
 
 
 
-
     [System.Web.Services.WebMethod]
 
-    public static bool InsertandUpdateCompany(string CompanyCode, string companyName, string dsecode, string PaidUpCapital, string atho_cap, string totalshare, string faceValue, string MarketLot, string sector, string category, string avarageMarketRate, string baserate, string baseupdateDate, string lasttradingdate, string flug, string group, string floatdatefrom, string floatdateto, string csecode, string address1, string address2, string regoffice, string phnNo, string openingdate, string premium, string RIssuefrom, string RIssueto, string mergin, string IsBuySellChargeApplicable, string Additionalbuysellcharge, string AdditionalbuysellCommision)
+    public static bool InsertandUpdateCompany(string CompanyCode, string companyName, string dsecode, string PaidUpCapital, string atho_cap, string totalshare, string faceValue, string MarketLot, string sector, string product, string category, string avarageMarketRate, string baserate, string baseupdateDate, string lasttradingdate, string flug, string group, string floatdatefrom, string floatdateto, string csecode, string address1, string address2, string regoffice, string phnNo, string openingdate, string premium, string RIssuefrom, string RIssueto, string mergin, string IsBuySellChargeApplicable, string Additionalbuysellcharge, string AdditionalbuysellCommision)
     {
 
 
@@ -76,6 +53,98 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
         string strIsBuySellChargeApplicable = "";
         string strAdditionalbuysellcharge = "";
         string strAdditionalbuysellCommision = "";
+        string strLastTradindate, stropeningdate,strbaseupdatedDate, strfloatdatefromdate, strfloatdateTodate, strRIssuefromdate, strRIssuetodate;
+        DateTime? dtimeLastTradindate, dtimeopeningdate,dtimebaseUpdateddate, dtimefloatdatefromdate, dtimefloatdateTo, dtimeRIssuefromfromdate, dtimeRIssuetodate;
+
+        if (!string.IsNullOrEmpty(lasttradingdate))
+        {
+            dtimeLastTradindate = Convert.ToDateTime(lasttradingdate);
+
+            strLastTradindate = dtimeLastTradindate.Value.ToString("dd-MMM-yyyy");
+        }
+        else
+        {
+            dtimeLastTradindate = null;
+            strLastTradindate = "";
+        }
+
+        if (!string.IsNullOrEmpty(openingdate))
+        {
+            dtimeopeningdate = Convert.ToDateTime(openingdate);
+
+            stropeningdate = dtimeLastTradindate.Value.ToString("dd-MMM-yyyy");
+        }
+        else
+        {
+            dtimeopeningdate = null;
+            stropeningdate = "";
+        }
+
+     
+        if (!string.IsNullOrEmpty(baseupdateDate))
+        {
+            dtimebaseUpdateddate = Convert.ToDateTime(baseupdateDate);
+
+            strbaseupdatedDate = dtimebaseUpdateddate.Value.ToString("dd-MMM-yyyy");
+        }
+        else
+        {
+            dtimebaseUpdateddate = null;
+            strbaseupdatedDate = "";
+        }
+
+
+     
+
+        if (!string.IsNullOrEmpty(floatdatefrom))
+        {
+            dtimefloatdatefromdate = Convert.ToDateTime(floatdatefrom);
+
+            strfloatdatefromdate = dtimefloatdatefromdate.Value.ToString("dd-MMM-yyyy");
+        }
+        else
+        {
+            dtimefloatdatefromdate = null;
+            strfloatdatefromdate = "";
+        }
+
+        if (!string.IsNullOrEmpty(floatdateto))
+        {
+            dtimefloatdateTo = Convert.ToDateTime(floatdateto);
+
+            strfloatdateTodate = dtimefloatdateTo.Value.ToString("dd-MMM-yyyy");
+        }
+        else
+        {
+            dtimefloatdateTo = null;
+            strfloatdateTodate = "";
+        }
+
+
+        if (!string.IsNullOrEmpty(RIssuefrom))
+        {
+            dtimeRIssuefromfromdate = Convert.ToDateTime(RIssuefrom);
+
+            strRIssuefromdate = dtimeRIssuefromfromdate.Value.ToString("dd-MMM-yyyy");
+        }
+        else
+        {
+            dtimeRIssuefromfromdate = null;
+            strRIssuefromdate = "";
+        }
+
+        if (!string.IsNullOrEmpty(RIssueto))
+        {
+            dtimeRIssuetodate = Convert.ToDateTime(RIssueto);
+
+            strRIssuetodate = dtimeRIssuetodate.Value.ToString("dd-MMM-yyyy");
+        }
+        else
+        {
+            dtimeRIssuetodate = null;
+            strRIssuetodate = "";
+        }
+
         if (IsBuySellChargeApplicable == "undefined")
         {
             strIsBuySellChargeApplicable = "";
@@ -120,11 +189,11 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
 
                     int delNumOfRows = commonGatewayObj.ExecuteNonQuery(strDlQuery);
 
-                    strUPQuery = "update comp set instr_cd ='" + dsecode.ToString() + "',comp_nm ='" + companyName.ToString() + "',cseinstr_cd ='" + csecode.ToString() + "',trade_meth ='" + group.ToString() + "',add1 ='" + address1.ToString() + "',add2 ='" + address2.ToString() + "',reg_off ='" + regoffice.ToString() + "',tel ='" + phnNo.ToString() + "',atho_cap = '" + atho_cap.ToString() + "',paid_cap =" + PaidUpCapital.ToString() + ",no_shrs =" + totalshare.ToString() + ",fc_val ='" + faceValue.ToString() + "',mlot ='" + MarketLot.ToString() + "',flot_dt_fm ='" + floatdatefrom + "',flot_dt_to ='" + floatdateto.ToString() + "',rissu_dt_fm ='" + RIssuefrom.ToString() + "',rissu_dt_to ='" + RIssueto.ToString() + "',sbase_rt =" + baserate.ToString() + ",base_upd_dt ='" + baseupdateDate.ToString() + "',avg_rt ='" + avarageMarketRate.ToString() + "',rt_upd_dt ='" + lasttradingdate.ToString() + "',margin = '" + mergin.ToString() + "',premium ='" + premium.ToString() + "',sect_maj_cd ='" + sector.ToString() + "',opn_dt ='" + openingdate.ToString() + "',cat_tp ='" + category.ToString() + "' where comp_cd =" + CompanyCode.ToString() + "";
+                    strUPQuery = "update comp set instr_cd ='" + dsecode.ToString() + "',comp_nm ='" + companyName.ToString() + "',cseinstr_cd ='" + csecode.ToString() + "',trade_meth ='" + group.ToString() + "',add1 ='" + address1.ToString() + "',add2 ='" + address2.ToString() + "',reg_off ='" + regoffice.ToString() + "',tel ='" + phnNo.ToString() + "',atho_cap = '" + atho_cap.ToString() + "',paid_cap =" + PaidUpCapital.ToString() + ",no_shrs =" + totalshare.ToString() + ",fc_val ='" + faceValue.ToString() + "',mlot ='" + MarketLot.ToString() + "',flot_dt_fm ='" + strfloatdatefromdate + "',flot_dt_to ='" + strfloatdateTodate + "',rissu_dt_fm ='" + strRIssuefromdate + "',rissu_dt_to ='" + strRIssuetodate + "',sbase_rt =" + baserate.ToString() + ",base_upd_dt ='" + strbaseupdatedDate + "',avg_rt ='" + avarageMarketRate.ToString() + "',rt_upd_dt ='" + strLastTradindate + "',margin = '" + mergin.ToString() + "',PROD='" + product + "',premium ='" + premium.ToString() + "',sect_maj_cd ='" + sector.ToString() + "',opn_dt ='" + stropeningdate + "',cat_tp ='" + category.ToString() + "' where comp_cd =" + CompanyCode.ToString() + "";
                 }
                 else
                 {
-                    strUPQuery = "update comp set instr_cd ='" + dsecode.ToString() + "',comp_nm ='" + companyName.ToString() + "',cseinstr_cd ='" + csecode.ToString() + "',trade_meth ='" + group.ToString() + "',add1 ='" + address1.ToString() + "',add2 ='" + address2.ToString() + "',reg_off ='" + regoffice.ToString() + "',tel ='" + phnNo.ToString() + "',atho_cap = '" + atho_cap.ToString() + "',paid_cap =" + PaidUpCapital.ToString() + ",no_shrs =" + totalshare.ToString() + ",fc_val ='" + faceValue.ToString() + "',mlot ='" + MarketLot.ToString() + "',flot_dt_fm ='" + floatdatefrom + "',flot_dt_to ='" + floatdateto.ToString() + "',rissu_dt_fm ='" + RIssuefrom.ToString() + "',rissu_dt_to ='" + RIssueto.ToString() + "',sbase_rt =" + baserate.ToString() + ",base_upd_dt ='" + baseupdateDate.ToString() + "',avg_rt ='" + avarageMarketRate.ToString() + "',rt_upd_dt ='" + lasttradingdate.ToString() + "',margin = '" + mergin.ToString() + "',premium ='" + premium.ToString() + "',sect_maj_cd ='" + sector.ToString() + "',opn_dt ='" + openingdate.ToString() + "',cat_tp ='" + category.ToString() + "',ISADD_HOWLACHARGE_DSE ='" + strIsBuySellChargeApplicable.ToString() + "',ADD_HOWLACHARGE_AMTDSE ='" + strAdditionalbuysellcharge.ToString() + "',EXCEP_BUYSL_COMPCT_DSE ='" + strAdditionalbuysellCommision.ToString() + "' where comp_cd =" + CompanyCode.ToString() + "";
+                    strUPQuery = "update comp set instr_cd ='" + dsecode.ToString() + "',comp_nm ='" + companyName.ToString() + "',cseinstr_cd ='" + csecode.ToString() + "',trade_meth ='" + group.ToString() + "',add1 ='" + address1.ToString() + "',add2 ='" + address2.ToString() + "',reg_off ='" + regoffice.ToString() + "',tel ='" + phnNo.ToString() + "',atho_cap = '" + atho_cap.ToString() + "',paid_cap =" + PaidUpCapital.ToString() + ",no_shrs =" + totalshare.ToString() + ",fc_val ='" + faceValue.ToString() + "',mlot ='" + MarketLot.ToString() + "',flot_dt_fm ='" + strfloatdatefromdate + "',flot_dt_to ='" + strfloatdateTodate + "',rissu_dt_fm ='" + strRIssuefromdate + "',rissu_dt_to ='" + strRIssuetodate + "',sbase_rt =" + baserate.ToString() + ",base_upd_dt ='" + strbaseupdatedDate + "',avg_rt ='" + avarageMarketRate.ToString() + "',rt_upd_dt ='" + strLastTradindate + "',margin = '" + mergin.ToString() + "',PROD='" + product + "',premium ='" + premium.ToString() + "',sect_maj_cd ='" + sector.ToString() + "',opn_dt ='" + stropeningdate + "',cat_tp ='" + category.ToString() + "',ISADD_HOWLACHARGE_DSE ='" + strIsBuySellChargeApplicable.ToString() + "',ADD_HOWLACHARGE_AMTDSE ='" + strAdditionalbuysellcharge.ToString() + "',EXCEP_BUYSL_COMPCT_DSE ='" + strAdditionalbuysellCommision.ToString() + "' where comp_cd =" + CompanyCode.ToString() + "";
                 }
 
 
@@ -140,11 +209,11 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
 
                 if (IsBuySellChargeApplicable == "N")
                 {
-                    strInsQuery = "insert into comp(comp_cd,comp_nm,instr_cd,paid_cap,no_shrs,fc_val,mlot, sbase_rt, base_upd_dt, avg_rt,rt_upd_dt,cat_tp,sect_maj_cd,trade_meth,flot_dt_fm,flot_dt_to,cseinstr_cd,flag,add1,add2,reg_off,tel,opn_dt,premium,rissu_dt_fm,rissu_dt_to,margin)values(" + CompanyCode + ",'" + companyName.ToString() + "','" + dsecode.ToString() + "','" + Convert.ToDouble(PaidUpCapital) + "','" + totalshare + "','" + Convert.ToUInt32(faceValue.ToString()) + "','" + MarketLot + "','" + Convert.ToDouble(baserate) + "','" + baseupdateDate.ToString() + "','" + avarageMarketRate + "','" + lasttradingdate.ToString() + "','" + category + "','" + sector.ToString() + "','" + group + "','" + floatdatefrom.ToString() + "','" + floatdateto.ToString() + "','" + csecode + "','" + flug + "','" + address1.ToString() + "','" + address2.ToString() + "','" + regoffice.ToString() + "','" + phnNo.ToString() + "','" + openingdate.ToString() + "','" + premium.ToString() + "','" + RIssuefrom.ToString() + "','" + RIssueto.ToString() + "','" + mergin.ToString() + "')";
+                    strInsQuery = "insert into comp(comp_cd,comp_nm,instr_cd,paid_cap,no_shrs,fc_val,mlot, sbase_rt, base_upd_dt, avg_rt,rt_upd_dt,cat_tp,sect_maj_cd,trade_meth,flot_dt_fm,flot_dt_to,cseinstr_cd,flag,add1,add2,reg_off,tel,opn_dt,premium,rissu_dt_fm,rissu_dt_to,margin)values(" + CompanyCode + ",'" + companyName.ToString() + "','" + dsecode.ToString() + "','" + Convert.ToDouble(PaidUpCapital) + "','" + totalshare + "','" + Convert.ToUInt32(faceValue.ToString()) + "','" + MarketLot + "','" + Convert.ToDouble(baserate) + "','" + strbaseupdatedDate + "','" + avarageMarketRate + "','" + strLastTradindate + "','" + category + "','" + sector.ToString() + "','" + group + "','" + strfloatdatefromdate + "','" + strfloatdatefromdate + "','" + csecode + "','" + flug + "','" + address1.ToString() + "','" + address2.ToString() + "','" + regoffice.ToString() + "','" + phnNo.ToString() + "','" + stropeningdate + "','" + premium.ToString() + "','" + strRIssuefromdate + "','" + strRIssuetodate + "','" + mergin.ToString() + "')";
                 }
                 else
                 {
-                    strInsQuery = "insert into comp(comp_cd,comp_nm,instr_cd,paid_cap,no_shrs,fc_val,mlot, sbase_rt, base_upd_dt, avg_rt,rt_upd_dt,cat_tp,sect_maj_cd,trade_meth,flot_dt_fm,flot_dt_to,cseinstr_cd,flag,add1,add2,reg_off,tel,opn_dt,premium,rissu_dt_fm,rissu_dt_to,margin,ISADD_HOWLACHARGE_DSE,ADD_HOWLACHARGE_AMTDSE,EXCEP_BUYSL_COMPCT_DSE)values(" + CompanyCode + ",'" + companyName.ToString() + "','" + dsecode.ToString() + "','" + Convert.ToDouble(PaidUpCapital) + "','" + totalshare + "','" + Convert.ToUInt32(faceValue.ToString()) + "','" + MarketLot + "','" + Convert.ToDouble(baserate) + "','" + baseupdateDate.ToString() + "','" + avarageMarketRate + "','" + lasttradingdate.ToString() + "','" + category + "','" + sector.ToString() + "','" + group + "','" + floatdatefrom.ToString() + "','" + floatdateto.ToString() + "','" + csecode + "','" + flug + "','" + address1.ToString() + "','" + address2.ToString() + "','" + regoffice.ToString() + "','" + phnNo.ToString() + "','" + openingdate.ToString() + "','" + premium.ToString() + "','" + RIssuefrom.ToString() + "','" + RIssueto.ToString() + "','" + mergin.ToString() + "','" + strIsBuySellChargeApplicable.ToString() + "','" + strAdditionalbuysellcharge.ToString() + "','" + strAdditionalbuysellCommision.ToString() + "')";
+                    strInsQuery = "insert into comp(comp_cd,comp_nm,instr_cd,paid_cap,no_shrs,fc_val,mlot, sbase_rt, base_upd_dt, avg_rt,rt_upd_dt,cat_tp,sect_maj_cd,trade_meth,flot_dt_fm,flot_dt_to,cseinstr_cd,flag,add1,add2,reg_off,tel,opn_dt,premium,rissu_dt_fm,rissu_dt_to,margin,ISADD_HOWLACHARGE_DSE,ADD_HOWLACHARGE_AMTDSE,EXCEP_BUYSL_COMPCT_DSE)values(" + CompanyCode + ",'" + companyName.ToString() + "','" + dsecode.ToString() + "','" + Convert.ToDouble(PaidUpCapital) + "','" + totalshare + "','" + Convert.ToUInt32(faceValue.ToString()) + "','" + MarketLot + "','" + Convert.ToDouble(baserate) + "','" + strbaseupdatedDate + "','" + avarageMarketRate + "','" + strLastTradindate + "','" + category + "','" + sector.ToString() + "','" + group + "','" + strfloatdatefromdate + "','" + strfloatdateTodate + "','" + csecode + "','" + flug + "','" + address1.ToString() + "','" + address2.ToString() + "','" + regoffice.ToString() + "','" + phnNo.ToString() + "','" + stropeningdate + "','" + premium.ToString() + "','" + strRIssuefromdate + "','" + strRIssuetodate + "','" + mergin.ToString() + "','" + strIsBuySellChargeApplicable.ToString() + "','" + strAdditionalbuysellcharge.ToString() + "','" + strAdditionalbuysellCommision.ToString() + "')";
                 }
 
 
@@ -157,112 +226,9 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
 
 
         return false;
-
     }
-    public void CompanyInfoByCompCode(string compCode)
-    {
-        DataTable dtsource = new DataTable();
-        List<CompanyInfo> companyInfolist = new List<CompanyInfo>();
-        string Query = "select comp_cd,comp_nm,mlot,fc_val,avg_rt,TO_CHAR(rt_upd_dt,'dd-MON-yyyy')rt_upd_dt,instr_cd,cseinstr_cd,trade_meth,sect_maj_cd,cat_tp,add1,add2,reg_off,TO_CHAR(opn_dt,'dd-MON-yyyy')opn_dt,tel,prod,atho_cap,paid_cap,no_shrs,sbase_rt,TO_CHAR(base_upd_dt,'dd-MON-yyyy')base_upd_dt,TO_Char(flot_dt_fm,'dd-MON-yyyy')flot_dt_fm,TO_CHAR(flot_dt_to,'dd-MON-yyyy')flot_dt_to,margin,flag,premium,TO_CHAR(rissu_dt_fm,'dd-MON-yyyy')rissu_dt_fm,TO_CHAR(rissu_dt_to,'dd-MON-yyyy')rissu_dt_to,ISADD_HOWLACHARGE_DSE,ADD_HOWLACHARGE_AMTDSE,EXCEP_BUYSL_COMPCT_DSE from comp where comp_cd ='" + compCode + "'";
 
-
-        dtsource = commonGatewayObj.Select(Query.ToString());
-
-        if (dtsource.Rows.Count > 0)
-        {
-
-            companyInfolist = (from DataRow dr in dtsource.Rows
-                               select new CompanyInfo()
-                               {
-                                   COMP_CD = dr["COMP_CD"].ToString(),
-                                   COMP_NM = dr["COMP_NM"].ToString(),
-                                   SECT_MAJ_CD = dr["SECT_MAJ_CD"].ToString(),
-                                   CAT_TP = dr["CAT_TP"].ToString(),
-                                   MLOT = dr["MLOT"].ToString(),
-                                   AVG_RT = dr["AVG_RT"].ToString(),
-                                   FC_VAL = dr["FC_VAL"].ToString(),
-                                   RT_UPD_DT = dr["RT_UPD_DT"].ToString(),
-                                   INSTR_CD = dr["INSTR_CD"].ToString(),
-                                   //   CSE_INSTR_CD = dr["CSE_INSTR_CD"].ToString(),
-                                   TRADE_METH = dr["TRADE_METH"].ToString(),
-                                   OPN_DT = dr["OPN_DT"].ToString(),
-                                   ADD1 = dr["ADD1"].ToString(),
-                                   ADD2 = dr["ADD2"].ToString(),
-                                   TEL = dr["TEL"].ToString(),
-                                   ATHO_CAP = dr["ATHO_CAP"].ToString(),
-                                   REG_OFF = dr["REG_OFF"].ToString(),
-                                   PAID_CAP = dr["PAID_CAP"].ToString(),
-                                   NO_SHRS = dr["NO_SHRS"].ToString(),
-                                   SBASE_RT = dr["SBASE_RT"].ToString(),
-                                   PROD = dr["PROD"].ToString(),
-                                   BASE_UPD_DT = dr["BASE_UPD_DT"].ToString(),
-                                   FLOT_DT_FM = dr["FLOT_DT_FM"].ToString(),
-                                   FLOT_DT_TO = dr["FLOT_DT_TO"].ToString(),
-                                   RISSU_DT_FM = dr["RISSU_DT_FM"].ToString(),
-                                   RISSU_DT_TO = dr["RISSU_DT_TO"].ToString(),
-                                   MARGIN = dr["MARGIN"].ToString(),
-                                   PREMIUM = dr["PREMIUM"].ToString(),
-                                   FLAG = dr["FLAG"].ToString(),
-                                   ISADD_HOWLACHARGE_DSE = dr["ISADD_HOWLACHARGE_DSE"].ToString(),
-                                   ADD_HOWLACHARGE_AMTDSE = dr["ADD_HOWLACHARGE_AMTDSE"].ToString(),
-                                   EXCEP_BUYSL_COMPCT_DSE = dr["EXCEP_BUYSL_COMPCT_DSE"].ToString(),
-                               }).ToList();
-
-
-            foreach (CompanyInfo compInfo in companyInfolist)
-            {
-                companyCodeTextBox.Text = compInfo.COMP_CD;
-                companyNameTextBox.Text = compInfo.COMP_NM;
-                dsecodeTextBox.Text = compInfo.INSTR_CD;
-                TextBoxPaidUpCapital.Text = compInfo.PAID_CAP;
-                totalshareTextBox.Text = compInfo.NO_SHRS;
-                faceValueTextBox.Text = compInfo.FC_VAL;
-                TextBoxPaidUpCapital.Text = compInfo.PAID_CAP;
-                MarketLotTextBox.Text = compInfo.MLOT;
-                baserateTextBox.Text = compInfo.SBASE_RT;
-                baseupdateDateTextBox.Text = compInfo.BASE_UPD_DT;
-                avarageMarketRateTextBox.Text = compInfo.AVG_RT;
-                lasttradingdateTextBox.Text = compInfo.RT_UPD_DT;
-                categoryDropDownList.SelectedValue = compInfo.CAT_TP;
-                sectorTextBox.Text = compInfo.SECT_MAJ_CD;
-                groupDropDownList.SelectedValue = compInfo.TRADE_METH;
-                floatdatefromTextBox.Text = compInfo.FLOT_DT_FM;
-                floatdatetoTextBox.Text = compInfo.FLOT_DT_TO;
-                csecodeTextBox.Text = compInfo.CSE_INSTR_CD;
-                flugTextBox.Text = compInfo.FLAG;
-                addressTextBox1.Value = compInfo.ADD1;
-                addressTextBox2.Value = compInfo.ADD2;
-                regofficeTextBox2.Text = compInfo.REG_OFF;
-                phnNoTextBox.Text = compInfo.TEL;
-                openingdateTextBox.Text = compInfo.OPN_DT;
-                premiumTextBox.Text = compInfo.PREMIUM;
-                RIssuefromTextBox.Text = compInfo.RISSU_DT_FM;
-                RIssuetoTextBox.Text = compInfo.RISSU_DT_TO;
-                merginTextBox.Text = compInfo.MARGIN;
-                TextBoxAuthorizedcapital.Text = compInfo.ATHO_CAP;
-                ddltxtIsBuySellChargeApplicable.DataValueField = compInfo.ISADD_HOWLACHARGE_DSE;
-
-
-                if (ddltxtIsBuySellChargeApplicable.DataValueField == "Y")
-                {
-                    lblEXCEP_BUYSL_COMPCT_APPLDSE.Visible = true;
-                    lblTexAdditionalbuysellcharge.Visible = true;
-                    txtTexAdditionalbuysellcharge.Visible = true;
-                    txtEXCEP_BUYSL_COMPCT_APPLDSE.Visible = true;
-                    ddltxtIsBuySellChargeApplicable.Text = "Y";
-                    txtTexAdditionalbuysellcharge.Text = compInfo.ADD_HOWLACHARGE_AMTDSE;
-                    txtEXCEP_BUYSL_COMPCT_APPLDSE.Text = compInfo.EXCEP_BUYSL_COMPCT_DSE;
-                }
-
-            }
-        }
-        else
-        {
-            ClearFields();
-
-        }
-
-    }
+   
 
     protected void ddlSellBuyCharge_SelectedIndexChanged(object sender, EventArgs e)
     {
@@ -311,7 +277,7 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
                                    FC_VAL = dr["FC_VAL"].ToString(),
                                    RT_UPD_DT = dr["RT_UPD_DT"].ToString(),
                                    INSTR_CD = dr["INSTR_CD"].ToString(),
-                                   //   CSE_INSTR_CD = dr["CSE_INSTR_CD"].ToString(),
+                                   CSE_INSTR_CD = dr["cseinstr_cd"].ToString(),
                                    TRADE_METH = dr["TRADE_METH"].ToString(),
                                    OPN_DT = dr["OPN_DT"].ToString(),
                                    ADD1 = dr["ADD1"].ToString(),
@@ -349,11 +315,12 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
                 TextBoxPaidUpCapital.Text = compInfo.PAID_CAP;
                 MarketLotTextBox.Text = compInfo.MLOT;
                 baserateTextBox.Text = compInfo.SBASE_RT;
+                productTextBox.Text = compInfo.PROD;
                 baseupdateDateTextBox.Text = compInfo.BASE_UPD_DT;
                 avarageMarketRateTextBox.Text = compInfo.AVG_RT;
                 lasttradingdateTextBox.Text = compInfo.RT_UPD_DT;
                 categoryDropDownList.SelectedValue = compInfo.CAT_TP;
-                sectorTextBox.Text = compInfo.SECT_MAJ_CD;
+                sectorDropDownList.SelectedValue = compInfo.SECT_MAJ_CD;
                 groupDropDownList.SelectedValue = compInfo.TRADE_METH;
                 floatdatefromTextBox.Text = compInfo.FLOT_DT_FM;
                 floatdatetoTextBox.Text = compInfo.FLOT_DT_TO;
@@ -366,6 +333,7 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
                 openingdateTextBox.Text = compInfo.OPN_DT;
                 premiumTextBox.Text = compInfo.PREMIUM;
                 RIssuefromTextBox.Text = compInfo.RISSU_DT_FM;
+                
                 RIssuetoTextBox.Text = compInfo.RISSU_DT_TO;
                 merginTextBox.Text = compInfo.MARGIN;
                 TextBoxAuthorizedcapital.Text = compInfo.ATHO_CAP;
@@ -439,9 +407,9 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
         baseupdateDateTextBox.Text = "";
         avarageMarketRateTextBox.Text = "";
         lasttradingdateTextBox.Text = "";
-        categoryDropDownList.SelectedValue = "";
-        sectorTextBox.Text = "";
-        groupDropDownList.SelectedValue = "";
+        categoryDropDownList.SelectedValue = "0";
+        sectorDropDownList.Text = "0";
+        groupDropDownList.SelectedValue = "0";
         floatdatefromTextBox.Text = "";
         floatdatetoTextBox.Text = "";
         csecodeTextBox.Text = "";
