@@ -50,7 +50,7 @@ public partial class UI_FundTransactionEntry : System.Web.UI.Page
         {
             if (noOfShareTextBox.Text == "")
             {
-              ClientScript.RegisterStartupScript(this.GetType(),"SetFocus", "<script>document.getElementById('" + noOfShareTextBox.ClientID + "').focus();</script>");
+                ClientScript.RegisterStartupScript(this.GetType(), "SetFocus", "<script>document.getElementById('" + noOfShareTextBox.ClientID + "').focus();</script>");
             }
             else
             {
@@ -59,6 +59,7 @@ public partial class UI_FundTransactionEntry : System.Web.UI.Page
                 amountAfterComissionTextBox.Text = "0.00";
                 ClientScript.RegisterStartupScript(this.GetType(), "SetFocus", "<script>document.getElementById('" + voucherNoTextBox.ClientID + "').focus();</script>");
             }
+
         }
         if (transTypeDropDownList.SelectedValue != "B")
         {
@@ -69,25 +70,42 @@ public partial class UI_FundTransactionEntry : System.Web.UI.Page
 
         //}
         //noOfShareTextBox.AutoPostBack = false;
+        if (noOfShareTextBox.Text != "" && amountTextBox.Text != "")
+        {
+            rate = Convert.ToDouble(amountTextBox.Text) / Convert.ToDouble(noOfShareTextBox.Text);
+            rateTextBox.Text = rate.ToString();
+            amountAfterComissionTextBox.Text = amountTextBox.Text;
+            ClientScript.RegisterStartupScript(this.GetType(), "SetFocus", "<script>document.getElementById('" + voucherNoTextBox.ClientID + "').focus();</script>");
+        }
     }
     protected void amountTextBox_TextChanged(object sender, EventArgs e)
     {
-        
-        
-        if (transTypeDropDownList.SelectedValue != "B")
+        if (noOfShareTextBox.Text != "")
         {
-            if (amountTextBox.Text == "")
+            if (transTypeDropDownList.SelectedValue != "B")
             {
-                ClientScript.RegisterStartupScript(this.GetType(), "SetFocus", "<script>document.getElementById('" + amountTextBox.ClientID + "').focus();</script>");
+                if (amountTextBox.Text == "")
+                {
+                    ClientScript.RegisterStartupScript(this.GetType(), "SetFocus", "<script>document.getElementById('" + amountTextBox.ClientID + "').focus();</script>");
+                    ClearFields();
+                }
+                else
+                {
+                    rate = Convert.ToDouble(amountTextBox.Text) / Convert.ToDouble(noOfShareTextBox.Text);
+                    rateTextBox.Text = rate.ToString();
+                    amountAfterComissionTextBox.Text = amountTextBox.Text;
+                    ClientScript.RegisterStartupScript(this.GetType(), "SetFocus", "<script>document.getElementById('" + voucherNoTextBox.ClientID + "').focus();</script>");
+                }
             }
-            else
-            {
-                rate = Convert.ToDouble(amountTextBox.Text) / Convert.ToDouble(noOfShareTextBox.Text);
-                rateTextBox.Text = rate.ToString();
-                amountAfterComissionTextBox.Text = amountTextBox.Text;
-                ClientScript.RegisterStartupScript(this.GetType(), "SetFocus", "<script>document.getElementById('" + voucherNoTextBox.ClientID + "').focus();</script>");
-            }
+
         }
+        else
+        {
+            ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Please Insert No of Share');", true);
+            ClearFields();
+        }
+        
+      
         //else if (transTypeDropDownList.SelectedValue == "S")
         //{
 
@@ -101,6 +119,9 @@ public partial class UI_FundTransactionEntry : System.Web.UI.Page
         //amountTextBox.Text = "";
         //rateTextBox.Text = "";
         //amountAfterComissionTextBox.Text = "";
+
+
+
     }
     protected void saveButton_Click(object sender, EventArgs e)
     {
@@ -158,6 +179,13 @@ public partial class UI_FundTransactionEntry : System.Web.UI.Page
         else
         {
             commonGatewayObj.Insert(httable, "fund_trans_hb");
+
+            if (transTypeDropDownList.SelectedValue == "I")
+            {
+                string strupdateQueryAVgRateFromComp = "update comp set AVG_RT='" + Convert.ToDouble(rateTextBox.Text) + "',CSE_RT='" + Convert.ToDouble(rateTextBox.Text) + "',ADC_RT='" + Convert.ToDouble(rateTextBox.Text) + "' where comp_cd =" + companyNameDropDownList.SelectedValue.ToString() + "";
+
+                int updateQueryAVgRateFromCompNumOfRows = commonGatewayObj.ExecuteNonQuery(strupdateQueryAVgRateFromComp);
+            }
             ClearFields();
             ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Saved Successfully');", true);
         }
