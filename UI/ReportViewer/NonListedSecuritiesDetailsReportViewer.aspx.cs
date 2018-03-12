@@ -71,7 +71,7 @@ public partial class UI_ReportViewer_PortfolioWithNonListedReportViewer : System
         {
 
             dtNonlistedSecrities.TableName = "PortfolioWithNonListedReport";
-            dtNonlistedSecrities.WriteXmlSchema(@"D:\IAMCL_10-7-17\amclpmfs\amclpmfs\UI\ReportViewer\Report\crtNonListedDetailsReport.xsd");
+          //  dtNonlistedSecrities.WriteXmlSchema(@"D:\IAMCL_10-7-17\amclpmfs\amclpmfs\UI\ReportViewer\Report\crtNonListedDetailsReport.xsd");
             //ReportDocument rdoc = new ReportDocument();
             string Path = "";
             Path = Server.MapPath("Report/crtNonListedReport.rpt");
