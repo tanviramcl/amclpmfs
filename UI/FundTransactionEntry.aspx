@@ -79,6 +79,12 @@
             alert("Please Select No. of Shares.");
             return false; 
         }
+         if(document.getElementById("<%=amountTextBox.ClientID%>").value =="")
+        {
+            document.getElementById("<%=noOfShareTextBox.ClientID%>").focus();
+            alert("Please Select Amount.");
+            return false; 
+        }
     }
 </script>
 <ajaxToolkit:ToolkitScriptManager runat="Server" EnableScriptGlobalization="true" EnableScriptLocalization="true" ID="ScriptManager1" />
@@ -168,6 +174,7 @@
             <asp:TextBox ID="amountAfterComissionTextBox" runat="server" 
                 style="width:100px;" CssClass="textInputStyle" TabIndex="11"></asp:TextBox></td>
     </tr>
+   
     <tr>
            <td align="center" colspan="4" >
                 &nbsp;

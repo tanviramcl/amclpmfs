@@ -60,7 +60,7 @@ public partial class UI_AMCLCommon : System.Web.UI.MasterPage
         StringBuilder sbOrderBy = new StringBuilder();
         sbOrderBy.Append("");
 
-        sbMst.Append(" select * from MENUPERMISSIONS where USER_ID = '" + loginId + "'");
+        sbMst.Append(" select * from MENUPERMISSIONS where USER_ID = '" + loginId + "' order by MENU_ID");
 
         sbMst.Append(sbOrderBy.ToString());
         dtMenUName = commonGatewayObj.Select(sbMst.ToString());
@@ -145,7 +145,7 @@ public partial class UI_AMCLCommon : System.Web.UI.MasterPage
         StringBuilder sbOrderBy = new StringBuilder();
         sbOrderBy.Append("");
 
-        sbMst.Append(" select * from CHILD_OF_SUBMENU where CHILD_OF_SUBMENU_ID IN ("+ childOfSubMenuList + ") and MENU_ID= " + menuId+" and SUBMENU_ID="+subMenuId+" ");
+        sbMst.Append(" select * from CHILD_OF_SUBMENU where CHILD_OF_SUBMENU_ID IN ("+ childOfSubMenuList + ") and MENU_ID= " + menuId+" and SUBMENU_ID="+subMenuId+ "  order by CHILD_OF_SUBMENU_ID");
 
         sbMst.Append(sbOrderBy.ToString());
         dtMenUName = commonGatewayObj.Select(sbMst.ToString());

@@ -76,7 +76,7 @@
                  dateFormat: "dd/mm/yy",
                  maxDate:"today",
                  onSelect: function(selected) {
-                     $('#<%=RIssueToTextBox.ClientID%>').datepicker("option","minDate", selected)
+                     
                  }
              });
              $('#<%=RIssueToTextBox.ClientID%>').datepicker({ 
@@ -111,7 +111,7 @@
                         greaterThan: '#<%=RIssueToTextBox.ClientID%>'                      
                     },<%=fundNameDropDownList.UniqueID %>: {
                         
-                        //required:true 
+                        required:true, 
                         fundDropDownList:true
                         
                     }

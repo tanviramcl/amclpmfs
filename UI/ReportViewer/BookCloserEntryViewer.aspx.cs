@@ -68,7 +68,7 @@ public partial class UI_ReportViewer_Report_BookCloserEntryViewer : System.Web.U
         }
 
         sbMst.Append(sbfilter.ToString());
-        sbMst.Append(" ORDER BY COMP.COMP_NM");
+        sbMst.Append(" ORDER BY COMP.COMP_NM,FY");
         dtReprtSource = commonGatewayObj.Select(sbMst.ToString());
 
 
