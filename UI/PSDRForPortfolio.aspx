@@ -66,6 +66,13 @@
                 <td align="left">
                     <asp:TextBox ID="certificateNoTextBox" runat="server" Width="100px" AutoPostBack="true" OnTextChanged="certificateNoTextBox_TextChanged"></asp:TextBox>
                 </td>
+                  <td align="left">
+                    <b>Posted </b>
+                </td>
+                <td align="left">
+                   <%-- <asp:TextBox ID="sectorTextBox" runat="server" Width="100px"></asp:TextBox>--%>
+                     <asp:DropDownList ID="postedDropDownList" Width="130px" runat="server" TabIndex="3"></asp:DropDownList>
+                </td>
                 
             </tr>
             <tr>
@@ -139,14 +146,14 @@
                     <asp:TextBox ID="folioNoTextBox" runat="server" Width="100px"></asp:TextBox>
                 </td>
                  <td align="left">
-                    <b>Dictincttive No From</b>
+                    <b>Dictinctive No From</b>
                 </td>
                 <td align="left">
                     <asp:TextBox ID="DictincttivefromTextBox" runat="server" AutoPostBack="true" Width="100px" OnTextChanged="DictincttivefromTextBox__TextChanged"></asp:TextBox>
                       
                 </td>
                 <td align="left">
-                    <b>Dictincttive No To</b>
+                    <b>Dictinctive No To</b>
                 </td>
                 <td align="left">
                     <asp:TextBox ID="DictincttivetoTextBox" runat="server" ReadOnly="true" Width="100px"></asp:TextBox>
@@ -195,6 +202,14 @@
             else  
                 return true;  
         },"Please select a Securities Type.");  
+
+        $.validator.addMethod("postedDropDownList", function (value, element, param) {  
+            if (value == '0')  
+                return false;  
+            else  
+                return true;  
+        },"Please select");  
+
         $.validator.addMethod("oddormarketlotDropDownList", function (value, element, param) {  
             if (value == '0')  
                 return false;  
@@ -227,10 +242,15 @@
                         required: true,
                         number:true,
                         maxlength: 6
-                    }, <%=securitiestypeDropDownList.UniqueID %>: {
+                    }, <%=postedDropDownList.UniqueID %>: {
+                        
+                        postedDropDownList:true
+                    },
+                    <%=securitiestypeDropDownList.UniqueID %>: {
                         
                         securitiestypeDropDownList:true
-                    }, <%=oddormarketlotDropDownList.UniqueID %>: {
+                    }
+                    , <%=oddormarketlotDropDownList.UniqueID %>: {
                         
                         oddormarketlotDropDownList:true
                     }, <%=RIssuefromTextBox.UniqueID %>: {
