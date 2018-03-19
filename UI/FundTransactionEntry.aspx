@@ -82,7 +82,7 @@
          if(document.getElementById("<%=amountTextBox.ClientID%>").value =="")
         {
             document.getElementById("<%=noOfShareTextBox.ClientID%>").focus();
-            alert("Please Select Amount.");
+            alert("Please Enter Amount.");
             return false; 
         }
     }

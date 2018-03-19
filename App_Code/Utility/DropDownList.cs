@@ -43,6 +43,8 @@ public class DropDownList
         }
         return dtSectorNameDropDownList;
     }
+
+   
     public DataTable FillCompanyNameDropDownList()//For All Company Name
     {
         DataTable dtCompName = commonGatewayObj.Select("SELECT COMP_NM, COMP_CD FROM COMP ORDER BY COMP_NM");

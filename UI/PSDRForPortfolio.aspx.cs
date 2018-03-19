@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -18,8 +19,16 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
             Session.RemoveAll();
             Response.Redirect("../Default.aspx");
         }
-
-
+        DropDownList dropDownListObj = new DropDownList();
+      
+        DataTable dtPosted = commonGatewayObj.Select("select distinct(posted) posted from psdr_fi order by posted");
+        if (!IsPostBack)
+        {
+            postedDropDownList.DataSource = dtPosted;
+            postedDropDownList.DataTextField = "posted";
+            postedDropDownList.DataValueField = "posted";
+            postedDropDownList.DataBind();
+        }
 
 
         //  companyNameTextBox.Text = "sss";
@@ -34,6 +43,7 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
         string psdrNo = psdrNoTextBox.Text;
         string marketlot = oddormarketlotDropDownList.SelectedValue;
         string securType = securitiestypeDropDownList.SelectedValue;
+        string posted = postedDropDownList.SelectedValue;
         string sp_date = Convert.ToDateTime(date1).ToString("dd-MMM-yyyy");
         string folioNo = folioNoTextBox.Text.ToString();
         string alotmentNo = AllotmentNoTextBox.Text.ToString();
@@ -42,6 +52,9 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
         int DictincFrom = Convert.ToInt32(DictincttivefromTextBox.Text);
         int noofShares = Convert.ToInt32(noofshareTextBox.Text);
         string loginId = Session["UserID"].ToString();
+
+        DateTime dtimeCurrentDateTimeForLog = DateTime.Now;
+        string strCurrentDateTimeForLog = dtimeCurrentDateTimeForLog.ToString("dd-MMM-yyyy HH:mm:ss tt", CultureInfo.InvariantCulture);
 
         if (securType == "P" && alotmentNo == "")
         {
@@ -63,22 +76,23 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
                 {
 
                     strUPdQuery = "update psdr_fi set PSDR_NO ='" + Convert.ToInt32(psdrNo) + "',  SH_TYPE ='" + securType + "',OM_LOT ='" + marketlot + "', SP_DATE='" + sp_date + "'," +
-                                               " DIS_NO_FM ='" + DictincFrom + "',DIS_NO_TO ='" + ditinctto + "',  ALLOT_NO='" + alotmentNo + "' ,FOLIO_NO='" + folioNo + "' where COMP_CD= " + companyCodeTextBox.Text.ToString() + " and F_CD=" + fundcodeTextBox.Text.ToString() + " and CERT_NO='" + certificateNoTextBox.Text.ToString() + "'";
+                                               " DIS_NO_FM ='" + DictincFrom + "',DIS_NO_TO ='" + ditinctto + "',  ALLOT_NO='" + alotmentNo + "' ,FOLIO_NO='" + folioNo + "', POSTED='" + posted + "',upd_date_time='" + strCurrentDateTimeForLog + "' where COMP_CD= " + companyCodeTextBox.Text.ToString() + " and F_CD=" + fundcodeTextBox.Text.ToString() + " and CERT_NO='" + certificateNoTextBox.Text.ToString() + "'";
                 }
                 else
                 {
                     strUPdQuery = "update psdr_fi set PSDR_NO ='" + Convert.ToInt32(psdrNo) + "',  SH_TYPE ='" + securType + "',OM_LOT ='" + marketlot + "', SP_DATE='" + sp_date + "'," +
-                                             " DIS_NO_FM ='" + DictincFrom + "',DIS_NO_TO ='" + ditinctto + "',  FOLIO_NO='" + folioNo + "' where COMP_CD= " + companyCodeTextBox.Text.ToString() + " and F_CD=" + fundcodeTextBox.Text.ToString() + " and CERT_NO='" + certificateNoTextBox.Text.ToString() + "'";
+                                             " DIS_NO_FM ='" + DictincFrom + "',DIS_NO_TO ='" + ditinctto + "',  FOLIO_NO='" + folioNo + "', POSTED='"+posted+ "',upd_date_time='" + strCurrentDateTimeForLog + "' where COMP_CD= " + companyCodeTextBox.Text.ToString() + " and F_CD=" + fundcodeTextBox.Text.ToString() + " and CERT_NO='" + certificateNoTextBox.Text.ToString() + "'";
                 }
 
 
                 int NumOfRows = commonGatewayObj.ExecuteNonQuery(strUPdQuery);
                 ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Update sucessfully !');", true);
+                clearField();
 
             }
             else
             {
-                string strInsQuery = "insert into PSDR_FI(F_CD,comp_cd,PSDR_NO,NO_SHARES,SH_TYPE,OM_LOT,SP_DATE,DIS_NO_FM,DIS_NO_TO, FOLIO_NO,CERT_NO,POSTED,OP_NAME) values('" + Convert.ToUInt32(fundcode) + "','" + Convert.ToInt32(companycode) + "','" + Convert.ToInt32(psdrNo) + "','" + noofShares + "','" + securType + "','" + marketlot + "','" + sp_date + "','" + DictincFrom + "','" + ditinctto + "','" + folioNo + "','" + certificateNo + "','A','" + loginId + "')";
+                string strInsQuery = "insert into PSDR_FI(F_CD,comp_cd,PSDR_NO,NO_SHARES,SH_TYPE,OM_LOT,SP_DATE,DIS_NO_FM,DIS_NO_TO, FOLIO_NO,CERT_NO,POSTED,OP_NAME,upd_date_time) values('" + Convert.ToUInt32(fundcode) + "','" + Convert.ToInt32(companycode) + "','" + Convert.ToInt32(psdrNo) + "','" + noofShares + "','" + securType + "','" + marketlot + "','" + sp_date + "','" + DictincFrom + "','" + ditinctto + "','" + folioNo + "','" + certificateNo + "','"+ posted + "','" + loginId + "','"+ strCurrentDateTimeForLog + "')";
 
                 int NumOfRows = commonGatewayObj.ExecuteNonQuery(strInsQuery);
                 ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Insert sucessfully !');", true);
@@ -108,7 +122,9 @@ private void clearField()
     DictincttivefromTextBox.Text = "";
     noofshareTextBox.Text = "";
     RIssuefromTextBox.Text = "";
-
+    lblLabelMarketLotLabel.Text = "";
+    companyNameLabe.Visible = false;
+    fundLabel.Visible = false;
 }
 
 protected void allotmentTextBox_TextChanged(object sender, EventArgs e)
@@ -180,8 +196,9 @@ protected void certificateNoTextBox_TextChanged(object sender, EventArgs e)
             folioNoTextBox.Text = phdrfi.FOLIO_NO;
             AllotmentNoTextBox.Text = phdrfi.ALLOT_NO;
             certificateNoTextBox.Text = phdrfi.CERT_NO;
-            DictincttivetoTextBox.Text = phdrfi.DIS_NO_FM;
-            DictincttivefromTextBox.Text = phdrfi.DIS_NO_TO;
+            DictincttivetoTextBox.Text = phdrfi.DIS_NO_TO;
+            DictincttivefromTextBox.Text = phdrfi.DIS_NO_FM;
+            postedDropDownList.Text = phdrfi.POSTED;
             noofshareTextBox.Text = phdrfi.NO_SHARES;
             RIssuefromTextBox.Text = Convert.ToDateTime(phdrfi.SP_DATE).ToString("dd/MM/yyyy");
         }
@@ -245,7 +262,7 @@ protected void compCodeTextBox_TextChanged(object sender, EventArgs e)
             }
             else
             {
-                companyNameLabe.Text = "Company nmae not found ";
+                companyNameLabe.Text = "Company name not found ";
             }
 
 
