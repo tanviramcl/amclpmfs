@@ -281,6 +281,26 @@ public class DropDownList
         return dtHowlaDateDropDownList;
     }
 
+    public DataTable PreviousHowlaDateDropDownList(string Date)//Get Howla Date from invest.fund_trans_hb Table
+    {
+        DataTable dtHowlaDate = commonGatewayObj.Select("SELECT DISTINCT VCH_DT    FROM   FUND_TRANS_HB WHERE VCH_DT>='"+ Date + "'  ORDER BY VCH_DT DESC");
+        DataTable dtHowlaDateDropDownList = new DataTable();
+        dtHowlaDateDropDownList.Columns.Add("Howla_Date", typeof(string));
+        dtHowlaDateDropDownList.Columns.Add("VCH_DT", typeof(string));
+        DataRow dr = dtHowlaDateDropDownList.NewRow();
+        dr["Howla_Date"] = "--Select--";
+        dr["VCH_DT"] = "0";
+        dtHowlaDateDropDownList.Rows.Add(dr);
+        for (int loop = 0; loop < dtHowlaDate.Rows.Count; loop++)
+        {
+            dr = dtHowlaDateDropDownList.NewRow();
+            dr["Howla_Date"] = Convert.ToDateTime(dtHowlaDate.Rows[loop]["VCH_DT"]).ToString("dd-MMM-yyyy");
+            dr["VCH_DT"] = Convert.ToDateTime(dtHowlaDate.Rows[loop]["VCH_DT"]).ToString("dd-MMM-yyyy");
+            dtHowlaDateDropDownList.Rows.Add(dr);
+        }
+        return dtHowlaDateDropDownList;
+    }
+
     public DataTable pdateDropDownList()//For Authorized Signatory
     {
         DataTable pdate = commonGatewayObj.Select("select max(vch_dt) as vch_dt from fund_trans_hb");

@@ -53,6 +53,9 @@ public partial class UI_BalancechekReport : System.Web.UI.Page
             RIssueToTextBox.Visible = false;
             LabelPfolioAsOn.Visible = true;
             portfolioAsOnDropDownList.Visible = true;
+            portfolioAsOnDropDownList.SelectedValue = "0";
+            RIssuefromTextBox.Text = string.Empty;
+            RIssueToTextBox.Text = string.Empty;
             LabelPreviousMonth.Visible = false;
             portfolioPreviousMonthDropDownList.Visible = false;
            
@@ -62,29 +65,43 @@ public partial class UI_BalancechekReport : System.Web.UI.Page
             LabelFromDate.Visible = true;
             LabelToDte.Visible = true;
             RIssuefromTextBox.Visible = true;
+            RIssuefromTextBox.Text = "";
             RIssueToTextBox.Visible = true;
+            RIssueToTextBox.Text = "";
             LabelPfolioAsOn.Visible = true;
+            RIssuefromTextBox.Text = string.Empty;
+            RIssueToTextBox.Text = string.Empty;
             portfolioAsOnDropDownList.Visible = true;
+            portfolioAsOnDropDownList.SelectedValue = "0";
             LabelPreviousMonth.Visible = true;
             portfolioPreviousMonthDropDownList.Visible = true;
+            portfolioPreviousMonthDropDownList.SelectedValue = "0";
             
+
+
         }
         else if (tbl6.Checked)
         {
             LabelFromDate.Visible = true;
             LabelToDte.Visible = true;
             RIssuefromTextBox.Visible = true;
+          //  RIssuefromTextBox.Text = "";
             RIssueToTextBox.Visible = true;
+          //  RIssueToTextBox.Text = "";
+            RIssuefromTextBox.Text = string.Empty;
+            RIssueToTextBox.Text = string.Empty;
             LabelPfolioAsOn.Visible = false;
             portfolioAsOnDropDownList.Visible = false;
             LabelPreviousMonth.Visible = false;
             portfolioPreviousMonthDropDownList.Visible = false;
-           
+            portfolioAsOnDropDownList.SelectedValue = "0";
+            portfolioPreviousMonthDropDownList.SelectedValue = "0";
+
         }
 
 
     }
-
+   
 
     protected void showButton_Click(object sender, EventArgs e)
     {

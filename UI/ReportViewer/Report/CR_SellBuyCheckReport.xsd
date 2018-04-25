@@ -6,13 +6,13 @@
         <xs:element name="SellBuyCheckReport">
           <xs:complexType>
             <xs:sequence>
-              <xs:element name="VCH_DT" type="xs:dateTime" minOccurs="0" />
               <xs:element name="F_CD" type="xs:decimal" minOccurs="0" />
               <xs:element name="F_NAME" type="xs:string" minOccurs="0" />
               <xs:element name="COMP_CD" type="xs:decimal" minOccurs="0" />
               <xs:element name="COMP_NM" type="xs:string" minOccurs="0" />
               <xs:element name="C.COMP_NM_x007C__x007C__x0027__x0028__x0027__x007C__x007C_T.COMP_CD_x007C__x007C__x0027__x0029__x0027_" type="xs:string" minOccurs="0" />
               <xs:element name="TRAN_TP" type="xs:string" minOccurs="0" />
+              <xs:element name="VCH_DT" type="xs:dateTime" minOccurs="0" />
               <xs:element name="TRAN_TYPE" type="xs:string" minOccurs="0" />
               <xs:element name="VCH_NO" type="xs:string" minOccurs="0" />
               <xs:element name="NO_SHARE" type="xs:decimal" minOccurs="0" />

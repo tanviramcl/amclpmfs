@@ -45,15 +45,7 @@
     <br />
     <table width="600" align="center" cellpadding="0" cellspacing="0" >
     <colgroup width="100"></colgroup>
-       <%-- <tr>
-            <td align="right" style="font-weight: 700" class="style5"><b>Portfolio As On:</b></td>
-            <td align="left">
-                <asp:DropDownList ID="PortfolioAsOnDropDownList" runat="server" TabIndex="8"></asp:DropDownList>
-                <span class="style6">*</span>
-            </td>
-        </tr>--%>
 
-        
 
        
             <tr>
@@ -78,19 +70,16 @@
            <tr>
         <td align="right" style="font-weight: 700"><b><asp:Label ID="LabelPfolioAsOn" Visible="true" style="font-weight: 700" runat="server" Text="Portfolio As On:"></asp:Label>&nbsp; </b></td>
         <td align="left">
-            <asp:DropDownList ID="portfolioAsOnDropDownList" runat="server" TabIndex="8"></asp:DropDownList>
+            <asp:DropDownList ID="portfolioAsOnDropDownList" runat="server"  TabIndex="8"></asp:DropDownList>
             </td>
     </tr>
          <tr>
-        <td align="right" style="font-weight: 700"><b><asp:Label ID="LabelPreviousMonth" Visible="false" style="font-weight: 700" runat="server" Text="Portfolio Previous Month:"></asp:Label>&nbsp; </b></td>
+        <td align="right" style="font-weight: 700"><b><asp:Label ID="LabelPreviousMonth" Visible="false" style="font-weight: 700" runat="server" Text="Previous Month-End Date:"></asp:Label>&nbsp; </b></td>
         <td align="left">
             <asp:DropDownList ID="portfolioPreviousMonthDropDownList"  Visible="false"  runat="server" TabIndex="8"></asp:DropDownList>
             </td>
     </tr>
-        <tr>
-            <td colspan="2">&nbsp;</td>
-        </tr>
-            
+      
        
             
         <tr>
@@ -119,7 +108,7 @@
           $('#<%=RIssuefromTextBox.ClientID%>').datepicker({
                  changeMonth: true,
                  changeYear: true,
-              //   dateFormat: "dd/mm/yy",
+              //  dateFormat: "dd/mm/yy",
                  maxDate:"today",
                  onSelect: function(selected) {
                      $('#<%=RIssueToTextBox.ClientID%>').datepicker("option","minDate", selected)
@@ -154,7 +143,7 @@
                   return false;
               else
                   return true;
-          }, "* Please Prevoius month Date");
+          }, "* Previous Month-End Date");
 
               $("#aspnetForm").validate({
         rules: {
