@@ -178,8 +178,8 @@ public partial class UI_NonListedSecuritiesInvestmentEntryForm : System.Web.UI.P
     private void FillNonListedSecuritiesGrid()
     {
 
-        string strQuery, strQueryMaxinvDate, invDate;
-        DataTable dt,dtMaxInvDate;
+        string strQuery, strQueryMaxinvDate, invDate,strEntydtbyInvDate;
+        DataTable dt,dtMaxInvDate, dtEntryDateByInvDate;
       
         strQueryMaxinvDate = "select TO_CHAR(max(INV_DATE), 'DD-MON-YYYY')inv_date from NON_LISTED_SECURITIES where f_cd=" + fundNameDropDownList.SelectedValue.ToString();
         dtMaxInvDate = commonGatewayObj.Select(strQueryMaxinvDate);
@@ -194,13 +194,26 @@ public partial class UI_NonListedSecuritiesInvestmentEntryForm : System.Web.UI.P
             invDate = "01-Jan-1970";
         }
 
+        strEntydtbyInvDate= "select ENTRY_DATE from NON_LISTED_SECURITIES where f_cd=" + fundNameDropDownList.SelectedValue.ToString()+ " and INV_DATE='"+ invDate + "'";
+        dtEntryDateByInvDate = commonGatewayObj.Select(strEntydtbyInvDate);
+
+        if (!dtEntryDateByInvDate.Rows[0].IsNull("ENTRY_DATE"))
+        {
+            invDate = dtMaxInvDate.Rows[0]["inv_date"].ToString();
+            //  invDate = Convert.ToDateTime(dt.Rows[0]["vch_dt"].ToString()).ToString("dd-MMM-yyyy");
+        }
+        else
+        {
+            invDate = "01-Jan-1970";
+        }
+
         //strQuery = "SELECT  F_CD,COMP_CD,AMOUNT,RATE,NO_SHARES,TO_CHAR(INV_DATE, 'DD-MON-YYYY') as  INV_DATE , NLSD.CAT_ID,NC.CAT_NM FROM NON_LISTED_SECURITIES_DETAILS nlsd inner join " +
         //    " NONLISTED_CATEGORY nc ON NLSD.CAT_ID = NC.CAT_ID "+
         //    " where F_CD=" + fundNameDropDownList.SelectedValue.ToString() + " and inv_date>='"+ dtMaxInvDate.Rows[0]["inv_date"].ToString()+"'";
 
 
         strQuery = "Select tab1.F_CD,tab1.COMP_CD,tab2.COMP_NM,tab1.AMOUNT,tab1.RATE,tab1.NO_SHARES, tab1.INV_DATE , tab1.CAT_ID,tab1.CAT_NM  from (SELECT  F_CD,COMP_CD,AMOUNT,RATE,NO_SHARES,TO_CHAR(INV_DATE, 'DD-MON-YYYY') as  INV_DATE , NLSD.CAT_ID,NC.CAT_NM FROM NON_LISTED_SECURITIES_DETAILS nlsd" +
-            " inner join  NONLISTED_CATEGORY nc ON NLSD.CAT_ID = NC.CAT_ID  where F_CD=" + fundNameDropDownList.SelectedValue.ToString() + " and inv_date>='"+ dtMaxInvDate.Rows[0]["inv_date"].ToString()+ "') tab1 left outer join COMP_NONLISTED tab2 ON tab1.COMP_CD=tab2.COMP_CD";
+            " inner join  NONLISTED_CATEGORY nc ON NLSD.CAT_ID = NC.CAT_ID  where F_CD=" + fundNameDropDownList.SelectedValue.ToString() + " and inv_date>'"+ dtMaxInvDate.Rows[0]["inv_date"].ToString()+ "') tab1 left outer join COMP_NONLISTED tab2 ON tab1.COMP_CD=tab2.COMP_CD";
 
         try
         {
