@@ -57,13 +57,13 @@ public partial class UI_ReportViewer_StockDeclarationBeforePostedReportViewer : 
 
         if (fundCode == "0" && companycode == "0" && transtype == "0")
         {
-            sbMst.Append("select t.VCH_DT, t.F_CD  ,f.f_name,t.COMP_CD , c.comp_nm,c.comp_nm  || '('|| t.COMP_CD|| ')',t.TRAN_TP , decode ( t.TRAN_TP, 'C', 'Cost','S','Sell','B','Bonus','R','Right','P','IPO','I','IPO') tran_type,");
+            sbMst.Append("select  t.F_CD as f_cd,f.f_name,t.COMP_CD , c.comp_nm,c.comp_nm  || '('|| t.COMP_CD|| ')',t.TRAN_TP , t.VCH_DT, decode ( t.TRAN_TP, 'C', 'Cost','S','Sell','B','Bonus','R','Right','P','IPO','I','IPO') tran_type,");
             sbMst.Append(" t.VCH_NO, t.NO_SHARE, t.RATE ,t.COST_RATE, t.CRT_AFT_COM , t.AMOUNT , t.AMT_AFT_COM,ROUND(t.AMT_AFT_COM/t.NO_SHARE ,2)avg_rate,t.STOCK_EX ,decode(t.STOCK_EX,'D','DSE','C','CSE',' ALL') stock_name,t.OP_NAME   from fund_trans_hb t,comp c , fund f");
-            sbMst.Append(" where vch_dt between '" + Fromdate + "' and '" + Todate + "' and c.comp_cd=t.comp_cd and f.f_cd=t.f_cd order by t.f_cd,t.VCH_DT");
+            sbMst.Append(" where vch_dt between '" + Fromdate + "' and '" + Todate + "' and c.comp_cd=t.comp_cd and f.f_cd=t.f_cd order by t.F_CD,t.VCH_DT DESC");
             sbMst.Append(sbfilter.ToString());
             dtReprtSource = commonGatewayObj.Select(sbMst.ToString());
             dtReprtSource.TableName = "SellBuyCheckReport";
-            //dtReprtSource.WriteXmlSchema(@"D:\officialProject\4-5-2017\amclpmfs\UI\ReportViewer\Report\CR_SellBuyCheckReport.xsd");
+            dtReprtSource.WriteXmlSchema(@"D:\IAMCL_10-7-17\amclpmfs\amclpmfs\UI\ReportViewer\Report\CR_SellBuyCheckReport.xsd");
             if (dtReprtSource.Rows.Count > 0)
             {
 

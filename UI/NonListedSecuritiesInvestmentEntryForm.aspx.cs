@@ -365,7 +365,7 @@ public partial class UI_NonListedSecuritiesInvestmentEntryForm : System.Web.UI.P
         DataTable dtNonListedDetailsMAXInV_DATE;
         DataTable dtNonListedMAXInV_DATE;
         DataTable dtNonlistedSecuritiesMaxInvDate;
-
+       
         DataTable dtNonListedTotalSumofAmmount;
 
         DataTable dtNonListedID;
@@ -375,6 +375,9 @@ public partial class UI_NonListedSecuritiesInvestmentEntryForm : System.Web.UI.P
         strQuery1 = "Select  MAX(INV_DATE) as INV_DATE from NON_LISTED_SECURITIES_DETAILS where F_CD=" + fundNameDropDownList.SelectedValue.ToString() + "";
 
         dtNonListedDetailsMAXInV_DATE = commonGatewayObj.Select(strQuery1);
+
+        string invDate = InvestMentDateTextBox.Text.ToString();
+        DateTime dtINVDATE = DateTime.ParseExact(invDate, "dd/MM/yyyy", null);
 
         strQuery2 = "Select  MAX(PREV_MAX_INV_DATE) as PREV_MAX_INV_DATE  from NON_LISTED_SECURITIES where F_CD=" + fundNameDropDownList.SelectedValue.ToString() + "";
 
@@ -412,7 +415,7 @@ public partial class UI_NonListedSecuritiesInvestmentEntryForm : System.Web.UI.P
         }
         else
         {
-            string strUpdateNonlisted = "UPDATE NON_LISTED_SECURITIES SET INV_AMOUNT = '" + Convert.ToDouble(dtNonListedTotalSumofAmmount.Rows[0]["Ammount"].ToString()) + "', PREV_MAX_INV_DATE ='" + Convert.ToDateTime(dtNonListedMAXInV_DATE.Rows[0]["PREV_MAX_INV_DATE"]).ToString("dd-MMM-yyyy") + "' WHERE F_CD = " + fundNameDropDownList.SelectedValue.ToString() + " ";
+            string strUpdateNonlisted = "UPDATE NON_LISTED_SECURITIES SET INV_AMOUNT = '" + Convert.ToDouble(dtNonListedTotalSumofAmmount.Rows[0]["Ammount"].ToString()) + "', PREV_MAX_INV_DATE ='" + Convert.ToDateTime(dtNonListedMAXInV_DATE.Rows[0]["PREV_MAX_INV_DATE"]).ToString("dd-MMM-yyyy") + "' WHERE F_CD = " + fundNameDropDownList.SelectedValue.ToString() + " and INV_DATE='" + dtINVDATE.ToString("dd-MMM-yyyy") + "' ";
 
             int NumOfRowsUpdate = commonGatewayObj.ExecuteNonQuery(strUpdateNonlisted);
             lblProcessing.Text = "Processing completed!!!!";
