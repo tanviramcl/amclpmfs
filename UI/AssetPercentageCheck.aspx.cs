@@ -80,7 +80,7 @@ public partial class UI_AssetPercentageCheck : System.Web.UI.Page
         sbMst.Append("  NAV.NAV_MASTER.NAVDATE = DERIVEDTBL_1.MAX_NAVDATE ");
         sbMst.Append("  WHERE      (NAV.NAV_DETAILS.NAVROWTYPE = 'A')  ");
         sbMst.Append("  GROUP BY NAV.NAV_MASTER.NAVFUNDID) DERIVEDTBL_NAV ON FUND.F_CD = DERIVEDTBL_NAV.NAVFUNDID ");
-        sbMst.Append(" WHERE     (FUND.F_CD BETWEEN 1 AND 26) ");
+        sbMst.Append(" WHERE     (FUND.F_CD BETWEEN 1 AND 29) ");
         sbMst.Append(" GROUP BY FUND.F_CD, FUND.F_NAME, DERIVEDTBL_NAV.ASSET_VALUE ");
         sbOrderBy.Append(" ORDER BY  FUND.F_CD ");
 
