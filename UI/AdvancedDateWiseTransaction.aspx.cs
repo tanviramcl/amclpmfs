@@ -546,9 +546,14 @@ public partial class DateWiseTransaction : System.Web.UI.Page
                     if (tblAllfundInfo.Rows[l]["Stock_Exchange"].ToString() == "D")   // For DSE
                     {
 
+                        //strSleFromHowlaQuery = "select TO_CHAR(sp_date,'DD-MON-YYYY')sp_date, f_cd, comp_cd, in_out, sum(sp_qty)qty, substr(bk_cd, 1, 1) brk," +
+                        //  " sum(sp_qty * sp_rate) amt, ROUND((sum(sp_qty * sp_rate) / sum(sp_qty)),2) rate from howla where sp_date between '" + strHowlaDateFrom +
+                        //  "' and '" + strHowlaDateTo + "' and f_cd =" + tblAllfundInfo.Rows[l]["F_CD"].ToString() + " group by sp_date, f_cd, comp_cd, in_out, substr(bk_cd,1, 1) order by sp_date,f_cd,comp_cd";
+                        //change
                         strSleFromHowlaQuery = "select TO_CHAR(sp_date,'DD-MON-YYYY')sp_date, f_cd, comp_cd, in_out, sum(sp_qty)qty, substr(bk_cd, 1, 1) brk," +
-                          " sum(sp_qty * sp_rate) amt, ROUND((sum(sp_qty * sp_rate) / sum(sp_qty)),2) rate from howla where sp_date between '" + strHowlaDateFrom +
-                          "' and '" + strHowlaDateTo + "' and f_cd =" + tblAllfundInfo.Rows[l]["F_CD"].ToString() + " group by sp_date, f_cd, comp_cd, in_out, substr(bk_cd,1, 1) order by sp_date,f_cd,comp_cd";
+                         " sum(sp_qty * sp_rate) amt, ROUND((sum(sp_qty * sp_rate) / sum(sp_qty)),8) rate from howla where sp_date between '" + strHowlaDateFrom +
+                         "' and '" + strHowlaDateTo + "' and f_cd =" + tblAllfundInfo.Rows[l]["F_CD"].ToString() + " group by sp_date, f_cd, comp_cd, in_out, substr(bk_cd,1, 1) order by sp_date,f_cd,comp_cd";
+
                         dtFromHowla = commonGatewayObj.Select(strSleFromHowlaQuery);
                     }
 
@@ -556,7 +561,7 @@ public partial class DateWiseTransaction : System.Web.UI.Page
                     {
 
                         strSleFromHowlaQuery = "select TO_CHAR(sp_date,'DD-MON-YYYY')sp_date, f_cd, comp_cd, in_out, sum(sp_qty)qty, substr(bk_cd, 1, 1) brk," +
-                        " sum(sp_qty * sp_rate) amt, ROUND((sum(sp_qty * sp_rate) / sum(sp_qty)),2) rate from howla_cse where sp_date between '" + strHowlaDateFrom +
+                        " sum(sp_qty * sp_rate) amt, ROUND((sum(sp_qty * sp_rate) / sum(sp_qty)),8) rate from howla_cse where sp_date between '" + strHowlaDateFrom +
                         "' and '" + strHowlaDateTo + "' and f_cd =" + tblAllfundInfo.Rows[l]["F_CD"].ToString() + " group by sp_date, f_cd, comp_cd, in_out, substr(bk_cd,1, 1) order by sp_date,f_cd,comp_cd";
                         dtFromHowla = commonGatewayObj.Select(strSleFromHowlaQuery);
                     }
