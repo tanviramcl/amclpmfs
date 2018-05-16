@@ -39,7 +39,7 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
         lblProcessing.Text = "";
         if (!IsPostBack)
         {
-           txtbalanceDate1.Text = dtBalanceDate.Rows[0]["balancedate1"].ToString();
+            txtbalanceDate1.Text = dtBalanceDate.Rows[0]["balancedate1"].ToString();
             txtbalanceDate2.Text = dtBalanceDate.Rows[0]["balancedate2"].ToString();
 
             string maxpfolioDate = Convert.ToDateTime(dtmaxpfolioDate.Rows[0]["date1"]).ToString("dd-MMM-yyyy");
@@ -110,7 +110,11 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
                 sbfilter.Append(" ");
                 sbMst.Append("select a.F_CD, a.COMP_CD, a.TOT_NOS,nvl( a.TOT_COST,0) as TOT_COST, a.TCST_AFT_COM, a.BAL_DT, comp.avg_RT, nvl(comp.CSE_RT,0) as CSE_RT ,");
                 sbMst.Append("comp.ADC_RT, sect_maj.SECT_MAJ_NM, sect_maj.SECT_MAJ_CD, '" + strdtBalanceDate1 + "' as BalanceDate from comp, mprice_temp, fund_folio_hb a, sect_maj");
+<<<<<<< HEAD
                 sbMst.Append(" where  mprice_temp.f_cd = a.f_cd and comp.comp_cd = a.comp_cd and ");
+=======
+                sbMst.Append(" where mprice_temp.f_cd = a.f_cd and comp.comp_cd = a.comp_cd and ");
+>>>>>>> 6fd0bfbfa3e5fb1ce362b07ba52523b15c08ede0
                 sbMst.Append("comp.sect_maj_cd = sect_maj.sect_maj_cd and comp.comp_cd = mprice_temp.comp_cd and a.tot_nos > 0");
                 sbMst.Append(sbfilter.ToString());
                 dtsource = commonGatewayObj.Select(sbMst.ToString());
@@ -203,10 +207,10 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
 
 
     }
-   
+
     public class PortFolioBk
     {
-        public string F_CD { get; set;}
+        public string F_CD { get; set; }
         public string COMP_CD { get; set; }
         public string TOT_NOS { get; set; }
         public string TOT_COST { get; set; }
@@ -221,14 +225,14 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
 
     }
 
-   
 
-   
-  
+
+
+
 
     public DataTable GetTotalrowPortfolio_bk(string date)
     {
-        DataTable totalrow = commonGatewayObj.Select("select count(*) as TotalRow from pfolio_bk where baL_dt_ctrl='"+date+ "'");
+        DataTable totalrow = commonGatewayObj.Select("select count(*) as TotalRow from pfolio_bk where baL_dt_ctrl='" + date + "'");
         return totalrow;
     }
     private void ClearFields()
@@ -242,3 +246,4 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
     }
 
 }
+ 

@@ -178,8 +178,8 @@ public partial class UI_NonListedSecuritiesInvestmentEntryForm : System.Web.UI.P
     private void FillNonListedSecuritiesGrid()
     {
 
-        string strQuery, strQueryMaxinvDate, invDate;
-        DataTable dt,dtMaxInvDate;
+        string strQuery, strQueryMaxinvDate, invDate,strEntydtbyInvDate;
+        DataTable dt,dtMaxInvDate, dtEntryDateByInvDate;
       
         strQueryMaxinvDate = "select TO_CHAR(max(INV_DATE), 'DD-MON-YYYY')inv_date from NON_LISTED_SECURITIES where f_cd=" + fundNameDropDownList.SelectedValue.ToString();
         dtMaxInvDate = commonGatewayObj.Select(strQueryMaxinvDate);
@@ -188,6 +188,19 @@ public partial class UI_NonListedSecuritiesInvestmentEntryForm : System.Web.UI.P
         {
             invDate = dtMaxInvDate.Rows[0]["inv_date"].ToString();
           //  invDate = Convert.ToDateTime(dt.Rows[0]["vch_dt"].ToString()).ToString("dd-MMM-yyyy");
+        }
+        else
+        {
+            invDate = "01-Jan-1970";
+        }
+
+        strEntydtbyInvDate= "select ENTRY_DATE from NON_LISTED_SECURITIES where f_cd=" + fundNameDropDownList.SelectedValue.ToString()+ " and INV_DATE='"+ invDate + "'";
+        dtEntryDateByInvDate = commonGatewayObj.Select(strEntydtbyInvDate);
+
+        if (!dtEntryDateByInvDate.Rows[0].IsNull("ENTRY_DATE"))
+        {
+            invDate = dtMaxInvDate.Rows[0]["inv_date"].ToString();
+            //  invDate = Convert.ToDateTime(dt.Rows[0]["vch_dt"].ToString()).ToString("dd-MMM-yyyy");
         }
         else
         {
