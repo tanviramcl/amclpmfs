@@ -49,12 +49,6 @@ public partial class UI_NonListedSecuritiesInvestmentEntryForm : System.Web.UI.P
                 fundNameDropDownList.DataValueField = "F_CD";
                 fundNameDropDownList.DataBind();
 
-
-                //PortfolioAsOnDropDownList.DataSource = dtPortfolioAsOnDropDownList;
-                //PortfolioAsOnDropDownList.DataTextField = "Balance_Date";
-                //PortfolioAsOnDropDownList.DataValueField = "bal_dt_ctrl";
-                //PortfolioAsOnDropDownList.DataBind();
-
                 nonlistedCompanyDropDownList.DataSource = dtCompanyDropdownlist;
                 nonlistedCompanyDropDownList.DataTextField = "COMP_NM";
                 nonlistedCompanyDropDownList.DataValueField = "COMP_CD";
@@ -65,12 +59,62 @@ public partial class UI_NonListedSecuritiesInvestmentEntryForm : System.Web.UI.P
                 nonlistedCategoryDropDownList.DataValueField = "CAT_ID";
                 nonlistedCategoryDropDownList.DataBind();
 
-
-
-
+                
             }
         }
     }
+
+    protected void OnRowDeleting(object sender, GridViewDeleteEventArgs e)
+    {
+
+
+        //  GridViewRow row = GridViewNonListedSecurities.Rows[e.NewSelectedIndex];
+        string confirmValue = HiddenField2.Value;
+        if (confirmValue == "Yes")
+        {
+
+            GridViewRow row = (GridViewRow)GridViewNonListedSecurities.Rows[e.RowIndex];
+
+            string companyCode = row.Cells[1].Text.ToString();
+            string fCd= row.Cells[0].Text.ToString();
+
+            double amount = Convert.ToDouble(row.Cells[3].Text.ToString());
+
+            string strQuery1 = "Select  TO_CHAR(max(INV_DATE), 'DD-MON-YYYY')INV_DATE  from NON_LISTED_SECURITIES where F_CD=" + fCd+ "";
+
+            DataTable dtNonListedDetailsMAXInV_DATE = commonGatewayObj.Select(strQuery1);
+
+            string maxInvDate= dtNonListedDetailsMAXInV_DATE.Rows[0]["INV_DATE"].ToString();
+
+
+
+
+            string strQuery2 = "Select  * from NON_LISTED_SECURITIES where F_CD=" +fCd+ " and INV_DATE='"+ maxInvDate + "' ";
+
+            DataTable dtNonlistedSecuritiesMaxInvDate = commonGatewayObj.Select(strQuery2);
+
+            if (dtNonlistedSecuritiesMaxInvDate.Rows.Count > 0)
+            {
+                Double FinalAmount = Convert.ToDouble(dtNonlistedSecuritiesMaxInvDate.Rows[0]["INV_AMOUNT"].ToString()) - amount;
+
+               string strUpdateNonlisted = "UPDATE NON_LISTED_SECURITIES SET INV_AMOUNT = '" + Convert.ToDouble(FinalAmount) + "' WHERE F_CD = " + fCd + " and INV_DATE ='" + maxInvDate + "'";
+
+                int NumOfRows2 = commonGatewayObj.ExecuteNonQuery(strUpdateNonlisted);
+
+                string strDelQuery = "delete from NON_LISTED_SECURITIES_DETAILS where comp_cd='" + companyCode + "' and f_cd="+fCd+ " and AMOUNT="+ amount + "";
+                int NumOfRows = commonGatewayObj.ExecuteNonQuery(strDelQuery);
+                FillNonListedSecuritiesGrid();
+            }
+
+
+        }
+        else
+        {
+            lblProcessing.Text = "Delete  unsuccessful";
+        }
+
+    }
+
     protected void saveButton_Click(object sender, EventArgs e)
     {
 
@@ -360,7 +404,8 @@ public partial class UI_NonListedSecuritiesInvestmentEntryForm : System.Web.UI.P
 
     protected void GridViewNonListedSecurities_PageIndexChanging(object sender, GridViewPageEventArgs e)
     {
-
+        GridViewNonListedSecurities.PageIndex = e.NewPageIndex;
+        FillNonListedSecuritiesGrid();
     }
 
 
@@ -393,97 +438,103 @@ public partial class UI_NonListedSecuritiesInvestmentEntryForm : System.Web.UI.P
 
     protected void btnProcess_Click(object sender, EventArgs e)
     {
-
-
-        string strQuery1, strQuery2, strQuery3,strQuery4, strQuery5, strQueryMaxinvDate, strQuery6;
-        string loginId = Session["UserID"].ToString();
-        DataTable dtNonListedDetailsMAXInV_DATE, dtMaxInvDate;
-        DataTable dtNonListedMAXInV_DATE;
-        DataTable dtNonlistedSecuritiesMaxInvDate;
-       
-        DataTable dtNonListedTotalSumofAmmount;
-
-        DataTable dtNonListedID;
-
-
-
-        strQuery1 = "Select  MAX(INV_DATE) as INV_DATE from NON_LISTED_SECURITIES_DETAILS where F_CD=" + fundNameDropDownList.SelectedValue.ToString() + "";
-
-         dtNonListedDetailsMAXInV_DATE = commonGatewayObj.Select(strQuery1);
-
-        string invDate = InvestMentDateTextBox.Text.ToString();
-        //DateTime dtINVDATE = DateTime.ParseExact(invDate, "dd/MM/yyyy", null);
-
-        strQuery2 = "Select  MAX(PREV_MAX_INV_DATE) as PREV_MAX_INV_DATE  from NON_LISTED_SECURITIES where F_CD=" + fundNameDropDownList.SelectedValue.ToString() + "";
-
-        dtNonListedMAXInV_DATE = commonGatewayObj.Select(strQuery2);
-
-        strQueryMaxinvDate = "select TO_CHAR(max(INV_DATE), 'DD-MON-YYYY')inv_date from NON_LISTED_SECURITIES where f_cd=" + fundNameDropDownList.SelectedValue.ToString();
-        dtMaxInvDate = commonGatewayObj.Select(strQueryMaxinvDate);
-
-        if (!dtMaxInvDate.Rows[0].IsNull("inv_date"))
+        string confirmValue = HiddenField1.Value;
+        if (confirmValue == "Yes")
         {
-            invDate = dtMaxInvDate.Rows[0]["inv_date"].ToString();
-            //  invDate = Convert.ToDateTime(dt.Rows[0]["vch_dt"].ToString()).ToString("dd-MMM-yyyy");
+
+            string strQuery1, strQuery2, strQuery3, strQuery4, strQuery5, strQueryMaxinvDate, strQuery6;
+            string loginId = Session["UserID"].ToString();
+            DataTable dtNonListedDetailsMAXInV_DATE, dtMaxInvDate;
+            DataTable dtNonListedMAXInV_DATE;
+            DataTable dtNonlistedSecuritiesMaxInvDate;
+
+            DataTable dtNonListedTotalSumofAmmount;
+
+            DataTable dtNonListedID;
+
+
+
+            strQuery1 = "Select  MAX(INV_DATE) as INV_DATE from NON_LISTED_SECURITIES_DETAILS where F_CD=" + fundNameDropDownList.SelectedValue.ToString() + "";
+
+            dtNonListedDetailsMAXInV_DATE = commonGatewayObj.Select(strQuery1);
+
+            string invDate = InvestMentDateTextBox.Text.ToString();
+            //DateTime dtINVDATE = DateTime.ParseExact(invDate, "dd/MM/yyyy", null);
+
+            strQuery2 = "Select  MAX(PREV_MAX_INV_DATE) as PREV_MAX_INV_DATE  from NON_LISTED_SECURITIES where F_CD=" + fundNameDropDownList.SelectedValue.ToString() + "";
+
+            dtNonListedMAXInV_DATE = commonGatewayObj.Select(strQuery2);
+
+            strQueryMaxinvDate = "select TO_CHAR(max(INV_DATE), 'DD-MON-YYYY')inv_date from NON_LISTED_SECURITIES where f_cd=" + fundNameDropDownList.SelectedValue.ToString();
+            dtMaxInvDate = commonGatewayObj.Select(strQueryMaxinvDate);
+
+            if (!dtMaxInvDate.Rows[0].IsNull("inv_date"))
+            {
+                invDate = dtMaxInvDate.Rows[0]["inv_date"].ToString();
+                //  invDate = Convert.ToDateTime(dt.Rows[0]["vch_dt"].ToString()).ToString("dd-MMM-yyyy");
+            }
+            else
+            {
+                invDate = "01-Jan-1970";
+            }
+
+
+
+
+            strQuery3 = "Select  sum(AMOUNT) as Ammount  from NON_LISTED_SECURITIES_DETAILS where F_CD=" + fundNameDropDownList.SelectedValue.ToString() + " and INV_DATE BETWEEN  '" + Convert.ToDateTime(dtNonListedMAXInV_DATE.Rows[0]["PREV_MAX_INV_DATE"].ToString()).ToString("dd-MMM-yyyy") + "' AND '" + Convert.ToDateTime(dtNonListedDetailsMAXInV_DATE.Rows[0]["INV_DATE"].ToString()).ToString("dd-MMM-yyyy") + "'";
+
+            dtNonListedTotalSumofAmmount = commonGatewayObj.Select(strQuery3);
+
+
+
+
+            strQuery4 = "Select  MAX(INV_DATE) as INV_DATE from NON_LISTED_SECURITIES where F_CD=" + fundNameDropDownList.SelectedValue.ToString() + "";
+
+            dtNonlistedSecuritiesMaxInvDate = commonGatewayObj.Select(strQuery4);
+
+            strQuery5 = "Select  MAX(ID)+1 as ID from NON_LISTED_SECURITIES";
+
+            dtNonListedID = commonGatewayObj.Select(strQuery5);
+
+            DateTime NonListedDetailsMAXINVDAte = Convert.ToDateTime(dtNonListedDetailsMAXInV_DATE.Rows[0]["INV_DATE"].ToString());
+            DateTime nonListedSecuritiesINVMaxDate = Convert.ToDateTime(dtNonlistedSecuritiesMaxInvDate.Rows[0]["INV_DATE"].ToString());
+
+
+            strQuery6 = "select max(inv_date) as inv_date from (Select tab1.F_CD,tab1.COMP_CD,tab2.COMP_NM,tab1.AMOUNT,tab1.RATE,tab1.NO_SHARES, tab1.INV_DATE , tab1.CAT_ID,tab1.CAT_NM  from (SELECT  F_CD,COMP_CD,AMOUNT,RATE,NO_SHARES,TO_CHAR(INV_DATE, 'DD-MON-YYYY') as  INV_DATE , NLSD.CAT_ID,NC.CAT_NM FROM NON_LISTED_SECURITIES_DETAILS nlsd" +
+           " inner join  NONLISTED_CATEGORY nc ON NLSD.CAT_ID = NC.CAT_ID  where F_CD=" + fundNameDropDownList.SelectedValue.ToString() + " and inv_date between '" + Convert.ToDateTime(dtNonListedMAXInV_DATE.Rows[0]["PREV_MAX_INV_DATE"].ToString()).ToString("dd-MMM-yyyy") + "' and '" + Convert.ToDateTime(dtMaxInvDate.Rows[0]["inv_date"].ToString()).ToString("dd-MMM-yyyy") + "') tab1 left outer join COMP_NONLISTED tab2 ON tab1.COMP_CD=tab2.COMP_CD)";
+
+            DataTable dt = commonGatewayObj.Select(strQuery6);
+
+            if (nonListedSecuritiesINVMaxDate < NonListedDetailsMAXINVDAte)
+            {
+                string strInsQuery;
+                DateTime dtimeCurrentDateTimeForLog = DateTime.Now;
+                string strCurrentDateTimeForLog = dtimeCurrentDateTimeForLog.ToString("dd-MMM-yyyy HH:mm:ss tt", CultureInfo.InvariantCulture);
+                // (TO_DATE('2003/05/03 21:02:44', 'yyyy/mm/dd hh24:mi:ss'));
+
+                //  strInsQuery = "insert into NON_LISTED_SECURITIES(ID,F_CD,INV_AMOUNT,INV_DATE,ENTRY_BY,ENTRY_DATE,PREV_MAX_INV_DATE)values('" + dtNonListedID.Rows[0]["ID"].ToString() + "','"+fundNameDropDownList.SelectedValue.ToString()+"','"+ dtNonListedTotalSumofAmmount.Rows[0]["Ammount"].ToString() + "','"+ Convert.ToDateTime(dtNonListedDetailsMAXInV_DATE.Rows[0]["INV_DATE"]).ToString("dd-MMM-yyyy") + "','"+ loginId + "','"+ strCurrentDateTimeForLog + "','"+ Convert.ToDateTime(dtNonListedMAXInV_DATE.Rows[0]["PREV_MAX_INV_DATE"].ToString()).ToString("dd-MMM-yyyy") + "')";
+                strInsQuery = "insert into NON_LISTED_SECURITIES(ID,F_CD,INV_AMOUNT,INV_DATE,ENTRY_BY,ENTRY_DATE,PREV_MAX_INV_DATE)values(" + dtNonListedID.Rows[0]["ID"].ToString() + "," + fundNameDropDownList.SelectedValue.ToString() + ",'" + dtNonListedTotalSumofAmmount.Rows[0]["Ammount"].ToString() + "','" + Convert.ToDateTime(dtNonListedDetailsMAXInV_DATE.Rows[0]["INV_DATE"]).ToString("dd-MMM-yyyy") + "','" + loginId + "', '" + DateTime.Now.ToString("dd-MMM-yyyy") + "' ,'" + Convert.ToDateTime(dtMaxInvDate.Rows[0]["inv_date"].ToString()).ToString("dd-MMM-yyyy") + "')";
+
+                int NumOfRowsInsert = commonGatewayObj.ExecuteNonQuery(strInsQuery);
+
+                lblProcessing.Text = "Processing completed!!!!";
+                //  ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Insert Sucessfully')", true);
+            }
+            else
+            {
+                string strUpdateNonlisted = "UPDATE NON_LISTED_SECURITIES SET INV_AMOUNT = '" + Convert.ToDouble(dtNonListedTotalSumofAmmount.Rows[0]["Ammount"].ToString()) + "' WHERE F_CD = " + fundNameDropDownList.SelectedValue.ToString() + " and INV_DATE='" + dt.Rows[0]["inv_date"].ToString() + "' ";
+
+                int NumOfRowsUpdate = commonGatewayObj.ExecuteNonQuery(strUpdateNonlisted);
+                lblProcessing.Text = "Processing completed!!!!";
+
+                ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Update Sucessfully')", true);
+
+            }
         }
         else
         {
-            invDate = "01-Jan-1970";
+            this.Page.ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('You clicked NO!')", true);
         }
-
-
-
-
-        strQuery3 = "Select  sum(AMOUNT) as Ammount  from NON_LISTED_SECURITIES_DETAILS where F_CD=" + fundNameDropDownList.SelectedValue.ToString() + " and INV_DATE BETWEEN  '" + Convert.ToDateTime(dtNonListedMAXInV_DATE.Rows[0]["PREV_MAX_INV_DATE"].ToString()).ToString("dd-MMM-yyyy") + "' AND '" + Convert.ToDateTime(dtNonListedDetailsMAXInV_DATE.Rows[0]["INV_DATE"].ToString()).ToString("dd-MMM-yyyy") + "'";
-
-        dtNonListedTotalSumofAmmount = commonGatewayObj.Select(strQuery3);
-
-
-
-
-        strQuery4 = "Select  MAX(INV_DATE) as INV_DATE from NON_LISTED_SECURITIES where F_CD=" + fundNameDropDownList.SelectedValue.ToString() + "";
-
-        dtNonlistedSecuritiesMaxInvDate = commonGatewayObj.Select(strQuery4);
-
-        strQuery5 = "Select  MAX(ID)+1 as ID from NON_LISTED_SECURITIES";
-
-        dtNonListedID = commonGatewayObj.Select(strQuery5);
-
-        DateTime NonListedDetailsMAXINVDAte = Convert.ToDateTime(dtNonListedDetailsMAXInV_DATE.Rows[0]["INV_DATE"].ToString());
-        DateTime nonListedSecuritiesINVMaxDate = Convert.ToDateTime(dtNonlistedSecuritiesMaxInvDate.Rows[0]["INV_DATE"].ToString());
-
-
-        strQuery6 = "select max(inv_date) as inv_date from (Select tab1.F_CD,tab1.COMP_CD,tab2.COMP_NM,tab1.AMOUNT,tab1.RATE,tab1.NO_SHARES, tab1.INV_DATE , tab1.CAT_ID,tab1.CAT_NM  from (SELECT  F_CD,COMP_CD,AMOUNT,RATE,NO_SHARES,TO_CHAR(INV_DATE, 'DD-MON-YYYY') as  INV_DATE , NLSD.CAT_ID,NC.CAT_NM FROM NON_LISTED_SECURITIES_DETAILS nlsd" +
-       " inner join  NONLISTED_CATEGORY nc ON NLSD.CAT_ID = NC.CAT_ID  where F_CD=" + fundNameDropDownList.SelectedValue.ToString() + " and inv_date between '" + Convert.ToDateTime(dtNonListedMAXInV_DATE.Rows[0]["PREV_MAX_INV_DATE"].ToString()).ToString("dd-MMM-yyyy") + "' and '" + Convert.ToDateTime(dtMaxInvDate.Rows[0]["inv_date"].ToString()).ToString("dd-MMM-yyyy") + "') tab1 left outer join COMP_NONLISTED tab2 ON tab1.COMP_CD=tab2.COMP_CD)";
-
-         DataTable dt = commonGatewayObj.Select(strQuery6);
-
-        if (nonListedSecuritiesINVMaxDate < NonListedDetailsMAXINVDAte)
-        {
-            string strInsQuery;
-            DateTime dtimeCurrentDateTimeForLog = DateTime.Now;
-            string strCurrentDateTimeForLog = dtimeCurrentDateTimeForLog.ToString("dd-MMM-yyyy HH:mm:ss tt", CultureInfo.InvariantCulture);
-           // (TO_DATE('2003/05/03 21:02:44', 'yyyy/mm/dd hh24:mi:ss'));
-
-          //  strInsQuery = "insert into NON_LISTED_SECURITIES(ID,F_CD,INV_AMOUNT,INV_DATE,ENTRY_BY,ENTRY_DATE,PREV_MAX_INV_DATE)values('" + dtNonListedID.Rows[0]["ID"].ToString() + "','"+fundNameDropDownList.SelectedValue.ToString()+"','"+ dtNonListedTotalSumofAmmount.Rows[0]["Ammount"].ToString() + "','"+ Convert.ToDateTime(dtNonListedDetailsMAXInV_DATE.Rows[0]["INV_DATE"]).ToString("dd-MMM-yyyy") + "','"+ loginId + "','"+ strCurrentDateTimeForLog + "','"+ Convert.ToDateTime(dtNonListedMAXInV_DATE.Rows[0]["PREV_MAX_INV_DATE"].ToString()).ToString("dd-MMM-yyyy") + "')";
-            strInsQuery = "insert into NON_LISTED_SECURITIES(ID,F_CD,INV_AMOUNT,INV_DATE,ENTRY_BY,ENTRY_DATE,PREV_MAX_INV_DATE)values(" + dtNonListedID.Rows[0]["ID"].ToString() + "," + fundNameDropDownList.SelectedValue.ToString() + ",'" + dtNonListedTotalSumofAmmount.Rows[0]["Ammount"].ToString() + "','" + Convert.ToDateTime(dtNonListedDetailsMAXInV_DATE.Rows[0]["INV_DATE"]).ToString("dd-MMM-yyyy") + "','" + loginId + "', '"+ DateTime.Now.ToString("dd-MMM-yyyy") + "' ,'" + Convert.ToDateTime(dtMaxInvDate.Rows[0]["inv_date"].ToString()).ToString("dd-MMM-yyyy") + "')";
-
-            int NumOfRowsInsert = commonGatewayObj.ExecuteNonQuery(strInsQuery);
-
-            lblProcessing.Text = "Processing completed!!!!";
-          //  ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Insert Sucessfully')", true);
-        }
-        else
-        {
-            string strUpdateNonlisted = "UPDATE NON_LISTED_SECURITIES SET INV_AMOUNT = '" + Convert.ToDouble(dtNonListedTotalSumofAmmount.Rows[0]["Ammount"].ToString()) + "' WHERE F_CD = " + fundNameDropDownList.SelectedValue.ToString() + " and INV_DATE='" + dt.Rows[0]["inv_date"].ToString() + "' ";
-
-            int NumOfRowsUpdate = commonGatewayObj.ExecuteNonQuery(strUpdateNonlisted);
-            lblProcessing.Text = "Processing completed!!!!";
-
-            ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Update Sucessfully')", true);
-
-        }
-
 
 
 
