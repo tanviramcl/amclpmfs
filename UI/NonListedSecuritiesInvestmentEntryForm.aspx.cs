@@ -38,6 +38,7 @@ public partial class UI_NonListedSecuritiesInvestmentEntryForm : System.Web.UI.P
             nonlistedCategoryDropDownList.Enabled = false;
 
             lblTotalAmmont.Visible = false;
+            lblProcessing.Text = "";
             lblerror.Text = "";
             //grdShowDSEMP.DataSource = dtNonlistedSecurities;
             //grdShowDSEMP.DataBind();
@@ -69,6 +70,7 @@ public partial class UI_NonListedSecuritiesInvestmentEntryForm : System.Web.UI.P
 
 
         //  GridViewRow row = GridViewNonListedSecurities.Rows[e.NewSelectedIndex];
+        lblProcessing.Text = "";
         string confirmValue = HiddenField2.Value;
         if (confirmValue == "Yes")
         {
@@ -273,7 +275,13 @@ public partial class UI_NonListedSecuritiesInvestmentEntryForm : System.Web.UI.P
                 decimal totalammount = dt.AsEnumerable().Sum(row => row.Field<decimal>("AMOUNT"));
                 lblTotalAmmount.Text = totalammount.ToString();
 
+                lblInvDate.Text = invDate.ToString();
+
+
+
                 btnProcess.Visible = true;
+                LabelINVDate.Visible = true;
+                lblInvDate.Visible = true;
                 lblTotalAmmont.Visible = true;
                 lblTotalAmmount.Visible = true;
 
@@ -284,6 +292,8 @@ public partial class UI_NonListedSecuritiesInvestmentEntryForm : System.Web.UI.P
                 btnProcess.Visible = false;
                 lblTotalAmmont.Visible = false;
                 lblTotalAmmount.Visible = false;
+                LabelINVDate.Visible = false;
+                lblInvDate.Visible = false;
             }
 
 
@@ -305,10 +315,20 @@ public partial class UI_NonListedSecuritiesInvestmentEntryForm : System.Web.UI.P
         {
             double ammount = Convert.ToDouble(amountTextBox.Text);
             double rate = Convert.ToDouble(rateTextBox.Text);
-            double noOfShare = (ammount / rate);
-            int share = Convert.ToInt32(noOfShare);
+            if (ammount > rate)
+            {
+                double noOfShare = (ammount / rate);
+                int share = Convert.ToInt32(noOfShare);
 
-            noOfShareTextBox.Text = share.ToString();
+                noOfShareTextBox.Text = share.ToString();
+
+            }
+            else
+            {
+                ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert(' Amount must be greater than Rate .!!!');", true);
+                Label1.Text = "Amount must be greater than Rate .!!!";
+            }
+           
             //  ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Ammount" + noOfShareTextBox.Text.ToString() + "');", true);
         }
         else
@@ -353,9 +373,15 @@ public partial class UI_NonListedSecuritiesInvestmentEntryForm : System.Web.UI.P
         {
             double ammount = Convert.ToDouble(Rate);
             double rate = Convert.ToDouble(Rate);
-            double noOfShare = (ammount / rate);
-            int share = Convert.ToInt32(noOfShare);
-            noofSare = share.ToString();
+            if (ammount >= rate)
+            {
+                double noOfShare = (ammount / rate);
+                int share = Convert.ToInt32(noOfShare);
+                noofSare = share.ToString();
+            }
+            
+           
+           
         }
 
         return noofSare;
