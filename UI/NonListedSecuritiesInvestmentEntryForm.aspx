@@ -272,7 +272,7 @@
                     dir="ltr">
                <asp:GridView ID="GridViewNonListedSecurities" runat="server" AutoGenerateColumns="False"
                    AllowPaging="True" onselectedindexchanged="GridViewNonListedSecurities_SelectedIndexChanged" 
-                OnPageIndexChanging="GridViewNonListedSecurities_PageIndexChanging"   OnRowDeleting="OnRowDeleting"
+                OnPageIndexChanging="GridViewNonListedSecurities_PageIndexChanging"  
                 onrowdatabound ="GridViewNonListedSecurities_RowDataBound" BackColor="White" 
                         BorderColor="#33D4FF" BorderStyle="None" BorderWidth="1px" CellPadding="3"
                          Width="800px"
@@ -288,26 +288,15 @@
                           <asp:BoundField DataField="INV_DATE" HeaderText="Investment Date" />
                         <asp:BoundField Visible="false" DataField="CAT_ID" HeaderText="Category Id" />
                         <asp:BoundField DataField="CAT_NM" HeaderText="Category Name" />
-                      <%--  <asp:CommandField ShowDeleteButton="True"  ButtonType="Button" />--%>
-
-                          <asp:templatefield>
-                 <itemtemplate>
-                     <asp:button id="Button1" runat="server" text="Delete" CssClass="buttoncommon" Style="  width: 95px; height: 30px; font-size: 16px;"  commandname="Delete" onclientclick="fnDeleteCloseModal();" />
-                 </itemtemplate>
-                              </asp:templatefield>
 
                     </Columns>
-
                 <FooterStyle BackColor="#2874A6" ForeColor="#000000" />
                         <PagerStyle ForeColor="#2874A6" HorizontalAlign="Center" />
                         <SelectedRowStyle BackColor="#2874A6" Font-Bold="True" ForeColor="White" />
                         <HeaderStyle BackColor="#2874A6" Font-Bold="true" ForeColor="White" />
                         <RowStyle BackColor="#2874A6" ForeColor="#0000" />
                </asp:GridView>
-                    <asp:HiddenField ID="HiddenField2" runat="server" />
                     </div>
-
-          
                 
            </td>
     </tr>
@@ -336,8 +325,8 @@
                         <asp:Label ID="lblProcessing" runat="server" Text="" Style="font-size: 24px; color: green;"></asp:Label>
                         <br />
 
-                         <asp:HiddenField ID="HiddenField1" runat="server" />
-                        <asp:Button ID="btnProcess" runat="server" Text="Process" Visible="false" OnClientClick="fnCloseModal();"
+
+                        <asp:Button ID="btnProcess" runat="server" Text="Process" Visible="false"
                             CssClass="processBtn" OnClick="btnProcess_Click" />
                     </ContentTemplate>
                 </asp:UpdatePanel>
@@ -347,32 +336,8 @@
     </tr>
 </table>
 
-         <script type="text/javascript">
-             function fnCloseModal() {
-                
-                
-                 var amount = $('#<%=lblTotalAmmount.ClientID%>').html();
-                // alert(g);
-                 var str="Do you want to proceed with amount "+ amount ;       
-              if (confirm(str)) {
-              //  $("#HiddenField1").val("Yes");
-                $("#<%=HiddenField1.ClientID%>").val("Yes");
-            } else {
-               // $("#HiddenField1").val("No");
-                $("#<%=HiddenField1.ClientID%>").val("No");
-            }
-        }
-        function fnDeleteCloseModal() {
-        
-          if (confirm("Are you sure you really want to delete.....?")) {
-              //  $("#HiddenField1").val("Yes");
-                $("#<%=HiddenField2.ClientID%>").val("Yes");
-            } else {
-               // $("#HiddenField1").val("No");
-                $("#<%=HiddenField2.ClientID%>").val("No");
-            }
-        }
-    </script>
+
+
                
 </asp:Content>
 

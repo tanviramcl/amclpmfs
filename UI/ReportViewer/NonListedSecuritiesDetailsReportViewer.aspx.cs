@@ -22,9 +22,7 @@ public partial class UI_ReportViewer_PortfolioWithNonListedReportViewer : System
     {
         StringBuilder sbFilter = new StringBuilder();
         string fundCode = "";
-        string Fromdate = "";
-        string Todate = "";
-
+      
         if (Session["UserID"] == null)
         {
             Session.RemoveAll();
@@ -32,8 +30,6 @@ public partial class UI_ReportViewer_PortfolioWithNonListedReportViewer : System
         }
         else
         {
-            Fromdate = Request.QueryString["Fromdate"].ToString();
-            Todate = Request.QueryString["Todate"].ToString();
             fundCode = (string)Session["fundCode"];
           //  balDate = (string)Session["balDate"];
         }
@@ -41,21 +37,21 @@ public partial class UI_ReportViewer_PortfolioWithNonListedReportViewer : System
         DataTable dtnonlistedDetailsSource = new DataTable();
         StringBuilder sbMst = new StringBuilder();
         StringBuilder sbfilter = new StringBuilder();
-        //sbfilter.Append(" ");
-        //sbMst.Append("SELECT * FROM  NON_LISTED_SECURITIES WHERE ");
-        //sbMst.Append(" (F_CD = " + fundCode + ") AND(INV_DATE = (SELECT     MAX(INV_DATE) AS EXPR1 FROM ");
-        //sbMst.Append("NON_LISTED_SECURITIES NON_LISTED_SECURITIES_1 WHERE(F_CD = " + fundCode + ")))  ");
+        sbfilter.Append(" ");
+        sbMst.Append("SELECT * FROM  NON_LISTED_SECURITIES WHERE ");
+        sbMst.Append(" (F_CD = " + fundCode + ") AND(INV_DATE = (SELECT     MAX(INV_DATE) AS EXPR1 FROM ");
+        sbMst.Append("NON_LISTED_SECURITIES NON_LISTED_SECURITIES_1 WHERE(F_CD = " + fundCode + ")))  ");
 
 
         //sbMst.Append(sbfilter.ToString());
-     //   dtnonlistedDetailsSource = commonGatewayObj.Select(sbMst.ToString());
+        dtnonlistedDetailsSource = commonGatewayObj.Select(sbMst.ToString());
 
         DataTable dtNonlistedSecrities = new DataTable();
         sbMst = new StringBuilder();
         sbMst.Append("select  c.F_CD,c.comp_cd,c.COMP_NM,c.SECT_MAJ_CD,c.amount,c.rate,c.no_shares,c.inv_date,c.entry_by,c.entry_date,c.cat_id,d.CAT_NM  ");
         sbMst.Append("from (select a.F_CD,a.comp_cd,B.COMP_NM,B.SECT_MAJ_CD,a.amount,a.rate,a.no_shares,a.inv_date,a.entry_by,a.entry_date,a.cat_id from ");
         sbMst.Append("(select * from NON_LISTED_SECURITIES_DETAILS  where f_cd='" + fundCode + "' and INV_DATE ");
-        sbMst.Append("between  '" + Fromdate + "' and '" +Todate + "')   ");
+        sbMst.Append("between  '" + Convert.ToDateTime(dtnonlistedDetailsSource.Rows[0]["PREV_MAX_INV_DATE"]).ToString("dd-MMM-yyyy") + "' and '" + Convert.ToDateTime(dtnonlistedDetailsSource.Rows[0]["INV_DATE"]).ToString("dd-MMM-yyyy") + "')   ");
         sbMst.Append("  a inner join COMP_NONLISTED b on a.comp_cd=b.comp_cd) c inner join NONLISTED_CATEGORY d on c.cat_id=D.CAT_ID ");
         dtNonlistedSecrities = commonGatewayObj.Select(sbMst.ToString());
 
@@ -75,7 +71,7 @@ public partial class UI_ReportViewer_PortfolioWithNonListedReportViewer : System
         {
 
             dtNonlistedSecrities.TableName = "PortfolioWithNonListedReport";
-           // dtNonlistedSecrities.WriteXmlSchema(@"D:\IAMCL_10-7-17\amclpmfs\amclpmfs\UI\ReportViewer\Report\crtNonListedDetailsReport.xsd");
+          //  dtNonlistedSecrities.WriteXmlSchema(@"D:\IAMCL_10-7-17\amclpmfs\amclpmfs\UI\ReportViewer\Report\crtNonListedDetailsReport.xsd");
             //ReportDocument rdoc = new ReportDocument();
             string Path = "";
             Path = Server.MapPath("Report/crtNonListedReport.rpt");
