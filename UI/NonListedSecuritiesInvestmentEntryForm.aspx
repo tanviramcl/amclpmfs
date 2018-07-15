@@ -376,7 +376,7 @@
                  var amount = $('#<%=lblTotalAmmount.ClientID%>').html();
                  var InvDate= $('#<%=lblInvDate.ClientID%>').html();
                 // alert(g);
-                 var str="Amount: "+ amount +" As on :"+InvDate+" Do you want to proceed ?";       
+                 var str="Amount: "+ amount +", as on :"+InvDate+". Do you want to proceed ?";       
               if (confirm(str)) {
               //  $("#HiddenField1").val("Yes");
                 $("#<%=HiddenField1.ClientID%>").val("Yes");

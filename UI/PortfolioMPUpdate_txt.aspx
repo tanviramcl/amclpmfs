@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/UI/AMCLCommon.master" AutoEventWireup="true" CodeFile="PortfolioMPUpdate.aspx.cs" Inherits="UI_PORTFOLIO_PortfolioMPUpdate" Title="IAMCL Portfolio Market Price Update  (Design and Developed by Sakhawat)" %>
+﻿<%@ Page Language="C#" MasterPageFile="~/UI/AMCLCommon.master" AutoEventWireup="true" CodeFile="PortfolioMPUpdate_txt.aspx.cs" Inherits="UI_PORTFOLIO_PortfolioMPUpdate" Title="IAMCL Portfolio Market Price Update  (Design and Developed by Sakhawat)" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
 <script language="javascript" type="text/javascript"> 
@@ -96,7 +96,7 @@
                       
                       Text="Show DSE Price" onclick="showDataButton_Click" Height="21px" OnClientClick="return fnValidation();"
                       Width="110px" />
-              &nbsp;<asp:Button ID="SaveDSEButton" runat="server" Text="Save DSE Price " CssClass="buttoncommon" OnClientClick="return fnValidation();"
+              &nbsp;<asp:Button ID="SaveDSEButton" runat="server" Text="Save" CssClass="buttoncommon" OnClientClick="return fnValidation();"
                 AccessKey="S" 
                 TabIndex="21" onclick="SaveButton_Click" />
               &nbsp;
@@ -155,7 +155,7 @@
                   <asp:Button ID="showCseDataButton" runat="server" CssClass="buttoncommon" OnClientClick="return fnValidation();"
                       
                       Text="Show CSE Price" onclick="showCseDataButton_Click" Width="108px"  />
-              &nbsp;<asp:Button ID="SaveCSEButton" runat="server" Text="Save CSE Price" CssClass="buttoncommon" OnClientClick="return fnValidation();"
+              &nbsp;<asp:Button ID="SaveCSEButton" runat="server" Text="Save" CssClass="buttoncommon" OnClientClick="return fnValidation();"
                 AccessKey="S" 
                 TabIndex="21" onclick="SaveCSEButton_Click" />
               &nbsp;<asp:Label ID="csePriceLabel" runat="server" 

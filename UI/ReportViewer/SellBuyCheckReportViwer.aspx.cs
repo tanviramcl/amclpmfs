@@ -14,11 +14,7 @@ public partial class UI_ReportViewer_StockDeclarationBeforePostedReportViewer : 
     private ReportDocument rdoc = new ReportDocument();
     protected void Page_Load(object sender, EventArgs e)
     {
-        if (Session["UserID"] == null)
-        {
-            Session.RemoveAll();
-            Response.Redirect("../../Default.aspx");
-        }
+       
 
         
         DataTable dtReprtSource = new DataTable();

@@ -45,6 +45,7 @@
                 </td>
             </tr>
             <tr>
+               
                 <td align="left">
                     <b>Sector </b>
                 </td>
@@ -68,12 +69,17 @@
                 </td>
             </tr>
             <tr>
-                <td align="left">
-                    <b>Market Lot </b>
+                 <td align="left">
+                    <b>Prospectus Publishing Date</b>
                 </td>
                 <td align="left">
-                    <asp:TextBox ID="MarketLotTextBox" runat="server" Width="100px"></asp:TextBox>
+                    <asp:TextBox ID="txtProspectusPublishDate" runat="server" Width="100px"></asp:TextBox>
+                  <%--  <asp:ImageButton ID="openingdateTextBoxImageButton" runat="server"
+                        ImageUrl="~/Image/Calendar_scheduleHS.png" TabIndex="7" />
+                    <ajaxToolkit:CalendarExtender ID="openingdateTextBoxCalendarExtender" runat="server" Format="dd-MMM-yyyy" PopupButtonID="openingdateTextBoxImageButton" TargetControlID="openingdateTextBox"></ajaxToolkit:CalendarExtender>--%>
                 </td>
+
+                
                 <td align="left">
                     <b>Avarage Market Rate</b>
                 </td>
@@ -127,8 +133,10 @@
                     <asp:DropDownList ID="groupDropDownList" Width="100px" runat="server"
                         TabIndex="3">
                         <asp:ListItem Text="--Select--" Value="0"></asp:ListItem>
-                        <asp:ListItem Text="A Group" Value="N"></asp:ListItem>
-                        <asp:ListItem Text="B Group" Value="R"></asp:ListItem>
+                        <asp:ListItem Text="A Group" Value="A"></asp:ListItem>
+                        <asp:ListItem Text="B Group" Value="B"></asp:ListItem>
+                        <asp:ListItem Text="G Group" Value="G"></asp:ListItem>
+                        <asp:ListItem Text="N Group" Value="N"></asp:ListItem>
                         <asp:ListItem Text="Z Group" Value="Z"></asp:ListItem>
 
 
@@ -160,7 +168,7 @@
             <tr>
              
                   <td align="left">
-                    <b>Opening Date</b>
+                    <b>Subscription Opening Date</b>
                 </td>
                 <td align="left">
                     <asp:TextBox ID="openingdateTextBox" runat="server" Width="100px"></asp:TextBox>
@@ -203,7 +211,7 @@
                 </td>
 
                 <td align="left">
-                    <b>Product</b>
+                    <b> Major Product</b>
                 </td>
                 <td align="left">
                     <asp:TextBox ID="productTextBox" runat="server" Width="100px"></asp:TextBox>
@@ -377,19 +385,70 @@
             
             </tr>
 
+
             <tr>
-               
-                <td align="center" colspan="6">
-                    <%--<asp:Button ID="saveButton" runat="server" Text="Save"
-                        CssClass="buttoncommon" TabIndex="48" 
-                        OnClick="saveButton_Click" />--%>
+                <td align="left">
+                    <b>Market Lot </b>
+                </td>
+                <td align="left">
+                    <asp:TextBox ID="MarketLotTextBox" runat="server" Width="100px"></asp:TextBox>
+                </td>
+                  <td align="left">
+                    <b>IPO type</b>
+                </td>
+                <td>
+                    <asp:DropDownList ID="IPODropDownList" Width="100px" runat="server"
+                        TabIndex="3">
+                        <asp:ListItem Text="--Select--" Value="0"></asp:ListItem>
+                        <asp:ListItem Text="Fixed Price" Value="Fixed price"></asp:ListItem>
+                        <asp:ListItem Text="Book building" Value="Book building"></asp:ListItem>
+                        <asp:ListItem Text="Direct Listing" Value="Direct Listing"></asp:ListItem>
 
-                     <asp:Button ID="saveButton"  Text="Save" CssClass="buttoncommon" runat="server" OnClick="saveButton_Click" />
-                  
 
+                    </asp:DropDownList>
                 </td>
 
             </tr>
+                 <tr>
+             
+                  <td align="left">
+                    <b>Market type</b>
+                </td>
+                <td>
+                    <asp:DropDownList ID="marketDropDownList" Width="100px" runat="server"
+                        TabIndex="3">
+                        <asp:ListItem Text="Regular" Value="R"></asp:ListItem>
+                        <asp:ListItem Text="OTC" Value="O"></asp:ListItem>
+                        <asp:ListItem Text="Debt Market" Value="D"></asp:ListItem>
+
+
+                    </asp:DropDownList>
+                </td>
+                   <td align="left">
+                    <b>Issue Manager</b>
+                </td>
+                <td align="left">
+                    <asp:TextBox ID="txtissueTextBox" runat="server" Width="100px"></asp:TextBox>
+                  <%--  <asp:ImageButton ID="openingdateTextBoxImageButton" runat="server"
+                        ImageUrl="~/Image/Calendar_scheduleHS.png" TabIndex="7" />
+                    <ajaxToolkit:CalendarExtender ID="openingdateTextBoxCalendarExtender" runat="server" Format="dd-MMM-yyyy" PopupButtonID="openingdateTextBoxImageButton" TargetControlID="openingdateTextBox"></ajaxToolkit:CalendarExtender>--%>
+                </td>
+
+            </tr>
+          
+            <tr>
+               
+            <td align="center" colspan="6">
+                <%--<asp:Button ID="saveButton" runat="server" Text="Save"
+                    CssClass="buttoncommon" TabIndex="48" 
+                    OnClick="saveButton_Click" />--%>
+
+                    <asp:Button ID="Button1"  Text="Save" CssClass="buttoncommon" runat="server" OnClick="saveButton_Click" />
+                  
+
+            </td>
+
+        </tr>
         </table>
         </div>
   
@@ -398,6 +457,17 @@
     
 
         $(function () {
+
+              $('#<%=txtProspectusPublishDate.ClientID%>').datepicker({
+                 changeMonth: true,
+                 changeYear: true,
+                 //dateFormat: "dd/mm/yy",
+                 //maxDate:"today",
+                 onSelect: function(selected) {
+                    
+                 }
+              });
+
              $('#<%=lasttradingdateTextBox.ClientID%>').datepicker({
                  changeMonth: true,
                  changeYear: true,
@@ -416,6 +486,7 @@
                     
                  }
              });
+
 
           $('#<%=RIssuefromTextBox.ClientID%>').datepicker({
                  changeMonth: true,
@@ -485,7 +556,27 @@
                 return false;  
             else  
                 return true;  
-        },"Please select a Sector."); 
+        },"*Please select a Sector."); 
+
+        $.validator.addMethod("groupDropDownList", function (value, element, param) {  
+            if (value == '0')  
+                return false;  
+            else  
+                return true;  
+        },"*Please select a Group."); 
+
+        $.validator.addMethod("CheckmarketType", function (value, element, param) {  
+            if (value == '0')  
+                return false;  
+            else  
+                return true;  
+        },"*Please select Market Type."); 
+        $.validator.addMethod("CheckIpoType", function (value, element, param) {  
+            if (value == '0')  
+                return false;  
+            else  
+                return true;  
+        },"*Please select IPO Type."); 
         
        <%-- $( "#<%=TextBoxAuthorizedcapital.ClientID%>" ).change(function() {
             alert( "Handler for .change() called." );
@@ -512,15 +603,21 @@
                     }, <%=sectorDropDownList.UniqueID %>: {
                         required: true,
                         CheckSrcorDropDownList: true
-                    },<%=categoryDropDownList.UniqueID %>: {
+                    },
+                   <%=groupDropDownList.UniqueID %>: {
+                        required: true,
+                        groupDropDownList: true
+                    }
+              
+                    ,<%=categoryDropDownList.UniqueID %>: {
                         
                         required:true, 
                         CheckDropDownList:true
                         
                     }
                     ,<%=TextBoxAuthorizedcapital.UniqueID %>: {
-                        
-                        //required: true,
+                       //new 
+                        required: true,
                         number:true,
                         maxlength: 17
                     }
@@ -547,8 +644,9 @@
                       
                     }
                      ,<%=premiumTextBox.UniqueID %>: {
-                        
-                        number: true,
+                        //new
+                         number: true,
+                        required: true,
                         maxlength:6
                       
                      }
@@ -611,6 +709,12 @@
                     },<%=txtEXCEP_BUYSL_COMPCT_APPLDSE.UniqueID %>: {
                         required: true,
                         number:true
+                    },<%=IPODropDownList.UniqueID %>: {
+                        required: true,
+                        CheckIpoType:true
+                    },<%=marketDropDownList.UniqueID %>: {
+                        required: true,
+                        CheckmarketType:true
                     }
               
                 }, messages: {
@@ -631,7 +735,15 @@
                         required: "*Face value is required*",
                         number: "Please Enter an Numeric Value",
                      
-                    },<%=dsecodeTextBox.UniqueID %>: {
+                    }
+                    ,<%=premiumTextBox.UniqueID %>: {
+                        required: "*Premium is required*"
+                    }
+                    ,<%=TextBoxAuthorizedcapital.UniqueID %>: {
+                        required: "*Authorized capital is required*"
+                    }
+                    
+                    ,<%=dsecodeTextBox.UniqueID %>: {
                         required: "*Dse Code is required*",
                         maxlength:"* Please enter maximum 20 characters *"
                     },<%=csecodeTextBox.UniqueID %>: {
@@ -682,7 +794,7 @@
               url: "CompanyInformation.aspx/InsertandUpdateCompany",
               
           
-              data: '{CompanyCode: "' + $("#<%=companyCodeTextBox.ClientID%>").val() + '" ,companyName: "' + $("#<%=companyNameTextBox.ClientID%>").val() + '",dsecode: "' + $("#<%=dsecodeTextBox.ClientID%>").val() + '",PaidUpCapital: "' + $("#<%=TextBoxPaidUpCapital.ClientID%>").val() + '",atho_cap: "' + $("#<%=TextBoxAuthorizedcapital.ClientID%>").val() + '",totalshare: "' + $("#<%=totalshareTextBox.ClientID%>").val() + '" ,faceValue: "' + $("#<%=faceValueTextBox.ClientID%>").val() + '",MarketLot: "' + $("#<%=MarketLotTextBox.ClientID%>").val() + '",sector: "' + $("#<%=sectorDropDownList.ClientID%>").val() + '",product: "' + $("#<%=productTextBox.ClientID%>").val() + '",category: "' + $("#<%=categoryDropDownList.ClientID%>").val() + '",avarageMarketRate: "' + $("#<%=avarageMarketRateTextBox.ClientID%>").val() + '",baserate: "' + $("#<%=baserateTextBox.ClientID%>").val() + '",baseupdateDate: "' + $("#<%=baseupdateDateTextBox.ClientID%>").val() + '",lasttradingdate: "' + $("#<%=lasttradingdateTextBox.ClientID%>").val() + '",sector: "' + $("#<%=sectorDropDownList.ClientID%>").val() + '",category: "' + $("#<%=categoryDropDownList.ClientID%>").val() + '" ,flug: "' + $("#<%=flugTextBox.ClientID%>").val() + '",group: "' + $("#<%=groupDropDownList.ClientID%>").val() + '",floatdatefrom: "' + $("#<%=floatdatefromTextBox.ClientID%>").val() + '",floatdateto: "' + $("#<%=floatdatetoTextBox.ClientID%>").val() + '",csecode: "' + $("#<%=csecodeTextBox.ClientID%>").val() + '",address1: "' + $("#<%=addressTextBox1.ClientID%>").val() + '",address2: "' + $("#<%=addressTextBox2.ClientID%>").val() + '",regoffice: "' + $("#<%=regofficeTextBox2.ClientID%>").val() + '",phnNo: "' + $("#<%=phnNoTextBox.ClientID%>").val() + '",openingdate: "' + $("#<%=openingdateTextBox.ClientID%>").val() + '",premium: "' + $("#<%=premiumTextBox.ClientID%>").val() + '",RIssuefrom: "' + $("#<%=RIssuefromTextBox.ClientID%>").val() + '",RIssueto: "' + $("#<%=RIssuetoTextBox.ClientID%>").val() + '",mergin: "' + $("#<%=merginTextBox.ClientID%>").val() + '",IsBuySellChargeApplicable: "' + $("#<%=ddltxtIsBuySellChargeApplicable.ClientID%>").val() + '" ,Additionalbuysellcharge: "' + $("#<%=txtTexAdditionalbuysellcharge.ClientID%>").val() + '",AdditionalbuysellCommision: "' + $("#<%=txtEXCEP_BUYSL_COMPCT_APPLDSE.ClientID%>").val() + '" }',
+              data: '{CompanyCode: "' + $("#<%=companyCodeTextBox.ClientID%>").val() + '" ,companyName: "' + $("#<%=companyNameTextBox.ClientID%>").val() + '",dsecode: "' + $("#<%=dsecodeTextBox.ClientID%>").val() + '",PaidUpCapital: "' + $("#<%=TextBoxPaidUpCapital.ClientID%>").val() + '",atho_cap: "' + $("#<%=TextBoxAuthorizedcapital.ClientID%>").val() + '",totalshare: "' + $("#<%=totalshareTextBox.ClientID%>").val() + '" ,faceValue: "' + $("#<%=faceValueTextBox.ClientID%>").val() + '",MarketLot: "' + $("#<%=MarketLotTextBox.ClientID%>").val() + '",sector: "' + $("#<%=sectorDropDownList.ClientID%>").val() + '",product: "' + $("#<%=productTextBox.ClientID%>").val() + '",category: "' + $("#<%=categoryDropDownList.ClientID%>").val() + '",avarageMarketRate: "' + $("#<%=avarageMarketRateTextBox.ClientID%>").val() + '",baserate: "' + $("#<%=baserateTextBox.ClientID%>").val() + '",baseupdateDate: "' + $("#<%=baseupdateDateTextBox.ClientID%>").val() + '",lasttradingdate: "' + $("#<%=lasttradingdateTextBox.ClientID%>").val() + '",sector: "' + $("#<%=sectorDropDownList.ClientID%>").val() + '",category: "' + $("#<%=categoryDropDownList.ClientID%>").val() + '" ,flug: "' + $("#<%=flugTextBox.ClientID%>").val() + '",group: "' + $("#<%=groupDropDownList.ClientID%>").val() + '",floatdatefrom: "' + $("#<%=floatdatefromTextBox.ClientID%>").val() + '",floatdateto: "' + $("#<%=floatdatetoTextBox.ClientID%>").val() + '",csecode: "' + $("#<%=csecodeTextBox.ClientID%>").val() + '",address1: "' + $("#<%=addressTextBox1.ClientID%>").val() + '",address2: "' + $("#<%=addressTextBox2.ClientID%>").val() + '",regoffice: "' + $("#<%=regofficeTextBox2.ClientID%>").val() + '",phnNo: "' + $("#<%=phnNoTextBox.ClientID%>").val() + '",openingdate: "' + $("#<%=openingdateTextBox.ClientID%>").val() + '",premium: "' + $("#<%=premiumTextBox.ClientID%>").val() + '",RIssuefrom: "' + $("#<%=RIssuefromTextBox.ClientID%>").val() + '",RIssueto: "' + $("#<%=RIssuetoTextBox.ClientID%>").val() + '",mergin: "' + $("#<%=merginTextBox.ClientID%>").val() + '",IsBuySellChargeApplicable: "' + $("#<%=ddltxtIsBuySellChargeApplicable.ClientID%>").val() + '" ,Additionalbuysellcharge: "' + $("#<%=txtTexAdditionalbuysellcharge.ClientID%>").val() + '",AdditionalbuysellCommision: "' + $("#<%=txtEXCEP_BUYSL_COMPCT_APPLDSE.ClientID%>").val() + '",propectusPublishDate: "' + $("#<%=txtProspectusPublishDate.ClientID%>").val() + '",IpoType: "' + $("#<%=IPODropDownList.ClientID%>").val() + '",marketType: "' + $("#<%=marketDropDownList.ClientID%>").val() + '",ISSUE_MNG: "' + $("#<%=txtissueTextBox.ClientID%>").val() + '" }',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (response) {

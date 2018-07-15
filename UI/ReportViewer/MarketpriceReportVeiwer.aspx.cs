@@ -37,23 +37,25 @@ public partial class UI_ReportViewer_NonDemateSharesCheckReportViwer : System.We
         sbfilter.Append(" ");
 
        
-            sbMst.Append("SELECT  t.F_CD, f.f_name fund_name, SUM(t.AMT_AFT_COM) as SALE, sum(t.no_share) as No_Of_Share, sum(crt_aft_com * no_share) as COST, ");
-            sbMst.Append(" SUM(AMT_AFT_COM) - sum(crt_aft_com * no_share) as profit, decode(stock_ex, 'D', 'DSE', 'C', 'CSE','OTHERS') stock_ex FROM FUND_TRANS_HB  t, fund f  ");
-            sbMst.Append(" WHERE t.TRAN_TP = 'S' AND VCH_DT BETWEEN '"+Fromdate+"' AND '"+Todate+"'  and stock_ex in ('D', 'C','A') and f.f_cd = t.f_cd GROUP BY t.F_CD,stock_ex,f.f_name  order by t.f_cd asc, stock_ex desc ");
+            sbMst.Append("select b.COMP_NM, a.TRAN_DATE, a.AVG_RT,a.DSE_RT,a.CSE_RT,a.CSE_DT,a.DSE_HIGH,a.DSE_LOW,a.DSE_OPEN from  ");
+          sbMst.Append("(SELECT COMP_CD, TRAN_DATE, AVG_RT, DSE_RT, CSE_RT, CSE_DT, DSE_HIGH, DSE_LOW, DSE_OPEN  ");
+        sbMst.Append("  FROM INVEST.MARKET_PRICE ) a  inner join comp b on A.COMP_CD=B.COMP_CD where a.TRAN_DATE  ");
+        sbMst.Append(" BETWEEN   '" + Fromdate+"' and '"+Todate+"' ");
+          
             sbMst.Append(sbfilter.ToString());
             dtReprtSource = commonGatewayObj.Select(sbMst.ToString());
-            dtReprtSource.TableName = "CapitalGainSummaryStockWise";
-           // dtReprtSource.WriteXmlSchema(@"D:\officialProject\4-5-2017\amclpmfs\UI\ReportViewer\Report\CR_CapitalGainSummaryStockWiseReport.xsd");
+            dtReprtSource.TableName = "MarketPriceReportViewer";
+           dtReprtSource.WriteXmlSchema(@"D:\IAMCL_10-7-17\amclpmfs\amclpmfs\UI\ReportViewer\Report\CR_MarketPriceReport.xsd");
             if (dtReprtSource.Rows.Count > 0)
             {
 
-                string Path = Server.MapPath("Report/CR_CapitalGainSummaryStockWiseReport.rpt");
+                string Path = Server.MapPath("Report/CR_MarketPriceReport.rpt");
                 rdoc.Load(Path);
                 rdoc.SetDataSource(dtReprtSource);
-                CR_CapitalGainSummaryStockWiseReport.ReportSource = rdoc;
-                CR_CapitalGainSummaryStockWiseReport.DisplayToolbar = true;
-                CR_CapitalGainSummaryStockWiseReport.HasExportButton = true;
-                CR_CapitalGainSummaryStockWiseReport.HasPrintButton = true;
+                CR_ReceivablePayableDSEandCSESeparateReport.ReportSource = rdoc;
+                CR_ReceivablePayableDSEandCSESeparateReport.DisplayToolbar = true;
+                CR_ReceivablePayableDSEandCSESeparateReport.HasExportButton = true;
+                CR_ReceivablePayableDSEandCSESeparateReport.HasPrintButton = true;
                 rdoc.SetParameterValue("Fromdate", Fromdate);
                 rdoc.SetParameterValue("Todate", Todate);
                 
@@ -68,16 +70,16 @@ public partial class UI_ReportViewer_NonDemateSharesCheckReportViwer : System.We
         }
 
 
+
     protected void Page_Unload(object sender, EventArgs e)
     {
-        CR_CapitalGainSummaryStockWiseReport.Dispose();
-        CR_CapitalGainSummaryStockWiseReport = null;
+        CR_ReceivablePayableDSEandCSESeparateReport.Dispose();
+        CR_ReceivablePayableDSEandCSESeparateReport = null;
         rdoc.Close();
         rdoc.Dispose();
         rdoc = null;
         GC.Collect();
     }
-
 
 
 }
