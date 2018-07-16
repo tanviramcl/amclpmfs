@@ -130,7 +130,7 @@ public partial class UI_PORTFOLIO_PortfolioFileUpload : System.Web.UI.Page
         string fileLocation = ConfigReader._TRADE_FILE_LOCATION.ToString() + "\\DSE_PRICE\\";
         if ((dseMPFileUpload.PostedFile != null) && (dseMPFileUpload.PostedFile.ContentLength > 0))
         {
-            string fn = FileUploadDateTextBox.Text.ToString().ToUpper() + "-DSE-MARKET-PRICE.txt";
+            string fn = FileUploadDateTextBox.Text.ToString().ToUpper() + "-DSE-MARKET-PRICE.xml";
             string SaveLocation = fileLocation + fn;
             try
             {
@@ -209,7 +209,7 @@ public partial class UI_PORTFOLIO_PortfolioFileUpload : System.Web.UI.Page
     public void fleUploadStatus()
     {
         string fileLocation = ConfigReader._TRADE_FILE_LOCATION.ToString();
-        string dseMP = fileLocation + "\\DSE_PRICE\\"+FileUploadDateTextBox.Text.ToString().ToUpper() + "-DSE-MARKET-PRICE.txt";
+        string dseMP = fileLocation + "\\DSE_PRICE\\"+FileUploadDateTextBox.Text.ToString().ToUpper() + "-DSE-MARKET-PRICE.xml";
         string cseMP = fileLocation + "\\CSE_PRICE\\" + FileUploadDateTextBox.Text.ToString().ToUpper() + "-CSE-MARKET-PRICE.txt";
         string dseTradeCust = fileLocation + "\\TRADE_CUST_DSE\\" + FileUploadDateTextBox.Text.ToString().ToUpper() + "-DSE-ISTBROKER.txt";
         string cseTradeCust = fileLocation + "\\TRADE_CUST_CSE\\" + FileUploadDateTextBox.Text.ToString().ToUpper() + "-CSE-ISTBROKER.txt";

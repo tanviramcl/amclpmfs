@@ -3,24 +3,25 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "PortfolioManagementSystem", ".", "{DB7B3B0F-9E97-4AB8-ADCC-40D2C0807FD7}"
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "amclpmfs", ".", "{DB7B3B0F-9E97-4AB8-ADCC-40D2C0807FD7}"
 	ProjectSection(WebsiteProperties) = preProject
 		TargetFrameworkMoniker = ".NETFramework,Version%3Dv3.5"
 		Debug.AspNetCompiler.VirtualPath = "/PortfolioManagementSystem"
-		Debug.AspNetCompiler.PhysicalPath = "F:\PortfolioManagementSystem\"
+		Debug.AspNetCompiler.PhysicalPath = "..\amclpmfs\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\PortfolioManagementSystem\"
 		Debug.AspNetCompiler.Updateable = "true"
 		Debug.AspNetCompiler.ForceOverwrite = "true"
 		Debug.AspNetCompiler.FixedNames = "false"
 		Debug.AspNetCompiler.Debug = "True"
 		Release.AspNetCompiler.VirtualPath = "/PortfolioManagementSystem"
-		Release.AspNetCompiler.PhysicalPath = "F:\PortfolioManagementSystem\"
+		Release.AspNetCompiler.PhysicalPath = "..\amclpmfs\"
 		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\PortfolioManagementSystem\"
 		Release.AspNetCompiler.Updateable = "true"
 		Release.AspNetCompiler.ForceOverwrite = "true"
 		Release.AspNetCompiler.FixedNames = "false"
 		Release.AspNetCompiler.Debug = "False"
 		VWDPort = "2186"
+		SlnRelativePath = "..\amclpmfs\"
 	EndProjectSection
 EndProject
 Global

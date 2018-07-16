@@ -56,21 +56,13 @@ public partial class UI_PORTFOLIO_PortfolioMPUpdate : System.Web.UI.Page
 
     protected void showDataButton_Click(object sender, EventArgs e)
     {
-      
         try
         {
             int zeroCompanyCode = 0;
-           
             string dseMPFile = ConfigReader._TRADE_FILE_LOCATION.ToString();
-            dseMPFile = dseMPFile + "\\DSE_PRICE" + "\\" + marketPriceDateTextBox.Text.ToString().ToUpper() + "-DSE-MARKET-PRICE.xml";
+            dseMPFile = dseMPFile + "\\DSE_PRICE" + "\\" + marketPriceDateTextBox.Text.ToString().ToUpper() + "-DSE-MARKET-PRICE.txt";
             if (File.Exists(dseMPFile))
             {
-
-
-                DataSet dataSet = new DataSet();
-                dataSet.ReadXml(dseMPFile, XmlReadMode.InferSchema);
-                DataTable dtDSE = dataSet.Tables[0];
-
 
                 DataTable dtMP = new DataTable();
                 dtMP.Columns.Add("ID", typeof(int));
@@ -80,62 +72,43 @@ public partial class UI_PORTFOLIO_PortfolioMPUpdate : System.Web.UI.Page
                 dtMP.Columns.Add("HIGH", typeof(string));
                 dtMP.Columns.Add("LOW", typeof(string));
                 dtMP.Columns.Add("CLOSE", typeof(string));
-                DataRow drMP;
 
+
+                DataRow drMP;
+                StreamReader srFileReader;
+                string line;
+                srFileReader = new StreamReader(dseMPFile);
+                string[] lineContent;
                 int count = 0;
                 int serial = 0;
 
-                if (dtDSE.Rows.Count > 0)
+                while (srFileReader.Peek() != -1)
                 {
-                    for (int loop = 0; loop < dtDSE.Rows.Count; loop++)
+                    line = srFileReader.ReadLine();
+                    char[] delimiters = new char[] { ' ' };
+                    lineContent = line.Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
+                    if (lineContent.Length > 0)
                     {
-                        int companyCode = pfolioBLObj.getCompanyCodeByDSECode(dtDSE.Rows[loop]["SecurityCode"].ToString().ToUpper());
-                        if (companyCode > 0)
+                        int companyCode = pfolioBLObj.getCompanyCodeByDSECode(lineContent[0].ToString().ToUpper());
+                        if (companyCode == 0)
                         {
-                            drMP = dtMP.NewRow();
+                            zeroCompanyCode++;
+                        }
+                        drMP = dtMP.NewRow();
                         serial = serial + 1;
                         drMP["ID"] = serial;
-                        drMP["TRADE_CODE"] = dtDSE.Rows[loop]["SecurityCode"].ToString().ToUpper();
+                        drMP["TRADE_CODE"] = lineContent[0].ToString().ToUpper();
                         drMP["COMP_CD"] = companyCode;
-                        drMP["OPEN"] = dtDSE.Rows[loop]["Open"].ToString();
-                        drMP["HIGH"] = dtDSE.Rows[loop]["High"].ToString();
-                        drMP["LOW"] = dtDSE.Rows[loop]["Low"].ToString();
-                        drMP["CLOSE"] = dtDSE.Rows[loop]["Close"].ToString();
+                        drMP["OPEN"] = lineContent[1].ToString();
+                        drMP["HIGH"] = lineContent[2].ToString();
+                        drMP["LOW"] = lineContent[3].ToString();
+                        drMP["CLOSE"] = lineContent[4].ToString();
                         dtMP.Rows.Add(drMP);
-                        count++;
-                        }
-                       
-                    
                     }
+
+                    count++;
+
                 }
-
-                //while (srFileReader.Peek() != -1)
-                //{
-                //    line = srFileReader.ReadLine();
-                //    char[] delimiters = new char[] { ' ' };
-                //    lineContent = line.Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
-                //    if (lineContent.Length > 0)
-                //    {
-                //        int companyCode = pfolioBLObj.getCompanyCodeByDSECode(lineContent[0].ToString().ToUpper());
-                //        if (companyCode == 0)
-                //        {
-                //            zeroCompanyCode++;
-                //        }
-                //        drMP = dtMP.NewRow();
-                //        serial = serial + 1;
-                //        drMP["ID"] = serial;
-                //        drMP["TRADE_CODE"] = lineContent[0].ToString().ToUpper();
-                //        drMP["COMP_CD"] = companyCode;
-                //        drMP["OPEN"] = lineContent[1].ToString();
-                //        drMP["HIGH"] = lineContent[2].ToString();
-                //        drMP["LOW"] = lineContent[3].ToString();
-                //        drMP["CLOSE"] = lineContent[4].ToString();
-                //        dtMP.Rows.Add(drMP);
-                //    }
-
-                //    count++;
-
-                //}
                 if (dtMP.Rows.Count > 0)
                 {
                     dvGridDSEMPInfo.Visible = true;
@@ -165,10 +138,6 @@ public partial class UI_PORTFOLIO_PortfolioMPUpdate : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-         
-
-
-
             dvGridDSEMPInfo.Visible = false;
             dsePriceLabel.Text = "File Read failed Error:" + ex.Message.ToString();
             dsePriceLabel.Style.Add("color", "red");
@@ -176,7 +145,6 @@ public partial class UI_PORTFOLIO_PortfolioMPUpdate : System.Web.UI.Page
     }
     protected void SaveButton_Click(object sender, EventArgs e)
     {
-        int Error_Count = 0;
         try
         {
             commonGatewayObj.BeginTransaction();
@@ -188,29 +156,14 @@ public partial class UI_PORTFOLIO_PortfolioMPUpdate : System.Web.UI.Page
             {
                 for (int loop = 0; loop < dtMPDSE.Rows.Count; loop++)
                 {
-                    if (Convert.ToInt32(dtMPDSE.Rows[loop]["COMP_CD"].ToString()) > 0)
-                    {
-                        string high = dtMPDSE.Rows[loop]["HIGH"].ToString();
-                        htUpdateMP.Add("RT_UPD_DT", marketPriceDateTextBox.Text.ToString());
-                        htUpdateMP.Add("AVG_RT", Convert.ToDecimal(dtMPDSE.Rows[loop]["CLOSE"].ToString()));    
-                        if (dtMPDSE.Rows[loop]["HIGH"].ToString()!="")
-                        {
-                            htUpdateMP.Add("DSE_HIGH", Convert.ToDecimal(dtMPDSE.Rows[loop]["HIGH"].ToString()));
-                        }
-                        if (dtMPDSE.Rows[loop]["LOW"].ToString() != "")
-                        {
-                            htUpdateMP.Add("DSE_LOW", Convert.ToDecimal(dtMPDSE.Rows[loop]["LOW"].ToString()));
-                        }
-                        if (dtMPDSE.Rows[loop]["OPEN"].ToString() != "")
-                        {
-                            htUpdateMP.Add("DSE_OPEN", Convert.ToDecimal(dtMPDSE.Rows[loop]["OPEN"].ToString()));
-                        }
-                      
-                        commonGatewayObj.Update(htUpdateMP, "COMP", "COMP_CD=" + Convert.ToInt32(dtMPDSE.Rows[loop]["COMP_CD"].ToString()));
-                        htUpdateMP = new Hashtable();
-                    }
+                    htUpdateMP.Add("RT_UPD_DT", marketPriceDateTextBox.Text.ToString());
+                    htUpdateMP.Add("AVG_RT", Convert.ToDecimal(dtMPDSE.Rows[loop]["CLOSE"].ToString()));
+                    htUpdateMP.Add("DSE_HIGH", Convert.ToDecimal(dtMPDSE.Rows[loop]["HIGH"].ToString()));
+                    htUpdateMP.Add("DSE_LOW", Convert.ToDecimal(dtMPDSE.Rows[loop]["LOW"].ToString()));
+                    htUpdateMP.Add("DSE_OPEN", Convert.ToDecimal(dtMPDSE.Rows[loop]["OPEN"].ToString()));
 
-                    Error_Count = loop;
+                    commonGatewayObj.Update(htUpdateMP, "COMP", "COMP_CD=" + Convert.ToInt32(dtMPDSE.Rows[loop]["COMP_CD"].ToString()));
+                    htUpdateMP = new Hashtable();
 
                 }
                 commonGatewayObj.CommitTransaction();
@@ -227,7 +180,6 @@ public partial class UI_PORTFOLIO_PortfolioMPUpdate : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            int errrrr = Error_Count;
             // dvGridDSEMPInfo.Visible = false;
             commonGatewayObj.RollbackTransaction();
             dsePriceLabel.Text = "Price  Save failed Error:" + ex.Message.ToString();
@@ -242,7 +194,7 @@ public partial class UI_PORTFOLIO_PortfolioMPUpdate : System.Web.UI.Page
             int zeroCompanyCode = 0;
             string cseMPFile = ConfigReader._TRADE_FILE_LOCATION.ToString();
             cseMPFile = cseMPFile + "\\CSE_PRICE" + "\\" + marketPriceDateTextBox.Text.ToString().ToUpper() + "-CSE-MARKET-PRICE.txt";
-           
+            // cseMPFile = "F:\\Fdrive\\tradeSummary_ts_2017101633.txt";
             if (File.Exists(cseMPFile))
             {
 
@@ -255,7 +207,6 @@ public partial class UI_PORTFOLIO_PortfolioMPUpdate : System.Web.UI.Page
 
 
                 DataRow drMP;
-
                 StreamReader srFileReader;
                 string line;
                 srFileReader = new StreamReader(cseMPFile);

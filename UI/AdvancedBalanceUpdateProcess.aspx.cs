@@ -464,9 +464,12 @@ public partial class AdvancedBalanceUpdateProcess : System.Web.UI.Page
         DataTable dtFromFundTransHB = new DataTable();
         DataTable dtFromFundFolioHB = new DataTable();
 
+        //strQuery = "select TO_CHAR(vch_dt,'DD-MON-YYYY')vch_dt, f_cd, comp_cd, no_share, rate, nvl(amount,0)amount,amt_aft_com, tran_tp, stock_ex from fund_trans_hb" +
+        //" where vch_dt between '" + vchDtFrom + "' and '" + vchDtTo + "' and f_cd=" + f_cd +
+        //" order by  vch_dt,comp_cd";
         strQuery = "select TO_CHAR(vch_dt,'DD-MON-YYYY')vch_dt, f_cd, comp_cd, no_share, rate, nvl(amount,0)amount,amt_aft_com, tran_tp, stock_ex from fund_trans_hb" +
-        " where vch_dt between '" + vchDtFrom + "' and '" + vchDtTo + "' and f_cd=" + f_cd +
-        " order by  vch_dt,comp_cd";
+        " where vch_dt between '" + vchDtFrom + "' and '" + vchDtTo + "' and f_cd=2 order by  vch_dt,comp_cd";
+
 
         dtFromFundTransHB = commonGatewayObj.Select(strQuery);
 
@@ -542,7 +545,7 @@ public partial class AdvancedBalanceUpdateProcess : System.Web.UI.Page
 
                         {
                             mcost_rt = Math.Round(mt_cost / mt_shr, 2);
-                            mcost_rt_acm = Math.Round(mt_cst_aft_com / mt_shr, 2);
+                            mcost_rt_acm = Math.Round(mt_cst_aft_com / mt_shr, 4);
                         }
 
                         if (dtFromFundTransHB.Rows[i]["tran_tp"].ToString() == "S")

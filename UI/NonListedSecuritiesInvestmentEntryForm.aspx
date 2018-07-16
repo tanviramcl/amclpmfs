@@ -60,6 +60,7 @@
     <tr>
         <td class="" align="center">
               <asp:Label ID="lblerror" runat="server" Text="" Style="font-size: 20px; color: red;"></asp:Label>
+           
         </td>           
         <td>
             <br />
@@ -172,6 +173,8 @@
        },"* Please select a Fund");
 
 
+
+
        $.validator.addMethod("pfoliodatecheck", function (value, element, param) {  
            if (value == '0')  
                return false;  
@@ -193,6 +196,10 @@
                return true;  
        },"* Please select a Category");
 
+       jQuery.validator.addMethod("Date", function(value, element) { 
+           return Date.parseExact(value, "dd/mm/yy");
+       });
+
        $(function () {
 
            $('#<%=InvestMentDateTextBox.ClientID%>').datepicker({
@@ -213,6 +220,13 @@
                         
                    //required:true 
                    fundDropDownList:true
+                        
+               }
+               ,
+                 <%=InvestMentDateTextBox.UniqueID %>: {
+                        
+                   //required:true 
+                     Date:true
                         
                }
                ,
@@ -311,7 +325,14 @@
                 
            </td>
     </tr>
+    <tr>
+        <td align="right" style="font-weight: 700" class="style5"><asp:Label ID="LabelINVDate" Visible="false" runat="server" Text="Date:"></asp:Label></td>
+        <td align="left" class="style5" >
+          <b> <asp:Label Visible="false" ID="lblInvDate" runat="server" Text=""></asp:Label></b>
+            </td>
+        </tr>
         <tr>
+         
         <td align="right" style="font-weight: 700" class="style5"><asp:Label ID="lblTotalAmmont" Visible="false" runat="server" Text="Total Ammount:"></asp:Label></td>
         <td align="left" class="style5" >
           <b> <asp:Label Visible="false" ID="lblTotalAmmount" runat="server" Text=""></asp:Label></b>
@@ -334,6 +355,7 @@
                 <asp:UpdatePanel ID="UpdatePanel1" runat="server">
                     <ContentTemplate>
                         <asp:Label ID="lblProcessing" runat="server" Text="" Style="font-size: 24px; color: green;"></asp:Label>
+                         <asp:Label ID="Label1" runat="server" Text="" Style="font-size: 20px; color: red;"></asp:Label>
                         <br />
 
                          <asp:HiddenField ID="HiddenField1" runat="server" />
@@ -352,8 +374,9 @@
                 
                 
                  var amount = $('#<%=lblTotalAmmount.ClientID%>').html();
+                 var InvDate= $('#<%=lblInvDate.ClientID%>').html();
                 // alert(g);
-                 var str="Do you want to proceed with amount "+ amount ;       
+                 var str="Amount: "+ amount +", as on :"+InvDate+". Do you want to proceed ?";       
               if (confirm(str)) {
               //  $("#HiddenField1").val("Yes");
                 $("#<%=HiddenField1.ClientID%>").val("Yes");
