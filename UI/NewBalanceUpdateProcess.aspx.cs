@@ -763,8 +763,8 @@ public partial class BalanceUpdateProcess : System.Web.UI.Page
                                     else
 
                                     {
-                                        mcost_rt = Math.Round(mt_cost / mt_shr, 2);
-                                        mcost_rt_acm = Math.Round(mt_cst_aft_com / mt_shr, 2);
+                                        mcost_rt = Math.Round(mt_cost / mt_shr, 4);
+                                        mcost_rt_acm = Math.Round(mt_cst_aft_com / mt_shr, 4);
                                     }
 
                                     if (dtFromFundTransHB.Rows[i]["tran_tp"].ToString() == "S")
