@@ -50,6 +50,8 @@ public partial class UI_ReportViewer_StockDeclarationBeforePostedReportViewer : 
                     "EXCEP_BUYSL_COMPCT_DSE, PROS_PUB_DT,  IPOTYPE,MARKETTYPE , ISSUE_MNG,OP_NAME, UPD_DATE_TIME  FROM COMP a INNER JOIN SECT_MAJ  b ON  A.SECT_MAJ_CD=B.SECT_MAJ_CD " +
                     "order by COMP_NM ) a ");
 
+
+        //   sbMst.Append(" where  a.SECT_MAJ_CD='" + sector + "' and a.CAT_TP='" + category + "' and A.TRADE_METH='" + group + "' and a.IPOTYPE='" + ipo + "' and a.MARKETTYPE='" + marketype + "' ");
         //if (sector != "0" && category == "0" && group == "0" && ipo == "0")
         //{
         //    sbMst.Append(" where  a.SECT_MAJ_CD="+sector+ " and a.MARKETTYPE='"+marketype+"'");
@@ -97,16 +99,16 @@ public partial class UI_ReportViewer_StockDeclarationBeforePostedReportViewer : 
         //}
 
 
-
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         if (sector != "0" && category == "0" && group == "0" && ipo == "0")
         {
-            sbMst.Append(" where  a.SECT_MAJ_CD="+sector+ " and a.MARKETTYPE='"+marketype+"'");
+            sbMst.Append(" where  a.SECT_MAJ_CD=" + sector + " and a.MARKETTYPE='" + marketype + "'");
 
         }
         else if (sector == "0" && category != "0" && group == "0" && ipo == "0")
         {
-            sbMst.Append(" where  a.CAT_TP=" + category + " and a.MARKETTYPE='" + marketype + "'");
+            sbMst.Append(" where  a.CAT_TP='" + category + "' and a.MARKETTYPE='" + marketype + "'");
         }
         else if (sector == "0" && category == "0" && group != "0" && ipo == "0")
         {
@@ -114,13 +116,60 @@ public partial class UI_ReportViewer_StockDeclarationBeforePostedReportViewer : 
         }
         else if (sector == "0" && category == "0" && group == "0" && ipo != "0")
         {
-            sbMst.Append(" where  and a.IPOTYPE=" + ipo + " and a.MARKETTYPE='" + marketype + "'");
+            sbMst.Append(" where   a.IPOTYPE='" + ipo + "' and a.MARKETTYPE='" + marketype + "'");
 
         }
-        else if(sector != "0" && category != "0" && group != "0" && ipo != "0") 
+        else if (sector == "0" && category == "0" && group == "0" && ipo == "0" && marketype != "0")
         {
-            sbMst.Append(" where  a.SECT_MAJ_CD='"+sector+"' and a.CAT_TP='"+category+"' and A.TRADE_METH='"+group+"' and a.IPOTYPE='"+ipo+"' and a.MARKETTYPE='"+marketype+"' ");
+            sbMst.Append(" where   a.MARKETTYPE='" + marketype + "'");
         }
+        else if (sector == "0" && category != "0" && group == "0" && ipo != "0" && marketype != "0")
+        {
+            sbMst.Append(" where  a.CAT_TP='" + category + "'  and a.IPOTYPE='" + ipo + "' and a.MARKETTYPE='" + marketype + "' ");
+        }
+        else if (sector == "0" && category != "0" && group == "0" && ipo != "0" && marketype != "0")
+        {
+            sbMst.Append(" where   a.CAT_TP='" + category + "' and  a.IPOTYPE='" + ipo + "' and a.MARKETTYPE='" + marketype + "' ");
+        }
+        else if (sector == "0" && category != "0" && group != "0" && ipo == "0" && marketype != "0")
+        {
+            sbMst.Append(" where   a.CAT_TP='" + category + "' and A.TRADE_METH='" + group + "' and a.MARKETTYPE='" + marketype + "' ");
+        }
+        else if (sector == "0" && category != "0" && group != "0" && ipo != "0" && marketype != "0")
+        {
+            sbMst.Append(" where   a.CAT_TP='" + category + "' and A.TRADE_METH='" + group + "' and  a.IPOTYPE='" + ipo + "' and a.MARKETTYPE='" + marketype + "' ");
+        }
+        else if (sector != "0" && category == "0" && group != "0" && ipo != "0" && marketype != "0")
+        {
+            sbMst.Append(" where  a.SECT_MAJ_CD='" + sector + "'  and A.TRADE_METH='" + group + "' and a.IPOTYPE='" + ipo + "' and a.MARKETTYPE='" + marketype + "' ");
+        }
+        else if (sector != "0" && category == "0" && group == "0" && ipo != "0" && marketype != "0")
+        {
+            sbMst.Append(" where  a.SECT_MAJ_CD='" + sector + "' and a.IPOTYPE='" + ipo + "' and a.MARKETTYPE='" + marketype + "' ");
+        }
+        else if (sector != "0" && category == "0" && group == "0" && ipo == "0" && marketype != "0")
+        {
+            sbMst.Append(" where  a.SECT_MAJ_CD='" + sector + "' and a.MARKETTYPE='" + marketype + "' ");
+        }
+        else if (sector != "0" && category != "0" && group == "0" && ipo != "0" && marketype != "0")
+        {
+            sbMst.Append(" where  a.SECT_MAJ_CD='" + sector + "' and a.CAT_TP='" + category + "' and a.IPOTYPE='" + ipo + "' and a.MARKETTYPE='" + marketype + "' ");
+        }
+        else if (sector != "0" && category != "0" && group != "0" && ipo == "0" && marketype != "0")
+        {
+            sbMst.Append(" where  a.SECT_MAJ_CD='" + sector + "' and a.CAT_TP='" + category + "' and A.TRADE_METH='" + group + "'  and a.MARKETTYPE='" + marketype + "' ");
+        }
+        else if (sector != "0" && category != "0" && group != "0" && ipo != "0")
+        {
+            sbMst.Append(" where  a.SECT_MAJ_CD='" + sector + "' and a.CAT_TP='" + category + "' and A.TRADE_METH='" + group + "' and a.IPOTYPE='" + ipo + "' and a.MARKETTYPE='" + marketype + "' ");
+        }
+        else if (sector == "0" && category == "0" && group != "0" && ipo != "0")
+        {
+            sbMst.Append(" where  a.SECT_MAJ_CD='" + sector + "'  and A.TRADE_METH='" + group + "' and a.IPOTYPE='" + ipo + "' and a.MARKETTYPE='" + marketype + "' ");
+        }
+
+
+
 
 
         sbMst.Append(sbfilter.ToString());

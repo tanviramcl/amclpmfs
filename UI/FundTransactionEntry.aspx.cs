@@ -42,6 +42,11 @@ public partial class UI_FundTransactionEntry : System.Web.UI.Page
             fundNameDropDownList.DataTextField = "F_NAME";
             fundNameDropDownList.DataValueField = "F_CD";
             fundNameDropDownList.DataBind();
+
+            lblrecordDate.Visible = false;
+            recordDateTextBox.Visible = false;
+            ImageButton1.Visible = false;
+
         }
     }
     protected void noOfShareTextBox_TextChanged(object sender, EventArgs e)
@@ -119,6 +124,25 @@ public partial class UI_FundTransactionEntry : System.Web.UI.Page
         //amountTextBox.Text = "";
         //rateTextBox.Text = "";
         //amountAfterComissionTextBox.Text = "";
+        lblrecordDate.Visible = false;
+        recordDateTextBox.Visible = false;
+        ImageButton1.Visible = false;
+
+        string tran_tp = transTypeDropDownList.SelectedValue.ToString();
+
+        if (tran_tp == "B")
+        {
+            lblrecordDate.Visible = true;
+            recordDateTextBox.Visible = true;
+            ImageButton1.Visible = true;
+        }
+        else if (tran_tp == "R")
+        {
+
+            lblrecordDate.Visible = true;
+            recordDateTextBox.Visible = true;
+            ImageButton1.Visible = true;
+        }
 
 
 
@@ -127,6 +151,22 @@ public partial class UI_FundTransactionEntry : System.Web.UI.Page
     {
         string LoginID = Session["UserID"].ToString();
         string LoginName = Session["UserName"].ToString().ToUpper();
+        string record_date = recordDateTextBox.Text.ToString();
+        string recordate;
+        DateTime? dtrecoddate;
+        if (!string.IsNullOrEmpty(record_date))
+        {
+            dtrecoddate = Convert.ToDateTime(record_date);
+
+            recordate = dtrecoddate.Value.ToString("dd-MMM-yyyy");
+        }
+        else
+        {
+            dtrecoddate = null;
+            recordate = "";
+        }
+
+       
 
         Hashtable httable = new Hashtable();
         httable.Add("VCH_DT", Convert.ToDateTime(howlaDateTextBox.Text.ToString()).ToString("dd-MMM-yyyy"));
@@ -166,7 +206,10 @@ public partial class UI_FundTransactionEntry : System.Web.UI.Page
         {
             httable.Add("AMT_AFT_COM", Convert.ToDouble(amountAfterComissionTextBox.Text));
         }
-        
+        if (!recordate.Equals(""))
+        {
+            httable.Add("RECORD_DT", recordate);
+        }
         
 
         //httable.Add("ENTRY_DATE", DateTime.Today.ToString("dd-MMM-yyyy"));
@@ -182,9 +225,31 @@ public partial class UI_FundTransactionEntry : System.Web.UI.Page
 
             if (transTypeDropDownList.SelectedValue == "I")
             {
-                string strupdateQueryAVgRateFromComp = "update comp set AVG_RT='" + Convert.ToDouble(rateTextBox.Text) + "',CSE_RT='" + Convert.ToDouble(rateTextBox.Text) + "',ADC_RT='" + Convert.ToDouble(rateTextBox.Text) + "' where comp_cd =" + companyNameDropDownList.SelectedValue.ToString() + "";
 
-                int updateQueryAVgRateFromCompNumOfRows = commonGatewayObj.ExecuteNonQuery(strupdateQueryAVgRateFromComp);
+             
+                 string  strQbooKCL = "SELECT COMP_CD, FY, RECORD_DT, BOOK_TO, BONUS, RIGHT_APPR_DT,  RIGHT, CASH, AGM, REMARKS, POSTED, PDATE,  ENTRY_DATE FROM BOOK_CL WHERE COMP_CD="+companyNameDropDownList.SelectedValue+" AND RECORD_DT='"+ recordate + "'";
+
+                 DataTable  dtbookCl = commonGatewayObj.Select(strQbooKCL);
+                if (dtbookCl != null && dtbookCl.Rows.Count > 0)
+                {
+                    string strRecordateFT = "SELECT VCH_DT, F_CD, COMP_CD, TRAN_TP, VCH_NO, NO_SHARE, RATE, COST_RATE, CRT_AFT_COM,  AMOUNT, AMT_AFT_COM, STOCK_EX, OP_NAME, PVCH_NO, RECORD_DT FROM FUND_TRANS_HB Where comp_cd="+companyNameDropDownList.SelectedValue.ToString()+" and RECORD_DT='"+recordate+ "'";
+                    DataTable dtRecorDateFT = commonGatewayObj.Select(strRecordateFT);
+
+                    if (dtbookCl != null && dtbookCl.Rows.Count > 0)
+                    {
+                        ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Save Failed:You are not Smart User  Trying to Duplicate entry');", true);
+                        ClearFields();
+                    }
+                    else
+                    {
+                        string strupdateQueryAVgRateFromComp = "update comp set AVG_RT='" + Convert.ToDouble(rateTextBox.Text) + "',CSE_RT='" + Convert.ToDouble(rateTextBox.Text) + "',ADC_RT='" + Convert.ToDouble(rateTextBox.Text) + "' where comp_cd =" + companyNameDropDownList.SelectedValue.ToString() + "";
+
+                        int updateQueryAVgRateFromCompNumOfRows = commonGatewayObj.ExecuteNonQuery(strupdateQueryAVgRateFromComp);
+                    }
+                    
+
+                }
+
             }
             ClearFields();
             ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Saved Successfully');", true);
@@ -200,7 +265,7 @@ public partial class UI_FundTransactionEntry : System.Web.UI.Page
         amountTextBox.Text = "";
         rateTextBox.Text = "";
         amountAfterComissionTextBox.Text = "";
-
+        recordDateTextBox.Text = "";
     }
     protected void fundNameDropDownList_SelectedIndexChanged(object sender, EventArgs e)
     {

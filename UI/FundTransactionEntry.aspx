@@ -61,6 +61,7 @@
             alert("Please Select Fund Name.");
             return false; 
         }
+       
         if(document.getElementById("<%=companyNameDropDownList.ClientID%>").value =="0")
         {
             document.getElementById("<%=companyNameDropDownList.ClientID%>").focus();
@@ -84,6 +85,22 @@
             document.getElementById("<%=noOfShareTextBox.ClientID%>").focus();
             alert("Please Enter Amount.");
             return false; 
+         }
+          if(document.getElementById("<%=recordDateTextBox.ClientID%>").value =="")
+        {
+            document.getElementById("<%=howlaDateTextBox.ClientID%>").focus();
+            alert("Please Insert Record Date.");
+            return false; 
+        }
+        if(document.getElementById("<%=recordDateTextBox.ClientID%>").value!="")
+        {
+            var checkDate=/^([012]?\d|3[01])-([Jj][Aa][Nn]|[Ff][Ee][bB]|[Mm][Aa][Rr]|[Aa][Pp][Rr]|[Mm][Aa][Yy]|[Jj][Uu][Nn]|[Jj][Uu][Ll]|[aA][Uu][gG]|[Ss][eE][pP]|[Oo][Cc][Tt]|[Nn][Oo][Vv]|[Dd][Ee][Cc])-(19|20)\d\d$/;
+            if(!checkDate.test(document.getElementById("<%=recordDateTextBox.ClientID%>").value))
+            {
+                document.getElementById("<%=recordDateTextBox.ClientID%>").focus();
+                alert("Invalid Date Formate! Select Date From The Calender.");
+                return false;
+            }
         }
     }
 </script>
@@ -131,7 +148,7 @@
         <td align="right"><b>Trans Type:</b></td>
         <td align="left" >
             <asp:DropDownList ID="transTypeDropDownList" runat="server" 
-                TabIndex="5" 
+                TabIndex="5" AutoPostBack="true"
                 onselectedindexchanged="transTypeDropDownList_SelectedIndexChanged">
             <asp:ListItem Text="--Select--" Value="0"></asp:ListItem>
             <asp:ListItem Text="Bonus Share" Value="B"></asp:ListItem>
@@ -150,7 +167,22 @@
         <td align="left" >
             <asp:DropDownList ID="fundNameDropDownList" runat="server" TabIndex="6" 
                 onselectedindexchanged="fundNameDropDownList_SelectedIndexChanged"></asp:DropDownList>
-          
+            </td>
+
+    <%--      
+        <td align="right"  style="font-weight: 700"><b><asp:Label ID="lblrecordDate" runat="server" Text="Record Date:"></asp:Label></b></td>
+        <td align="left">
+            <asp:TextBox ID="recordDateTextBox" runat="server" style="width:100px;" CssClass="textInputStyle" TabIndex="1"></asp:TextBox>
+            <ajaxToolkit:CalendarExtender ID="CalendarExtender1" runat="server" TargetControlID="recordDateTextBox"
+                PopupButtonID="ImageButton" Format="dd-MMM-yyyy"/>
+            <asp:ImageButton ID="ImageButton1" runat="server" AlternateText="Click Here" ImageUrl="~/Image/Calendar_scheduleHS.png" TabIndex="2" /></td>--%>
+            <td align="right"  style="font-weight: 700"><b><asp:Label ID="lblrecordDate" visible="false" runat="server" Text="Record Date:"></asp:Label></b></td>
+            <td align="left"><asp:TextBox ID="recordDateTextBox" runat="server" Visible="false" style="width:100px;" CssClass="textInputStyle" TabIndex="1"></asp:TextBox>
+                <ajaxToolkit:CalendarExtender ID="CalendarExtenderfd" runat="server" TargetControlID="recordDateTextBox"
+                PopupButtonID="ImageButton1" Format="dd-MMM-yyyy"/>
+             <asp:ImageButton ID="ImageButton1" runat="server"  Visible="false" AlternateText="Click Here" ImageUrl="~/Image/Calendar_scheduleHS.png" TabIndex="2" />
+
+            </td>
     </tr>
     <tr>
         <td align="right" style="font-weight: 700"><b>No. of Shares:</b></td>
