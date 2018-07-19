@@ -132,16 +132,21 @@ public partial class UI_FundTransactionEntry : System.Web.UI.Page
 
         if (tran_tp == "B")
         {
+            amountTextBox.ReadOnly = true;
             lblrecordDate.Visible = true;
             recordDateTextBox.Visible = true;
             ImageButton1.Visible = true;
         }
         else if (tran_tp == "R")
         {
-
+            amountTextBox.ReadOnly = false;
             lblrecordDate.Visible = true;
             recordDateTextBox.Visible = true;
             ImageButton1.Visible = true;
+        }
+        else
+        {
+            amountTextBox.ReadOnly = false;
         }
         noOfShareTextBox.Text = "";
         fundNameDropDownList.SelectedValue = "0";
@@ -223,42 +228,59 @@ public partial class UI_FundTransactionEntry : System.Web.UI.Page
 
         if (pf1s1DAOObj.IsDuplicateBonusRightEntry(Convert.ToInt32(fundNameDropDownList.SelectedValue.ToString()), Convert.ToInt32(companyNameDropDownList.SelectedValue.ToString()), Convert.ToDateTime(howlaDateTextBox.Text.Trim().ToString()).ToString("dd-MMM-yyyy"), transTypeDropDownList.SelectedValue.ToString(), Convert.ToInt32(noOfShareTextBox.Text.Trim().ToString())))
         {
-            ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Save Failed:You are not Smart User  Trying to Duplicate entry');", true);
+            ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Duplicate not allowed');", true);
         }
         else
         {
-            commonGatewayObj.Insert(httable, "fund_trans_hb");
 
-            if (transTypeDropDownList.SelectedValue == "I")
+            if (transTypeDropDownList.SelectedValue == "B")
             {
+                string strQbooKCL = "SELECT COMP_CD, FY, RECORD_DT, BOOK_TO, BONUS, RIGHT_APPR_DT,  RIGHT, CASH, AGM, REMARKS, POSTED, PDATE,  ENTRY_DATE FROM BOOK_CL WHERE COMP_CD=" + companyNameDropDownList.SelectedValue + " AND RECORD_DT='" + recordate + "'";
 
-             
-                 string  strQbooKCL = "SELECT COMP_CD, FY, RECORD_DT, BOOK_TO, BONUS, RIGHT_APPR_DT,  RIGHT, CASH, AGM, REMARKS, POSTED, PDATE,  ENTRY_DATE FROM BOOK_CL WHERE COMP_CD="+companyNameDropDownList.SelectedValue+" AND RECORD_DT='"+ recordate + "'";
-
-                 DataTable  dtbookCl = commonGatewayObj.Select(strQbooKCL);
+                DataTable dtbookCl = commonGatewayObj.Select(strQbooKCL);
                 if (dtbookCl != null && dtbookCl.Rows.Count > 0)
                 {
-                    string strRecordateFT = "SELECT VCH_DT, F_CD, COMP_CD, TRAN_TP, VCH_NO, NO_SHARE, RATE, COST_RATE, CRT_AFT_COM,  AMOUNT, AMT_AFT_COM, STOCK_EX, OP_NAME, PVCH_NO, RECORD_DT FROM FUND_TRANS_HB Where comp_cd="+companyNameDropDownList.SelectedValue.ToString()+" and RECORD_DT='"+recordate+ "'";
+                    string strRecordateFT = "SELECT VCH_DT, F_CD, COMP_CD, TRAN_TP, VCH_NO, NO_SHARE, RATE, COST_RATE, CRT_AFT_COM,  AMOUNT, AMT_AFT_COM, STOCK_EX, OP_NAME, PVCH_NO, RECORD_DT FROM FUND_TRANS_HB Where comp_cd=" + companyNameDropDownList.SelectedValue.ToString() + " and RECORD_DT='" + recordate + "'";
                     DataTable dtRecorDateFT = commonGatewayObj.Select(strRecordateFT);
 
-                    if (dtbookCl != null && dtbookCl.Rows.Count > 0)
+                    if (dtRecorDateFT != null && dtRecorDateFT.Rows.Count > 0)
                     {
-                        ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Save Failed:You are not Smart User  Trying to Duplicate entry');", true);
+                        ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Duplicate not allowed');", true);
                         ClearFields();
                     }
                     else
                     {
-                        string strupdateQueryAVgRateFromComp = "update comp set AVG_RT='" + Convert.ToDouble(rateTextBox.Text) + "',CSE_RT='" + Convert.ToDouble(rateTextBox.Text) + "',ADC_RT='" + Convert.ToDouble(rateTextBox.Text) + "' where comp_cd =" + companyNameDropDownList.SelectedValue.ToString() + "";
+                        if (httable["TRAN_TP"].ToString() == "B")
+                        {
+                            commonGatewayObj.Insert(httable, "fund_trans_hb");
+                            ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Saved Successfully');", true);
+                        }
 
-                        int updateQueryAVgRateFromCompNumOfRows = commonGatewayObj.ExecuteNonQuery(strupdateQueryAVgRateFromComp);
+
                     }
-                    
-
+                }
+                else
+                {
+                    ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('No data found in Book Closer Entry');", true);
                 }
 
             }
+            else if (transTypeDropDownList.SelectedValue == "I")
+            {
+                string strupdateQueryAVgRateFromComp = "update comp set AVG_RT='" + Convert.ToDouble(rateTextBox.Text) + "',CSE_RT='" + Convert.ToDouble(rateTextBox.Text) + "',ADC_RT='" + Convert.ToDouble(rateTextBox.Text) + "' where comp_cd =" + companyNameDropDownList.SelectedValue.ToString() + "";
+
+                int updateQueryAVgRateFromCompNumOfRows = commonGatewayObj.ExecuteNonQuery(strupdateQueryAVgRateFromComp);
+                ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Update Successfully');", true);
+            }
+            else
+            {
+                commonGatewayObj.Insert(httable, "fund_trans_hb");
+                ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Saved Successfully');", true);
+            }
+
+           
             ClearFields();
-            ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Saved Successfully');", true);
+        
         }
         fundNameDropDownList.Focus();
     }
