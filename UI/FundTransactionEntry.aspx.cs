@@ -143,7 +143,13 @@ public partial class UI_FundTransactionEntry : System.Web.UI.Page
             recordDateTextBox.Visible = true;
             ImageButton1.Visible = true;
         }
-
+        noOfShareTextBox.Text = "";
+        fundNameDropDownList.SelectedValue = "0";
+        voucherNoTextBox.Text = "";
+        amountTextBox.Text = "";
+        rateTextBox.Text = "";
+        amountAfterComissionTextBox.Text = "";
+        recordDateTextBox.Text = "";
 
 
     }
