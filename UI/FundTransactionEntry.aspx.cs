@@ -137,13 +137,6 @@ public partial class UI_FundTransactionEntry : System.Web.UI.Page
             recordDateTextBox.Visible = true;
             ImageButton1.Visible = true;
         }
-        else if (tran_tp == "R")
-        {
-            amountTextBox.ReadOnly = false;
-            lblrecordDate.Visible = true;
-            recordDateTextBox.Visible = true;
-            ImageButton1.Visible = true;
-        }
         else
         {
             amountTextBox.ReadOnly = false;
@@ -217,10 +210,7 @@ public partial class UI_FundTransactionEntry : System.Web.UI.Page
         {
             httable.Add("AMT_AFT_COM", Convert.ToDouble(amountAfterComissionTextBox.Text));
         }
-        if (!recordate.Equals(""))
-        {
-            httable.Add("RECORD_DT", recordate);
-        }
+       
         
 
         //httable.Add("ENTRY_DATE", DateTime.Today.ToString("dd-MMM-yyyy"));
@@ -235,12 +225,16 @@ public partial class UI_FundTransactionEntry : System.Web.UI.Page
 
             if (transTypeDropDownList.SelectedValue == "B")
             {
-                string strQbooKCL = "SELECT COMP_CD, FY, RECORD_DT, BOOK_TO, BONUS, RIGHT_APPR_DT,  RIGHT, CASH, AGM, REMARKS, POSTED, PDATE,  ENTRY_DATE FROM BOOK_CL WHERE COMP_CD=" + companyNameDropDownList.SelectedValue + " AND RECORD_DT='" + recordate + "'";
+                if (!recordate.Equals(""))
+                {
+                    httable.Add("RECORD_DT", recordate);
+                }
+                string strQbooKCL = "SELECT COMP_CD, FY, RECORD_DT, BOOK_TO, BONUS, RIGHT_APPR_DT,  RIGHT, CASH, AGM, REMARKS, POSTED, PDATE,  ENTRY_DATE FROM BOOK_CL WHERE  COMP_CD=" + companyNameDropDownList.SelectedValue + " AND RECORD_DT='" + recordate + "'";
 
                 DataTable dtbookCl = commonGatewayObj.Select(strQbooKCL);
                 if (dtbookCl != null && dtbookCl.Rows.Count > 0)
                 {
-                    string strRecordateFT = "SELECT VCH_DT, F_CD, COMP_CD, TRAN_TP, VCH_NO, NO_SHARE, RATE, COST_RATE, CRT_AFT_COM,  AMOUNT, AMT_AFT_COM, STOCK_EX, OP_NAME, PVCH_NO, RECORD_DT FROM FUND_TRANS_HB Where comp_cd=" + companyNameDropDownList.SelectedValue.ToString() + " and RECORD_DT='" + recordate + "'";
+                    string strRecordateFT = "SELECT VCH_DT, F_CD, COMP_CD, TRAN_TP, VCH_NO, NO_SHARE, RATE, COST_RATE, CRT_AFT_COM,  AMOUNT, AMT_AFT_COM, STOCK_EX, OP_NAME, PVCH_NO, RECORD_DT FROM FUND_TRANS_HB Where  f_cd='" + fundNameDropDownList.SelectedValue.ToString() + "' AND comp_cd=" + companyNameDropDownList.SelectedValue.ToString() + " and RECORD_DT='" + recordate + "'";
                     DataTable dtRecorDateFT = commonGatewayObj.Select(strRecordateFT);
 
                     if (dtRecorDateFT != null && dtRecorDateFT.Rows.Count > 0)
