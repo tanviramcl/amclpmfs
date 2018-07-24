@@ -222,41 +222,50 @@ public partial class UI_FundTransactionEntry : System.Web.UI.Page
         }
         else
         {
-
-            if (transTypeDropDownList.SelectedValue == "B")
-            {
-                if (!recordate.Equals(""))
+          
+                if (transTypeDropDownList.SelectedValue == "B")
                 {
-                    httable.Add("RECORD_DT", recordate);
-                }
-                string strQbooKCL = "SELECT COMP_CD, FY, RECORD_DT, BOOK_TO, BONUS, RIGHT_APPR_DT,  RIGHT, CASH, AGM, REMARKS, POSTED, PDATE,  ENTRY_DATE FROM BOOK_CL WHERE  COMP_CD=" + companyNameDropDownList.SelectedValue + " AND RECORD_DT='" + recordate + "'";
-
-                DataTable dtbookCl = commonGatewayObj.Select(strQbooKCL);
-                if (dtbookCl != null && dtbookCl.Rows.Count > 0)
-                {
-                    string strRecordateFT = "SELECT VCH_DT, F_CD, COMP_CD, TRAN_TP, VCH_NO, NO_SHARE, RATE, COST_RATE, CRT_AFT_COM,  AMOUNT, AMT_AFT_COM, STOCK_EX, OP_NAME, PVCH_NO, RECORD_DT FROM FUND_TRANS_HB Where  f_cd='" + fundNameDropDownList.SelectedValue.ToString() + "' AND comp_cd=" + companyNameDropDownList.SelectedValue.ToString() + " and RECORD_DT='" + recordate + "'";
-                    DataTable dtRecorDateFT = commonGatewayObj.Select(strRecordateFT);
-
-                    if (dtRecorDateFT != null && dtRecorDateFT.Rows.Count > 0)
+                    if (stockExchangeDropDownList.SelectedValue == "A")
                     {
-                        ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Duplicate not allowed');", true);
-                        ClearFields();
-                    }
-                    else
-                    {
-                        if (httable["TRAN_TP"].ToString() == "B")
+                        if (!recordate.Equals(""))
                         {
-                            commonGatewayObj.Insert(httable, "fund_trans_hb");
-                            ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Saved Successfully');", true);
+                            httable.Add("RECORD_DT", recordate);
+                        }
+                        string strQbooKCL = "SELECT COMP_CD, FY, RECORD_DT, BOOK_TO, BONUS, RIGHT_APPR_DT,  RIGHT, CASH, AGM, REMARKS, POSTED, PDATE,  ENTRY_DATE FROM BOOK_CL WHERE  COMP_CD=" + companyNameDropDownList.SelectedValue + " AND RECORD_DT='" + recordate + "'";
+
+                        DataTable dtbookCl = commonGatewayObj.Select(strQbooKCL);
+                        if (dtbookCl != null && dtbookCl.Rows.Count > 0)
+                        {
+                            string strRecordateFT = "SELECT VCH_DT, F_CD, COMP_CD, TRAN_TP, VCH_NO, NO_SHARE, RATE, COST_RATE, CRT_AFT_COM,  AMOUNT, AMT_AFT_COM, STOCK_EX, OP_NAME, PVCH_NO, RECORD_DT FROM FUND_TRANS_HB Where  f_cd='" + fundNameDropDownList.SelectedValue.ToString() + "' AND comp_cd=" + companyNameDropDownList.SelectedValue.ToString() + " and RECORD_DT='" + recordate + "'";
+                            DataTable dtRecorDateFT = commonGatewayObj.Select(strRecordateFT);
+
+                            if (dtRecorDateFT != null && dtRecorDateFT.Rows.Count > 0)
+                            {
+                                ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Duplicate not allowed');", true);
+                                ClearFields();
+                            }
+                            else
+                            {
+                                if (httable["TRAN_TP"].ToString() == "B")
+                                {
+                                    commonGatewayObj.Insert(httable, "fund_trans_hb");
+                                    ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Saved Successfully');", true);
+                                }
+
+
+                            }
+                        }
+                        else
+                        {
+                            ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('No data found in Book Closer Entry');", true);
                         }
 
-
-                    }
                 }
                 else
                 {
-                    ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('No data found in Book Closer Entry');", true);
+                    ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Please Select Stock Exchange ALL');", true);
                 }
+
 
             }
             else if (transTypeDropDownList.SelectedValue == "I")
@@ -272,7 +281,6 @@ public partial class UI_FundTransactionEntry : System.Web.UI.Page
                 ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Saved Successfully');", true);
             }
 
-           
             ClearFields();
         
         }

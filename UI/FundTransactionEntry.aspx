@@ -77,7 +77,7 @@
         if(document.getElementById("<%=noOfShareTextBox.ClientID%>").value =="")
         {
             document.getElementById("<%=noOfShareTextBox.ClientID%>").focus();
-            alert("Please Select No. of Shares.");
+            alert("Please Enter No. of Shares.");
             return false; 
         }
          if(document.getElementById("<%=amountTextBox.ClientID%>").value =="")
