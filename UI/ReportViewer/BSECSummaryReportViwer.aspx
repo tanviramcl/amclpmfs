@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="BSECSummaryReport.aspx.cs" Inherits="UI_ReportViewer_CapitalGainAllFundsReportViewer" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="BSECSummaryReportViwer.aspx.cs" Inherits="UI_ReportViewer_CapitalGainAllFundsReportViewer" %>
 <%@ Register Assembly="CrystalDecisions.Web, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304"
     Namespace="CrystalDecisions.Web" TagPrefix="CR" %>
 <!DOCTYPE html>

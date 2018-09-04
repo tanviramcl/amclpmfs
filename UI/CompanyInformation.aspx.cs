@@ -392,7 +392,6 @@ public partial class UI_CompanyInformation : System.Web.UI.Page
                 openingdateTextBox.Text = compInfo.OPN_DT;
                 premiumTextBox.Text = compInfo.PREMIUM;
                 RIssuefromTextBox.Text = compInfo.RISSU_DT_FM;
-                
                 RIssuetoTextBox.Text = compInfo.RISSU_DT_TO;
                 merginTextBox.Text = compInfo.MARGIN;
                 TextBoxAuthorizedcapital.Text = compInfo.ATHO_CAP;

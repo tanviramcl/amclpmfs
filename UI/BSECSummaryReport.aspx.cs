@@ -116,7 +116,7 @@ public partial class UI_MarketValuationWithProfitLoss : System.Web.UI.Page
 
             dvGridFund.Visible = true;
             //    ClientScript.RegisterStartupScript(this.GetType(), "CapitalGainAllFundsReportViewer", "window.open('ReportViewer/CapitalGainAllFundsReportViewer.aspx')", true);
-            Response.Redirect("ReportViewer/BSECSummaryReport.aspx");
+            Response.Redirect("ReportViewer/BSECSummaryReportViwer.aspx");
         }
     }
 

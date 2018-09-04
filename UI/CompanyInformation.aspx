@@ -63,6 +63,8 @@
                         <asp:ListItem Text="--Select--" Value="0"></asp:ListItem>
                         <asp:ListItem Text="Share" Value="SH"></asp:ListItem>
                         <asp:ListItem Text="Mutual Fund" Value="DB"></asp:ListItem>
+                         <asp:ListItem Text="Debenture" Value="D"></asp:ListItem>
+                         <asp:ListItem Text="Bond" Value="B"></asp:ListItem>
                         <asp:ListItem Text="S" Value="S"></asp:ListItem>
                         <asp:ListItem Text="L" Value="L"></asp:ListItem>
                     </asp:DropDownList>

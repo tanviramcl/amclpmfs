@@ -236,13 +236,189 @@ public partial class UI_PORTFOLIO_PortfolioMPUpdate : System.Web.UI.Page
     }
     protected void showCseDataButton_Click(object sender, EventArgs e)
     {
+        //try
+        //{
+        //    int intexpCount = 0;
+        //    int zeroCompanyCode = 0;
+        //    string cseMPFile = ConfigReader._TRADE_FILE_LOCATION.ToString();
+        //    cseMPFile = cseMPFile + "\\CSE_PRICE" + "\\" + marketPriceDateTextBox.Text.ToString().ToUpper() + "-CSE-MARKET-PRICE.txt";
+
+        //    if (File.Exists(cseMPFile))
+        //    {
+
+        //        DataTable dtMP = new DataTable();
+        //        dtMP.Columns.Add("ID", typeof(int));
+        //        dtMP.Columns.Add("TRADE_CODE", typeof(string));
+        //        dtMP.Columns.Add("COMP_CD", typeof(int));
+        //        dtMP.Columns.Add("COMP_NAME", typeof(string));
+        //        dtMP.Columns.Add("CLOSE", typeof(string));
+
+        //        DataRow drMP;
+        //        StreamReader srFileReader;
+        //        string line;
+        //        srFileReader = new StreamReader(cseMPFile);
+        //        int count = 0;
+        //        while (srFileReader.Peek() != -1)
+        //        {
+
+        //            line = srFileReader.ReadLine();
+
+        //            string[] lineContent = new string[]{
+        //              line.ToString().Substring(0, 19),
+        //              line.ToString().Substring(19, 39),
+        //              line.ToString().Substring(128, 14),
+        //            };
+        //            if (lineContent.Length > 0)
+        //            {
+        //                int companyCode = pfolioBLObj.getCompanyCodeByCSECode(lineContent[0].Trim().ToString().ToUpper());
+        //                if (companyCode == 0)
+        //                {
+        //                    zeroCompanyCode++;
+        //                }
+        //                drMP = dtMP.NewRow();
+
+        //                drMP["ID"] = count + 1;
+        //                drMP["TRADE_CODE"] = lineContent[0].ToString().Trim().ToUpper();
+        //                drMP["COMP_CD"] = companyCode;
+        //                drMP["COMP_NAME"] = lineContent[1].ToString().Trim().ToUpper();
+        //                drMP["CLOSE"] = lineContent[2].Trim().ToUpper();
+        //                dtMP.Rows.Add(drMP);
+
+        //                //  line = srFileReader.ReadLine();                   
+        //                //  string[] lineContent = new string[]{
+        //                //  line.ToString().Substring(0, 12),
+        //                //  line.ToString().Substring(12, 6),
+        //                //  line.ToString().Substring(18, 14),
+        //                //  line.ToString().Substring(31,27),
+        //                //  line.ToString().Substring(58)
+        //                //};
+        //                //if (lineContent.Length > 0)
+        //                //{
+        //                //    int companyCode = pfolioBLObj.getCompanyCodeByCSECode(lineContent[2].Trim().ToString().ToUpper());
+        //                //    if (companyCode == 0)
+        //                //    {
+        //                //        zeroCompanyCode++;
+        //                //    }
+        //                //    drMP = dtMP.NewRow();
+        //                //   // serial = serial + 1;
+        //                //    drMP["ID"] =Convert.ToInt32( lineContent[0]);
+        //                //    drMP["TRADE_CODE"] = lineContent[2].ToString().ToUpper();
+        //                //    drMP["COMP_CD"] = companyCode;
+        //                //    drMP["COMP_NAME"] = lineContent[3].ToString();                     
+        //                //    drMP["CLOSE"] = lineContent[4].ToString();
+        //                //    dtMP.Rows.Add(drMP);
+        //            }
+
+        //            count++;
+        //            intexpCount++;
+
+        //        }
+
+
+
+        //        //DataRow drMP;
+
+        //        //StreamReader srFileReader;
+        //        //string line;
+        //        //srFileReader = new StreamReader(cseMPFile);
+        //        //int count = 0;
+        //        //while (srFileReader.Peek() != -1)
+        //        //{
+
+        //        //    line = srFileReader.ReadLine();
+
+        //        //    string[] lineContent = new string[]{
+        //        //      line.ToString().Substring(0, 19),
+        //        //      line.ToString().Substring(19, 39),
+        //        //      line.ToString().Substring(128, 14),
+        //        //    };
+        //        //    if (lineContent.Length > 0)
+        //        //    {
+        //        //        int companyCode = pfolioBLObj.getCompanyCodeByCSECode(lineContent[0].Trim().ToString().ToUpper());
+        //        //        if (companyCode == 0)
+        //        //        {
+        //        //            zeroCompanyCode++;
+        //        //        }
+        //        //        drMP = dtMP.NewRow();
+
+        //        //        drMP["ID"] = count + 1;
+        //        //        drMP["TRADE_CODE"] = lineContent[0].ToString().Trim().ToUpper();
+        //        //        drMP["COMP_CD"] = companyCode;
+        //        //        drMP["COMP_NAME"] = lineContent[1].ToString().Trim().ToUpper();
+        //        //        drMP["CLOSE"] = lineContent[2].Trim().ToUpper();
+        //        //        dtMP.Rows.Add(drMP);
+
+        //        //        //  line = srFileReader.ReadLine();                   
+        //        //        //  string[] lineContent = new string[]{
+        //        //        //  line.ToString().Substring(0, 12),
+        //        //        //  line.ToString().Substring(12, 6),
+        //        //        //  line.ToString().Substring(18, 14),
+        //        //        //  line.ToString().Substring(31,27),
+        //        //        //  line.ToString().Substring(58)
+        //        //        //};
+        //        //        //if (lineContent.Length > 0)
+        //        //        //{
+        //        //        //    int companyCode = pfolioBLObj.getCompanyCodeByCSECode(lineContent[2].Trim().ToString().ToUpper());
+        //        //        //    if (companyCode == 0)
+        //        //        //    {
+        //        //        //        zeroCompanyCode++;
+        //        //        //    }
+        //        //        //    drMP = dtMP.NewRow();
+        //        //        //   // serial = serial + 1;
+        //        //        //    drMP["ID"] =Convert.ToInt32( lineContent[0]);
+        //        //        //    drMP["TRADE_CODE"] = lineContent[2].ToString().ToUpper();
+        //        //        //    drMP["COMP_CD"] = companyCode;
+        //        //        //    drMP["COMP_NAME"] = lineContent[3].ToString();                     
+        //        //        //    drMP["CLOSE"] = lineContent[4].ToString();
+        //        //        //    dtMP.Rows.Add(drMP);
+        //        //    }
+
+        //        //    count++;
+        //        //    intexpCount++;
+
+        //        //}
+        //        if (dtMP.Rows.Count > 0)
+        //        {
+        //            dvGridCSEMPInfo.Visible = true;
+        //            grdShowCSEMP.DataSource = dtMP;
+        //            grdShowCSEMP.DataBind();
+        //            Session["dtMPCSE"] = dtMP;
+        //            if (pfolioBLObj.getMPUpdateStatus(marketPriceDateTextBox.Text.ToString(), "CSE"))
+        //            {
+        //                csePriceLabel.Text = "Price Already Saved On That Date";
+        //                csePriceLabel.Style.Add("color", "#009933");
+        //            }
+        //            else
+        //            {
+        //                csePriceLabel.Text = "Price Should Save On That Date";
+        //                csePriceLabel.Style.Add("color", "red");
+        //            }
+        //        }
+        //        else
+        //        {
+        //            Session["dtMPCSE"] = null;
+        //            dvGridCSEMPInfo.Visible = false;
+        //            csePriceLabel.Text = "No CSE Price Found On That Date";
+        //            csePriceLabel.Style.Add("color", "red");
+        //        }
+        //    }
+
+
+        //}
+        //catch (Exception ex)
+        //{
+
+        //    dvGridCSEMPInfo.Visible = false;
+        //    csePriceLabel.Text = "File Read failed Error:" + ex.Message.ToString();
+        //    csePriceLabel.Style.Add("color", "red");
+        //}
         try
         {
-            int intexpCount = 0;
+            // int intexpCount = 0;
             int zeroCompanyCode = 0;
             string cseMPFile = ConfigReader._TRADE_FILE_LOCATION.ToString();
             cseMPFile = cseMPFile + "\\CSE_PRICE" + "\\" + marketPriceDateTextBox.Text.ToString().ToUpper() + "-CSE-MARKET-PRICE.txt";
-           
+            // cseMPFile = "F:\\Fdrive\\tradeSummary_ts_2017101633.txt";
             if (File.Exists(cseMPFile))
             {
 
@@ -253,68 +429,52 @@ public partial class UI_PORTFOLIO_PortfolioMPUpdate : System.Web.UI.Page
                 dtMP.Columns.Add("COMP_NAME", typeof(string));
                 dtMP.Columns.Add("CLOSE", typeof(string));
 
+                string[] lines = System.IO.File.ReadAllLines(cseMPFile);
 
-                DataRow drMP;
-
-                StreamReader srFileReader;
-                string line;
-                srFileReader = new StreamReader(cseMPFile);
-                int count = 0;
-                while (srFileReader.Peek() != -1)
+                if (lines.Length > 0)
                 {
+                    string firstline = lines[0];
 
-                    line = srFileReader.ReadLine();
+                    string[] headerslable = firstline.Split(',');
 
-                    string[] lineContent = new string[]{
-                      line.ToString().Substring(0, 19),
-                      line.ToString().Substring(19, 39),
-                      line.ToString().Substring(128, 14),
-                    };
-                    if (lineContent.Length > 0)
+                    //foreach (string head in headerslable)
+                    //{
+                    //    dtMP.Columns.Add(new DataColumn(head));
+                    //}
+
+
+                    int count = lines.Length;
+
+                    for (int r = 1; r < count; r++)
                     {
-                        int companyCode = pfolioBLObj.getCompanyCodeByCSECode(lineContent[0].Trim().ToString().ToUpper());
-                        if (companyCode == 0)
+                        string[] datawords = lines[r].Split(',');
+                        DataRow drMP = dtMP.NewRow();
+                        //   int columnIndex = 0;
+
+                        foreach (string head in headerslable)
                         {
-                            zeroCompanyCode++;
+                            // drMP[head] = datawords[columnIndex++];
+
+                            int companyCode = pfolioBLObj.getCompanyCodeByCSECode(datawords[2].Trim().ToString().ToUpper());
+                            if (companyCode == 0)
+                            {
+                                zeroCompanyCode++;
+                            }
+
+                            drMP["ID"] = r;
+                            drMP["TRADE_CODE"] = datawords[2].ToString().Trim().ToUpper();
+                            drMP["COMP_CD"] = companyCode;
+                            drMP["COMP_NAME"] = datawords[1].ToString().Trim().ToUpper();
+                            drMP["CLOSE"] = datawords[7].Trim().ToUpper();
                         }
-                        drMP = dtMP.NewRow();
-
-                        drMP["ID"] = count + 1;
-                        drMP["TRADE_CODE"] = lineContent[0].ToString().Trim().ToUpper();
-                        drMP["COMP_CD"] = companyCode;
-                        drMP["COMP_NAME"] = lineContent[1].ToString().Trim().ToUpper();
-                        drMP["CLOSE"] = lineContent[2].Trim().ToUpper();
                         dtMP.Rows.Add(drMP);
-
-                        //  line = srFileReader.ReadLine();                   
-                        //  string[] lineContent = new string[]{
-                        //  line.ToString().Substring(0, 12),
-                        //  line.ToString().Substring(12, 6),
-                        //  line.ToString().Substring(18, 14),
-                        //  line.ToString().Substring(31,27),
-                        //  line.ToString().Substring(58)
-                        //};
-                        //if (lineContent.Length > 0)
-                        //{
-                        //    int companyCode = pfolioBLObj.getCompanyCodeByCSECode(lineContent[2].Trim().ToString().ToUpper());
-                        //    if (companyCode == 0)
-                        //    {
-                        //        zeroCompanyCode++;
-                        //    }
-                        //    drMP = dtMP.NewRow();
-                        //   // serial = serial + 1;
-                        //    drMP["ID"] =Convert.ToInt32( lineContent[0]);
-                        //    drMP["TRADE_CODE"] = lineContent[2].ToString().ToUpper();
-                        //    drMP["COMP_CD"] = companyCode;
-                        //    drMP["COMP_NAME"] = lineContent[3].ToString();                     
-                        //    drMP["CLOSE"] = lineContent[4].ToString();
-                        //    dtMP.Rows.Add(drMP);
                     }
 
-                    count++;
-                    intexpCount++;
-
+                    
                 }
+
+
+
                 if (dtMP.Rows.Count > 0)
                 {
                     dvGridCSEMPInfo.Visible = true;
