@@ -186,37 +186,49 @@ public partial class UI_PORTFOLIO_PortfolioMPUpdate : System.Web.UI.Page
             Hashtable htUpdateMP = new Hashtable();
             if (!pfolioBLObj.getMPUpdateStatus(marketPriceDateTextBox.Text.ToString(), "DSE"))
             {
-                for (int loop = 0; loop < dtMPDSE.Rows.Count; loop++)
+                if (dvGridDSEMPInfo.Visible == true)
                 {
-                    if (Convert.ToInt32(dtMPDSE.Rows[loop]["COMP_CD"].ToString()) > 0)
+                    for (int loop = 0; loop < dtMPDSE.Rows.Count; loop++)
                     {
-                        string high = dtMPDSE.Rows[loop]["HIGH"].ToString();
-                        htUpdateMP.Add("RT_UPD_DT", marketPriceDateTextBox.Text.ToString());
-                        htUpdateMP.Add("AVG_RT", Convert.ToDecimal(dtMPDSE.Rows[loop]["CLOSE"].ToString()));    
-                        if (dtMPDSE.Rows[loop]["HIGH"].ToString()!="")
+                        if (Convert.ToInt32(dtMPDSE.Rows[loop]["COMP_CD"].ToString()) > 0)
                         {
-                            htUpdateMP.Add("DSE_HIGH", Convert.ToDecimal(dtMPDSE.Rows[loop]["HIGH"].ToString()));
-                        }
-                        if (dtMPDSE.Rows[loop]["LOW"].ToString() != "")
-                        {
-                            htUpdateMP.Add("DSE_LOW", Convert.ToDecimal(dtMPDSE.Rows[loop]["LOW"].ToString()));
-                        }
-                        if (dtMPDSE.Rows[loop]["OPEN"].ToString() != "")
-                        {
-                            htUpdateMP.Add("DSE_OPEN", Convert.ToDecimal(dtMPDSE.Rows[loop]["OPEN"].ToString()));
-                        }
-                      
-                        commonGatewayObj.Update(htUpdateMP, "COMP", "COMP_CD=" + Convert.ToInt32(dtMPDSE.Rows[loop]["COMP_CD"].ToString()));
-                        htUpdateMP = new Hashtable();
-                    }
+                            string high = dtMPDSE.Rows[loop]["HIGH"].ToString();
+                            htUpdateMP.Add("RT_UPD_DT", marketPriceDateTextBox.Text.ToString());
+                            htUpdateMP.Add("AVG_RT", Convert.ToDecimal(dtMPDSE.Rows[loop]["CLOSE"].ToString()));
+                            if (dtMPDSE.Rows[loop]["HIGH"].ToString() != "")
+                            {
+                                htUpdateMP.Add("DSE_HIGH", Convert.ToDecimal(dtMPDSE.Rows[loop]["HIGH"].ToString()));
+                            }
+                            if (dtMPDSE.Rows[loop]["LOW"].ToString() != "")
+                            {
+                                htUpdateMP.Add("DSE_LOW", Convert.ToDecimal(dtMPDSE.Rows[loop]["LOW"].ToString()));
+                            }
+                            if (dtMPDSE.Rows[loop]["OPEN"].ToString() != "")
+                            {
+                                htUpdateMP.Add("DSE_OPEN", Convert.ToDecimal(dtMPDSE.Rows[loop]["OPEN"].ToString()));
+                            }
 
-                    Error_Count = loop;
+                            commonGatewayObj.Update(htUpdateMP, "COMP", "COMP_CD=" + Convert.ToInt32(dtMPDSE.Rows[loop]["COMP_CD"].ToString()));
+                            htUpdateMP = new Hashtable();
+                        }
+
+                        Error_Count = loop;
+
+                    }
+                    commonGatewayObj.CommitTransaction();
+                    dvGridDSEMPInfo.Visible = false;
+                    dsePriceLabel.Text = "Price  Save Successfully";
+                    dsePriceLabel.Style.Add("color", "#009933");
 
                 }
-                commonGatewayObj.CommitTransaction();
-                dvGridDSEMPInfo.Visible = false;
-                dsePriceLabel.Text = "Price  Save Successfully";
-                dsePriceLabel.Style.Add("color", "#009933");
+                else
+                {
+                    dsePriceLabel.Text = "Please  Press the Show DSE Price button ";
+                    dsePriceLabel.Style.Add("color", "red");
+
+                }
+
+               
             }
             else
             {
@@ -524,18 +536,29 @@ public partial class UI_PORTFOLIO_PortfolioMPUpdate : System.Web.UI.Page
 
             if (!pfolioBLObj.getMPUpdateStatus(marketPriceDateTextBox.Text.ToString(), "CSE"))
             {
-                for (int loop = 0; loop < dtMPCSE.Rows.Count; loop++)
+                if (dvGridCSEMPInfo.Visible == true)
                 {
-                    htUpdateMP.Add("CSE_DT", marketPriceDateTextBox.Text.ToString());
-                    htUpdateMP.Add("CSE_RT", Convert.ToDecimal(dtMPCSE.Rows[loop]["CLOSE"].ToString()));
 
-                    commonGatewayObj.Update(htUpdateMP, "COMP", "COMP_CD=" + Convert.ToInt32(dtMPCSE.Rows[loop]["COMP_CD"].ToString()));
-                    htUpdateMP = new Hashtable();
+                    for (int loop = 0; loop < dtMPCSE.Rows.Count; loop++)
+                    {
+                        htUpdateMP.Add("CSE_DT", marketPriceDateTextBox.Text.ToString());
+                        htUpdateMP.Add("CSE_RT", Convert.ToDecimal(dtMPCSE.Rows[loop]["CLOSE"].ToString()));
+
+                        commonGatewayObj.Update(htUpdateMP, "COMP", "COMP_CD=" + Convert.ToInt32(dtMPCSE.Rows[loop]["COMP_CD"].ToString()));
+                        htUpdateMP = new Hashtable();
+                    }
+                    commonGatewayObj.CommitTransaction();
+                    dvGridCSEMPInfo.Visible = false;
+                    csePriceLabel.Text = "Price  Save Successfully";
+                    csePriceLabel.Style.Add("color", "#009933");
                 }
-                commonGatewayObj.CommitTransaction();
-                dvGridCSEMPInfo.Visible = false;
-                csePriceLabel.Text = "Price  Save Successfully";
-                csePriceLabel.Style.Add("color", "#009933");
+                else
+                {
+                    csePriceLabel.Text = "Please  Press the Show CSE Price button ";
+                    dsePriceLabel.Style.Add("color", "red");
+
+                }
+
             }
             else
             {
