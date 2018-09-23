@@ -210,60 +210,83 @@ public partial class UI_PORTFOLIO_PortfolioHowlaUpdate : System.Web.UI.Page
             DataTable dtTradeCustDSE = (DataTable)Session["dtTradeCusetDSE"];
             if (dtTradeCustDSE.Rows.Count>0)
             {
-                if (!pfolioBLObj.getHowlaUpdateStatus(HowlaDateTextBox.Text.ToString(), "DSE"))
+                //   dt.Rows[0]["vch_dt"].ToString();
+                string howlaDate = dtTradeCustDSE.Rows[0]["SP_DATE"].ToString();
+                DataTable dtMarketPriceByHowladate = new DataTable();
+                PfolioBL pfolioBLObj = new PfolioBL();
+                if (!pfolioBLObj.getMPUpdateStatus(howlaDate, "AVERAGE"))
                 {
-                    Hashtable htTradeCustDSE = new Hashtable();
-                    for (int loop = 0; loop < dtTradeCustDSE.Rows.Count; loop++)
-                    {
-
-                        htTradeCustDSE.Add("F_CD", dtTradeCustDSE.Rows[loop]["F_CD"]);
-                        htTradeCustDSE.Add("SP_DATE", dtTradeCustDSE.Rows[loop]["SP_DATE"]);
-                        htTradeCustDSE.Add("BK_REF", dtTradeCustDSE.Rows[loop]["BK_REF"]);
-                        htTradeCustDSE.Add("HOWLA_NO", dtTradeCustDSE.Rows[loop]["HOWLA_NO"]);
-
-                        htTradeCustDSE.Add("HOWLA_TP", dtTradeCustDSE.Rows[loop]["HOWLA_TP"]);
-                        htTradeCustDSE.Add("IN_OUT", dtTradeCustDSE.Rows[loop]["IN_OUT"]);
-                        htTradeCustDSE.Add("SETTLE_DT", dtTradeCustDSE.Rows[loop]["SETTLE_DT"]);
-                        htTradeCustDSE.Add("COMP_CD", dtTradeCustDSE.Rows[loop]["COMP_CD"]);
-
-                        htTradeCustDSE.Add("SP_QTY", dtTradeCustDSE.Rows[loop]["SP_QTY"]);
-                        htTradeCustDSE.Add("SP_RATE", dtTradeCustDSE.Rows[loop]["SP_RATE"]);
-                        htTradeCustDSE.Add("CL_DATE", dtTradeCustDSE.Rows[loop]["CL_DATE"]);
-                        htTradeCustDSE.Add("BK_CD", dtTradeCustDSE.Rows[loop]["BK_CD"]);
-
-                        htTradeCustDSE.Add("HOWLA_CHG", dtTradeCustDSE.Rows[loop]["HOWLA_CHG"]);
-                        htTradeCustDSE.Add("LAGA_CHG", dtTradeCustDSE.Rows[loop]["LAGA_CHG"]);
-                        htTradeCustDSE.Add("VOUCH_REF", dtTradeCustDSE.Rows[loop]["VOUCH_REF"]);
-                        htTradeCustDSE.Add("OP_NAME", dtTradeCustDSE.Rows[loop]["OP_NAME"]);
-
-                        htTradeCustDSE.Add("N_P", dtTradeCustDSE.Rows[loop]["N_P"]);
-                        htTradeCustDSE.Add("ISIN_CD", dtTradeCustDSE.Rows[loop]["ISIN_CD"]);
-                        htTradeCustDSE.Add("FORGN_FLG", dtTradeCustDSE.Rows[loop]["FORGN_FLG"]);
-                        htTradeCustDSE.Add("SPOT_ID", dtTradeCustDSE.Rows[loop]["SPOT_ID"]);
-
-                        htTradeCustDSE.Add("INSTR_GRP", dtTradeCustDSE.Rows[loop]["INSTR_GRP"]);
-                        htTradeCustDSE.Add("MARKT_TP", dtTradeCustDSE.Rows[loop]["MARKT_TP"]);
-                        htTradeCustDSE.Add("CUSTOMER", dtTradeCustDSE.Rows[loop]["CUSTOMER"]);
-                        htTradeCustDSE.Add("BOID", dtTradeCustDSE.Rows[loop]["BOID"]);
-
-
-
-                        commonGatewayObj.Insert(htTradeCustDSE, "HOWLA");
-                        htTradeCustDSE = new Hashtable();
-                        countRows++;
-                    }
-                    commonGatewayObj.CommitTransaction();
-                    dvGridDSETradeInfo.Visible = false;
-                    Session["dtTradeCusetDSE"] = null;
-                    DSETradeCustLabel.Text = " Howla DSE " + countRows.ToString() + " Rows Save Successfully";
-                    DSETradeCustLabel.Style.Add("color", "#009933");
+                    grdShowDSEMP.Visible = false;
+                    DSETradeCustLabel.Text = "Save Failed: Market price is not updated";
+                    DSETradeCustLabel.Style.Add("color", "red");
                 }
                 else
                 {
-                   
-                    DSETradeCustLabel.Text = "Save Failed: DSE Howla Already Saved On That Date";
-                    DSETradeCustLabel.Style.Add("color", "#009933");
+                    if (!pfolioBLObj.getHowlaUpdateStatus(HowlaDateTextBox.Text.ToString(), "DSE"))
+                    {
+
+
+                        Hashtable htTradeCustDSE = new Hashtable();
+                        for (int loop = 0; loop < dtTradeCustDSE.Rows.Count; loop++)
+                        {
+
+                            htTradeCustDSE.Add("F_CD", dtTradeCustDSE.Rows[loop]["F_CD"]);
+                            htTradeCustDSE.Add("SP_DATE", dtTradeCustDSE.Rows[loop]["SP_DATE"]);
+                            htTradeCustDSE.Add("BK_REF", dtTradeCustDSE.Rows[loop]["BK_REF"]);
+                            htTradeCustDSE.Add("HOWLA_NO", dtTradeCustDSE.Rows[loop]["HOWLA_NO"]);
+
+                            htTradeCustDSE.Add("HOWLA_TP", dtTradeCustDSE.Rows[loop]["HOWLA_TP"]);
+                            htTradeCustDSE.Add("IN_OUT", dtTradeCustDSE.Rows[loop]["IN_OUT"]);
+                            htTradeCustDSE.Add("SETTLE_DT", dtTradeCustDSE.Rows[loop]["SETTLE_DT"]);
+                            htTradeCustDSE.Add("COMP_CD", dtTradeCustDSE.Rows[loop]["COMP_CD"]);
+
+                            htTradeCustDSE.Add("SP_QTY", dtTradeCustDSE.Rows[loop]["SP_QTY"]);
+                            htTradeCustDSE.Add("SP_RATE", dtTradeCustDSE.Rows[loop]["SP_RATE"]);
+                            htTradeCustDSE.Add("CL_DATE", dtTradeCustDSE.Rows[loop]["CL_DATE"]);
+                            htTradeCustDSE.Add("BK_CD", dtTradeCustDSE.Rows[loop]["BK_CD"]);
+
+                            htTradeCustDSE.Add("HOWLA_CHG", dtTradeCustDSE.Rows[loop]["HOWLA_CHG"]);
+                            htTradeCustDSE.Add("LAGA_CHG", dtTradeCustDSE.Rows[loop]["LAGA_CHG"]);
+                            htTradeCustDSE.Add("VOUCH_REF", dtTradeCustDSE.Rows[loop]["VOUCH_REF"]);
+                            htTradeCustDSE.Add("OP_NAME", dtTradeCustDSE.Rows[loop]["OP_NAME"]);
+
+                            htTradeCustDSE.Add("N_P", dtTradeCustDSE.Rows[loop]["N_P"]);
+                            htTradeCustDSE.Add("ISIN_CD", dtTradeCustDSE.Rows[loop]["ISIN_CD"]);
+                            htTradeCustDSE.Add("FORGN_FLG", dtTradeCustDSE.Rows[loop]["FORGN_FLG"]);
+                            htTradeCustDSE.Add("SPOT_ID", dtTradeCustDSE.Rows[loop]["SPOT_ID"]);
+
+                            htTradeCustDSE.Add("INSTR_GRP", dtTradeCustDSE.Rows[loop]["INSTR_GRP"]);
+                            htTradeCustDSE.Add("MARKT_TP", dtTradeCustDSE.Rows[loop]["MARKT_TP"]);
+                            htTradeCustDSE.Add("CUSTOMER", dtTradeCustDSE.Rows[loop]["CUSTOMER"]);
+                            htTradeCustDSE.Add("BOID", dtTradeCustDSE.Rows[loop]["BOID"]);
+
+
+
+                            commonGatewayObj.Insert(htTradeCustDSE, "HOWLA");
+                            htTradeCustDSE = new Hashtable();
+                            countRows++;
+                        }
+                        commonGatewayObj.CommitTransaction();
+                        dvGridDSETradeInfo.Visible = false;
+                        Session["dtTradeCusetDSE"] = null;
+                        DSETradeCustLabel.Text = " Howla DSE " + countRows.ToString() + " Rows Save Successfully";
+                        DSETradeCustLabel.Style.Add("color", "#009933");
+                    }
+                    else
+                    {
+
+                        DSETradeCustLabel.Text = "Save Failed: DSE Howla Already Saved On That Date";
+                        DSETradeCustLabel.Style.Add("color", "#009933");
+                    }
+
                 }
+
+                //string strQuery = "select TO_CHAR(max(vch_dt),'DD-MON-YYYY')last_tr_dt,TO_CHAR(max(vch_dt) + 1,'DD-MON-YYYY')vch_dt  from fund_trans_hb where f_cd =" + dtFundNameDropDownList.Rows[i]["F_CD"].ToString() +
+                //                  " and tran_tp in ('C','S') and stock_ex in ('C','A')";
+                //dtMarketPriceByHowladate = commonGatewayObj.Select(strQuery);
+
+
+               
               
             }
         }
@@ -410,54 +433,68 @@ public partial class UI_PORTFOLIO_PortfolioHowlaUpdate : System.Web.UI.Page
             DataTable dtTradeCustDSE = (DataTable)Session["dtTradeCusDataCSE"];
             if (dtTradeCustDSE.Rows.Count>0)
             {
-                if (!pfolioBLObj.getHowlaUpdateStatus(HowlaDateTextBox.Text.ToString(), "CSE"))
+                //   dt.Rows[0]["vch_dt"].ToString();
+                string howlaDate = dtTradeCustDSE.Rows[0]["SP_DATE"].ToString();
+                DataTable dtMarketPriceByHowladate = new DataTable();
+                PfolioBL pfolioBLObj = new PfolioBL();
+                if (!pfolioBLObj.getMPUpdateStatus(howlaDate, "AVERAGE"))
                 {
-                    Hashtable htTradeCustDSE = new Hashtable();
-                    for (int loop = 0; loop < dtTradeCustDSE.Rows.Count; loop++)
-                    {
-
-                        htTradeCustDSE.Add("F_CD", dtTradeCustDSE.Rows[loop]["F_CD"]);
-                        htTradeCustDSE.Add("COMP_CD", dtTradeCustDSE.Rows[loop]["COMP_CD"]);
-                        htTradeCustDSE.Add("SP_DATE", dtTradeCustDSE.Rows[loop]["SP_DATE"]);
-                        htTradeCustDSE.Add("BK_REF", dtTradeCustDSE.Rows[loop]["BK_REF"]);
-
-                        htTradeCustDSE.Add("HOWLA_NO", dtTradeCustDSE.Rows[loop]["HOWLA_NO"]);
-                        htTradeCustDSE.Add("HOWLA_TP", dtTradeCustDSE.Rows[loop]["HOWLA_TP"]);
-                        htTradeCustDSE.Add("IN_OUT", dtTradeCustDSE.Rows[loop]["IN_OUT"]);
-                        htTradeCustDSE.Add("SETTLE_DT", dtTradeCustDSE.Rows[loop]["SETTLE_DT"]);
-
-
-                        htTradeCustDSE.Add("SP_QTY", dtTradeCustDSE.Rows[loop]["SP_QTY"]);
-                        htTradeCustDSE.Add("SP_RATE", dtTradeCustDSE.Rows[loop]["SP_RATE"]);
-                        htTradeCustDSE.Add("CL_DATE", dtTradeCustDSE.Rows[loop]["CL_DATE"]);
-                        htTradeCustDSE.Add("BK_CD", dtTradeCustDSE.Rows[loop]["BK_CD"]);
-
-                        htTradeCustDSE.Add("HOWLA_CHG", dtTradeCustDSE.Rows[loop]["HOWLA_CHG"]);
-                        htTradeCustDSE.Add("LAGA_CHG", dtTradeCustDSE.Rows[loop]["LAGA_CHG"]);
-                        htTradeCustDSE.Add("VOUCH_NO", dtTradeCustDSE.Rows[loop]["VOUCH_NO"]);
-                        htTradeCustDSE.Add("VOUCH_REF", dtTradeCustDSE.Rows[loop]["VOUCH_REF"]);
-
-                        htTradeCustDSE.Add("OP_NAME", dtTradeCustDSE.Rows[loop]["OP_NAME"]);
-                        htTradeCustDSE.Add("N_P", dtTradeCustDSE.Rows[loop]["N_P"]);
-                        htTradeCustDSE.Add("CUSTOMER", dtTradeCustDSE.Rows[loop]["CUSTOMER"]);
-                      
-                        commonGatewayObj.Insert(htTradeCustDSE, "HOWLA_CSE");
-                        htTradeCustDSE = new Hashtable();
-                        countRows++;
-                    }
-                    commonGatewayObj.CommitTransaction();
-                    Session["dtTradeCusDataCSE"] = null;
                     dvGridCSETradeInfo.Visible = false;
-                    CSETradeCustLabel.Text = " Howla CSE " + countRows.ToString() + " Rows Save Successfully";
-                    CSETradeCustLabel.Style.Add("color", "#009933");
+                    DSETradeCustLabel.Text = "Save Failed: Market price is not updated";
+                    DSETradeCustLabel.Style.Add("color", "red");
                 }
                 else
                 {
-                   
-                    CSETradeCustLabel.Text = "Save Failed: CSE Howla Already Saved On That Date";
-                    CSETradeCustLabel.Style.Add("color", "#009933");
+
+                    if (!pfolioBLObj.getHowlaUpdateStatus(HowlaDateTextBox.Text.ToString(), "CSE"))
+                    {
+                        Hashtable htTradeCustDSE = new Hashtable();
+                        for (int loop = 0; loop < dtTradeCustDSE.Rows.Count; loop++)
+                        {
+
+                            htTradeCustDSE.Add("F_CD", dtTradeCustDSE.Rows[loop]["F_CD"]);
+                            htTradeCustDSE.Add("COMP_CD", dtTradeCustDSE.Rows[loop]["COMP_CD"]);
+                            htTradeCustDSE.Add("SP_DATE", dtTradeCustDSE.Rows[loop]["SP_DATE"]);
+                            htTradeCustDSE.Add("BK_REF", dtTradeCustDSE.Rows[loop]["BK_REF"]);
+
+                            htTradeCustDSE.Add("HOWLA_NO", dtTradeCustDSE.Rows[loop]["HOWLA_NO"]);
+                            htTradeCustDSE.Add("HOWLA_TP", dtTradeCustDSE.Rows[loop]["HOWLA_TP"]);
+                            htTradeCustDSE.Add("IN_OUT", dtTradeCustDSE.Rows[loop]["IN_OUT"]);
+                            htTradeCustDSE.Add("SETTLE_DT", dtTradeCustDSE.Rows[loop]["SETTLE_DT"]);
+
+
+                            htTradeCustDSE.Add("SP_QTY", dtTradeCustDSE.Rows[loop]["SP_QTY"]);
+                            htTradeCustDSE.Add("SP_RATE", dtTradeCustDSE.Rows[loop]["SP_RATE"]);
+                            htTradeCustDSE.Add("CL_DATE", dtTradeCustDSE.Rows[loop]["CL_DATE"]);
+                            htTradeCustDSE.Add("BK_CD", dtTradeCustDSE.Rows[loop]["BK_CD"]);
+
+                            htTradeCustDSE.Add("HOWLA_CHG", dtTradeCustDSE.Rows[loop]["HOWLA_CHG"]);
+                            htTradeCustDSE.Add("LAGA_CHG", dtTradeCustDSE.Rows[loop]["LAGA_CHG"]);
+                            htTradeCustDSE.Add("VOUCH_NO", dtTradeCustDSE.Rows[loop]["VOUCH_NO"]);
+                            htTradeCustDSE.Add("VOUCH_REF", dtTradeCustDSE.Rows[loop]["VOUCH_REF"]);
+
+                            htTradeCustDSE.Add("OP_NAME", dtTradeCustDSE.Rows[loop]["OP_NAME"]);
+                            htTradeCustDSE.Add("N_P", dtTradeCustDSE.Rows[loop]["N_P"]);
+                            htTradeCustDSE.Add("CUSTOMER", dtTradeCustDSE.Rows[loop]["CUSTOMER"]);
+
+                            commonGatewayObj.Insert(htTradeCustDSE, "HOWLA_CSE");
+                            htTradeCustDSE = new Hashtable();
+                            countRows++;
+                        }
+                        commonGatewayObj.CommitTransaction();
+                        Session["dtTradeCusDataCSE"] = null;
+                        dvGridCSETradeInfo.Visible = false;
+                        CSETradeCustLabel.Text = " Howla CSE " + countRows.ToString() + " Rows Save Successfully";
+                        CSETradeCustLabel.Style.Add("color", "#009933");
+                    }
+                    else
+                    {
+
+                        CSETradeCustLabel.Text = "Save Failed: CSE Howla Already Saved On That Date";
+                        CSETradeCustLabel.Style.Add("color", "#009933");
+                    }
+
                 }
-               
 
             }
         }

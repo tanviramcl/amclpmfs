@@ -197,6 +197,21 @@ public class PfolioBL
         }
         return MPUpdateStatus;
     }
+
+    public bool getCompUpdateStatus(string MPDate)
+    {
+        bool MPUpdateStatus = false;
+        StringBuilder sbQuery = new StringBuilder();
+        sbQuery.Append("SELECT * FROM COMP WHERE rt_upd_dt ='" + MPDate + "' and CSE_DT='" + MPDate + "'");
+      
+
+        DataTable dtMPUpdateStatus = commonGatewayObj.Select(sbQuery.ToString());
+        if (dtMPUpdateStatus.Rows.Count > 0)
+        {
+            MPUpdateStatus = true;
+        }
+        return MPUpdateStatus;
+    }
     public bool getHowlaUpdateStatus(string MPDate, string type)
     {
         bool status = false;

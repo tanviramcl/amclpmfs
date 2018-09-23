@@ -50,7 +50,7 @@ public partial class UI_FundTransactionEntry : System.Web.UI.Page
         }
     }
     protected void noOfShareTextBox_TextChanged(object sender, EventArgs e)
-    {        
+    {
         if (transTypeDropDownList.SelectedValue == "B")
         {
             if (noOfShareTextBox.Text == "")
@@ -109,8 +109,8 @@ public partial class UI_FundTransactionEntry : System.Web.UI.Page
             ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Please Insert No of Share');", true);
             ClearFields();
         }
-        
-      
+
+
         //else if (transTypeDropDownList.SelectedValue == "S")
         //{
 
@@ -170,7 +170,7 @@ public partial class UI_FundTransactionEntry : System.Web.UI.Page
             recordate = "";
         }
 
-       
+
 
         Hashtable httable = new Hashtable();
         httable.Add("VCH_DT", Convert.ToDateTime(howlaDateTextBox.Text.ToString()).ToString("dd-MMM-yyyy"));
@@ -210,8 +210,8 @@ public partial class UI_FundTransactionEntry : System.Web.UI.Page
         {
             httable.Add("AMT_AFT_COM", Convert.ToDouble(amountAfterComissionTextBox.Text));
         }
-       
-        
+
+
 
         //httable.Add("ENTRY_DATE", DateTime.Today.ToString("dd-MMM-yyyy"));
         httable.Add("OP_NAME", LoginID);
@@ -222,48 +222,48 @@ public partial class UI_FundTransactionEntry : System.Web.UI.Page
         }
         else
         {
-          
-                if (transTypeDropDownList.SelectedValue == "B")
+
+            if (transTypeDropDownList.SelectedValue == "B")
+            {
+                if (stockExchangeDropDownList.SelectedValue == "A")
                 {
-                    if (stockExchangeDropDownList.SelectedValue == "A")
+                    if (!recordate.Equals(""))
                     {
-                        if (!recordate.Equals(""))
+                        httable.Add("RECORD_DT", recordate);
+                    }
+                    string strQbooKCL = "SELECT COMP_CD, FY, RECORD_DT, BOOK_TO, BONUS, RIGHT_APPR_DT,  RIGHT, CASH, AGM, REMARKS, POSTED, PDATE,  ENTRY_DATE FROM BOOK_CL WHERE  COMP_CD=" + companyNameDropDownList.SelectedValue + " AND RECORD_DT='" + recordate + "'" + " and posted is null";
+
+                    DataTable dtbookCl = commonGatewayObj.Select(strQbooKCL);
+                    if (dtbookCl != null && dtbookCl.Rows.Count > 0)
+                    {
+                        string strRecordateFT = "SELECT VCH_DT, F_CD, COMP_CD, TRAN_TP, VCH_NO, NO_SHARE, RATE, COST_RATE, CRT_AFT_COM,  AMOUNT, AMT_AFT_COM, STOCK_EX, OP_NAME, PVCH_NO, RECORD_DT FROM FUND_TRANS_HB Where  f_cd='" + fundNameDropDownList.SelectedValue.ToString() + "' AND comp_cd=" + companyNameDropDownList.SelectedValue.ToString() + " and RECORD_DT='" + recordate + "'";
+                        DataTable dtRecorDateFT = commonGatewayObj.Select(strRecordateFT);
+
+                        if (dtRecorDateFT != null && dtRecorDateFT.Rows.Count > 0)
                         {
-                            httable.Add("RECORD_DT", recordate);
-                        }
-                        string strQbooKCL = "SELECT COMP_CD, FY, RECORD_DT, BOOK_TO, BONUS, RIGHT_APPR_DT,  RIGHT, CASH, AGM, REMARKS, POSTED, PDATE,  ENTRY_DATE FROM BOOK_CL WHERE  COMP_CD=" + companyNameDropDownList.SelectedValue + " AND RECORD_DT='" + recordate + "'";
-
-                        DataTable dtbookCl = commonGatewayObj.Select(strQbooKCL);
-                        if (dtbookCl != null && dtbookCl.Rows.Count > 0)
-                        {
-                            string strRecordateFT = "SELECT VCH_DT, F_CD, COMP_CD, TRAN_TP, VCH_NO, NO_SHARE, RATE, COST_RATE, CRT_AFT_COM,  AMOUNT, AMT_AFT_COM, STOCK_EX, OP_NAME, PVCH_NO, RECORD_DT FROM FUND_TRANS_HB Where  f_cd='" + fundNameDropDownList.SelectedValue.ToString() + "' AND comp_cd=" + companyNameDropDownList.SelectedValue.ToString() + " and RECORD_DT='" + recordate + "'";
-                            DataTable dtRecorDateFT = commonGatewayObj.Select(strRecordateFT);
-
-                            if (dtRecorDateFT != null && dtRecorDateFT.Rows.Count > 0)
-                            {
-                                ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Duplicate not allowed');", true);
-                                ClearFields();
-                            }
-                            else
-                            {
-                                if (httable["TRAN_TP"].ToString() == "B")
-                                {
-                                    commonGatewayObj.Insert(httable, "fund_trans_hb");
-                                    ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Saved Successfully');", true);
-                                }
-
-
-                            }
+                            ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Bonus already posted.');", true);
+                            ClearFields();
                         }
                         else
                         {
-                            ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('No data found in Book Closer Entry');", true);
+                            if (httable["TRAN_TP"].ToString() == "B")
+                            {
+                                commonGatewayObj.Insert(httable, "fund_trans_hb");
+                                ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Saved Successfully');", true);
+                            }
+
+
                         }
+                    }
+                    else
+                    {
+                        ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('No data found in Book Closer Entry');", true);
+                    }
 
                 }
                 else
                 {
-                    ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Please Select Stock Exchange ALL');", true);
+                    ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Please Select Stock Exchange as ALL');", true);
                 }
 
 
@@ -282,7 +282,7 @@ public partial class UI_FundTransactionEntry : System.Web.UI.Page
             }
 
             ClearFields();
-        
+
         }
         fundNameDropDownList.Focus();
     }
@@ -299,6 +299,6 @@ public partial class UI_FundTransactionEntry : System.Web.UI.Page
     }
     protected void fundNameDropDownList_SelectedIndexChanged(object sender, EventArgs e)
     {
-       
+
     }
 }

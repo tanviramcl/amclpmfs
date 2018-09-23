@@ -60,7 +60,7 @@ public partial class UI_ReportViewer_StockDeclarationBeforePostedReportViewer : 
         {
             sbMst.Append("SELECT     EQUITY.F_NAME, ROUND(DEBT.INVEST_DEBT / 1000000, 2) AS DEBT, ROUND(DEBT.MINVEST_DEBT / 1000000, 2) AS MDEBT,          ROUND(EQUITY.INVEST_EQUITY / 1000000, 2) AS EQUITY, ROUND(EQUITY.MINVEST_EQUITY / 1000000, 2) AS MEQUITY ");
             sbMst.Append("FROM         (SELECT     FUND.F_CD, FUND.F_NAME, SUM(PFOLIO_BK.TCST_AFT_COM) AS INVEST_EQUITY, SUM(PFOLIO_BK.TOT_NOS * PFOLIO_BK.ADC_RT)    AS MINVEST_EQUITY  FROM          FUND INNER JOIN     PFOLIO_BK ON FUND.F_CD = PFOLIO_BK.F_CD ");
-            sbMst.Append(" WHERE      (PFOLIO_BK.SECT_MAJ_CD <> 89) AND (PFOLIO_BK.BAL_DT_CTRL = '"+pfolioAsOnDate+"') AND (FUND.F_CD NOT IN (1, 3, 5,6, 18))  GROUP BY FUND.F_NAME, FUND.F_CD) EQUITY LEFT OUTER JOIN  (SELECT     FUND_1.F_CD, FUND_1.F_NAME, SUM(PFOLIO_BK_1.TCST_AFT_COM) AS INVEST_DEBT, ");
+            sbMst.Append(" WHERE      (PFOLIO_BK.SECT_MAJ_CD <> 89) AND (PFOLIO_BK.BAL_DT_CTRL = '"+pfolioAsOnDate+"') AND (FUND.F_CD NOT IN (1, 3, 5,6,7, 18))  GROUP BY FUND.F_NAME, FUND.F_CD) EQUITY LEFT OUTER JOIN  (SELECT     FUND_1.F_CD, FUND_1.F_NAME, SUM(PFOLIO_BK_1.TCST_AFT_COM) AS INVEST_DEBT, ");
             sbMst.Append("    SUM(PFOLIO_BK_1.TOT_NOS * PFOLIO_BK_1.ADC_RT) AS MINVEST_DEBT  FROM          FUND FUND_1 INNER JOIN  PFOLIO_BK PFOLIO_BK_1 ON FUND_1.F_CD = PFOLIO_BK_1.F_CD  WHERE      (PFOLIO_BK_1.SECT_MAJ_CD = 89) AND (PFOLIO_BK_1.BAL_DT_CTRL = '"+pfolioAsOnDate+"') AND (FUND_1.F_CD NOT IN (1, 3, 5, 16, 18)) ");
             sbMst.Append(" GROUP BY FUND_1.F_NAME, FUND_1.F_CD) DEBT ON EQUITY.F_CD = DEBT.F_CD ORDER BY EQUITY.F_CD");
             sbMst.Append(sbfilter.ToString());
@@ -101,7 +101,7 @@ public partial class UI_ReportViewer_StockDeclarationBeforePostedReportViewer : 
             sbMst.Append(" GROUP BY F_CD) SELL RIGHT OUTER JOIN (SELECT     F_CD, SUM(TCST_AFT_COM) AS TOTAL_AMT, SUM(ADC_RT * TOT_NOS) AS MARKET_PRICE ");
             sbMst.Append(" FROM          PFOLIO_BK PFOLIO_BK_1 WHERE      (BAL_DT_CTRL = '"+pfolioPreviousMonthDate+ "') AND (F_CD NOT IN (1, 3, 5,6, 18)) ");
             sbMst.Append(" GROUP BY F_CD) OPENING_BALANCE RIGHT OUTER JOIN(SELECT     F_CD, SUM(TCST_AFT_COM) AS TOTAL_AMT, SUM(ADC_RT * TOT_NOS) AS MARKET_PRICE ");
-            sbMst.Append(" FROM          PFOLIO_BK WHERE      (BAL_DT_CTRL = '"+pfolioAsOnDate+ "') AND (F_CD NOT IN (1, 3, 5,6, 18)) ");
+            sbMst.Append(" FROM          PFOLIO_BK WHERE      (BAL_DT_CTRL = '"+pfolioAsOnDate+ "') AND (F_CD NOT IN (1, 3, 5,6,7, 18)) ");
             sbMst.Append(" GROUP BY F_CD) CLOSING_BALANCE INNER JOIN  (SELECT     F_CD, F_NAME    FROM          FUND FUND_1 ");
 
             sbMst.Append("     WHERE      (F_CD NOT IN (1, 3, 5,6, 18))) FUND ON CLOSING_BALANCE.F_CD = FUND.F_CD ON OPENING_BALANCE.F_CD = FUND.F_CD ON ");
@@ -141,7 +141,7 @@ public partial class UI_ReportViewer_StockDeclarationBeforePostedReportViewer : 
         {
             sbMst.Append("SELECT     FUND.F_NAME, COMP.COMP_NM, ROUND(SUM(FUND_TRANS_HB.AMT_AFT_COM) / 1000000, 4) AS AMOUNT_AFT_COM FROM         COMP INNER JOIN ");
             sbMst.Append("  FUND_TRANS_HB ON COMP.COMP_CD = FUND_TRANS_HB.COMP_CD RIGHT OUTER JOIN       FUND ON FUND_TRANS_HB.F_CD = FUND.F_CD  ");
-            sbMst.Append("  WHERE     (FUND.F_CD NOT IN (1, 3, 5,6, 18)) AND (FUND_TRANS_HB.VCH_DT BETWEEN '" + Fromdate+"' AND '"+Todate+"') AND (COMP.SECT_MAJ_CD = 12) AND ");
+            sbMst.Append("  WHERE     (FUND.F_CD NOT IN (1, 3, 5,6,7, 18)) AND (FUND_TRANS_HB.VCH_DT BETWEEN '" + Fromdate+"' AND '"+Todate+"') AND (COMP.SECT_MAJ_CD = 12) AND ");
             sbMst.Append("        (FUND_TRANS_HB.TRAN_TP IN ('C')) GROUP BY COMP.COMP_NM, FUND.F_NAME, FUND.F_CD ORDER BY FUND.F_CD");
            
             sbMst.Append(sbfilter.ToString());

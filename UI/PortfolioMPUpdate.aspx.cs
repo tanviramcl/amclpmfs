@@ -560,22 +560,36 @@ public partial class UI_PORTFOLIO_PortfolioMPUpdate : System.Web.UI.Page
             StringBuilder sbQueryInsert = new StringBuilder();
             commonGatewayObj.BeginTransaction();
 
-            if (!pfolioBLObj.getMPUpdateStatus(marketPriceDateTextBox.Text.ToString(), "AVERAGE"))
+
+            string MarketPriceDate = marketPriceDateTextBox.Text.ToString();
+            DataTable dtCompByMarketPrice = new DataTable();
+            PfolioBL pfolioBLObj = new PfolioBL();
+            if (!pfolioBLObj.getCompUpdateStatus(MarketPriceDate))
             {
-
-                commonGatewayObj.ExecuteNonQuery("UPDATE COMP SET ADC_RT=ROUND((NVL(AVG_RT,CSE_RT)+NVL(CSE_RT,AVG_RT))/2,2)  WHERE RT_UPD_DT='" + marketPriceDateTextBox.Text.ToString() + "'");
-                sbQueryInsert.Append(" INSERT INTO MARKET_PRICE SELECT COMP_CD,'" + marketPriceDateTextBox.Text.ToString() + "' AS EXPR1, ADC_RT, AVG_RT, CSE_RT, ");
-                sbQueryInsert.Append(" DECODE(CSE_DT, NULL, NULL, '" + marketPriceDateTextBox.Text.ToString() + "') AS EXPR2, DSE_HIGH, DSE_LOW, DSE_OPEN  FROM  COMP WHERE  VALID IS NULL ");
-                commonGatewayObj.ExecuteNonQuery(sbQueryInsert.ToString());
-
-                commonGatewayObj.CommitTransaction();
-                avegLabel.Text = "Price  Average Successfully";
-                avegLabel.Style.Add("color", "#009933");
+                //dvGridCSETradeInfo.Visible = false;
+                avegLabel.Text = "Save Failed: Market price is not updated";
+                avegLabel.Style.Add("color", "red");
             }
             else
             {
-                avegLabel.Text = "Price Already Avaraged On That Date";
-                avegLabel.Style.Add("color", "red");
+                if (!pfolioBLObj.getMPUpdateStatus(marketPriceDateTextBox.Text.ToString(), "AVERAGE"))
+                {
+
+                    commonGatewayObj.ExecuteNonQuery("UPDATE COMP SET ADC_RT=ROUND((NVL(AVG_RT,CSE_RT)+NVL(CSE_RT,AVG_RT))/2,2)  WHERE RT_UPD_DT='" + marketPriceDateTextBox.Text.ToString() + "'");
+                    sbQueryInsert.Append(" INSERT INTO MARKET_PRICE SELECT COMP_CD,'" + marketPriceDateTextBox.Text.ToString() + "' AS EXPR1, ADC_RT, AVG_RT, CSE_RT, ");
+                    sbQueryInsert.Append(" DECODE(CSE_DT, NULL, NULL, '" + marketPriceDateTextBox.Text.ToString() + "') AS EXPR2, DSE_HIGH, DSE_LOW, DSE_OPEN  FROM  COMP WHERE  VALID IS NULL ");
+                    commonGatewayObj.ExecuteNonQuery(sbQueryInsert.ToString());
+
+                    commonGatewayObj.CommitTransaction();
+                    avegLabel.Text = "Price  Average Successfully";
+                    avegLabel.Style.Add("color", "#009933");
+                }
+                else
+                {
+                    avegLabel.Text = "Price Already Avaraged On That Date";
+                    avegLabel.Style.Add("color", "red");
+                }
+
             }
 
         }
