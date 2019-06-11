@@ -270,10 +270,13 @@ public partial class UI_FundTransactionEntry : System.Web.UI.Page
             }
             else if (transTypeDropDownList.SelectedValue == "I")
             {
+                commonGatewayObj.Insert(httable, "fund_trans_hb");
                 string strupdateQueryAVgRateFromComp = "update comp set AVG_RT='" + Convert.ToDouble(rateTextBox.Text) + "',CSE_RT='" + Convert.ToDouble(rateTextBox.Text) + "',ADC_RT='" + Convert.ToDouble(rateTextBox.Text) + "' where comp_cd =" + companyNameDropDownList.SelectedValue.ToString() + "";
 
                 int updateQueryAVgRateFromCompNumOfRows = commonGatewayObj.ExecuteNonQuery(strupdateQueryAVgRateFromComp);
                 ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Update Successfully');", true);
+                ClientScript.RegisterStartupScript(this.GetType(), "Popup", "alert('Saved Successfully');", true);
+
             }
             else
             {

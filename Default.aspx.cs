@@ -74,7 +74,7 @@ public partial class _Default : System.Web.UI.Page
         string passWord = Encrypt(loginPassword);
 
 
-        dtUserInfo = commonGatewayObj.Select("SELECT * FROM USER_TABLE WHERE USER_ID='" + loginID + "' AND PASSWORD='" + passWord + "'");
+        dtUserInfo = commonGatewayObj.Select("SELECT * FROM INVEST.USER_TABLE WHERE USER_ID='" + loginID + "' AND PASSWORD='" + passWord + "'");
         if (dtUserInfo.Rows.Count > 0)
         {
             string UserID = dtUserInfo.Rows[0]["USER_ID"].ToString();

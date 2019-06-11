@@ -68,7 +68,7 @@ public partial class UI_BalancechekReport : System.Web.UI.Page
         {
                 TimeSpan t = date - date2;
                 double N0OfDays = t.TotalDays;
-                if (N0OfDays >= 90 && N0OfDays <= 92)
+                if (N0OfDays >= 90 && N0OfDays <= 94)
                 {
                     Session["quaterEndDate"] = blncdate;
                     Session["PrevQuaterEnddate"] = prevBalancedate;
